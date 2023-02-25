@@ -58,7 +58,7 @@
               glossy
               color="primary"
               icon="add_shopping_cart"
-              @click="sendToCart(this.title, this.orderCount)"
+              @click="sendToCart(this.title, orderCount)"
           /></q-card-actions>
         </q-card>
       </q-dialog>
@@ -69,6 +69,7 @@
 <script>
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
+  import {Notify} from 'quasar';
 
   export default defineComponent({
     name: 'ProductInfo',
@@ -118,7 +119,12 @@
         this.orderCount++;
       },
       sendToCart(name, amount) {
-        alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
+        Notify.create({
+          message: '(' + name + ')' + amount + '개를 장바구니에 넣었습니다.',
+          color: 'purple',
+        });
+        //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
+        this.$emit('sendOrderItem');
       },
     },
   });
