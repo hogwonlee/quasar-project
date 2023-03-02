@@ -44,7 +44,8 @@ export default {
     await wait(100);
     if (
       // simulate random checkout failure.
-      Math.random() > 0.5 ||
+
+      Math.random > 0.5 ||
       navigator.webdriver
     ) {
       return;

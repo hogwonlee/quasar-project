@@ -20,6 +20,14 @@ const routes = [
         path: 'UserInfo',
         component: () => import('components/UserInfo.vue'),
       },
+      {
+        path: 'Success',
+        component: () => import('components/checkoutpage/PaySuccess.vue'),
+      },
+      {
+        path: 'Fail',
+        component: () => import('components/checkoutpage/PayFail.vue'),
+      },
     ],
   },
 

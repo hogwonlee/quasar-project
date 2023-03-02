@@ -47,12 +47,14 @@ const actions = {
     }
   },
 
-  addProductToCart({state, commit}, product) {
+  addProductToCart({state, commit}, product, number) {
+    number = 1;
+    console.log(product.title + 'ProductName' + number + 'Number');
     commit('setCheckoutStatus', null);
     if (product.inventory > 0) {
       const cartItem = state.items.find(item => item.id === product.id);
       if (!cartItem) {
-        commit('pushProductToCart', {id: product.id});
+        commit('pushProductToCart', {id: product.id, quantity: number});
       } else {
         commit('incrementItemQuantity', cartItem);
       }
@@ -68,10 +70,10 @@ const actions = {
 
 // mutations
 const mutations = {
-  pushProductToCart(state, {id}) {
+  pushProductToCart(state, {id, quantity}) {
     state.items.push({
       id,
-      quantity: 1,
+      quantity,
     });
   },
 

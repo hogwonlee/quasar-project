@@ -4,7 +4,7 @@
     </q-item-section> -->
   <div>
     <div @click="card = true">
-      <q-img :src="productImg"> </q-img>
+      <q-img :src="productImg" aria-setsize="64*64"> </q-img>
       <q-card-section>
         <div class="text-subtitle2 text-center">{{ title }} : {{ price }}</div>
       </q-card-section>
@@ -12,7 +12,7 @@
     <div>
       <q-dialog v-model="card">
         <q-card class="my-card" style="width: 400px">
-          <q-img :src="productImg" />
+          <q-img :src="productImg" style="width: 128px; height: 128px" />
 
           <q-card-section>
             <q-btn
@@ -43,7 +43,7 @@
 
           <q-separator />
 
-          <q-card-actions align="center">
+          <!-- <q-card-actions align="center">
             <q-btn glossy color="amber" icon="remove" @click="removeThisItem" />
             <q-input
               class="q-gutter-y-md column"
@@ -52,13 +52,13 @@
               v-model="this.orderCount"
             />
             <q-btn glossy color="primary" icon="add" @click="addThisItem" />
-          </q-card-actions>
+          </q-card-actions> -->
           <q-card-actions align="right"
             ><q-btn
               glossy
               color="primary"
               icon="add_shopping_cart"
-              @click="sendToCart(this.title, orderCount)"
+              @click="sendToCart(this.title)"
           /></q-card-actions>
         </q-card>
       </q-dialog>
@@ -118,9 +118,10 @@
       addThisItem() {
         this.orderCount++;
       },
-      sendToCart(name, amount) {
+      sendToCart(name) {
+        this.addThisItem();
         Notify.create({
-          message: '(' + name + ')' + amount + '개를 장바구니에 넣었습니다.',
+          message: '(' + name + ') 1개를 장바구니에 넣었습니다.',
           color: 'purple',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
