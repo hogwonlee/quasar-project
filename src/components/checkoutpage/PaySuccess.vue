@@ -24,29 +24,35 @@
 
   export default defineComponent({
     name: 'PaySuccess',
+    mounted() {
+      let url = new URL(window.location.href);
+      this.postJsonData = {
+        paymentkey: url.searchParams.get('paymentKey'),
+        amount: url.searchParams.get('amount'),
+        orderId: url.searchParams.get('orderId'),
+      };
+      // console.log(this.postJsonData);
+    },
     data() {
-      return {};
+      return {
+        postJsonData: [{paymentkey: '', amount: 0, orderId: ''}],
+      };
     },
     methods: {
       paymentAuthorizationRequest() {
         //클라이언트 요청 오류: 오류번호 400
+
         axios
           .post(
             'https://api.tosspayments.com/v1/payments/confirm',
             {
               headers: {
-                Authorization:
-                  'Basic dGVzdF9za19PNkJZcTdHV1BWdk12a0piTHB3M05FNXZibzFkOg==',
-                'Content-Type': 'application/json',
+                Authorization: `Basic base64(test_sk_O6BYq7GWPVvMvkJbLpw3NE5vbo1d:)`,
+
+                'Content-Type': `application/json`,
               },
             },
-            {
-              data: {
-                paymentKey: 'PoxJmeD4pZORzdMaqN3wE00kb5oGJBr5AkYXQGwyEb21W9v7',
-                amount: 3000,
-                orderId: 'gO43carKfiyo7_KPPa-YM',
-              },
-            },
+            JSON.stringify(this.postJsonData),
           )
           .then(res => console.log(res.data))
           .catch(e => console.error(e));

@@ -11,5 +11,19 @@
 
   export default defineComponent({
     name: 'PayFail',
+    mounted() {
+      let url = new URL(window.location.href);
+      this.postJsonData = {
+        paymentkey: url.searchParams.get('paymentKey'),
+        amount: url.searchParams.get('amount'),
+        orderId: url.searchParams.get('orderId'),
+      };
+      // console.log(this.postJsonData);
+    },
+    data() {
+      return {
+        postJsonData: [{paymentkey: '', amount: 0, orderId: ''}],
+      };
+    },
   });
 </script>

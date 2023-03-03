@@ -72,7 +72,7 @@
     },
     methods: {
       selectPaymentmethod(amountOfPayment) {
-        console.log(amountOfPayment);
+        // console.log(amountOfPayment);
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
