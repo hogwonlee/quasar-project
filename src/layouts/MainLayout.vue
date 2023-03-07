@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-orange">
+    <q-header elevated class="bg-primary">
       <q-toolbar>
         <q-toolbar-title> Quasar App </q-toolbar-title>
       </q-toolbar>
@@ -9,12 +9,12 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer reveal elevated class="bg-orange">
+    <q-footer reveal elevated class="bg-primary">
       <q-toolbar>
         <q-tabs
           v-model="tab"
           inline-label
-          class="bg-orange text-white shadow-2"
+          class="bg-secondary text-grey-5 shadow-2"
         >
           <EssentialLink
             v-for="link in essentialLinks"

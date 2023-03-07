@@ -17,11 +17,17 @@
     <p>Total: {{ total }}</p>
     <p>
       <q-btn
-        style="background: goldenrod; color: white"
+        style="background: slateblue; color: white"
         :disabled="!products.length"
         @click="this.basic = true"
       >
         결제하기
+      </q-btn>
+      <q-btn
+        style="background: slateblue; color: white"
+        @click="this.persistent = true"
+      >
+        로그인
       </q-btn>
     </p>
     <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p>
@@ -46,20 +52,30 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-dialog
+      v-model="persistent"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><LoginPage
+    /></q-dialog>
   </div>
 </template>
 
 <script>
   import {mapGetters, mapState, mapActions} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
+  import LoginPage from 'components/LoginPage.vue';
   import {ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
+
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default {
     name: 'OrderList',
     components: {
       OrderItemInfo,
+      LoginPage,
     },
     computed: {
       ...mapState({
@@ -90,6 +106,7 @@
     setup() {
       return {
         basic: ref(false),
+        persistent: ref(false),
       };
     },
   };
