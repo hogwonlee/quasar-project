@@ -1,24 +1,55 @@
 <template>
-  <div class="cart">
-    <h2>Your Cart</h2>
-    <p v-show="!products.length">
+  <div class="cart q-ma-md">
+    <h2>배송 주소지</h2>
+    <div text-body2>{{ addressInfo }}</div>
+    <q-btn label="주소 변경/등록" tag="a" to="/AddressList"></q-btn>
+    <p v-show="!cart.length">
       <i>Please add some products to cart.</i>
     </p>
     <div class="row">
       <OrderItemInfo
-        class="col-2"
+        @sendOrderItem="addProductToCart(product)"
+        @sendRemoveItem="removeProductFromCart(product)"
+        @sendDeleteItem="deleteProductFromCart(product)"
+        class="col-1"
         style="padding: 10px"
-        v-for="product in products"
+        v-for="product in cart"
         :key="product.id"
         v-bind="product"
-        v-bind:itemCount="product.quantity"
+        v-bind:item-count="product.quantity"
       />
     </div>
-    <p>Total: {{ total }}</p>
+
+    <q-markup-table flat bordered class="q-ma-md justify-center">
+      <tbody items-center>
+        <tr class="row">
+          <td class="text-left bg-teal col-4">주문 금액:</td>
+          <td class="text-right col-8">{{ total }} 원</td>
+        </tr>
+        <tr class="row">
+          <td class="text-left bg-teal col-4">배송비:</td>
+          <td class="text-right col-8">
+            <q-chip
+              dense
+              color="teal"
+              icon="new_releases"
+              label="2만원 이상 구매 시 무료 배송"
+              text-color="white"
+            />
+            {{ shipment }} 원
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="text-left bg-teal col-4">총:</td>
+          <td class="text-right col-8">{{ total + shipment }} 원</td>
+        </tr>
+      </tbody>
+    </q-markup-table>
+
     <p>
       <q-btn
         style="background: slateblue; color: white"
-        :disabled="!products.length"
+        :disabled="!cart.length"
         @click="this.basic = true"
       >
         결제하기
@@ -80,13 +111,22 @@
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
+        cart: state => state.cart.all,
+        addresses: state => state.addresses.itmes,
       }),
       ...mapGetters('cart', {
-        products: 'cartProducts',
+        cart: 'cartProducts',
         total: 'cartTotalPrice',
+        shipment: 'shipmentPrice',
+      }),
+      ...mapGetters('addresses', {
+        addressInfo: 'addressInfo',
       }),
     },
     methods: {
+      ...mapActions('cart', ['addProductToCart']),
+      ...mapActions('cart', ['removeProductFromCart']),
+      ...mapActions('cart', ['deleteProductFromCart']),
       selectPaymentmethod(amountOfPayment) {
         // console.log(amountOfPayment);
         loadTossPayments(clientKey).then(tossPayments =>

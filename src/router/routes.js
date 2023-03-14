@@ -28,6 +28,16 @@ const routes = [
         path: 'Fail',
         component: () => import('components/checkoutpage/PayFail.vue'),
       },
+
+      //임시 테스트용
+      {
+        path: 'AddressRegister',
+        component: () => import('components/AddressRegister.vue'),
+      },
+      {
+        path: 'AddressList',
+        component: () => import('components/AddressList.vue'),
+      },
     ],
   },
 

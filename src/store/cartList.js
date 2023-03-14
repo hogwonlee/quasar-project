@@ -27,6 +27,11 @@ const getters = {
       return total + product.price * product.quantity;
     }, 0);
   },
+  shipmentPrice: (state, getters) => {
+    return getters.cartTotalPrice >= 20000 || getters.cartTotalPrice === 0
+      ? 0
+      : 3000;
+  },
 };
 
 // actions
@@ -49,22 +54,30 @@ const actions = {
 
   addProductToCart({state, commit}, product, number) {
     number = 1;
-    console.log(product.title + 'ProductName' + number + 'Number');
+    console.log(product.title + 'ProductName' + product.quantity + 'Number');
     commit('setCheckoutStatus', null);
-    if (product.inventory > 0) {
-      const cartItem = state.items.find(item => item.id === product.id);
-      if (!cartItem) {
-        commit('pushProductToCart', {id: product.id, quantity: number});
-      } else {
-        commit('incrementItemQuantity', cartItem);
-      }
-      // remove 1 item from stock
-      commit(
-        'products/decrementProductInventory',
-        {id: product.id},
-        {root: true},
-      );
+    // if (product.inventory > 0) {
+    const cartItem = state.items.find(item => item.id === product.id);
+    if (!cartItem) {
+      commit('pushProductToCart', {id: product.id, quantity: number});
+    } else {
+      commit('incrementItemQuantity', cartItem);
     }
+
+    // }
+  },
+  removeProductFromCart({state, commit}, product) {
+    if (product.quantity > 0) {
+      commit('setCheckoutStatus', null);
+      const cartItem = state.items.find(item => item.id === product.id);
+      commit('decrementItemQuantity', cartItem);
+    }
+  },
+  deleteProductFromCart({state, commit}, product) {
+    commit('setCheckoutStatus', null);
+    const savedCartItems = state.items.filter(item => item.id != product.id);
+    commit('setCartItems', {items: savedCartItems});
+    commit('setCheckoutStatus', 'deleted');
   },
 };
 
@@ -76,10 +89,14 @@ const mutations = {
       quantity,
     });
   },
-
   incrementItemQuantity(state, {id}) {
     const cartItem = state.items.find(item => item.id === id);
     cartItem.quantity++;
+  },
+
+  decrementItemQuantity(state, {id}) {
+    const cartItem = state.items.find(item => item.id === id);
+    cartItem.quantity--;
   },
 
   setCartItems(state, {items}) {

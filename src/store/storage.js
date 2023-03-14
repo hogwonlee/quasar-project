@@ -34,10 +34,41 @@ const _products = [
   },
 ];
 
+const _address = [
+  {
+    id: 0,
+    recipient: '', //수령인
+    recipientPhone: '', //수령인 전화번호
+    postCode: '', //우편번호
+    address: '', //상세주소
+    selected: false,
+  },
+  {
+    id: 1,
+    recipient: '호권', //수령인
+    recipientPhone: '010-8492-0526', //수령인 전화번호
+    postCode: '08080', //우편번호
+    address: '천왕로 56', //상세주소
+    selected: false,
+  },
+  {
+    id: 2,
+    recipient: '용철', //수령인
+    recipientPhone: '010-8492-1234', //수령인 전화번호
+    postCode: '08011', //우편번호
+    address: '구로구 부평동', //상세주소
+    selected: true,
+  },
+];
+
 export default {
   async getProducts() {
     await wait(100);
     return _products;
+  },
+  async getAddress() {
+    await wait(100);
+    return _address;
   },
 
   async buyProducts(products) {

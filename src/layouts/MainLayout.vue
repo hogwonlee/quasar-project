@@ -15,6 +15,7 @@
           v-model="tab"
           inline-label
           class="bg-secondary text-grey-5 shadow-2"
+          lang="zh-CN"
         >
           <EssentialLink
             v-for="link in essentialLinks"
@@ -33,28 +34,35 @@
 
   const linksList = [
     {
-      title: '상품',
+      title: '상품/商品',
       caption: 'ProductList',
       icon: 'home',
       to: '/ProductList',
     },
     {
-      title: '장바구니',
+      title: '장바구니/购物车',
       caption: 'OrderList',
       icon: 'shopping_cart',
       to: '/OrderList',
     },
     {
-      title: '배송정보',
+      title: '배송정보/查看发货信息',
       caption: 'DeliveryInfo',
       icon: 'local_shipping',
       to: '/DeliveryInfo',
     },
     {
-      title: '내 정보',
+      title: '내 정보/我的信息',
       caption: 'UserInfo',
       icon: 'contacts',
       to: '/UserInfo',
+    },
+    // 임시 테스트용
+    {
+      title: '주소 등록',
+      caption: 'AddressResigster',
+      icon: 'contacts',
+      to: '/AddressResigster',
     },
   ];
 

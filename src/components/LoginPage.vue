@@ -79,21 +79,21 @@
     },
     methods: {
       serverLogin() {
-        // this.userData.id = this.userId;
-        // this.userData.userPassword = this.userPw;
-        // axios({
-        //   url: 'api/login',
-        //   methods: 'post',
-        //   headers: {
-        //     'Access-Control-Allow-Headers': '*',
-        //     'Content-Type': 'application/json',
-        //   },
-        //   data: {
-        //     id: 1323,
-        //     password: 'aslfsdlkfjeo',
-        //   },
-        // });
-        axios.get('api/login');  ,, //proxy 안됨....
+        this.userData.id = this.userId;
+        this.userData.userPassword = this.userPw;
+        axios
+          .post('http://127.0.0.1:3001/login', {
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+            },
+            data: {
+              id: 1323,
+              password: 'aslfsdlkfjeo',
+            },
+          })
+          .then()
+          .catch(res => console.log('에러: ' + res));
       },
     },
     setup() {

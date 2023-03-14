@@ -6,6 +6,8 @@
 // import expressSession from 'express-session';
 // import bodyParser from 'body-parser';
 
+const mysql = require('mysql');
+
 const express = require('express');
 const serveStatic = require('serve-static');
 const http = require('http');
@@ -13,6 +15,18 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
+//const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
+const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'hogwon',
+  password: '1234',
+  port: 3306,
+  database: 'mystore',
+});
+
+db.connect();
 
 // const __dirname = path.resolve();
 const app = express(); // express Server
@@ -34,6 +48,8 @@ app.use(
     extended: false,
   }),
 );
+//app.use(registerRouter); //회원가입 처리 router에 맡김
+app.use(cors()); //교차통신 적용
 
 // cookie and session assign middleWare
 app.use(cookieParser());
@@ -56,7 +72,7 @@ app.use(
 //   }
 // });
 
-app.get('/login', (req, res) => {
+app.post('/login', (req, res) => {
   console.log('로그인 함수가 실행됩니다.');
   console.log(req);
   // console.log(req.body.data);
@@ -112,3 +128,24 @@ app.get('/login', (req, res) => {
 // appServer.listen(app.get('port'), () => {
 //   console.log(`${app.get('port')}에서 서버실행중.`);
 // });
+
+app.post('/register', (req, res) => {
+  const sqlCommend = 'INSERT INTO USERINFO SET ?';
+  const body = req.body;
+  console.log(body);
+  const param = {
+    user_id: body.user_id,
+    user_pw: body.user_pw,
+    user_name: body.user_name,
+    user_phone: body.user_phone,
+  };
+
+  db.query(sqlCommend, param, (err, rows, fields) => {
+    if (err) {
+      console.log('회원가입요청:' + err);
+      res.status(400).send({msg: 'error', content: err});
+    } else {
+      res.status(200).send({msg: 'success', param: param});
+    }
+  });
+});

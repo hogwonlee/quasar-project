@@ -3,10 +3,11 @@
     filled
     bottom-slots
     v-model="keyword"
-    label="검색"
+    label="검색/搜索"
     counter
     maxlength="12"
     :dense="dense"
+    lang="zh-CN"
   >
     <template v-slot:append>
       <q-icon
@@ -28,6 +29,7 @@
       v-for="product in products.filter(c => c.title.includes(this.keyword))"
       :key="product.id"
       v-bind="product"
+      v-bind:item-count="product.quantity"
     />
   </div>
 </template>
@@ -43,11 +45,14 @@
     components: {
       ProductInfo,
     },
-    computed: mapState({
-      products: state => state.products.all,
-    }),
     methods: {
       ...mapActions('cart', ['addProductToCart']),
+    },
+    computed: {
+      ...mapState({
+        checkoutStatus: state => state.cart.checkoutStatus,
+        products: state => state.products.all,
+      }),
     },
     created() {
       this.$store.dispatch('products/getAllProducts');
