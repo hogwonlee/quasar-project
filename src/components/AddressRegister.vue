@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <q-input v-model="recipient" label="수령인"></q-input>
+    <q-input v-model="recipientPhone" label="수령인 전화번호"></q-input>
+
     <div class="row">
       <input class="col-3" id="daum_postCode" placeholder="우편번호" /> <br />
       <input class="col-12" id="daum_addr" placeholder="주소" />
@@ -17,30 +20,58 @@
 
 <script>
   import {defineComponent} from 'vue';
-  import {mapActions} from 'vuex';
+  import {mapActions, mapMutations, mapState} from 'vuex';
+  import user from '../store/user/userInfo';
+  import axios from 'axios';
 
   export default defineComponent({
     name: 'AddressRegister',
     data() {
       return {
         detailAddr: '',
+        recipient: '',
+        recipientPhone: '',
       };
+    },
+    computed: {
+      ...mapState({
+        user: state => state.all,
+      }),
     },
     mounted() {
       this.sample2_execDaumPostcode();
     },
     methods: {
       exeAddrRegister() {
-        var postCode = document.getElementById('daum_postCode').value;
-        var address =
-          document.getElementById('daum_addr').value +
-          document.getElementById('daum_extraAddr').value +
-          document.getElementById('daum_detailAddress').value;
-        console.log(postCode + address);
-        mapActions('addresses', [
-          'addNewAddress',
-          ('recipent', 'phone', postCode, address, true),
-        ]);
+        if (user.state.USER_ID != '') {
+          const addressData = {
+            recipient: this.recipient,
+            recipientPhone: this.recipientPhone,
+            postCode: document.getElementById('daum_postCode').value,
+            address:
+              document.getElementById('daum_addr').value +
+              document.getElementById('daum_extraAddr').value +
+              document.getElementById('daum_detailAddress').value,
+            user_id: user.state.USER_ID,
+          };
+
+          //회원가입 등록 요청 보내기
+          axios({
+            url: 'http://localhost:3001/addressRegister',
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: user.state.USER_TOKEN,
+            },
+
+            data: addressData,
+          })
+            .then()
+            .catch(res => console.log('에러: ' + res));
+        } else {
+          alert('로그인이 필요합니다.');
+        }
       },
 
       sample2_execDaumPostcode() {

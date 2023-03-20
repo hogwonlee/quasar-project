@@ -1,6 +1,9 @@
 <template>
   <div class="cart q-ma-md">
-    <h2>배송 주소지</h2>
+    <h4>
+      로그인 유저:
+      {{ this.$user }}
+    </h4>
     <div text-body2>{{ addressInfo }}</div>
     <q-btn label="주소 변경/등록" tag="a" to="/AddressList"></q-btn>
     <p v-show="!cart.length">
@@ -54,11 +57,20 @@
       >
         결제하기
       </q-btn>
+
       <q-btn
+        v-if="!this.isLoggedIn"
         style="background: slateblue; color: white"
         @click="this.persistent = true"
+        label="로그인"
       >
-        로그인
+      </q-btn>
+      <q-btn
+        v-if="this.isLoggedIn"
+        style="background: slateblue; color: white"
+        @click="logout"
+        label="로그아웃"
+      >
       </q-btn>
     </p>
     <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p>
@@ -99,7 +111,8 @@
   import LoginPage from 'components/LoginPage.vue';
   import {ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-
+  import user from 'src/store/user/userInfo';
+  import {Cookies} from 'quasar';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default {
@@ -108,11 +121,33 @@
       OrderItemInfo,
       LoginPage,
     },
+    data() {
+      return {};
+    },
+    watch: {
+      myName:
+        Cookies.get('user') == undefined ? '' : Cookies.get('user').user_name,
+    },
+    mounted() {
+      console.log(
+        Cookies.get('user') == undefined ? '' : Cookies.get('user').user_name,
+      );
+      console.log('vuex' + user.state.USER_NAME);
+      if (Cookies.has('user')) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    },
+    unmounted() {
+      // console.log(this.myName);
+    },
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
         cart: state => state.cart.all,
         addresses: state => state.addresses.itmes,
+        user: state => state.all,
       }),
       ...mapGetters('cart', {
         cart: 'cartProducts',
@@ -124,6 +159,9 @@
       }),
     },
     methods: {
+      logout() {
+        user.dispatch('logoutAction');
+      },
       ...mapActions('cart', ['addProductToCart']),
       ...mapActions('cart', ['removeProductFromCart']),
       ...mapActions('cart', ['deleteProductFromCart']),
@@ -147,6 +185,7 @@
       return {
         basic: ref(false),
         persistent: ref(false),
+        isLoggedIn: ref(false),
       };
     },
   };

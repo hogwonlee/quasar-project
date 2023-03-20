@@ -87,7 +87,6 @@
   import {useQuasar} from 'quasar';
   import {ref} from 'vue';
   import axios from 'axios';
-  import {data} from 'browserslist';
 
   export default {
     setup() {

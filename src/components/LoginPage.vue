@@ -65,6 +65,9 @@
   import {ref} from 'vue';
   import SignUpPage from 'components/SignUpPage.vue';
   import axios from 'axios';
+  import {mapActions, mapMutations, mapState} from 'vuex';
+  import user from 'src/store/user/userInfo';
+
   // import {data} from 'browserslist';
   // import {url} from 'inspector';
 
@@ -73,41 +76,29 @@
       SignUpPage,
     },
     data() {
-      return {
-        userData: [],
-      };
+      return {};
     },
-    methods: {
-      serverLogin() {
-        this.userData.id = this.userId;
-        this.userData.userPassword = this.userPw;
-        axios
-          .post('http://127.0.0.1:3001/login', {
-            headers: {
-              'Access-Control-Allow-Headers': '*',
-              'Content-Type': 'application/json',
-            },
-            data: {
-              id: 1323,
-              password: 'aslfsdlkfjeo',
-            },
-          })
-          .then()
-          .catch(res => console.log('에러: ' + res));
-      },
+    computed: {
+      ...mapState({
+        user: state => state.all,
+      }),
     },
-    setup() {
-      const $q = useQuasar();
+    methods: {},
 
-      const userId = ref(null);
-      const userPw = ref(null);
+    setup() {
+      var userId = ref(null);
+      var userPw = ref(null);
+
+      const $q = useQuasar();
       const accept = ref(false);
 
       return {
         userId,
         userPw,
         accept,
+
         signUpWindow: ref(false),
+
         onSubmit() {
           if (accept.value !== true) {
             $q.notify({
@@ -125,7 +116,51 @@
             });
           }
         },
+        serverLogin() {
+          // console.log(mapState('user', ['USER_ID']));
+          if (user.state.USER_ID == '') {
+            const userData = {
+              user_id: userId.value,
+              user_pw: userPw.value,
+            };
 
+            //로그인 요청 보내기 (axios)
+            // axios({
+            //   url: 'http://localhost:3001/login',
+            //   method: 'POST',
+            //   headers: {
+            //     'Access-Control-Allow-Headers': '*',
+            //     'Content-Type': 'application/json',
+            //   },
+
+            //   data: userData,
+            // })
+            axios
+              .post('http://localhost:3001/login', userData)
+              .then(async response => {
+                // console.log('응답 타입' + typeof response.data.content);
+                // console.log('최초 응답 접근' + response.data.content.user_id);
+                // var stringJson = JSON.stringify(response.data.content);
+                // console.log('string 실 데이터' + stringJson);
+                // var json = JSON.parse(stringJson);
+                // console.log('json 실 데이터' + json);
+                // console.log('json 실 데이터 접근' + json.user_id);
+                console.log('json 실 데이터' + response.data);
+                console.log('응답 데이터' + response.data.results);
+                console.log('토큰 데이터' + response.data.token);
+                var json = response.data;
+                // console.log(response.data.results[0]);
+                user.dispatch('loginAction', json);
+
+                // this.$router.go(-1); // 한단계 전단계로 이동
+                // console.log(mapState('user', ['USER_ID']) + '맵스테이트접근');
+                // console.log('직접접근:' + user.state.USER_ID);
+              })
+              .catch(response => console.log('에러: ' + response));
+          } else {
+            alert(user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.');
+          }
+        },
         onReset() {
           userId.value = null;
           userPw.value = null;
