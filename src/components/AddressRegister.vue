@@ -1,36 +1,110 @@
 <template>
-  <div class="q-pa-md">
-    <q-input v-model="recipient" label="수령인"></q-input>
-    <q-input v-model="recipientPhone" label="수령인 전화번호"></q-input>
+  <div class="window-width row justify-center items-center">
+    <div style="width: 600px">
+      <h4 class="row justify-center">주소 등록</h4>
+      <q-checkbox
+        class="q-ma-sm"
+        left-label
+        v-model="cheked"
+        label="기본 배송지"
+      />
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag"
+        label="주소별칭 (안내: 집/회사 등과 같은 별칭)"
+      ></q-input>
+      <q-input
+        outlined
+        v-model="recipient"
+        class="q-ma-sm"
+        label="수령인 (안내: 받는 사람 이름)"
+      ></q-input>
 
-    <div class="row">
-      <input class="col-3" id="daum_postCode" placeholder="우편번호" /> <br />
-      <input class="col-12" id="daum_addr" placeholder="주소" />
-      <input class="col-6" id="daum_extraAddr" placeholder="상세주소" />
-      <input
-        class="col-6"
-        id="daum_detailAddress"
-        v-model="detailAddr"
-        placeholder="참고항목"
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="recipient_phone"
+        label="수령인 전화번호 (안내: 받는 사람 전화번호)"
+      ></q-input>
+      <q-input
+        v-model="post_code"
+        filled
+        class="q-ma-sm"
+        for="daum_postCode"
+        placeholder="우편번호 (안내: 주소 선택하면 자동으로 등록)"
+        readonly
+        disable
+      />
+
+      <q-input
+        v-model="address1"
+        filled
+        class="q-ma-sm"
+        for="daum_addr"
+        placeholder="주소 (안내: 주소 선택하면 자동으로 등록)"
+        readonly
+        disable
+      />
+
+      <q-input
+        v-model="address2"
+        filled
+        class="q-ma-sm"
+        for="daum_extraAddr"
+        readonly
+        disable
+        placeholder="상세주소 (안내: 주소 선택하면 자동으로 등록)"
+      />
+
+      <q-input
+        outlined
+        v-model="address3"
+        class="q-ma-sm"
+        for="daum_detailAddress"
+        label="추가 항목 (안내: 301호/204호 등과 같은 추가 내용)"
+      />
+
+      <q-btn
+        class="q-ma-sm row justify-center"
+        color="primary"
+        size="xl"
+        style="width: 200px"
+        label="주소 등록하기"
+        @click="exeAddrRegister"
+      />
+      <q-btn
+        class="q-ma-sm row justify-center"
+        color="primary"
+        size="xl"
+        style="width: 200px"
+        label="주소 다시 불러오기"
+        @click="sample2_execDaumPostcode"
       />
     </div>
-    <q-btn label="주소 등록하기" @click="exeAddrRegister"></q-btn>
   </div>
 </template>
 
 <script>
   import {defineComponent} from 'vue';
+  import {ref} from 'vue';
   import {mapActions, mapMutations, mapState} from 'vuex';
   import user from '../store/user/userInfo';
   import axios from 'axios';
+  import address from 'src/store/user/addressInfo';
 
   export default defineComponent({
     name: 'AddressRegister',
     data() {
       return {
-        detailAddr: '',
         recipient: '',
-        recipientPhone: '',
+        recipient_phone: '',
+        address_tag: '',
+        post_code: '',
+        address1: '',
+        address2: '',
+        address3: '',
+        cheked: ref(true),
       };
     },
     computed: {
@@ -45,14 +119,15 @@
       exeAddrRegister() {
         if (user.state.USER_ID != '') {
           const addressData = {
+            address_tag: this.address_tag,
             recipient: this.recipient,
-            recipientPhone: this.recipientPhone,
-            postCode: document.getElementById('daum_postCode').value,
-            address:
-              document.getElementById('daum_addr').value +
-              document.getElementById('daum_extraAddr').value +
-              document.getElementById('daum_detailAddress').value,
+            recipient_phone: this.recipient_phone,
+            post_code: document.getElementById('daum_postCode').value,
+            address1: document.getElementById('daum_addr').value,
+            address2: document.getElementById('daum_extraAddr').value,
+            address3: this.address3,
             user_id: user.state.USER_ID,
+            is_default: this.cheked,
           };
 
           //회원가입 등록 요청 보내기
@@ -67,7 +142,12 @@
 
             data: addressData,
           })
-            .then()
+            .then(res => {
+              console.log(
+                '주소 등록 응답값: ' + JSON.stringify(res.data.results),
+              );
+              // address.dispatch('addAddressAction', res.data.results);
+            })
             .catch(res => console.log('에러: ' + res));
         } else {
           alert('로그인이 필요합니다.');

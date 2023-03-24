@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-primary">
       <q-toolbar>
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> 中国食品 / 중국식품 </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -58,12 +58,12 @@
       to: '/UserInfo',
     },
     // 임시 테스트용
-    {
-      title: '주소 등록',
-      caption: 'AddressResigster',
-      icon: 'contacts',
-      to: '/AddressResigster',
-    },
+    // {
+    //   title: '주소 등록',
+    //   caption: 'AddressResigster',
+    //   icon: 'contacts',
+    //   to: '/AddressRegister',
+    // },
   ];
 
   export default defineComponent({

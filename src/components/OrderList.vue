@@ -1,13 +1,25 @@
 <template>
   <div class="cart q-ma-md">
-    <h4>
-      로그인 유저:
-      {{ this.$user }}
-    </h4>
-    <div text-body2>{{ addressInfo }}</div>
-    <q-btn label="주소 변경/등록" tag="a" to="/AddressList"></q-btn>
+    <div v-if="this.isLoggedIn">
+      <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
+      <div>수령인: {{ this.address_selected.recipient }}</div>
+      <div>주소: {{ this.address_selected.recipient_phone }}</div>
+      <div>
+        {{
+          this.address_selected.address1 +
+          this.address_selected.address2 +
+          this.address_selected.address3
+        }}
+      </div>
+    </div>
+    <q-btn
+      color="primary"
+      label="주소 변경/등록"
+      tag="a"
+      to="/AddressList"
+    ></q-btn>
     <p v-show="!cart.length">
-      <i>Please add some products to cart.</i>
+      <i>상품을 추가해주세요.</i>
     </p>
     <div class="row">
       <OrderItemInfo
@@ -53,20 +65,27 @@
       <q-btn
         style="background: slateblue; color: white"
         :disabled="!cart.length"
-        @click="this.basic = true"
+        @click="checkout()"
       >
         결제하기
       </q-btn>
 
       <q-btn
+        style="background: slateblue; color: white"
+        @click="set_order(this.address_selected.address_id)"
+        label="결제승인"
+      >
+      </q-btn>
+
+      <q-btn
         v-if="!this.isLoggedIn"
         style="background: slateblue; color: white"
-        @click="this.persistent = true"
+        @click="login_popup"
         label="로그인"
       >
       </q-btn>
+      <!-- v-if="this.isLoggedIn" -->
       <q-btn
-        v-if="this.isLoggedIn"
         style="background: slateblue; color: white"
         @click="logout"
         label="로그아웃"
@@ -112,7 +131,15 @@
   import {ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
   import user from 'src/store/user/userInfo';
-  import {Cookies} from 'quasar';
+  import address from 'src/store/user/addressInfo';
+  import cart from 'src/store/cartList';
+  // import order from 'src/store/orderList';
+  import axios from 'axios';
+
+  // import order from 'src/store/orderList';
+
+  import {Cookies, useQuasar} from 'quasar';
+  import {json} from 'body-parser';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default {
@@ -122,35 +149,67 @@
       LoginPage,
     },
     data() {
-      return {};
+      return {
+        user_name: user.state.USER_NAME,
+        address_selected: '',
+      };
     },
     watch: {
-      myName:
-        Cookies.get('user') == undefined ? '' : Cookies.get('user').user_name,
+      user_name: function (val) {},
+      isLoggedIn: function (val) {},
+    },
+    setup() {
+      const $q = useQuasar();
+      function confirm() {
+        $q.dialog({
+          title: 'Confirm',
+          message: '로그아웃 되었습니다.',
+          cancel: true,
+          persistent: true,
+        })
+          .onOk(() => {
+            // console.log('>>>> OK')
+          })
+          .onOk(() => {
+            // console.log('>>>> second OK catcher')
+          })
+          .onCancel(() => {
+            // console.log('>>>> Cancel')
+          })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
+      }
+      return {
+        confirm,
+      };
     },
     mounted() {
-      console.log(
-        Cookies.get('user') == undefined ? '' : Cookies.get('user').user_name,
-      );
-      console.log('vuex' + user.state.USER_NAME);
-      if (Cookies.has('user')) {
-        this.isLoggedIn = true;
-      } else {
+      // this.logout();
+      this.address_selected = this.getSelectedAddress();
+
+      if (
+        user.state.USER_ID == '' ||
+        user.state.USER_ID == undefined ||
+        user.state.USER_ID == null
+      ) {
         this.isLoggedIn = false;
+      } else {
+        this.isLoggedIn = true;
       }
     },
-    unmounted() {
-      // console.log(this.myName);
-    },
+
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
         cart: state => state.cart.all,
-        addresses: state => state.addresses.itmes,
+        addresses: state => state.addresses.items, // store/index에 addresses로 추가됨.
         user: state => state.all,
+        order: state => state.all,
       }),
       ...mapGetters('cart', {
         cart: 'cartProducts',
+        cartItems: 'getCartItems',
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
@@ -161,6 +220,86 @@
     methods: {
       logout() {
         user.dispatch('logoutAction');
+      },
+      getSelectedAddress() {
+        var address_selected;
+        address.state.items.forEach(addr => {
+          if (addr.is_default === 1) {
+            console.log(addr.recipient + addr.address1);
+            address_selected = addr;
+          }
+        });
+        return address_selected;
+      },
+
+      set_order(address_id) {
+        // 구매 요청 보내기 = 서버 DB에 주문 데이터 넣기
+        axios({
+          url: 'http://localhost:3001/orderGroupResister',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: user.state.USER_TOKEN,
+          },
+
+          data: {address_id: address_id},
+        })
+          .then(res => {
+            // console.log(
+            //   '주문 등록 응답값: ' + JSON.stringify(res.data.results),
+            // );
+            const orderData = JSON.parse(JSON.stringify(this.cartItems));
+            orderData.forEach(data => (data['order_group'] = res.data.results));
+
+            // console.log(JSON.stringify(orderData));
+            this.set_order_with_address(orderData);
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+      set_order_with_address(orderData) {
+        axios({
+          url: 'http://localhost:3001/orderResister',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: user.state.USER_TOKEN,
+          },
+
+          data: orderData,
+        })
+          .then(res => {
+            console.log(
+              '주문 등록 응답값: ' + JSON.stringify(res.data.results),
+            );
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+      check_login() {
+        if (user.state.USER_ID == '') {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      check_null_address() {
+        if (address.state.post_code == '') {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      login_popup() {
+        if (!this.check_login) {
+          alert('로그인이 필요합니다.');
+          return;
+        }
+        if (!this.check_null_address) {
+          alert('배송할 주소를 등록/선택해 주세요.');
+          return;
+        }
+        this.persistent = true;
       },
       ...mapActions('cart', ['addProductToCart']),
       ...mapActions('cart', ['removeProductFromCart']),

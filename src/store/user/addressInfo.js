@@ -1,44 +1,39 @@
-import {getOrderList, updateOrderList, deleteOrderList} from '@/api/Cart';
+import Vuex from 'vuex';
+
 const state = {
-  address: [],
+  items: [],
+};
+const getters = {};
+
+const actions = {
+  addAddressAction({commit}, address) {
+    commit('pushAddressToState', {address});
+  },
 };
 
 const mutations = {
-  getAddressList(state, data) {
-    state.order = data.data.result;
+  pushAddressToState(state, {address}) {
+    state.items.push({
+      address_id: address.id,
+      address_tag: address.address_tag,
+      recipient: address.recipient,
+      recipient_phone: address.recipient_phone,
+      post_code: address.post_code,
+      address1: address.address1,
+      address2: address.address2,
+      address3: address.address3,
+      is_default: address.is_default,
+      user_id: address.user_id,
+    });
+    // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
 };
 
-const actions = {
-  async getOrderList(context, data) {
-    try {
-      const response = await getOrderList(data);
-      context.commit('getOrderList', response);
-    } catch (error) {
-      alert(error);
-    }
-  },
-  async updateOrderList(context, data) {
-    try {
-      await updateOrderList(data);
-    } catch (error) {
-      alert(error);
-    }
-  },
-  async deleteOrderList(context, data) {
-    try {
-      await deleteOrderList(data);
-    } catch (error) {
-      alert(error);
-    }
-  },
-};
+export default new Vuex.Store({
+  namespaced: true,
 
-const getters = {};
-
-export default {
   state,
   mutations,
   actions,
   getters,
-};
+});

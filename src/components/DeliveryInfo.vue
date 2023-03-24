@@ -47,49 +47,48 @@
       <q-btn type="submit" class="btn btn-default" label="조회하기" />
     </q-form> -->
   </q-page>
-
-  <AddressRegister />
 </template>
 
 <script>
   import axios from 'axios';
   // import {json} from 'body-parser';
   import {defineComponent} from 'vue';
-  import AddressRegister from 'components/AddressRegister.vue';
 
   export default defineComponent({
     name: 'DeliveryInfo',
-    components: {
-      AddressRegister,
-    },
+    components: {},
     data() {
       return {
-        traceNumber: '601234567890',
+        trace_number: '601234567890',
+        trace_data: {
+          num: this.trace_number,
+          code: '04', // cj대한통운
+          fid: this.trace_number,
+          callback_url: 'localhost', //뭘 넣어야 할지 모르겠음
+          callback_type: 'json', //기본 map, 'json,xml'도 가능
+          tier: 'sweet', // 문서 예시 따라 넣음. 뭘 넣을지 모름.
+          key: 'XPrmI9vGFcc8x97uZrpEPg', //스윗트랙커에서 받은 무료 조회키 (매달 1000개 제한)
+          // type: 'json', //기본 json, 'xml'도 가능
+        },
       };
     },
     mounted() {
-      this.checkDelivery(this.traceNumber);
+      this.checkDelivery();
     },
     methods: {
-      checkDelivery(traceNumber) {
+      checkDelivery() {
         // 스윗트랙커를 이용한 택배 조회.
-        axios
-          .post('http://trace-api-dev.sweettracker.net:8102/add_invoice/', {
-            // 개발용 http://trace-api-dev.sweettracker.net:8102/add_invoice/
-            // 운영   http://trace-api.sweettracker.net/add_invoice/
-            params: {
-              data: {
-                num: traceNumber,
-                code: '04', // cj대한통운
-                fid: traceNumber,
-                callback_url: 'localhost', //뭘 넣어야 할지 모르겠음
-                callback_type: 'json', //기본 map, 'json,xml'도 가능
-                tier: 'sweet', // 문서 예시 따라 넣음. 뭘 넣을지 모름.
-                key: 'XPrmI9vGFcc8x97uZrpEPg', //스윗트랙커에서 받은 무료 조회키 (매달 1000개 제한)
-                // type: 'json', //기본 json, 'xml'도 가능
-              },
-            },
-          })
+        axios({
+          url: 'http://trace-api-dev.sweettracker.net:8102/add_invoice/',
+          // 개발용 http://trace-api-dev.sweettracker.net:8102/add_invoice/
+          // 운영   http://trace-api.sweettracker.net/add_invoice/
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
+          data: this.trace_data,
+        })
           .then(res => {
             console.log(res);
           })

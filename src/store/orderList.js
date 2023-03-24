@@ -1,25 +1,27 @@
-import shop from './storage';
+import Vuex from 'vuex';
 
-// initial state
-// shape: [{ id, quantity }]
-const state = () => ({
+const state = {
   items: [],
-  orderState: null,
-});
-
-// getters
+};
 const getters = {};
 
-// actions
-const actions = {};
-
-// mutations
-const mutations = {};
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
+const actions = {
+  setOrder({commit}, products) {
+    commit('cartItemToOrder', {products});
+  },
 };
+
+const mutations = {
+  cartItemToOrder(state, {items}) {
+    state.items = items;
+  },
+};
+
+export default new Vuex.Store({
+  namespaced: true,
+
+  state,
+  mutations,
+  actions,
+  getters,
+});

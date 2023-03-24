@@ -89,7 +89,7 @@ app.post('/login', (req, res) => {
   console.log('세션' + JSON.stringify(req.headers.authorization));
   // console.log('쿠키' + req.cookies);
   const sqlCommend =
-    'SELECT * FROM USERINFO WHERE user_id = ? AND user_pw = ? ';
+    'SELECT * FROM USERINFO INNER JOIN ADDRESSINFO ON USERINFO.user_id = ADDRESSINFO.user_id WHERE USERINFO.user_id = ? AND USERINFO.user_pw = ? ';
   const body = req.body;
   const param = {
     user_id: body.user_id,
@@ -110,7 +110,7 @@ app.post('/login', (req, res) => {
           console.log('로그인요청:' + err);
           res.status(400).send({msg: 'error', content: err});
         } else {
-          console.log(results[0].user_name);
+          // console.log(results[0].user_name);
           req.session.cookie.user = {
             id: results[0].user_id,
             pw: results[0].user_pw,
@@ -124,6 +124,7 @@ app.post('/login', (req, res) => {
             jwtObj.secret,
             jwtObj.option,
           );
+
           console.log('토큰 생겼나?' + token);
           // req.session.isLoggedIn = true;
           // console.log(req.session);
@@ -135,6 +136,7 @@ app.post('/login', (req, res) => {
           // res.cookie('loginId', results[0].user_name, {maxAge: 60000});
           // console.log('서버 응답 쿠키 생겼나?' + req.cookies);
           // res.write(body)
+          // console.log({results});
           res.status(200).send({token, results});
           // });
         }
@@ -176,10 +178,14 @@ app.post('/addressRegister', (req, res) => {
           const body = req.body;
           console.log(body);
           const param = {
+            address_tag: body.address_tag,
             recipient: body.recipient,
-            recipientPhone: body.recipientPhone,
-            postCode: body.postCode,
-            address: body.address,
+            recipient_phone: body.recipient_phone,
+            post_code: body.post_code,
+            address1: body.address1,
+            address2: body.address2,
+            address3: body.address3,
+            is_default: body.is_default,
             user_id: body.user_id,
           };
 
@@ -188,6 +194,9 @@ app.post('/addressRegister', (req, res) => {
               console.log('배송 주소 추가 요청:' + err);
               res.status(400).send({msg: 'error', content: err});
             } else {
+              var insertId = results.insertId;
+              results = {id: insertId, ...param};
+              console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
               res.status(200).send({results});
             }
           });
@@ -201,17 +210,96 @@ app.post('/addressRegister', (req, res) => {
   }
 });
 
-app.get('/userInfo', (req, res) => {
-  const sqlCommend = 'SELECT * FROM USERINFO WHERE user_id = ?';
-  const param = req.query.user_id;
-  // console.log(param);
+app.post('/orderGroupResister', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('에러 발생: ' + err);
+      } else {
+        // if (decoded.USER_ID == req.body.user_id) {
+        const sqlCommend = 'INSERT INTO ORDERGROUP SET ?';
+        const body = req.body;
+        console.log(body);
+        const param = body;
 
-  db.query(sqlCommend, param, (err, results, fields) => {
-    if (err) {
-      console.log('회원 정보 조회:' + err);
-      res.status(400).send({msg: 'error', content: err});
-    } else {
-      res.status(200).send(results);
-    }
-  });
+        db.query(sqlCommend, param, (err, results, fields) => {
+          if (err) {
+            console.log('주문 추가 요청:' + err);
+            res.status(400).send({msg: 'error', content: err});
+          } else {
+            // results = param;
+            var results = results.insertId;
+
+            console.log('주문 등록 성공 결과값:' + results);
+            res.status(200).send({results});
+          }
+        });
+        // } else {
+        //   console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        // }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/orderResister', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('에러 발생: ' + err);
+      } else {
+        // if (decoded.USER_ID == req.body.user_id) {
+        const sqlCommend = 'INSERT INTO ORDERINFO SET ?';
+        const body = req.body;
+        console.log(body);
+        const param = body;
+
+        db.query(sqlCommend, param, (err, results, fields) => {
+          if (err) {
+            console.log('주문 추가 요청:' + err);
+            res.status(400).send({msg: 'error', content: err});
+          } else {
+            console.log('주문 등록 성공 결과값:' + results);
+            res.status(200).send({results});
+          }
+        });
+        // } else {
+        //   console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        // }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/userInfo', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend = 'SELECT * FROM ADDRESSINFO WHERE user_id = ?';
+          const body = req.body;
+          const param = body.user_id;
+          db.query(sqlCommend, param, (err, results, fields) => {
+            if (err) {
+              // console.log('배송 주소 추가 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              // console.log('userInfo 로그인 유저 조회 답변:' + results);
+              res.status(200).send({results});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
 });

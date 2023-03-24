@@ -53,6 +53,14 @@
                 @click="sendToCart(this.title)"
                 ><q-badge rounded color="orange" floating>1</q-badge></q-btn
               >
+              <q-btn label="닫기" v-close-popup></q-btn>
+              <q-btn
+                glossy
+                color="primary"
+                label="결제하기"
+                tag="a"
+                to="/OrderList"
+              ></q-btn>
             </q-card-actions>
           </q-layout>
         </q-card>
@@ -66,6 +74,7 @@
   import {ref} from 'vue';
   import {Notify} from 'quasar';
   import {text} from 'body-parser';
+  import OrderList from './OrderList.vue';
 
   export default defineComponent({
     name: 'ProductInfo',

@@ -24,8 +24,6 @@
           :rules="[val => (val && val.length > 0) || '필수 입력']"
         />
 
-        <q-toggle v-model="accept" label="I accept the license and terms" />
-
         <div>
           <q-btn
             label="로그인"
@@ -67,6 +65,7 @@
   import axios from 'axios';
   import {mapActions, mapMutations, mapState} from 'vuex';
   import user from 'src/store/user/userInfo';
+  import address from 'src/store/user/addressInfo';
 
   // import {data} from 'browserslist';
   // import {url} from 'inspector';
@@ -92,13 +91,33 @@
       const $q = useQuasar();
       const accept = ref(false);
 
+      function confirm() {
+        $q.dialog({
+          title: 'Confirm',
+          message: '로그인 되었습니다.',
+          // cancel: true,
+          persistent: false,
+        })
+          .onOk(() => {
+            // console.log('>>>> OK')
+          })
+          .onOk(() => {
+            // console.log('>>>> second OK catcher')
+          })
+          // .onCancel(() => {
+          //   // console.log('>>>> Cancel')
+          // })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
+      }
       return {
         userId,
         userPw,
         accept,
 
         signUpWindow: ref(false),
-
+        confirm,
         onSubmit() {
           if (accept.value !== true) {
             $q.notify({
@@ -124,38 +143,32 @@
               user_pw: userPw.value,
             };
 
-            //로그인 요청 보내기 (axios)
-            // axios({
-            //   url: 'http://localhost:3001/login',
-            //   method: 'POST',
-            //   headers: {
-            //     'Access-Control-Allow-Headers': '*',
-            //     'Content-Type': 'application/json',
-            //   },
-
-            //   data: userData,
-            // })
             axios
               .post('http://localhost:3001/login', userData)
-              .then(async response => {
-                // console.log('응답 타입' + typeof response.data.content);
-                // console.log('최초 응답 접근' + response.data.content.user_id);
-                // var stringJson = JSON.stringify(response.data.content);
-                // console.log('string 실 데이터' + stringJson);
-                // var json = JSON.parse(stringJson);
-                // console.log('json 실 데이터' + json);
-                // console.log('json 실 데이터 접근' + json.user_id);
-                console.log('json 실 데이터' + response.data);
-                console.log('응답 데이터' + response.data.results);
-                console.log('토큰 데이터' + response.data.token);
-                var json = response.data;
-                // console.log(response.data.results[0]);
-                user.dispatch('loginAction', json);
-
+              .then(
+                async response => {
+                  // console.log('응답 타입' + typeof response.data.content);
+                  // console.log('최초 응답 접근' + response.data.content.user_id);
+                  // var stringJson = JSON.stringify(response.data.content);
+                  // console.log('string 실 데이터' + stringJson);
+                  // var json = JSON.parse(stringJson);
+                  // console.log('json 실 데이터' + json);
+                  // console.log('json 실 데이터 접근' + json.user_id);
+                  console.log('json 실 데이터' + response.data);
+                  console.log('응답 데이터' + response.data.results);
+                  console.log('토큰 데이터' + response.data.token);
+                  var json = response.data;
+                  // console.log(response.data.results[0]);
+                  json.results.forEach(addr => {
+                    // console.log('수령인 확인: ' + addr.recipient);
+                    address.dispatch('addAddressAction', addr);
+                  });
+                  user.dispatch('loginAction', json).then(() => confirm());
+                },
                 // this.$router.go(-1); // 한단계 전단계로 이동
                 // console.log(mapState('user', ['USER_ID']) + '맵스테이트접근');
                 // console.log('직접접근:' + user.state.USER_ID);
-              })
+              )
               .catch(response => console.log('에러: ' + response));
           } else {
             alert(user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.');

@@ -45,7 +45,7 @@ const mutations = {
     store.state.cart.cart = null;
     // store.state.order.order = null;
 
-    alert('로그아웃');
+    alert('로그아웃 되었습니다.');
   },
   login(state, data) {
     // console.log('userInfo에서 ' + typeof data);
@@ -59,7 +59,7 @@ const mutations = {
     Cookie.set('verify', data.results[0].user_name);
     Cookie.set('user', JSON.stringify(data.results[0]));
     state.USER_TOKEN = Cookie.get('token');
-    console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);
+    // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);
     return data.token;
     // state = data;
     // console.log('state 적용 완료 이후' + state.user_id);

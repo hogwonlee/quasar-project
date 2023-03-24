@@ -1,62 +1,55 @@
 <template>
   <q-page class="q-pa-xl">
-    <section>
-      <div class="text-h1">내 정보</div>
-      <q-btn @click="userInfo" label="로그인 유저 정보 확인"></q-btn>
-      <div class="text-h3">이름: {{ myName }}</div>
-      <div class="text-h3">전화번호: {{ myPhone }}</div>
-      <q-card class="my-card bg-secondary text-white">
-        <q-card-section>
-          <div class="text-h6">수령인1: {{}}</div>
-          <div class="text-subtitle2">우편번호: {{}}</div>
-          <div class="text-subtitle2">배송주소: {{}}</div>
-          <div class="text-subtitle2">배송지: 기본{{}}</div>
-        </q-card-section>
-        <q-separator dark />
-        <q-card-section>
-          <div class="text-h6">수령인2: {{}}</div>
-          <div class="text-subtitle2">우편번호: {{}}</div>
-          <div class="text-subtitle2">배송주소: {{}}</div>
-          <div class="text-subtitle2">배송지: 비활성화{{}}</div>
-        </q-card-section>
-        <q-separator dark />
-        <q-card-section>
-          <div class="text-h6">수령인3: {{}}</div>
-          <div class="text-subtitle2">우편번호: {{}}</div>
-          <div class="text-subtitle2">배송주소: {{}}</div>
-          <div class="text-subtitle2">배송지: 비활성화{{}}</div>
-        </q-card-section>
-        <q-separator dark />
-        <q-card-section>
-          <div class="text-h6">수령인4: {{}}</div>
-          <div class="text-subtitle2">우편번호: {{}}</div>
-          <div class="text-subtitle2">배송주소: {{}}</div>
-          <div class="text-subtitle2">배송지: 비활성화{{}}</div>
-        </q-card-section>
-      </q-card>
+    <section v-if="check_login">
+      <div class="text-h3">내 정보</div>
+      <div class="text-h6">이름: {{ loginData.user_name }}</div>
+      <div class="text-h6">전화번호: {{ loginData.user_phone }}</div>
+      <AddressList />
     </section>
-    <q-btn @click="getRequset"></q-btn>
+    <section v-if="!check_login">
+      로그인 정보가 없습니다. 로그인 해주세요.
+      <q-btn
+        style="background: slateblue; color: white"
+        @click="this.persistent = true"
+        label="로그인"
+      ></q-btn>
+      <q-dialog
+        v-model="persistent"
+        persistent
+        transition-show="scale"
+        transition-hide="scale"
+        ><LoginPage
+      /></q-dialog>
+    </section>
   </q-page>
 </template>
 
 <script>
   import {defineComponent} from 'vue';
-  import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import user from 'src/store/user/userInfo';
-  import Cookie from 'js-cookie';
+  import LoginPage from 'components/LoginPage.vue';
+  import AddressList from 'components/AddressList.vue';
 
   export default defineComponent({
     name: 'UserInfo',
+    components: {
+      LoginPage,
+      AddressList,
+    },
     data: function () {
       return {
+        is_logged_in: false,
+        persistent: false,
         myAddress: '1',
         myName: '',
         myPhone: '',
+        loginData: {
+          user_id: user.state.USER_ID,
+          user_name: user.state.USER_NAME,
+          user_phone: user.state.USER_PHONE,
+        },
       };
-    },
-    watch: {
-      myName: function (val) {},
     },
     computed: {
       ...mapState({
@@ -64,27 +57,21 @@
       }),
     },
     watch: {
-      myAddress: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
-      myName: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
-      myPhone: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
+      loginData: function (val) {},
+      is_logged_in: function (val) {},
     },
     setup() {
-      return {
-        userInfo() {
-          console.log(user.state.USER_NAME);
-        },
-        getRequset() {
-          axios
-            .get('http://localhost:3001/')
-            .then(res => {
-              console.log(res.headers);
-            })
-            .catch(res => console.log('에러: ' + res));
-        },
-      };
+      return {};
     },
-    mounted() {
-      // this.myName = user.state.USER_NAME;
+    methods: {
+      check_login() {
+        console.log();
+        if (user.state.USER_ID == '') {
+          return false;
+        } else {
+          return true;
+        }
+      },
     },
   });
 </script>
