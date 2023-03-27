@@ -119,21 +119,21 @@
         signUpWindow: ref(false),
         confirm,
         onSubmit() {
-          if (accept.value !== true) {
-            $q.notify({
-              color: 'red-5',
-              textColor: 'white',
-              icon: 'warning',
-              message: 'You need to accept the license and terms first',
-            });
-          } else {
-            $q.notify({
-              color: 'green-4',
-              textColor: 'white',
-              icon: 'cloud_done',
-              message: 'Submitted',
-            });
-          }
+          // if (accept.value !== true) {
+          //   $q.notify({
+          //     color: 'red-5',
+          //     textColor: 'white',
+          //     icon: 'warning',
+          //     message: 'You need to accept the license and terms first',
+          //   });
+          // } else {
+          //   $q.notify({
+          //     color: 'green-4',
+          //     textColor: 'white',
+          //     icon: 'cloud_done',
+          //     message: 'Submitted',
+          //   });
+          // }
         },
         serverLogin() {
           // console.log(mapState('user', ['USER_ID']));

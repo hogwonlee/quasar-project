@@ -11,12 +11,12 @@
     </div>
     <div>
       <q-dialog v-model="card">
-        <q-card class="my card" style="width: 800px">
+        <q-card class="my card" style="width: 600px; height: 300px">
           <q-layout>
             <q-drawer
               show-if-above
               :width="160"
-              :breakpoint="400"
+              :breakpoint="160"
               class="q-ma-sm"
             >
               <q-img
@@ -30,38 +30,76 @@
                 {{ title }} <br />
                 단가: {{ price }} <br />
               </span>
+
+              <q-separator />
+              <q-input
+                readonly
+                disable
+                stack-label
+                outlined
+                label="주문 금액"
+                :model-value="price * this.orderCount"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="payments"></q-icon>
+                </template>
+                <template v-slot:append> 원 </template>
+              </q-input>
+
+              <q-card-actions align="right" class="row">
+                <q-btn
+                  class="col-3"
+                  style="height: 56px"
+                  glossy
+                  color="negative"
+                  icon="remove_shopping_cart"
+                  @click="removefromCart(this.title)"
+                  ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
+                >
+                <q-input
+                  class="q-ma-md"
+                  style="max-width: 100px"
+                  outlined
+                  readonly
+                  disable
+                  stack-label
+                  label="수량"
+                  v-model="this.orderCount"
+                ></q-input>
+                <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
+                <q-btn
+                  class="col-3"
+                  style="height: 56px"
+                  glossy
+                  color="primary"
+                  icon="add_shopping_cart"
+                  @click="sendToCart(this.title)"
+                  ><q-badge rounded color="orange" floating>1</q-badge></q-btn
+                >
+              </q-card-actions>
+
+              <!-- <span class="q-pa-md">
+                  구매 금액: {{  }}</span
+                > -->
+              <q-separator></q-separator>
+              <q-card-actions class="row" align="right">
+                <q-btn
+                  class="col-5"
+                  label="다른 상품 보기"
+                  v-close-popup
+                ></q-btn>
+                <q-btn
+                  glossy
+                  class="col-5"
+                  color="primary"
+                  label="결제하기"
+                  tag="a"
+                  to="/OrderList"
+                  icon="shopping_cart_checkout"
+                >
+                </q-btn>
+              </q-card-actions>
             </q-page-container>
-
-            <q-separator />
-
-            <q-card-actions align="right">
-              <span class="q-pa-md"
-                >수량: {{ this.orderCount }}<br />
-                구매 금액: {{ price * this.orderCount }}</span
-              >
-              <q-btn
-                glossy
-                color="negative"
-                icon="remove_shopping_cart"
-                @click="removefromCart(this.title)"
-                ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
-              >
-              <q-btn
-                glossy
-                color="primary"
-                icon="add_shopping_cart"
-                @click="sendToCart(this.title)"
-                ><q-badge rounded color="orange" floating>1</q-badge></q-btn
-              >
-              <q-btn label="닫기" v-close-popup></q-btn>
-              <q-btn
-                glossy
-                color="primary"
-                label="결제하기"
-                tag="a"
-                to="/OrderList"
-              ></q-btn>
-            </q-card-actions>
           </q-layout>
         </q-card>
       </q-dialog>

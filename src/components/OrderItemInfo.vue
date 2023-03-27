@@ -18,7 +18,7 @@
           <q-btn
             fab
             color="primary"
-            icon="currency_yen"
+            icon="payments"
             class="absolute"
             style="top: 0; right: 12px; transform: translateY(-50%)"
           />

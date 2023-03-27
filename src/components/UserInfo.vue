@@ -1,12 +1,12 @@
 <template>
   <q-page class="q-pa-xl">
-    <section v-if="check_login">
+    <section v-if="check_login(loginData.user_id)">
       <div class="text-h3">내 정보</div>
       <div class="text-h6">이름: {{ loginData.user_name }}</div>
       <div class="text-h6">전화번호: {{ loginData.user_phone }}</div>
       <AddressList />
     </section>
-    <section v-if="!check_login">
+    <section v-if="!check_login(loginData.user_id)">
       로그인 정보가 없습니다. 로그인 해주세요.
       <q-btn
         style="background: slateblue; color: white"
@@ -30,6 +30,7 @@
   import user from 'src/store/user/userInfo';
   import LoginPage from 'components/LoginPage.vue';
   import AddressList from 'components/AddressList.vue';
+  import validation from 'src/util/data/validation';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -64,13 +65,8 @@
       return {};
     },
     methods: {
-      check_login() {
-        console.log();
-        if (user.state.USER_ID == '') {
-          return false;
-        } else {
-          return true;
-        }
+      check_login(login_id) {
+        return validation.isNull(login_id);
       },
     },
   });

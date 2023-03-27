@@ -65,16 +65,9 @@
       <q-btn
         style="background: slateblue; color: white"
         :disabled="!cart.length"
-        @click="checkout()"
+        @click="selectPaymentmethod(total, shipment)"
       >
         결제하기
-      </q-btn>
-
-      <q-btn
-        style="background: slateblue; color: white"
-        @click="set_order(this.address_selected.address_id)"
-        label="결제승인"
-      >
       </q-btn>
 
       <q-btn
@@ -304,12 +297,13 @@
       ...mapActions('cart', ['addProductToCart']),
       ...mapActions('cart', ['removeProductFromCart']),
       ...mapActions('cart', ['deleteProductFromCart']),
-      selectPaymentmethod(amountOfPayment) {
+      selectPaymentmethod(total, shipment) {
+        var amountOfPayment = total + shipment;
         // console.log(amountOfPayment);
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
-            orderId: 'gO43carKfiyo7_KPPa-YM',
+            orderId: 'test2-gO43carKfiyo7_KPPa-YM',
             orderName: '토스 티셔츠 외 2건',
             customerName: '박토스',
             successUrl: 'http://localhost:9000/#/Success',
