@@ -1,37 +1,35 @@
 <template>
   <!-- <q-item-section v-if="icon" avatar>
-      <q-icon :name="icon" />
-    </q-item-section> -->
-  <div>
+    <q-icon :name="icon" />
+  </q-item-section> -->
+  <div lang="zh-CN">
     <div @click="card = true">
-      <q-img :src="productImg" class="rounded-borders"> </q-img>
-      <q-card-section>
-        <div class="text-subtitle2 text-center">{{ title }} : {{ price }}</div>
-      </q-card-section>
+      <q-img :src="productImg" class="rounded-borders">
+        <div class="absolute-bottom text-h6 text-center">
+          {{ price }} 원/韩元
+        </div>
+      </q-img>
     </div>
     <div>
       <q-dialog v-model="card">
-        <q-card class="my card" style="width: 600px; height: 300px">
-          <q-layout>
-            <q-drawer
-              show-if-above
-              :width="160"
-              :breakpoint="160"
-              class="q-ma-sm"
-            >
-              <q-img
-                :src="productImg"
-                style="height: 140px; max-width: 140px"
-                class="rounded-borders"
-              />
-            </q-drawer>
-            <q-page-container class="q-pa-md">
-              <span>
-                {{ title }} <br />
-                단가: {{ price }} <br />
-              </span>
-
-              <q-separator />
+        <q-card class="my card row q-pa-sm" style="width: 600px; height: 300px">
+          <!-- <q-drawer
+            show-if-above
+            :width="160"
+            :breakpoint="160"
+            class="q-pa-sm"
+            style="height: 300px; border-right: 1px solid silver"
+          > -->
+          <div class="col-4">
+            <q-img
+              :src="productImg"
+              style="height: 140px; max-width: 140px"
+              class="rounded-borders"
+            />
+          </div>
+          <div class="col-8">
+            <!-- </q-drawer> -->
+            <q-card>
               <q-input
                 readonly
                 disable
@@ -43,13 +41,13 @@
                 <template v-slot:prepend>
                   <q-icon name="payments"></q-icon>
                 </template>
-                <template v-slot:append> 원 </template>
+                <template v-slot:append> 원/韩元 </template>
               </q-input>
 
-              <q-card-actions align="right" class="row">
+              <q-card-section align="center" class="row justify-center">
                 <q-btn
                   class="col-3"
-                  style="height: 56px"
+                  style="height: 56px; vertical-align: bottom"
                   glossy
                   color="negative"
                   icon="remove_shopping_cart"
@@ -57,8 +55,8 @@
                   ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
                 >
                 <q-input
-                  class="q-ma-md"
-                  style="max-width: 100px"
+                  class="q-pl-sm q-pr-sm col-5"
+                  style="vertical-align: top"
                   outlined
                   readonly
                   disable
@@ -69,38 +67,42 @@
                 <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
                 <q-btn
                   class="col-3"
-                  style="height: 56px"
+                  style="height: 56px; vertical-align: bottom"
                   glossy
                   color="primary"
                   icon="add_shopping_cart"
                   @click="sendToCart(this.title)"
                   ><q-badge rounded color="orange" floating>1</q-badge></q-btn
                 >
-              </q-card-actions>
-
-              <!-- <span class="q-pa-md">
-                  구매 금액: {{  }}</span
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-4">
+            <q-card-section>
+              <div class="text-h6 text-black">{{ title }}</div>
+              <div class="text-h6 text-black" icon="finance_chip">
+                {{ price }} 韩元
+              </div>
+            </q-card-section>
+          </div>
+          <!-- <span class="q-pa-md">
+              구매 금액: {{  }}</span
                 > -->
-              <q-separator></q-separator>
-              <q-card-actions class="row" align="right">
-                <q-btn
-                  class="col-5"
-                  label="다른 상품 보기"
-                  v-close-popup
-                ></q-btn>
-                <q-btn
-                  glossy
-                  class="col-5"
-                  color="primary"
-                  label="결제하기"
-                  tag="a"
-                  to="/OrderList"
-                  icon="shopping_cart_checkout"
-                >
-                </q-btn>
-              </q-card-actions>
-            </q-page-container>
-          </q-layout>
+          <div class="col-8">
+            <q-card-section align="center">
+              <q-btn class="col-5" label="다른 상품 보기" v-close-popup></q-btn>
+              <q-btn
+                glossy
+                class="col-5"
+                color="primary"
+                label="결제하기"
+                tag="a"
+                to="/OrderList"
+                icon="shopping_cart_checkout"
+              >
+              </q-btn>
+            </q-card-section>
+          </div>
         </q-card>
       </q-dialog>
     </div>
@@ -111,8 +113,6 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {Notify} from 'quasar';
-  import {text} from 'body-parser';
-  import OrderList from './OrderList.vue';
 
   export default defineComponent({
     name: 'ProductInfo',

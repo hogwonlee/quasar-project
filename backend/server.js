@@ -12,7 +12,7 @@ let jwtObj = {
   secret: 'mysecrettoken', // 원하는 시크릿 키
   option: {
     algorithm: 'HS256', // 해싱 알고리즘
-    expiresIn: '30m', // 토큰 유효 기간
+    expiresIn: '30m', // 토큰 유효 기간 (테스트 기간 5시간으로 변경)
     issuer: 'issuer', // 발행자
   },
 };
@@ -86,10 +86,8 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req, res) => {
   console.log('로그인 함수가 실행됩니다.');
-  console.log('세션' + JSON.stringify(req.headers.authorization));
-  // console.log('쿠키' + req.cookies);
   const sqlCommend =
-    'SELECT * FROM USERINFO INNER JOIN ADDRESSINFO ON USERINFO.user_id = ADDRESSINFO.user_id WHERE USERINFO.user_id = ? AND USERINFO.user_pw = ? ';
+    'SELECT * FROM USERINFO LEFT OUTER JOIN ADDRESSINFO ON USERINFO.user_id = ADDRESSINFO.user_id WHERE USERINFO.user_id = ? AND USERINFO.user_pw = ? ';
   const body = req.body;
   const param = {
     user_id: body.user_id,
@@ -124,25 +122,77 @@ app.post('/login', (req, res) => {
             jwtObj.secret,
             jwtObj.option,
           );
-
-          console.log('토큰 생겼나?' + token);
-          // req.session.isLoggedIn = true;
-          // console.log(req.session);
-          // req.session.save(function () {
-          // res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
-          // res.write('<h1>Login Success</h1>');
-          // res.locals.isLoggedIn = req.session.isLoggedIn;
-          // console.log(res.locals);
-          // res.cookie('loginId', results[0].user_name, {maxAge: 60000});
-          // console.log('서버 응답 쿠키 생겼나?' + req.cookies);
-          // res.write(body)
-          // console.log({results});
           res.status(200).send({token, results});
           // });
         }
       },
     );
   }
+});
+
+app.post('/checkpw', (req, res) => {
+  const sqlCommend = 'SELECT * FROM USERINFO user_id = ? AND user_pw = ? ';
+  const body = req.body;
+  const param = {
+    user_id: body.user_id,
+    user_pw: body.user_pw,
+  };
+  db.query(
+    sqlCommend,
+    [param.user_id, param.user_pw],
+    (err, results, fields) => {
+      if (results.length <= 0) {
+        console.log('비밀번호 확인:' + err);
+        res.status(400).send({msg: 'error', content: err});
+      } else {
+        res.status(200).send({msg: 'success'});
+      }
+    },
+  );
+});
+
+app.post('/changeuserinfo', (req, res) => {
+  const sqlCommend =
+    'UPDATE USERINFO SET user_name = ? , user_phone = ? WHERE user_id = ? ';
+  const body = req.body;
+  const param = {
+    user_id: body.user_id,
+    user_name: body.user_name,
+    user_phone: body.user_phone,
+  };
+  db.query(
+    sqlCommend,
+    [param.user_name, param.user_phone, param.user_id],
+    (err, results, fields) => {
+      if (results.length <= 0) {
+        console.log('비밀번호 확인:' + err);
+        res.status(400).send({msg: 'error', content: err});
+      } else {
+        res.status(200).send({msg: 'success'});
+      }
+    },
+  );
+});
+
+app.post('/changepw', (req, res) => {
+  const sqlCommend = 'UPDATE USERINFO SET user_pw = ? WHERE user_id = ? ';
+  const body = req.body;
+  const param = {
+    user_id: body.user_id,
+    user_pw: body.user_pw,
+  };
+  db.query(
+    sqlCommend,
+    [param.user_pw, param.user_id],
+    (err, results, fields) => {
+      if (results.length <= 0) {
+        console.log('비밀번호 변경 오류:' + err);
+        res.status(400).send({msg: 'error', content: err});
+      } else {
+        res.status(200).send({msg: 'success'});
+      }
+    },
+  );
 });
 
 app.post('/register', (req, res) => {
@@ -170,13 +220,12 @@ app.post('/addressRegister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('에러 발생: ' + err);
+        console.log('addressRegister 에러 발생: ' + err);
       } else {
         // console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend = 'INSERT INTO ADDRESSINFO SET ?';
           const body = req.body;
-          console.log(body);
           const param = {
             address_tag: body.address_tag,
             recipient: body.recipient,
@@ -194,9 +243,112 @@ app.post('/addressRegister', (req, res) => {
               console.log('배송 주소 추가 요청:' + err);
               res.status(400).send({msg: 'error', content: err});
             } else {
-              var insertId = results.insertId;
-              results = {id: insertId, ...param};
-              console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
+              if ((body.is_default = 1)) {
+                // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
+                const sqlCommend_reset =
+                  'UPDATE ADDRESSINFO SET is_default = 0 WHERE user_id = ?';
+                db.query(
+                  sqlCommend_reset,
+                  param.user_id,
+                  (err, results, fields) => {
+                    if (err) {
+                      console.log('배송 주소 기본 설정 초기화:' + err);
+                      res.status(400).send({msg: 'error', content: err});
+                    } else {
+                      console.log(
+                        '배송 주소 기본 설정 초기화 성공:' +
+                          JSON.stringify(results),
+                      );
+                    }
+                  },
+                );
+                const sqlCommend_default =
+                  'UPDATE ADDRESSINFO SET is_default = 1 WHERE user_id = ? AND id = ?';
+                const param_2 = {
+                  user_id: body.user_id,
+                  address_id: results.insertId,
+                };
+                db.query(
+                  sqlCommend_default,
+                  [param_2.user_id, param_2.address_id],
+                  (err, results, fields) => {
+                    if (err) {
+                      console.log('기본 배송지 변경 요청:' + err);
+                      res.status(400).send({msg: 'error', content: err});
+                    } else {
+                      console.log(
+                        '기본 배송지 설정 성공:' + JSON.stringify(results),
+                      );
+                    }
+                  },
+                );
+              }
+              // var insertId = results.insertId;
+              // results = {id: insertId, ...param};
+              // console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
+              res.status(200).send({msg: 'success'});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/addressChangeDefaultAddress', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('addressChangeDefaultAddress 에러 발생: ' + err);
+      } else {
+        // console.log('디코디드: ' + decoded.USER_ID);
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend_reset =
+            'UPDATE ADDRESSINFO SET is_default = 0 WHERE user_id = ?';
+          const body = req.body;
+          const param = body.user_id;
+          db.query(sqlCommend_reset, param, (err, results, fields) => {
+            if (err) {
+              console.log('배송 주소 기본 설정 초기화:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              console.log(
+                '배송 주소 기본 설정 초기화 성공:' + JSON.stringify(results),
+              );
+            }
+          });
+          const sqlCommend_default =
+            'UPDATE ADDRESSINFO SET is_default = 1 WHERE user_id = ? AND id = ?';
+          const param_2 = {
+            user_id: body.user_id,
+            address_id: body.address_id,
+          };
+          db.query(
+            sqlCommend_default,
+            [param_2.user_id, param_2.address_id],
+            (err, results, fields) => {
+              if (err) {
+                console.log('기본 배송지 변경 요청:' + err);
+                res.status(400).send({msg: 'error', content: err});
+              } else {
+                console.log('기본 배송지 설정 성공:' + JSON.stringify(results));
+              }
+            },
+          );
+
+          const sqlCommend_select =
+            'SELECT * FROM ADDRESSINFO WHERE user_id = ?';
+
+          db.query(sqlCommend_select, param, (err, results, fields) => {
+            if (err) {
+              // console.log('배송 주소 조회 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              // console.log('userInfo 로그인 유저 조회 답변:' + results);
               res.status(200).send({results});
             }
           });
@@ -214,7 +366,7 @@ app.post('/orderGroupResister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('에러 발생: ' + err);
+        console.log('orderGroupResister 에러 발생: ' + err);
       } else {
         // if (decoded.USER_ID == req.body.user_id) {
         const sqlCommend = 'INSERT INTO ORDERGROUP SET ?';
@@ -248,7 +400,7 @@ app.post('/orderResister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('에러 발생: ' + err);
+        console.log('orderResister 에러 발생: ' + err);
       } else {
         // if (decoded.USER_ID == req.body.user_id) {
         const sqlCommend = 'INSERT INTO ORDERINFO SET ?';
@@ -275,11 +427,11 @@ app.post('/orderResister', (req, res) => {
   }
 });
 
-app.post('/userInfo', (req, res) => {
+app.post('/addressInfo', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('에러 발생: ' + err);
+        console.log('addressInfo 에러 발생: ' + err);
       } else {
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend = 'SELECT * FROM ADDRESSINFO WHERE user_id = ?';

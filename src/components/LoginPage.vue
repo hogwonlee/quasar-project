@@ -6,7 +6,7 @@
         <div class="text-h6">Login</div>
       </q-card-section>
 
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+      <q-form @reset="onReset" class="q-gutter-md">
         <q-input
           filled
           v-model="userId"
@@ -59,14 +59,14 @@
 </template>
 
 <script>
-  import {useQuasar} from 'quasar';
   import {ref} from 'vue';
   import SignUpPage from 'components/SignUpPage.vue';
   import axios from 'axios';
   import {mapActions, mapMutations, mapState} from 'vuex';
   import user from 'src/store/user/userInfo';
   import address from 'src/store/user/addressInfo';
-
+  import check from 'src/util/modules/check';
+  import alert from 'src/util/modules/alert';
   // import {data} from 'browserslist';
   // import {url} from 'inspector';
 
@@ -81,6 +81,8 @@
       ...mapState({
         user: state => state.all,
       }),
+      ...mapActions('user', ['loginAction']),
+      ...mapActions('address', ['addAddressAction']),
     },
     methods: {},
 
@@ -88,56 +90,17 @@
       var userId = ref(null);
       var userPw = ref(null);
 
-      const $q = useQuasar();
       const accept = ref(false);
 
-      function confirm() {
-        $q.dialog({
-          title: 'Confirm',
-          message: '로그인 되었습니다.',
-          // cancel: true,
-          persistent: false,
-        })
-          .onOk(() => {
-            // console.log('>>>> OK')
-          })
-          .onOk(() => {
-            // console.log('>>>> second OK catcher')
-          })
-          // .onCancel(() => {
-          //   // console.log('>>>> Cancel')
-          // })
-          .onDismiss(() => {
-            // console.log('I am triggered on both OK and Cancel')
-          });
-      }
       return {
         userId,
         userPw,
         accept,
 
         signUpWindow: ref(false),
-        confirm,
-        onSubmit() {
-          // if (accept.value !== true) {
-          //   $q.notify({
-          //     color: 'red-5',
-          //     textColor: 'white',
-          //     icon: 'warning',
-          //     message: 'You need to accept the license and terms first',
-          //   });
-          // } else {
-          //   $q.notify({
-          //     color: 'green-4',
-          //     textColor: 'white',
-          //     icon: 'cloud_done',
-          //     message: 'Submitted',
-          //   });
-          // }
-        },
+
         serverLogin() {
-          // console.log(mapState('user', ['USER_ID']));
-          if (user.state.USER_ID == '') {
+          if (!check.check_login()) {
             const userData = {
               user_id: userId.value,
               user_pw: userPw.value,
@@ -145,33 +108,20 @@
 
             axios
               .post('http://localhost:3001/login', userData)
-              .then(
-                async response => {
-                  // console.log('응답 타입' + typeof response.data.content);
-                  // console.log('최초 응답 접근' + response.data.content.user_id);
-                  // var stringJson = JSON.stringify(response.data.content);
-                  // console.log('string 실 데이터' + stringJson);
-                  // var json = JSON.parse(stringJson);
-                  // console.log('json 실 데이터' + json);
-                  // console.log('json 실 데이터 접근' + json.user_id);
-                  console.log('json 실 데이터' + response.data);
-                  console.log('응답 데이터' + response.data.results);
-                  console.log('토큰 데이터' + response.data.token);
-                  var json = response.data;
-                  // console.log(response.data.results[0]);
-                  json.results.forEach(addr => {
-                    // console.log('수령인 확인: ' + addr.recipient);
-                    address.dispatch('addAddressAction', addr);
-                  });
-                  user.dispatch('loginAction', json).then(() => confirm());
-                },
-                // this.$router.go(-1); // 한단계 전단계로 이동
-                // console.log(mapState('user', ['USER_ID']) + '맵스테이트접근');
-                // console.log('직접접근:' + user.state.USER_ID);
-              )
+              .then(async response => {
+                var json = response.data;
+                json.results.forEach(addr => {
+                  address.dispatch('addAddressAction', addr);
+                });
+                user
+                  .dispatch('loginAction', json)
+                  .then(() => alert.confirm('알림', '로그인 되었습니다.'));
+              })
               .catch(response => console.log('에러: ' + response));
           } else {
-            alert(user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.');
+            var alert_msg =
+              user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.';
+            alert.confirm('알림', alert_msg);
           }
         },
         onReset() {
