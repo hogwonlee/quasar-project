@@ -35,6 +35,8 @@ const db = mysql.createConnection({
   password: '1234',
   port: 3306,
   database: 'mystore',
+  allowPublicKeyRetrieval: true,
+  ssl: false,
 });
 
 db.connect();
@@ -51,8 +53,8 @@ const sessionObj = {
   secret: 'my key',
   resave: false,
   saveUninitialized: true,
-  store: new MemoryStore({checkPeriod: maxAge}),
-  cookie: {maxAge},
+  store: new MemoryStore({ checkPeriod: maxAge }),
+  cookie: { maxAge },
 };
 app.use(session(sessionObj));
 
@@ -61,7 +63,7 @@ appServer.listen(app.get('port'), () => {
 });
 
 // 미들웨어를 등록한다
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(serveStatic(path.join(_dirname, 'public')));
 app.use(bodyParser.json());
 app.use(
@@ -78,7 +80,7 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
   console.log('get: ' + req.header.authorization);
-  const {coo} = req.session;
+  const { coo } = req.session;
   if (coo) {
     console.log('이미 로그인 하미' + coo);
   }
@@ -98,7 +100,7 @@ app.post('/login', (req, res) => {
   if (req.session.user) {
     // 세션에 유저가 존재한다면
     console.log('이미 로그인 돼있습니다~');
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
     res.write('<h1> already Login</h1>');
     res.end();
   } else {
@@ -108,7 +110,7 @@ app.post('/login', (req, res) => {
       (err, results, fields) => {
         if (results.length <= 0) {
           console.log('로그인요청:' + err);
-          res.status(400).send({msg: 'error', content: err});
+          res.status(400).send({ msg: 'error', content: err });
         } else {
           // console.log(results[0].user_name);
           req.session.cookie.user = {
@@ -137,7 +139,7 @@ app.post('/login', (req, res) => {
           // console.log('서버 응답 쿠키 생겼나?' + req.cookies);
           // res.write(body)
           // console.log({results});
-          res.status(200).send({token, results});
+          res.status(200).send({ token, results });
           // });
         }
       },
@@ -159,9 +161,9 @@ app.post('/register', (req, res) => {
   db.query(sqlCommend, param, (err, results, fields) => {
     if (err) {
       console.log('회원가입요청:' + err);
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({msg: 'success', param: param});
+      res.status(200).send({ msg: 'success', param: param });
     }
   });
 });
@@ -192,12 +194,12 @@ app.post('/addressRegister', (req, res) => {
           db.query(sqlCommend, param, (err, results, fields) => {
             if (err) {
               console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               var insertId = results.insertId;
-              results = {id: insertId, ...param};
+              results = { id: insertId, ...param };
               console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -225,13 +227,13 @@ app.post('/orderGroupResister', (req, res) => {
         db.query(sqlCommend, param, (err, results, fields) => {
           if (err) {
             console.log('주문 추가 요청:' + err);
-            res.status(400).send({msg: 'error', content: err});
+            res.status(400).send({ msg: 'error', content: err });
           } else {
             // results = param;
             var results = results.insertId;
 
             console.log('주문 등록 성공 결과값:' + results);
-            res.status(200).send({results});
+            res.status(200).send({ results });
           }
         });
         // } else {
@@ -259,10 +261,10 @@ app.post('/orderResister', (req, res) => {
         db.query(sqlCommend, param, (err, results, fields) => {
           if (err) {
             console.log('주문 추가 요청:' + err);
-            res.status(400).send({msg: 'error', content: err});
+            res.status(400).send({ msg: 'error', content: err });
           } else {
             console.log('주문 등록 성공 결과값:' + results);
-            res.status(200).send({results});
+            res.status(200).send({ results });
           }
         });
         // } else {
@@ -288,10 +290,10 @@ app.post('/userInfo', (req, res) => {
           db.query(sqlCommend, param, (err, results, fields) => {
             if (err) {
               // console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               // console.log('userInfo 로그인 유저 조회 답변:' + results);
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
