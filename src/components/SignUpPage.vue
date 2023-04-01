@@ -87,6 +87,7 @@
   import {useQuasar} from 'quasar';
   import {ref} from 'vue';
   import axios from 'axios';
+  import alert from 'src/util/modules/alert';
 
   export default {
     setup() {
@@ -142,7 +143,7 @@
 
               data: userData,
             })
-              .then()
+              .then(alert.confirm('알림', '회원가입 완료했습니다.'))
               .catch(res => console.log('에러: ' + res));
           }
         },

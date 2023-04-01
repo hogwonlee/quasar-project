@@ -3,11 +3,18 @@ import Vuex from 'vuex';
 const state = {
   items: [],
 };
-const getters = {};
+const getters = {
+  getAddressList: state => () => {
+    return state.items;
+  },
+};
 
 const actions = {
   addAddressAction({commit}, address) {
     commit('pushAddressToState', {address});
+  },
+  emptyAddressAction({commit}) {
+    commit('setAddressItems', {items: []});
   },
 };
 
@@ -26,6 +33,9 @@ const mutations = {
       user_id: address.user_id,
     });
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
+  },
+  setAddressItems(state, {items}) {
+    state.items = items;
   },
 };
 

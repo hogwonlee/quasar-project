@@ -1,40 +1,59 @@
 <template>
-  <div class="cart q-ma-md">
-    <div v-if="this.isLoggedIn">
-      <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
-      <div>수령인: {{ this.address_selected.recipient }}</div>
-      <div>주소: {{ this.address_selected.recipient_phone }}</div>
-      <div>
-        {{
-          this.address_selected.address1 +
-          this.address_selected.address2 +
-          this.address_selected.address3
-        }}
+  <div>
+    <div class="q-pa-md bg-primary">
+      <q-chip outline color="grey-1" class="bg-primary text-body3 text-grey-1"
+        >주문 리스트</q-chip
+      >
+      <p v-show="!cart.length">
+        <i>상품을 추가해주세요.</i>
+      </p>
+      <div class="row q-pa-sm virtual-scroll-horizontal" style="height: 224px">
+        <OrderItemInfo
+          @sendOrderItem="addProductToCart(product)"
+          @sendRemoveItem="removeProductFromCart(product)"
+          @sendDeleteItem="deleteProductFromCart(product)"
+          class="col-3 q-pa-sm"
+          v-for="product in cart"
+          :key="product.id"
+          v-bind="product"
+          v-bind:item-count="product.quantity"
+        />
       </div>
     </div>
+    <div v-if="check_login()">
+      <div v-if="this.is_addr_added">
+        <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
+        <div>수령인: {{ this.address_selected.recipient }}</div>
+        <div>주소: {{ this.address_selected.recipient_phone }}</div>
+        <div>
+          {{
+            this.address_selected.address1 +
+            this.address_selected.address2 +
+            this.address_selected.address3
+          }}
+        </div>
+      </div>
+      <div v-else>등록된 주소가 없습니다. 주소를 등록해주시기 바랍니다.</div>
+    </div>
+    <!-- //로그인이 아니라 주소가 등록되었는지 확인 -->
     <q-btn
-      color="primary"
-      label="주소 변경/등록"
+      v-if="check_login()"
+      class="text-bold text-black"
+      color="warning"
+      label="!주소 변경/등록 / 地址变更/登记!"
       tag="a"
+      lang="zh-CN"
       to="/AddressList"
     ></q-btn>
-    <p v-show="!cart.length">
-      <i>상품을 추가해주세요.</i>
-    </p>
-    <div class="row">
-      <OrderItemInfo
-        @sendOrderItem="addProductToCart(product)"
-        @sendRemoveItem="removeProductFromCart(product)"
-        @sendDeleteItem="deleteProductFromCart(product)"
-        class="col-1"
-        style="padding: 10px"
-        v-for="product in cart"
-        :key="product.id"
-        v-bind="product"
-        v-bind:item-count="product.quantity"
-      />
-    </div>
-
+    <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
+    <q-btn
+      class="text-bold"
+      color="primary"
+      label="변경 / 变更"
+      tag="a"
+      lang="zh-CN"
+      to="/AddressList"
+    ></q-btn>
     <q-markup-table flat bordered class="q-ma-md justify-center">
       <tbody items-center>
         <tr class="row">
@@ -65,26 +84,18 @@
       <q-btn
         style="background: slateblue; color: white"
         :disabled="!cart.length"
-        @click="checkout()"
+        @click="selectPaymentmethod(total, shipment)"
       >
         결제하기
       </q-btn>
 
       <q-btn
-        style="background: slateblue; color: white"
-        @click="set_order(this.address_selected.address_id)"
-        label="결제승인"
-      >
-      </q-btn>
-
-      <q-btn
-        v-if="!this.isLoggedIn"
+        v-if="!check_login()"
         style="background: slateblue; color: white"
         @click="login_popup"
         label="로그인"
       >
       </q-btn>
-      <!-- v-if="this.isLoggedIn" -->
       <q-btn
         style="background: slateblue; color: white"
         @click="logout"
@@ -133,13 +144,10 @@
   import user from 'src/store/user/userInfo';
   import address from 'src/store/user/addressInfo';
   import cart from 'src/store/cartList';
-  // import order from 'src/store/orderList';
   import axios from 'axios';
-
-  // import order from 'src/store/orderList';
-
+  import validation from 'src/util/data/validation';
   import {Cookies, useQuasar} from 'quasar';
-  import {json} from 'body-parser';
+  import check from 'src/util/modules/check';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default {
@@ -147,16 +155,6 @@
     components: {
       OrderItemInfo,
       LoginPage,
-    },
-    data() {
-      return {
-        user_name: user.state.USER_NAME,
-        address_selected: '',
-      };
-    },
-    watch: {
-      user_name: function (val) {},
-      isLoggedIn: function (val) {},
     },
     setup() {
       const $q = useQuasar();
@@ -182,28 +180,17 @@
       }
       return {
         confirm,
+        is_addr_added: ref(false),
+        basic: ref(false),
+        persistent: ref(false),
+        address_selected: '',
       };
     },
-    mounted() {
-      // this.logout();
-      this.address_selected = this.getSelectedAddress();
-
-      if (
-        user.state.USER_ID == '' ||
-        user.state.USER_ID == undefined ||
-        user.state.USER_ID == null
-      ) {
-        this.isLoggedIn = false;
-      } else {
-        this.isLoggedIn = true;
-      }
-    },
-
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
         cart: state => state.cart.all,
-        addresses: state => state.addresses.items, // store/index에 addresses로 추가됨.
+        address: state => state.all, // store/index에 addresses로 추가됨.
         user: state => state.all,
         order: state => state.all,
       }),
@@ -213,23 +200,45 @@
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
-      ...mapGetters('addresses', {
-        addressInfo: 'addressInfo',
-      }),
+      addressList: address.getters.getAddressList,
+    },
+    watch: {
+      addressList: function (val) {
+        console.log(val);
+      },
     },
     methods: {
       logout() {
         user.dispatch('logoutAction');
+        address.dispatch('emptyAddressAction');
       },
       getSelectedAddress() {
-        var address_selected;
-        address.state.items.forEach(addr => {
-          if (addr.is_default === 1) {
-            console.log(addr.recipient + addr.address1);
-            address_selected = addr;
-          }
-        });
-        return address_selected;
+        console.log('기본 주소 찾는중');
+        if (!this.is_addr_added) {
+          this.is_addr_added = !validation.isNull(this.addressList); // 값이 없으면 true
+          console.log('주소가 있는가?' + this.is_addr_added);
+          console.log(
+            '기본 주소의 상태는 (값이 없으면 true)' +
+              validation.isNull(this.address_selected), // 값이 없으면 true
+          );
+        }
+
+        if (this.is_addr_added && validation.isNull(this.address_selected)) {
+          var return_addr;
+          this.addressList.forEach(addr => {
+            // address.getters.getAddressList.forEach(addr => {
+            if (addr.is_default === 1) {
+              return_addr = addr;
+            } else {
+              console.log('기본 주소가 아닌가 봄');
+            }
+          });
+          this.address_selected = return_addr;
+          console.log(
+            '주소 세팅후에는 있어야 하는데....' +
+              validation.isNull(this.address_selected), // 값이 없으면 true
+          );
+        }
       },
 
       set_order(address_id) {
@@ -277,10 +286,10 @@
           .catch(res => console.log('에러: ' + res));
       },
       check_login() {
-        if (user.state.USER_ID == '') {
-          return false;
-        } else {
+        if (check.check_login()) {
           return true;
+        } else {
+          return false;
         }
       },
       check_null_address() {
@@ -304,12 +313,13 @@
       ...mapActions('cart', ['addProductToCart']),
       ...mapActions('cart', ['removeProductFromCart']),
       ...mapActions('cart', ['deleteProductFromCart']),
-      selectPaymentmethod(amountOfPayment) {
+      selectPaymentmethod(total, shipment) {
+        var amountOfPayment = total + shipment;
         // console.log(amountOfPayment);
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
-            orderId: 'gO43carKfiyo7_KPPa-YM',
+            orderId: 'test2-gO43carKfiyo7_KPPa-YM',
             orderName: '토스 티셔츠 외 2건',
             customerName: '박토스',
             successUrl: 'http://localhost:9000/#/Success',
@@ -319,13 +329,8 @@
       },
       ...mapActions('cart', ['checkout']),
     },
-
-    setup() {
-      return {
-        basic: ref(false),
-        persistent: ref(false),
-        isLoggedIn: ref(false),
-      };
+    mounted() {
+      this.getSelectedAddress();
     },
   };
 </script>

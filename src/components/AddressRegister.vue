@@ -2,12 +2,20 @@
   <div class="window-width row justify-center items-center">
     <div style="width: 600px">
       <h4 class="row justify-center">주소 등록</h4>
+      <q-btn
+        align="right"
+        class="q-ma-sm"
+        color="primary"
+        label="주소 다시 불러오기"
+        @click="sample2_execDaumPostcode"
+      />
       <q-checkbox
         class="q-ma-sm"
         left-label
         v-model="cheked"
         label="기본 배송지"
       />
+
       <q-input
         outlined
         class="q-ma-sm"
@@ -73,14 +81,6 @@
         label="주소 등록하기"
         @click="exeAddrRegister"
       />
-      <q-btn
-        class="q-ma-sm row justify-center"
-        color="primary"
-        size="xl"
-        style="width: 200px"
-        label="주소 다시 불러오기"
-        @click="sample2_execDaumPostcode"
-      />
     </div>
   </div>
 </template>
@@ -92,7 +92,7 @@
   import user from '../store/user/userInfo';
   import axios from 'axios';
   import address from 'src/store/user/addressInfo';
-
+  import alert from 'src/util/modules/alert';
   export default defineComponent({
     name: 'AddressRegister',
     data() {
@@ -115,6 +115,7 @@
     mounted() {
       this.sample2_execDaumPostcode();
     },
+
     methods: {
       exeAddrRegister() {
         if (user.state.USER_ID != '') {
@@ -130,7 +131,7 @@
             is_default: this.cheked,
           };
 
-          //회원가입 등록 요청 보내기
+          // 배송지 등록 요청 보내기
           axios({
             url: 'http://localhost:3001/addressRegister',
             method: 'POST',
@@ -144,8 +145,10 @@
           })
             .then(res => {
               console.log(
+                // 응답값은 'success' 변경함.
                 '주소 등록 응답값: ' + JSON.stringify(res.data.results),
               );
+              alert.confirm('알림', '주소 등록이 완료되었습니다.');
               // address.dispatch('addAddressAction', res.data.results);
             })
             .catch(res => console.log('에러: ' + res));

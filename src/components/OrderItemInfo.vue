@@ -1,93 +1,98 @@
 <template>
-  <div @click="card = true">
-    <q-img :src="productImg"> </q-img>
-    <q-card-section>
-      <div class="text-subtitle2 text-center">{{ this.orderCount }}</div>
-    </q-card-section>
-  </div>
   <div>
-    <q-dialog v-model="card">
-      <q-card class="my-card" style="width: 400px">
-        <q-img
-          :src="productImg"
-          style="width: 128px; height: 128px"
-          class="rounded-borders"
-        />
-
-        <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="currency_yen"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%)"
+    <q-card class="my-card" @click="card = true">
+      <q-img :src="productImg">
+        <div class="absolute-bottom text-h6 text-center" lang="zh-CN">
+          {{ this.orderCount }} 개/个
+        </div>
+      </q-img>
+    </q-card>
+    <div>
+      <q-dialog v-model="card">
+        <q-card class="my-card q-pa-sm" style="width: 400px">
+          <q-img
+            :src="productImg"
+            style="width: 128px; height: 128px"
+            class="rounded-borders"
           />
 
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              {{ title }}
-            </div>
-            <div
-              class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
-            >
-              {{ price }} 원
-            </div>
-          </div>
-        </q-card-section>
+          <q-card-section>
+            <q-btn
+              fab
+              color="primary"
+              icon="payments"
+              class="absolute"
+              style="top: 0; right: 12px; transform: translateY(-50%)"
+            />
 
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            <q-icon name="payments"></q-icon> {{ price * this.orderCount }} 원
-          </div>
-        </q-card-section>
+            <div class="row no-wrap items-center">
+              <div class="col text-h6 ellipsis">
+                {{ title }}
+              </div>
+              <div
+                class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+              >
+                {{ price }} 원
+              </div>
+            </div>
+          </q-card-section>
 
-        <q-separator />
-        <q-card-actions align="left">
-          <q-btn
-            glossy
-            color="negative"
-            icon="delete"
-            @click="this.deleteConfirm = true"
-          />
-          <q-card-actions align="right">
+          <q-card-section class="q-pt-none">
+            <div class="text-subtitle1">
+              <q-icon name="payments"></q-icon> {{ price * this.orderCount }} 원
+            </div>
+          </q-card-section>
+
+          <q-separator />
+          <q-card-actions align="left">
             <q-btn
               glossy
               color="negative"
-              icon="remove_shopping_cart"
-              @click="removefromCart(this.title)"
-              ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
+              icon="delete"
+              @click="this.deleteConfirm = true"
+            />
+            <q-card-actions align="right">
+              <q-btn
+                glossy
+                color="negative"
+                icon="remove_shopping_cart"
+                @click="removefromCart(this.title)"
+                ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
+              >
+              <q-btn
+                glossy
+                color="primary"
+                icon="add_shopping_cart"
+                @click="sendToCart(this.title)"
+              >
+                <q-badge rounded color="orange" floating>1</q-badge></q-btn
+              ></q-card-actions
             >
-            <q-btn
-              glossy
-              color="primary"
-              icon="add_shopping_cart"
-              @click="sendToCart(this.title)"
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="deleteConfirm" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="warning" color="warning" text-color="white" />
+            <span class="q-ml-sm"
+              >이 상품을 장바구니에서 제거하시겠습니까?</span
             >
-              <q-badge rounded color="orange" floating>1</q-badge></q-btn
-            ></q-card-actions
-          >
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="deleteConfirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="warning" color="warning" text-color="white" />
-          <span class="q-ml-sm">이 상품을 장바구니에서 제거하시겠습니까?</span>
-        </q-card-section>
+          </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="취소" color="primary" v-close-popup />
-          <q-btn
-            flat
-            label="확인"
-            color="primary"
-            v-close-popup
-            @click="deleteProductFromCart(this.title)"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+          <q-card-actions align="right">
+            <q-btn flat label="취소" color="primary" v-close-popup />
+            <q-btn
+              flat
+              label="확인"
+              color="primary"
+              v-close-popup
+              @click="deleteProductFromCart(this.title)"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 

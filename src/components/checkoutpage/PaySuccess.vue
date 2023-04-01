@@ -3,17 +3,11 @@
     <section>
       <div class="text-h1">결제성공</div>
       <q-btn
+        label="주문 현황 확인"
+        tag="a"
+        to="/DeliveryInfo"
         color="primary"
-        label="결제완료"
-        @click="paymentAuthorizationRequest"
       ></q-btn>
-      <!-- <div>
-        <ul>
-          <li>결제 상품 {{ payments.orderName }}</li>
-          <li>주문번호 {{ payments.orderId }}</li>
-          <li>결제금액 {{ card.amount }}</li>
-        </ul>
-      </div> -->
     </section>
   </q-page>
 </template>
@@ -25,13 +19,7 @@
   export default defineComponent({
     name: 'PaySuccess',
     mounted() {
-      let url = new URL(window.location.href);
-      this.postJsonData = {
-        paymentkey: url.searchParams.get('paymentKey'),
-        amount: url.searchParams.get('amount'),
-        orderId: url.searchParams.get('orderId'),
-      };
-      // console.log(this.postJsonData);
+      this.paymentAuthorizationRequest();
     },
     data() {
       return {
@@ -39,22 +27,39 @@
       };
     },
     methods: {
+      readResData() {
+        let url = new URL(window.location.href);
+        this.postJsonData = {
+          paymentKey: url.searchParams.get('paymentKey'),
+          amount: url.searchParams.get('amount'),
+          orderId: url.searchParams.get('orderId'),
+        };
+        // console.log(this.postJsonData);
+      },
+
       paymentAuthorizationRequest() {
         //클라이언트 요청 오류: 오류번호 400
+        this.readResData();
+        const requestData = JSON.parse(JSON.stringify(this.postJsonData));
 
-        axios
-          .post(
-            'https://api.tosspayments.com/v1/payments/confirm',
-            {
-              headers: {
-                Authorization: `Basic base64(test_sk_O6BYq7GWPVvMvkJbLpw3NE5vbo1d:)`,
+        // console.log(requestData);
+        axios({
+          url: 'https://api.tosspayments.com/v1/payments/confirm',
+          method: 'POST',
 
-                'Content-Type': `application/json`,
-              },
-            },
-            JSON.stringify(this.postJsonData),
-          )
-          .then(res => console.log(res.data))
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization:
+              'Basic dGVzdF9za19PNkJZcTdHV1BWdk12a0piTHB3M05FNXZibzFkOg==',
+            // 'Basic base64(test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R:)', //test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R / test_sk_O6BYq7GWPVvMvkJbLpw3NE5vbo1d
+          },
+
+          data: requestData,
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res.data));
+          })
           .catch(e => console.error(e));
       },
     },

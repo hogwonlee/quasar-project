@@ -1,4 +1,5 @@
 import {createStore, createLogger} from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import user from './user/userInfo';
 import cart from './cartList';
 import products from './productList';
@@ -16,5 +17,12 @@ export default createStore({
     address,
   },
   strict: false,
-  plugins: debug ? [createLogger()] : [],
+  plugins: debug
+    ? [
+        createLogger(),
+        createPersistedState({
+          paths: ['user', 'cart', 'products', 'address', 'order'],
+        }),
+      ]
+    : [],
 });
