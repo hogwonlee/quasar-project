@@ -29,13 +29,6 @@
         </div>
       </q-form>
     </q-card>
-    <q-dialog
-      v-model="changeInfoWindow"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-      ><ChangeInfo
-    /></q-dialog>
   </div>
 </template>
 
@@ -45,64 +38,53 @@
   import {mapActions, mapMutations, mapState} from 'vuex';
   import user from 'src/store/user/userInfo';
   import alert from 'src/util/modules/alert';
-  import ChangeInfo from './ChangeInfo.vue';
 
   export default {
-    components: {
-      ChangeInfo,
-    },
+    components: {},
     data() {
-      return {};
+      return {
+        userPw: '',
+      };
     },
     computed: {
       ...mapState({
         user: state => state.all,
       }),
+      userId: user.getters.getMyId,
     },
-    methods: {},
+    methods: {
+      checkpw() {
+        var user_id_get = user.state.USER.USER_ID;
+
+        const userData = {
+          user_id: user_id_get,
+          user_pw: this.userPw,
+        };
+
+        axios({
+          url: 'http://localhost:3001/checkpw',
+          method: 'POST',
+          data: userData,
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: user.state.USER.USER_TOKEN,
+          },
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res.status));
+            if (res.status == 200) {
+              // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
+            } else {
+              alert.confirm('오류', '비밀번호가 틀렸습니다.');
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+    },
 
     setup() {
-      var userId = ref(null);
-      var userPw = ref(null);
-
-      return {
-        userId: user.getters.getMyId,
-        userPw,
-        accept,
-
-        changeInfoWindow: ref(false),
-
-        checkpw() {
-          const userData = {
-            user_id: userId.value,
-            user_pw: userPw.value,
-          };
-
-          axios({
-            url: 'http://localhost:3001/checkpw',
-            method: 'POST',
-            data: userData,
-            headers: {
-              'Access-Control-Allow-Headers': '*',
-              'Content-Type': 'application/json',
-              authorization: user.state.USER_TOKEN,
-            },
-          })
-            .then(res => {
-              if (res.status() == 200) {
-                this.changeInfoWindow = true;
-              } else {
-                alert.confirm('오류', '비밀번호가 틀렸습니다.');
-              }
-            })
-            .catch(res => console.log('에러: ' + res));
-        },
-        onReset() {
-          userId.value = null;
-          userPw.value = null;
-          accept.value = false;
-        },
-      };
+      return {};
     },
   };
 </script>

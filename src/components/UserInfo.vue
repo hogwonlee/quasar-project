@@ -4,7 +4,7 @@
       <div class="text-h3">내 정보</div>
       <q-btn
         label="내 정보 변경"
-        @click="this.CheckPasswordDialog = true"
+        @click="this.checkPasswordDialog = true"
       ></q-btn>
       <div class="text-h6">이름: {{ user_name_get }}</div>
       <div class="text-h6">전화번호: {{ user_phone_get }}</div>
@@ -17,21 +17,28 @@
         @click="this.persistent = true"
         label="로그인"
       ></q-btn>
-      <q-dialog
-        v-model="persistent"
-        persistent
-        transition-show="scale"
-        transition-hide="scale"
-        ><LoginPage
-      /></q-dialog>
-      <q-dialog
-        v-model="CheckPasswordDialog"
-        persistent
-        transition-show="scale"
-        transition-hide="scale"
-        ><CheckPassword
-      /></q-dialog>
     </section>
+    <q-dialog
+      v-model="persistent"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><LoginPage
+    /></q-dialog>
+    <q-dialog
+      v-model="checkPasswordDialog"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><CheckPassword
+    /></q-dialog>
+    <q-dialog
+      v-model="changeInfoDialog"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><ChangeInfo
+    /></q-dialog>
   </q-page>
 </template>
 
@@ -42,6 +49,7 @@
   import LoginPage from 'components/LoginPage.vue';
   import AddressList from 'components/AddressList.vue';
   import CheckPassword from 'components/CheckPassword.vue';
+  import ChangeInfo from 'components/ChangeInfo.vue';
   import check from 'src/util/modules/check';
 
   export default defineComponent({
@@ -50,11 +58,13 @@
       LoginPage,
       AddressList,
       CheckPassword,
+      ChangeInfo,
     },
     data: function () {
       return {
         persistent: ref(false),
-        CheckPasswordDialog: ref(false),
+        checkPasswordDialog: ref(false),
+        changeInfoDialog: ref(false),
       };
     },
     computed: {
@@ -79,6 +89,9 @@
     methods: {
       check_login() {
         return check.check_login();
+      },
+      showDialog() {
+        console.log('열려라!');
       },
     },
   });

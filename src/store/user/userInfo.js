@@ -81,15 +81,17 @@ const mutations = {
   login(state, data) {
     // console.log('userInfo에서 ' + typeof data);
     // console.log('userInfo에서 출력' + data);
-    // console.log('userInfo에서 접근' + JSON.stringify(data.results[0]));
-    state.USER.USER_ID = data.results[0].user_id;
-    state.USER.USER_NAME = data.results[0].user_name;
-    state.USER.USER_VERIFY = data.results[0].user_name;
-    state.USER.USER_PHONE = data.results[0].user_phone;
+    console.log('userInfo에서 접근' + JSON.stringify(data.results[0]));
     Cookie.set('token', data.token);
     Cookie.set('verify', data.results[0].user_name);
     Cookie.set('user', JSON.stringify(data.results[0]));
-    state.USER.USER_TOKEN = Cookie.get('token');
+    state.USER = {
+      USER_ID: data.results[0].user_id,
+      USER_NAME: data.results[0].user_name,
+      USER_VERIFY: data.results[0].user_name,
+      USER_PHONE: data.results[0].user_phone,
+      USER_TOKEN: Cookie.get('token'),
+    };
 
     // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);
     // return data.token;

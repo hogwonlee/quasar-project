@@ -98,7 +98,12 @@
     created() {},
     mounted() {
       this.is_addr_added = !validation.isNull(this.addressList);
-      // console.log('state all ' + JSON.stringify(user.state));
+      console.log(
+        'state all ' +
+          JSON.stringify(user.state) +
+          '토큰' +
+          this.user_token_get,
+      );
 
       if (check.check_login() && !this.is_addr_added) {
         axios({
