@@ -25,6 +25,9 @@ DROP TABLE IF EXISTS `ordergroup`;
 CREATE TABLE `ordergroup` (
   `id` int NOT NULL AUTO_INCREMENT,
   `address_id` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `delivery_code` varchar(45) COLLATE utf8mb3_bin DEFAULT '04',
+  `delivery_invoice` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+   `user_id` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;

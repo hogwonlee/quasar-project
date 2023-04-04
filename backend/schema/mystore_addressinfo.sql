@@ -33,6 +33,8 @@ CREATE TABLE `addressinfo` (
   `address2` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `address_tag` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `address3` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `address_active` tinyint DEFAULT '1',
+
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;

@@ -60,15 +60,24 @@ const actions = {
     // console.log('login return 값: ' + commit('login', user));
     commit('logout');
   },
+  updateAction({commit}, changeuserinfo) {
+    // console.log('userInfo액션에서 ' + typeof user);
+    // console.log('userInfo액션에서 출력' + user);
+    // console.log('userInfo액션에서 접근' + user.user_id);
+    // console.log('login return 값: ' + commit('login', user));
+    commit('update', changeuserinfo);
+  },
 };
 
 const mutations = {
   logout(state) {
-    state.USER.USER_ID = '';
-    state.USER.USER_NAME = '';
-    state.USER.USER_VERIFY = '';
-    state.USER.USER_PHONE = '';
-    state.USER.USER_TOKEN = '';
+    state.USER = {
+      USER_ID: '',
+      USER_NAME: '',
+      USER_VERIFY: '',
+      USER_TOKEN: '',
+      USER_PHONE: '',
+    };
     Cookie.remove('token');
     Cookie.remove('user');
     Cookie.remove('verify');
@@ -102,6 +111,12 @@ const mutations = {
     // Cookie.set('user', data.user_name);
     // state.USER_TOKEN = Cookie.get('token');
     // return data.token;
+  },
+  update(state, data) {
+    console.log('user info Update 이전' + JSON.stringify(state.USER));
+    state.USER.USER_NAME = data.user_name;
+    state.USER.USER_PHONE = data.user_phone;
+    console.log('user info Update 이후' + JSON.stringify(state));
   },
 };
 

@@ -42,8 +42,8 @@
           <q-btn
             label="비밀번호 변경"
             color="primary"
-            v-close-popup
             @click="this.changePasswordWindow = true"
+            v-close-popup
           ></q-btn>
         </div>
       </q-form>
@@ -61,6 +61,7 @@
 <script>
   import {ref} from 'vue';
   import axios from 'axios';
+  import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
   import user from 'src/store/user/userInfo';
   import ChangePassword from './ChangePassword.vue';
@@ -69,46 +70,59 @@
     components: {
       ChangePassword,
     },
-    setup() {
-      var userId = ref(null);
-      var userNickname = ref(null);
-      var userPhone = ref(null);
-      var changePasswordWindow = ref(false);
-
+    data() {
       return {
-        userId: user.getters.getMyId,
-        userNickname: user.getters.getMyName,
-        userPhone: user.getters.getMyPhone,
-        changePasswordWindow,
-
-        onSubmit() {
-          const userData = {
-            user_id: userId.value,
-            user_name: userNickname.value,
-            user_phone: userPhone.value,
-          };
-
-          //회원가입 등록 요청 보내기
-          axios({
-            url: 'http://localhost:3001/changeuserinfo',
-            method: 'POST',
-            headers: {
-              'Access-Control-Allow-Headers': '*',
-              'Content-Type': 'application/json',
-              authorization: user.state.USER_TOKEN,
-            },
-
-            data: userData,
-          })
-            .then(alert.confirm('알림', '정보 변경 완료했습니다.'))
-            .catch(res => console.log('에러: ' + res));
-        },
-
-        onReset() {
-          userNickname.value = null;
-          userPhone.value = null;
-        },
+        userId: '',
+        userNickname: '',
+        userPhone: '',
+        changePasswordWindow: ref(false),
       };
+    },
+    computed: {
+      ...mapState({
+        user: state => state.all,
+      }),
+      user_id_get: user.getters.getMyId,
+      user_name_get: user.getters.getMyName,
+      user_phone_get: user.getters.getMyPhone,
+    },
+    mounted() {
+      this.onReset();
+    },
+    methods: {
+      onSubmit() {
+        const userData = {
+          user_id: this.userId,
+          user_name: this.userNickname,
+          user_phone: this.userPhone,
+        };
+
+        //회원가입 등록 요청 보내기
+        axios({
+          url: 'http://localhost:3001/changeuserinfo',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: user.state.USER_TOKEN,
+          },
+
+          data: userData,
+        })
+          .then(res => {
+            // user vuex 내용 변경
+            console.log(JSON.stringify(res));
+            user.dispatch('updateAction', userData);
+            alert.confirm('알림', '정보 변경 완료했습니다.');
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+
+      onReset() {
+        this.userId = this.user_id_get;
+        this.userNickname = this.user_name_get;
+        this.userPhone = this.user_phone_get;
+      },
     },
   };
 </script>

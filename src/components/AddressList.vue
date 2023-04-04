@@ -17,13 +17,20 @@
             unchecked-icon="panorama_fish_eye"
             label="배송지로 선택됨"
           />
-          <q-btn
-            v-if="!addr.is_default"
-            color="primary"
-            class="absolute-top-right q-ma-md"
-            label="이 배송지로 변경"
-            @click="confirm(addr.address_tag, addr.address_id)"
-          ></q-btn>
+          <div class="absolute-top-right q-ma-md">
+            <q-btn
+              v-if="!addr.is_default"
+              color="primary"
+              label="이 배송지로 변경"
+              @click="confirm_change_default(addr.address_tag, addr.address_id)"
+            ></q-btn>
+            <q-btn
+              v-if="!addr.is_default"
+              color="negative"
+              label="삭제"
+              @click="confirm_delete(addr.address_tag, addr.address_id)"
+            ></q-btn>
+          </div>
           <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div>
           <div class="text-subtitle2">수령인: {{ addr.recipient }}</div>
           <!-- <div class="text-h6">배송지 ID: {{ addr.address_id }}</div> -->
@@ -122,7 +129,9 @@
           .then(res => {
             res.data.results.forEach(addr => {
               console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
-              address.dispatch('addAddressAction', addr);
+              if (addr.address_active) {
+                address.dispatch('addAddressAction', addr);
+              }
             });
           })
           .catch(res => {
@@ -152,9 +161,9 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: user.state.USER_TOKEN,
+            authorization: this.user_token_get,
           },
-          data: {user_id: user.state.USER_ID, address_id: address_id},
+          data: {user_id: this.user_name_get, address_id: address_id},
         })
           .then(res => {
             address.dispatch('emptyAddressAction');
@@ -167,10 +176,33 @@
             console.log('에러:' + res);
           });
       },
+      delete_address(address_id) {
+        axios({
+          url: 'http://localhost:3001/deleteAddress',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user_token_get,
+          },
+          data: {user_id: this.user_id_get, address_id: address_id},
+        })
+          .then(res => {
+            console.log(JSON.stringify(res));
+            var deleteIndex = this.addressList.findIndex(
+              ele => ele.address_id === address_id,
+            );
+            console.log('찾은 주소 배열 인덱스 값: ' + deleteIndex);
+            address.dispatch('deleteAddressAction', deleteIndex);
+          })
+          .catch(res => {
+            console.log('에러:' + res);
+          });
+      },
     },
     setup() {
       const $q = useQuasar();
-      function confirm(address_tag, address_id) {
+      function confirm_change_default(address_tag, address_id) {
         $q.dialog({
           title: 'Confirm',
           message: '이 배송지로 변경하시겠습니까? (' + address_tag + ')',
@@ -180,8 +212,19 @@
           this.change_default_address(address_id);
         });
       }
+      function confirm_delete(address_tag, address_id) {
+        $q.dialog({
+          title: 'Confirm',
+          message: '이 배송지로 변경하시겠습니까? (' + address_tag + ')',
+          cancel: true,
+          persistent: false,
+        }).onOk(() => {
+          this.delete_address(address_id);
+        });
+      }
       return {
-        confirm,
+        confirm_delete,
+        confirm_change_default,
         shape: ref('line'),
       };
     },

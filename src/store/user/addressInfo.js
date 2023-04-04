@@ -16,6 +16,9 @@ const actions = {
   emptyAddressAction({commit}) {
     commit('setAddressItems', {items: []});
   },
+  deleteAddressAction({commit}, index) {
+    commit('deleteAddressFromState', index);
+  },
 };
 
 const mutations = {
@@ -32,6 +35,11 @@ const mutations = {
       is_default: address.is_default,
       user_id: address.user_id,
     });
+    // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
+  },
+
+  deleteAddressFromState(state, index) {
+    state.items.splice(index, 1);
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
   setAddressItems(state, {items}) {

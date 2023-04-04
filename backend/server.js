@@ -171,7 +171,7 @@ app.post('/changeuserinfo', (req, res) => {
         console.log('비밀번호 확인:' + err);
         res.status(400).send({msg: 'error', content: err});
       } else {
-        res.status(200).send({msg: 'success'});
+        res.status(200).send({results});
       }
     },
   );
@@ -357,6 +357,34 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
           });
         } else {
           console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/deleteAddress', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('deleteAddress 에러 발생: ' + err);
+      } else {
+        // console.log('디코디드: ' + decoded.USER_ID);
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend_delete =
+            'UPDATE ADDRESSINFO SET address_active = 0 WHERE id = ?';
+          const body = req.body;
+          const param = body.address_id;
+          db.query(sqlCommend_delete, param, (err, results, fields) => {
+            if (err) {
+              console.log('배송 주소 기본 설정 초기화:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              res.status(200).send({msg: 'success'});
+            }
+          });
         }
       }
     });
