@@ -31,6 +31,17 @@
         <q-input
           filled
           v-model="userPw"
+          label="기존 비밀번호"
+          hint="(필수)기존 비밀번호를 입력하세요"
+          lazy-rules
+          :rules="[
+            val => (val && val.length > 0) || '(필수)비밀번호를 입력하세요',
+          ]"
+        />
+
+        <q-input
+          filled
+          v-model="newPw"
           label="비밀번호"
           hint="(필수)비밀번호를 입력하세요"
           lazy-rules
@@ -41,7 +52,7 @@
 
         <q-input
           filled
-          v-model="userPwCheck"
+          v-model="newPwCheck"
           label="비밀번호 일치확인"
           hint="(필수)비밀번호를 다시 한번 입력하세요"
           lazy-rules
@@ -75,13 +86,15 @@
       var userId = ref(null);
       var userNickname = ref(null);
       var userPw = ref(null);
-      var userPwCheck = ref(null);
+      var newPw = ref(null);
+      var newPwCheck = ref(null);
 
       return {
         userId: user.getters.getMyId,
         userNickname: user.getters.getMyName,
         userPw,
-        userPwCheck,
+        newPw,
+        newPwCheck,
 
         onSubmit() {
           const userData = {

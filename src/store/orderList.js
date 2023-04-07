@@ -2,33 +2,53 @@ import Vuex from 'vuex';
 
 const state = {
   items: [],
+  status: '',
 };
 const getters = {
-  // orderProducts: (state, getters, rootState) => {
-  //   return state.items.map(({product_id, quantity}) => {
-  //     const product = rootState.products.all.find(
-  //       product => product.id === product_id,
-  //     );
-  //     return {
-  //       product_id: product.id,
-  //       productImg: product.productImg,
-  //       title: product.title,
-  //       price: product.price,
-  //       quantity,
-  //     };
-  //   });
-  // },
+  getOrderGroupList: state => () => {
+    return state.items;
+  },
 };
 
 const actions = {
-  setOrder({commit}, products) {
-    commit('cartItemToOrder', {products});
+  // setOrder({commit}, products) {
+  //   commit('cartItemToOrder', {products});
+  // },
+  pushOrderAction({commit}, orderGroup) {
+    commit('pushOrderGroupToState', {orderGroup});
+  },
+  setStatusAction({commit}, status) {
+    commit('setStatus', status);
+  },
+  setEmptyAction({commit}) {
+    commit('setOrderGroup', {items: []});
   },
 };
 
 const mutations = {
-  cartItemToOrder(state, {items}) {
+  pushOrderGroupToState(state, {orderGroup}) {
+    state.items.push({
+      orderGroup_id: orderGroup.id,
+      address_id: orderGroup.address_id,
+      delivery_code: orderGroup.delivery_code,
+      delivery_invoice: orderGroup.delivery_invoice,
+      order_date: orderGroup.order_date,
+      order_time: orderGroup.order_time,
+      user_id: orderGroup.user_id,
+    });
+    state.status = 'push';
+    // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
+  },
+  // cartItemToOrder(state, {items}) {
+  //   state.items = items;
+  //   state.status = 'new Order';
+  // },
+  setOrderGroup(state, {items}) {
     state.items = items;
+    state.status = 'reset OrderGroup';
+  },
+  setStatus(state, status) {
+    state.status = status;
   },
 };
 

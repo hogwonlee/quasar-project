@@ -111,6 +111,10 @@
       ...mapState({
         user: state => state.all,
       }),
+      user_id_get: user.getters.getMyId,
+      user_token_get: user.getters.getMyToken,
+      user_name_get: user.getters.getMyName,
+      // addressList: address.getters.getAddressList,
     },
     mounted() {
       this.sample2_execDaumPostcode();
@@ -127,7 +131,7 @@
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
-            user_id: user.state.USER_ID,
+            user_id: this.user_id_get,
             is_default: this.cheked,
           };
 
@@ -138,18 +142,24 @@
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
-              authorization: user.state.USER_TOKEN,
+              authorization: this.user_token_get,
             },
 
             data: addressData,
           })
             .then(res => {
+              // console.log(
+              //   // 응답값은 'success' & 'results'
+              //   '주소 등록 응답값: ' + JSON.stringify(res.data.results),
+              // );
+              var insertAddress = addressData;
+              insertAddress.address_id = res.data.results.insertId;
               console.log(
                 // 응답값은 'success' 변경함.
-                '주소 등록 응답값: ' + JSON.stringify(res.data.results),
+                '주소 등록 응답값: ' + JSON.stringify(insertAddress),
               );
+              address.dispatch('addAddressAction', insertAddress);
               alert.confirm('알림', '주소 등록이 완료되었습니다.');
-              // address.dispatch('addAddressAction', res.data.results);
             })
             .catch(res => console.log('에러: ' + res));
         } else {

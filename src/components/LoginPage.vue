@@ -109,6 +109,7 @@
             axios
               .post('http://localhost:3001/login', userData)
               .then(async response => {
+                console.log(JSON.stringify(response));
                 var json = response.data;
                 json.results.forEach(addr => {
                   address.dispatch('addAddressAction', addr);

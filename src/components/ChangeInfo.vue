@@ -39,12 +39,6 @@
           <q-btn label="변경하기" type="submit" color="primary" v-close-popup />
           <q-btn label="취소" color="primary" v-close-popup />
           <q-btn label="다시 입력" type="reset" color="primary" />
-          <q-btn
-            label="비밀번호 변경"
-            color="primary"
-            @click="this.changePasswordWindow = true"
-            v-close-popup
-          ></q-btn>
         </div>
       </q-form>
     </q-card>

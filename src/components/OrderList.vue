@@ -84,8 +84,10 @@
       <q-btn
         style="background: slateblue; color: white"
         :disabled="!cart.length"
-        @click="selectPaymentmethod(total, shipment)"
+        @click="set_order(this.address_selected.address_id)"
       >
+        <!-- @click="selectPaymentmethod(total, shipment)" -->
+
         결제하기
       </q-btn>
 
@@ -144,6 +146,7 @@
   import user from 'src/store/user/userInfo';
   import address from 'src/store/user/addressInfo';
   import cart from 'src/store/cartList';
+  import order from 'src/store/orderList';
   import axios from 'axios';
   import validation from 'src/util/data/validation';
   import {Cookies, useQuasar} from 'quasar';
@@ -200,6 +203,8 @@
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
+      user_id_get: user.getters.getMyId,
+      user_token_get: user.getters.getMyToken,
       addressList: address.getters.getAddressList,
     },
     watch: {
@@ -243,45 +248,62 @@
 
       set_order(address_id) {
         // 구매 요청 보내기 = 서버 DB에 주문 데이터 넣기
+        console.log('주문 보내기 주소아이디: ' + address_id);
         axios({
-          url: 'http://localhost:3001/orderGroupResister',
+          url: 'http://localhost:3001/orderGroupRegister',
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: user.state.USER_TOKEN,
+            authorization: this.user_token_get,
           },
 
-          data: {address_id: address_id},
+          data: {user_id: this.user_id_get, address_id: address_id},
         })
           .then(res => {
-            // console.log(
-            //   '주문 등록 응답값: ' + JSON.stringify(res.data.results),
-            // );
+            console.log(
+              '주문 등록 응답값: ' + JSON.stringify(res.data.results),
+            );
             const orderData = JSON.parse(JSON.stringify(this.cartItems));
+
             orderData.forEach(data => (data['order_group'] = res.data.results));
 
-            // console.log(JSON.stringify(orderData));
+            console.log(JSON.stringify(orderData));
             this.set_order_with_address(orderData);
           })
           .catch(res => console.log('에러: ' + res));
       },
       set_order_with_address(orderData) {
         axios({
-          url: 'http://localhost:3001/orderResister',
+          url: 'http://localhost:3001/orderRegister',
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: user.state.USER_TOKEN,
+            authorization: this.user_token_get,
           },
-
           data: orderData,
         })
           .then(res => {
-            console.log(
-              '주문 등록 응답값: ' + JSON.stringify(res.data.results),
-            );
+            this.select_order_group();
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+      select_order_group() {
+        axios({
+          url: 'http://localhost:3001/deliveryInfo',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user_token_get,
+          },
+
+          data: {user_id: this.user_id_get},
+        })
+          .then(res => {
+            console.log(JSON.stringify(res.data.results));
+            order.dispatch('pushOrderAction', res.data.results);
           })
           .catch(res => console.log('에러: ' + res));
       },

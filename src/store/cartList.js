@@ -1,6 +1,4 @@
 import shop from './storage';
-import order from 'src/store/orderList';
-import user from './user/userInfo';
 
 // initial state
 // shape: [{ id, quantity }]
@@ -49,7 +47,7 @@ const actions = {
     commit('setCartItems', {items: []});
     try {
       await shop.buyProducts();
-      order.dispatch('setOrder', {items: savedCartItems});
+      // order.dispatch('setOrder', {items: savedCartItems});
       commit('setCheckoutStatus', 'successful');
     } catch (e) {
       console.error(e);

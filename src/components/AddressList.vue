@@ -105,14 +105,14 @@
     created() {},
     mounted() {
       this.is_addr_added = !validation.isNull(this.addressList);
-      console.log(
-        'state all ' +
-          JSON.stringify(user.state) +
-          '토큰' +
-          this.user_token_get,
-      );
+      // console.log(
+      //   'state all ' +
+      //     JSON.stringify(user.state) +
+      //     '토큰' +
+      //     this.user_token_get,
+      // );
 
-      if (check.check_login() && !this.is_addr_added) {
+      if (check.check_login() && !validation.isNull(address.state.status)) {
         axios({
           url: 'http://localhost:3001/addressInfo',
           method: 'POST',
@@ -127,12 +127,18 @@
           },
         })
           .then(res => {
+            address.dispatch('emptyAddressAction');
+
             res.data.results.forEach(addr => {
-              console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
-              if (addr.address_active) {
+              // console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
+              if (addr.address_active === 1) {
+                // console.log('주소 활성화 확인: ' + addr.address_active);
+
                 address.dispatch('addAddressAction', addr);
               }
             });
+            address.dispatch('setStatusAction', null);
+            // console.log(address.state.status);
           })
           .catch(res => {
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.

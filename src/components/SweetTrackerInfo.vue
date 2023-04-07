@@ -196,9 +196,15 @@
     },
     methods: {
       setdata() {
+        // this.t_key = 'XPrmI9vGFcc8x97uZrpEPg';
+        // this.t_code = '04'; // cj대한통운
+        // this.t_invoice = '655123092251';
         this.t_key = 'XPrmI9vGFcc8x97uZrpEPg';
         this.t_code = '04'; // cj대한통운
-        this.t_invoice = '655123092251';
+        this.t_invoice = '';
+        if (validation.isNull(this.t_invoice)) {
+          this.t_invoice = '아직 송장이 등록되지 않았습니다.';
+        }
 
         const data = {
           t_key: this.t_key,

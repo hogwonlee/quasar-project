@@ -12,7 +12,7 @@ let jwtObj = {
   secret: 'mysecrettoken', // 원하는 시크릿 키
   option: {
     algorithm: 'HS256', // 해싱 알고리즘
-    expiresIn: '30m', // 토큰 유효 기간 (테스트 기간 5시간으로 변경)
+    expiresIn: '300m', // 토큰 유효 기간 (테스트 기간 5시간으로 변경)
     issuer: 'issuer', // 발행자
   },
 };
@@ -289,7 +289,7 @@ app.post('/addressRegister', (req, res) => {
               // var insertId = results.insertId;
               // results = {id: insertId, ...param};
               // console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
-              res.status(200).send({msg: 'success'});
+              res.status(200).send({msg: 'success', results});
             }
           });
         } else {
@@ -393,30 +393,35 @@ app.post('/deleteAddress', (req, res) => {
   }
 });
 
-app.post('/orderGroupResister', (req, res) => {
+app.post('/orderGroupRegister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('orderGroupResister 에러 발생: ' + err);
+        console.log('orderGroupRegister 에러 발생: ' + err);
       } else {
         // if (decoded.USER_ID == req.body.user_id) {
-        const sqlCommend = 'INSERT INTO ORDERGROUP SET ?';
+        const sqlCommend =
+          'INSERT INTO ORDERGROUP SET address_id = ? AND user_id = ?';
         const body = req.body;
         console.log(body);
-        const param = body;
+        const param = {address_id: body.address_id, user_id: body.user_id};
 
-        db.query(sqlCommend, param, (err, results, fields) => {
-          if (err) {
-            console.log('주문 추가 요청:' + err);
-            res.status(400).send({msg: 'error', content: err});
-          } else {
-            // results = param;
-            var results = results.insertId;
+        db.query(
+          sqlCommend,
+          [param.address_id, param.user_id],
+          (err, results, fields) => {
+            if (err) {
+              console.log('주문 추가 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              // results = param;
+              var results = results.insertId;
 
-            console.log('주문 등록 성공 결과값:' + results);
-            res.status(200).send({results});
-          }
-        });
+              console.log('주문 등록 성공 결과값:' + results);
+              res.status(200).send({results});
+            }
+          },
+        );
         // } else {
         //   console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
         // }
@@ -427,16 +432,17 @@ app.post('/orderGroupResister', (req, res) => {
   }
 });
 
-app.post('/orderResister', (req, res) => {
+app.post('/orderRegister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        console.log('orderResister 에러 발생: ' + err);
+        console.log('orderRegister 에러 발생: ' + err);
       } else {
         // if (decoded.USER_ID == req.body.user_id) {
-        const sqlCommend = 'INSERT INTO ORDERINFO SET ?';
+        const sqlCommend =
+          'INSERT INTO ORDERINFO (product_id, quantity,order_group) VALUES ?';
         const body = req.body;
-        console.log(body);
+        // console.log('주문등록: ' + JSON.stringify(body));
         const param = body;
 
         db.query(sqlCommend, param, (err, results, fields) => {
@@ -444,7 +450,7 @@ app.post('/orderResister', (req, res) => {
             console.log('주문 추가 요청:' + err);
             res.status(400).send({msg: 'error', content: err});
           } else {
-            console.log('주문 등록 성공 결과값:' + results);
+            console.log('주문 등록 성공 결과값:' + JSON.stringify(results));
             res.status(200).send({results});
           }
         });
@@ -485,4 +491,22 @@ app.post('/addressInfo', (req, res) => {
   } else {
     console.log('요청 헤더에 승인 정보가 없음.');
   }
+});
+
+app.post('/deliveryInfo', (req, res) => {
+  const sqlCommend =
+    'SELECT * FROM ORDERGROUP JOIN ADDRESSINFO ON ORDERGROUP.address_id = ADDRESSINFO.id WHERE ORDERGROUP.user_id = ? ';
+  // 'SELECT * FROM ORDERGROUP LEFT OUTER JOIN ADDRESSINFO ON ORDERGROUP.address_id = ADDRESSINFO.id WHERE ORDERGROUP.user_id = ?';
+
+  //AND ORDERGROUP.order_date > DATE_SUB(NOW(), INTERVAL 14 DAY)
+  const body = req.body;
+  const param = body.user_id;
+  // console.log(sqlCommend + param);
+  db.query(sqlCommend, param, (err, results, fields) => {
+    if (results.length <= 0) {
+      res.status(400).send({msg: 'error', content: err});
+    } else {
+      res.status(200).send({results});
+    }
+  });
 });

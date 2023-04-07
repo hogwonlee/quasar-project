@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 
 const state = {
   items: [],
+  status: '',
 };
 const getters = {
   getAddressList: state => () => {
@@ -19,6 +20,9 @@ const actions = {
   deleteAddressAction({commit}, index) {
     commit('deleteAddressFromState', index);
   },
+  setStatusAction({commit}, status) {
+    commit('setStatus', status);
+  },
 };
 
 const mutations = {
@@ -35,15 +39,20 @@ const mutations = {
       is_default: address.is_default,
       user_id: address.user_id,
     });
+    state.status = 'push';
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
 
   deleteAddressFromState(state, index) {
     state.items.splice(index, 1);
+    state.status = 'delete';
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
   setAddressItems(state, {items}) {
     state.items = items;
+  },
+  setStatus(state, status) {
+    state.status = status;
   },
 };
 

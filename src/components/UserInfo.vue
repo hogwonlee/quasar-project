@@ -3,6 +3,11 @@
     <section v-if="check_login()">
       <div class="text-h3">내 정보</div>
       <q-btn label="내 정보 변경" @click="this.changeInfoDialog = true"></q-btn>
+      <q-btn
+        label="비밀번호 변경"
+        @click="this.changePasswordDialog = true"
+      ></q-btn>
+
       <div class="text-h6">이름: {{ user_name_get }}</div>
       <div class="text-h6">전화번호: {{ user_phone_get }}</div>
       <AddressList />
@@ -65,6 +70,13 @@
       transition-hide="scale"
       ><ChangeInfo
     /></q-dialog>
+    <q-dialog
+      v-model="changePasswordDialog"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><ChangePassword
+    /></q-dialog>
   </q-page>
 </template>
 
@@ -75,6 +87,7 @@
   import LoginPage from 'components/LoginPage.vue';
   import AddressList from 'components/AddressList.vue';
   import ChangeInfo from 'components/ChangeInfo.vue';
+  import ChangePassword from 'components/ChangePassword.vue';
   import check from 'src/util/modules/check';
   import axios from 'axios';
 
@@ -85,6 +98,7 @@
       AddressList,
 
       ChangeInfo,
+      ChangePassword,
     },
     data: function () {
       return {
@@ -92,6 +106,7 @@
         persistent: ref(false),
         checkPasswordDialog: ref(false),
         changeInfoDialog: ref(false),
+        changePasswordDialog: ref(false),
       };
     },
     computed: {
