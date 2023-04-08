@@ -4,8 +4,8 @@
   </q-item-section> -->
   <div lang="zh-CN">
     <div @click="card = true">
-      <q-img :src="productImg" class="rounded-borders">
-        <div class="absolute-bottom text-h6 text-center">
+      <q-img :src="img" class="rounded-borders">
+        <div class="absolute-bottom text-body3 text-center">
           {{ price }} 원/韩元
         </div>
       </q-img>
@@ -22,7 +22,7 @@
           > -->
           <div class="col-4">
             <q-img
-              :src="productImg"
+              :src="img"
               style="height: 140px; max-width: 140px"
               class="rounded-borders"
             />
@@ -51,7 +51,7 @@
                   glossy
                   color="negative"
                   icon="remove_shopping_cart"
-                  @click="removefromCart(this.title)"
+                  @click="removefromCart(this.product_name)"
                   ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
                 >
                 <q-input
@@ -71,7 +71,7 @@
                   glossy
                   color="primary"
                   icon="add_shopping_cart"
-                  @click="sendToCart(this.title)"
+                  @click="sendToCart(this.product_name)"
                   ><q-badge rounded color="orange" floating>1</q-badge></q-btn
                 >
               </q-card-section>
@@ -79,7 +79,7 @@
           </div>
           <div class="col-4">
             <q-card-section>
-              <div class="text-h6 text-black">{{ title }}</div>
+              <div class="text-h6 text-black">{{ product_name }}</div>
               <div class="text-h6 text-black" icon="finance_chip">
                 {{ price }} 韩元
               </div>
@@ -125,11 +125,11 @@
       orderCount: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
     },
     props: {
-      productImg: {
+      img: {
         type: String,
         required: true,
       },
-      title: {
+      product_name: {
         type: String,
         default: '',
       },

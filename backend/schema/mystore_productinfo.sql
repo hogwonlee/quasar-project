@@ -23,13 +23,16 @@ DROP TABLE IF EXISTS `productinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `productinfo` (
-  `id` int NOT NULL,
-  `productName` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
-  `price` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
-  `img` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `price` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `img` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `tag` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `category` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `keyword` varchar(45) COLLATE gb2312_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=gb2312 COLLATE=gb2312_bin
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

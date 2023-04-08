@@ -27,11 +27,14 @@
         @sendOrderItem="addProductToCart(product)"
         class="col-3"
         style="padding: 10px"
-        v-for="product in products.filter(c => c.title.includes(this.keyword))"
+        v-for="product in products"
         :key="product.id"
         v-bind="product"
         v-bind:item-count="product.quantity"
       />
+      <!-- .filter(c =>
+          c.product_name.includes(this.keyword),
+        ) -->
     </div>
   </div>
 </template>
@@ -41,6 +44,8 @@
   import ProductInfo from 'components/ProductInfo.vue';
   import {ref} from 'vue';
   import {mapState, mapActions} from 'vuex';
+  import axios from 'axios';
+  import product from 'src/store/productList';
 
   export default defineComponent({
     name: 'ProductList',
@@ -57,7 +62,24 @@
       }),
     },
     created() {
-      this.$store.dispatch('products/getAllProducts');
+      // this.$store.dispatch('products/getAllProducts');
+      axios({
+        url: 'http://localhost:3001/productList',
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Headers': '*',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => {
+          // console.log(res.data.results);
+          this.$store.dispatch('products/emptyStoreAction');
+          res.data.results.map(element => {
+            // console.log(element);
+            this.$store.dispatch('products/getProductAction', element);
+          });
+        })
+        .catch();
     },
     setup() {
       return {

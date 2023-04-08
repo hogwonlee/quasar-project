@@ -510,3 +510,14 @@ app.post('/deliveryInfo', (req, res) => {
     }
   });
 });
+
+app.get('/productList', (req, res) => {
+  const sqlCommend = 'SELECT * FROM PRODUCTINFO ';
+  db.query(sqlCommend, (err, results, fields) => {
+    if (results.length <= 0) {
+      res.status(400).send({msg: 'error', content: err});
+    } else {
+      res.status(200).send({results});
+    }
+  });
+});
