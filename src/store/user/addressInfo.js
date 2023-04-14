@@ -20,6 +20,9 @@ const actions = {
   deleteAddressAction({commit}, index) {
     commit('deleteAddressFromState', index);
   },
+  updateAddressAction({commit}, address) {
+    commit('updateAddress', {address});
+  },
   setStatusAction({commit}, status) {
     commit('setStatus', status);
   },
@@ -28,7 +31,7 @@ const actions = {
 const mutations = {
   pushAddressToState(state, {address}) {
     state.items.push({
-      address_id: address.id,
+      address_id: address.address_id,
       address_tag: address.address_tag,
       recipient: address.recipient,
       recipient_phone: address.recipient_phone,
@@ -41,6 +44,24 @@ const mutations = {
     });
     state.status = 'push';
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
+  },
+
+  updateAddress(state, {address}) {
+    state.items.map(item =>
+      item.address_id == address.address_id
+        ? {
+            // ...item,
+            address_tag: address.address_tag,
+            recipient: address.recipient,
+            recipient_phone: address.recipient_phone,
+            post_code: address.post_code,
+            address1: address.address1,
+            address2: address.address2,
+            address3: address.address3,
+          }
+        : item,
+    );
+    state.status = 'up date';
   },
 
   deleteAddressFromState(state, index) {

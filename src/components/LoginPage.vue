@@ -24,7 +24,7 @@
           :rules="[val => (val && val.length > 0) || '필수 입력']"
         />
 
-        <div>
+        <div class="q-gutter-sm q-pa-sm">
           <q-btn
             label="로그인"
             type="submit"
@@ -32,13 +32,7 @@
             v-close-popup
             @click="serverLogin"
           />
-          <q-btn
-            label="다시 입력"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
+          <q-btn label="다시 입력" type="reset" color="primary" />
           <q-btn
             label="회원가입"
             @click="this.signUpWindow = true"
@@ -67,10 +61,9 @@
   import address from 'src/store/user/addressInfo';
   import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
-  // import {data} from 'browserslist';
-  // import {url} from 'inspector';
 
   export default {
+    emits: ['serverLogin'],
     components: {
       SignUpPage,
     },
@@ -108,15 +101,20 @@
 
             axios
               .post('http://localhost:3001/login', userData)
-              .then(async response => {
-                console.log(JSON.stringify(response));
+              .then(response => {
+                // console.log(JSON.stringify(response));
                 var json = response.data;
                 json.results.forEach(addr => {
-                  address.dispatch('addAddressAction', addr);
+                  if (addr.address_active == 1)
+                    address.dispatch('addAddressAction', addr);
                 });
-                user
-                  .dispatch('loginAction', json)
-                  .then(() => alert.confirm('알림', '로그인 되었습니다.'));
+                user.dispatch('loginAction', json);
+                // .then(
+                //   alert.confirm(
+                //     '알림',
+                //     user.state.status + '로그인 되었습니다.',
+                //   ),
+                // );
               })
               .catch(response => console.log('에러: ' + response));
           } else {

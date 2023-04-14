@@ -2,7 +2,7 @@ import Vuex from 'vuex';
 
 const state = {
   items: [],
-  status: '',
+  status: 'up data',
 };
 const getters = {
   getOrderGroupList: state => () => {

@@ -33,9 +33,8 @@
               <q-input
                 readonly
                 disable
-                stack-label
                 outlined
-                label="주문 금액"
+                input-class="text-right"
                 :model-value="price * this.orderCount"
               >
                 <template v-slot:prepend>
@@ -60,9 +59,8 @@
                   outlined
                   readonly
                   disable
-                  stack-label
-                  label="수량"
                   v-model="this.orderCount"
+                  input-class="text-right"
                 ></q-input>
                 <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
                 <q-btn

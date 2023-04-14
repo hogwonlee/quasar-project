@@ -1,60 +1,113 @@
 <template>
-  <div class="q-pa-md">
-    <div v-if="this.is_addr_added">
-      <q-card class="my-card">
-        <q-card-section
-          v-for="addr in addressList"
-          :key="addr.id"
-          v-bind="addr"
-          :class="addr.is_default ? 'bg-info' : 'bg-grey-1'"
-        >
-          <q-radio
-            v-if="addr.is_default"
-            v-model="shape"
-            :val="check_default_address(addr)"
-            checked-icon="task_alt"
-            class="absolute-top-right q-ma-md"
-            unchecked-icon="panorama_fish_eye"
-            label="배송지로 선택됨"
-          />
-          <div class="absolute-top-right q-ma-md">
-            <q-btn
-              v-if="!addr.is_default"
-              color="primary"
-              label="이 배송지로 변경"
-              @click="confirm_change_default(addr.address_tag, addr.address_id)"
-            ></q-btn>
-            <q-btn
-              v-if="!addr.is_default"
-              color="negative"
-              label="삭제"
-              @click="confirm_delete(addr.address_tag, addr.address_id)"
-            ></q-btn>
-          </div>
-          <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div>
-          <div class="text-subtitle2">수령인: {{ addr.recipient }}</div>
-          <!-- <div class="text-h6">배송지 ID: {{ addr.address_id }}</div> -->
-          <div class="text-subtitle2">전화번호: {{ addr.recipient_phone }}</div>
-          <div class="text-subtitle2">우편번호: {{ addr.post_code }}</div>
-          <div class="text-subtitle2">
-            주소:
-            {{ addr.address1 + ' ' + addr.address2 + ' ' + addr.address3 }}
-          </div>
-          <!-- <div class="text-subtitle2">기본 배송지: {{ addr.is_default }}</div> -->
-          <!-- <q-separator color="primary"></q-separator> -->
-        </q-card-section>
+  <div>
+    <div :v-model="is_addr_added">
+      <q-card
+        class="my-card"
+        :class="addr.is_default ? 'bg-info' : 'bg-grey-3'"
+        v-for="addr in addressList"
+        :key="addr.address_id"
+        v-bind="addr"
+      >
+        <div class="q-gutter-sm q-ma-xs">
+          <q-card-section>
+            <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
+              <q-radio
+                v-if="addr.is_default"
+                v-model="shape"
+                :val="check_default_address(addr)"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                label="배송지로 선택됨"
+              />
+              <q-btn
+                v-if="!addr.is_default"
+                color="primary"
+                label="이 배송지로 변경"
+                @click="
+                  confirm_change_default(addr.address_tag, addr.address_id)
+                "
+              ></q-btn>
+              <q-btn
+                color="warning"
+                label="주소 정보 변경"
+                @click="confirm_change_address_info(addr.address_tag, addr)"
+              ></q-btn>
+
+              <q-btn
+                v-if="!addr.is_default"
+                color="negative"
+                label="삭제"
+                @click="confirm_delete(addr.address_tag, addr.address_id)"
+              ></q-btn>
+            </div>
+            <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div>
+            <!-- <div class="text-subtitle2">수령인: {{ addr.recipient }}</div> -->
+            <!-- <div class="text-h6">배송지 ID: {{ addr.address_id }}</div> -->
+            <!-- <q-input
+              label="배송지 이름: "
+              readonly
+              v-model:model-value="addr.address_tag"
+            >
+            </q-input> -->
+            <div class="row">
+              <q-input
+                class="col-3"
+                label="수령인: "
+                readonly
+                :model-value="addr.recipient"
+              >
+              </q-input>
+              <q-input
+                class="col-9"
+                label="전화번호: "
+                readonly
+                :model-value="addr.recipient_phone"
+                mask="(###)####-####"
+              >
+              </q-input>
+              <q-input
+                class="col-3"
+                label="우편번호: "
+                readonly
+                :model-value="addr.post_code"
+                mask="###-##"
+              >
+              </q-input>
+              <q-input
+                class="col-9"
+                label="주소: "
+                readonly
+                :model-value="
+                  addr.address1 + ' ' + addr.address2 + ' ' + addr.address3
+                "
+              >
+              </q-input>
+            </div>
+            <!-- <div class="text-subtitle2">우편번호: {{ addr.post_code }}</div>
+            <div class="text-subtitle2">
+              주소:
+              {{ addr.address1 + ' ' + addr.address2 + ' ' + addr.address3 }}
+            </div> -->
+            <!-- <div class="text-subtitle2">기본 배송지: {{ addr.is_default }}</div> -->
+            <!-- <q-separator color="primary"></q-separator> -->
+          </q-card-section>
+        </div>
       </q-card>
-    </div>
-    <div v-else>등록된 주소가 없습니다. 주소를 등록해주시기 바랍니다.</div>
-    <div class="q-pt-md row">
-      <q-btn
-        icon="add"
-        color="info"
-        class="col-12"
-        label="신규 주소 등록"
-        tag="a"
-        to="/AddressRegister"
-      ></q-btn>
+      <div class="q-py-sm row">
+        <q-btn
+          icon="add"
+          color="info"
+          class="col-12"
+          label="신규 주소 등록"
+          @click="register = true"
+        ></q-btn>
+      </div>
+      <q-dialog v-model="register">
+        <AddressRegister />
+      </q-dialog>
+      <q-dialog v-model="changeAddress">
+        <AddressInfoChange v-bind="this.change_addr" />
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -69,15 +122,20 @@
   import {Cookies, useQuasar} from 'quasar';
   import check from 'src/util/modules/check';
   import validation from 'src/util/data/validation';
+  import AddressRegister from './AddressRegister.vue';
+  import AddressInfoChange from './AddressInfoChange.vue';
 
   export default defineComponent({
     name: 'AddressList',
     data: function () {
       return {
         is_addr_added: ref(false),
+        register: ref(false),
+        changeAddress: ref(false),
+        change_addr: {},
       };
     },
-    components: {},
+    components: {AddressRegister, AddressInfoChange},
     computed: {
       ...mapState({
         address: state => state.all,
@@ -89,9 +147,6 @@
       addressList: address.getters.getAddressList,
     },
     watch: {
-      addressList: function (val) {
-        console.log(val);
-      },
       user_id_get: function (val) {
         console.log(val);
       },
@@ -104,55 +159,44 @@
     },
     created() {},
     mounted() {
-      this.is_addr_added = !validation.isNull(this.addressList);
-      // console.log(
-      //   'state all ' +
-      //     JSON.stringify(user.state) +
-      //     '토큰' +
-      //     this.user_token_get,
-      // );
-
-      if (check.check_login() && !validation.isNull(address.state.status)) {
-        axios({
-          url: 'http://localhost:3001/addressInfo',
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-            authorization: this.user_token_get,
-          },
-          data: {
-            user_id: this.user_id_get,
-            user_name: this.user_name_get,
-          },
-        })
-          .then(res => {
-            address.dispatch('emptyAddressAction');
-
-            res.data.results.forEach(addr => {
-              // console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
-              if (addr.address_active === 1) {
-                // console.log('주소 활성화 확인: ' + addr.address_active);
-
-                address.dispatch('addAddressAction', addr);
-              }
-            });
-            address.dispatch('setStatusAction', null);
-            // console.log(address.state.status);
-          })
-          .catch(res => {
-            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
-          });
-      }
+      this.reload_addr_info();
     },
     methods: {
-      // check_login() {
-      //   if (validation.isNull(Cookies.get('user'))) {
-      //     return false;
-      //   } else {
-      //     return true;
-      //   }
-      // },
+      reload_addr_info() {
+        if (check.check_login() && !validation.isNull(address.state.status)) {
+          axios({
+            url: 'http://localhost:3001/addressInfo',
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: this.user_token_get,
+            },
+            data: {
+              user_id: this.user_id_get,
+              user_name: this.user_name_get,
+            },
+          })
+            .then(res => {
+              address.dispatch('emptyAddressAction');
+
+              res.data.results.forEach(addr => {
+                // console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
+                if (addr.address_active === 1) {
+                  // console.log('주소 활성화 확인: ' + addr.address_active);
+
+                  address.dispatch('addAddressAction', addr);
+                }
+              });
+              this.is_addr_added = true;
+              address.dispatch('setStatusAction', null);
+              // console.log(address.state.status);
+            })
+            .catch(res => {
+              console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+            });
+        }
+      },
       check_default_address(addr) {
         if (addr.is_default == 1) {
           return 'line';
@@ -169,13 +213,15 @@
             'Content-Type': 'application/json',
             authorization: this.user_token_get,
           },
-          data: {user_id: this.user_name_get, address_id: address_id},
+          data: {user_id: this.user_id_get, address_id: address_id},
         })
           .then(res => {
             address.dispatch('emptyAddressAction');
             res.data.results.forEach(addr => {
               // console.log('수령인 확인: ' + addr.recipient);
-              address.dispatch('addAddressAction', addr);
+              if (addr.address_active == 1) {
+                address.dispatch('addAddressAction', addr);
+              }
             });
           })
           .catch(res => {
@@ -218,10 +264,23 @@
           this.change_default_address(address_id);
         });
       }
+      function confirm_change_address_info(address_tag, addr) {
+        $q.dialog({
+          title: 'Confirm',
+          message: '이 주소지 정보를 변경하시겠습니까? (' + address_tag + ')',
+          cancel: true,
+          persistent: false,
+        }).onOk(() => {
+          this.change_addr = addr;
+          this.changeAddress = true;
+          // console.log(address_id);
+          // this.change_address_info(address_id); //미구현
+        });
+      }
       function confirm_delete(address_tag, address_id) {
         $q.dialog({
           title: 'Confirm',
-          message: '이 배송지로 변경하시겠습니까? (' + address_tag + ')',
+          message: '이 주소를 삭제하시겠습니까? (' + address_tag + ')',
           cancel: true,
           persistent: false,
         }).onOk(() => {
@@ -231,7 +290,9 @@
       return {
         confirm_delete,
         confirm_change_default,
+        confirm_change_address_info,
         shape: ref('line'),
+        checkPasswordDialog: ref(false),
       };
     },
   });

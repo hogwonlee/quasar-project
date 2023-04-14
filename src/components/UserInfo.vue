@@ -1,32 +1,50 @@
 <template>
-  <q-page class="q-pa-xl">
-    <section v-if="check_login()">
-      <div class="text-h3">내 정보</div>
-      <q-btn label="내 정보 변경" @click="this.changeInfoDialog = true"></q-btn>
-      <q-btn
-        label="비밀번호 변경"
-        @click="this.changePasswordDialog = true"
-      ></q-btn>
+  <q-page class="q-pa-md">
+    <section v-if="user_status">
+      <!-- <div class="text-h3">내 정보</div> -->
 
-      <div class="text-h6">이름: {{ user_name_get }}</div>
-      <div class="text-h6">전화번호: {{ user_phone_get }}</div>
+      <q-card class="row q-pl-lg bg-teal-4">
+        <q-input
+          :model-value="user_name_get"
+          label="이름: "
+          readonly
+          class="col-3"
+        ></q-input>
+        <q-input
+          :model-value="user_phone_get"
+          label="전화번호: "
+          readonly
+          class="col-9"
+        ></q-input>
+
+        <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
+          <q-btn
+            color="primary"
+            label="내 정보 변경"
+            @click="this.checkPasswordDialog = true"
+          ></q-btn>
+          <q-btn
+            color="primary"
+            label="비밀번호 변경"
+            @click="this.changePasswordDialog = true"
+          ></q-btn>
+        </div>
+      </q-card>
+      <!-- <div class="text-h6">이름: {{ user_name_get }}</div>
+      <div class="text-h6">전화번호: {{ user_phone_get }}</div> -->
+
       <AddressList />
     </section>
-    <section v-else>
-      로그인 정보가 없습니다. 로그인 해주세요.
-      <q-btn
-        style="background: slateblue; color: white"
-        @click="this.persistent = true"
-        label="로그인"
-      ></q-btn>
+    <section v-else class="row justify-center vertical-center">
+      <LoginPage />
     </section>
-    <q-dialog
+    <!-- <q-dialog
       v-model="persistent"
       persistent
       transition-show="scale"
       transition-hide="scale"
       ><LoginPage
-    /></q-dialog>
+    /></q-dialog> -->
     <q-dialog
       v-model="checkPasswordDialog"
       persistent
@@ -90,13 +108,13 @@
   import ChangePassword from 'components/ChangePassword.vue';
   import check from 'src/util/modules/check';
   import axios from 'axios';
+  import alert from 'src/util/modules/alert';
 
   export default defineComponent({
     name: 'UserInfo',
     components: {
       LoginPage,
       AddressList,
-
       ChangeInfo,
       ChangePassword,
     },
@@ -110,9 +128,9 @@
       };
     },
     computed: {
-      ...mapState({
-        user: state => state.all,
-      }),
+      user_status() {
+        return user.state.status;
+      },
       user_id_get: user.getters.getMyId,
       user_name_get: user.getters.getMyName,
       user_phone_get: user.getters.getMyPhone,
@@ -126,15 +144,18 @@
       },
     },
     setup() {
-      return {};
+      function check_status() {
+        console.log('user_status' + user_status);
+      }
+      return {
+        check_status,
+      };
     },
     methods: {
       check_login() {
         return check.check_login();
       },
-      showDialog() {
-        console.log('열려라!');
-      },
+
       checkpw() {
         const userData = {
           user_id: this.user_id_get,
@@ -156,11 +177,16 @@
             if (res.status == 200) {
               // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
               this.changeInfoDialog = true;
-            } else {
-              alert.confirm('오류', '비밀번호가 틀렸습니다.');
             }
           })
-          .catch(res => console.log('에러: ' + res));
+          .catch(res => {
+            if (res.status != 200) {
+              alert.confirm(
+                '오류 / 错误',
+                '비밀번호가 올바르지 않습니다. / 密码错误',
+              );
+            }
+          });
       },
     },
   });

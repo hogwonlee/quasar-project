@@ -42,13 +42,6 @@
         </div>
       </q-form>
     </q-card>
-    <q-dialog
-      v-model="changePasswordWindow"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-      ><ChangePassword
-    /></q-dialog>
   </div>
 </template>
 
@@ -58,12 +51,8 @@
   import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
   import user from 'src/store/user/userInfo';
-  import ChangePassword from './ChangePassword.vue';
 
   export default {
-    components: {
-      ChangePassword,
-    },
     data() {
       return {
         userId: '',

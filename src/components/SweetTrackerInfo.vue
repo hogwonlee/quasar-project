@@ -1,6 +1,6 @@
 <template>
-  <q-page>
-    <div class="q-pa-md bg-primary">
+  <q-page class="q-pa-md">
+    <div class="bg-primary">
       <q-chip outline color="grey-1" class="text-body3 text-grey-1"
         >운송장 번호</q-chip
       >
@@ -106,6 +106,7 @@
   import {defineComponent, ref} from 'vue';
   import axios from 'axios';
   import validation from 'src/util/data/validation';
+  import alert from 'src/util/modules/alert';
 
   export default defineComponent({
     name: 'SweetTrackerInfo',
@@ -186,6 +187,16 @@
         },
       };
     },
+    props: {
+      delivery_code: {
+        type: String,
+        default: '04',
+      },
+      delivery_invoice: {
+        type: String,
+        default: '',
+      },
+    },
     setup() {
       return {
         step: ref(1),
@@ -200,11 +211,8 @@
         // this.t_code = '04'; // cj대한통운
         // this.t_invoice = '655123092251';
         this.t_key = 'XPrmI9vGFcc8x97uZrpEPg';
-        this.t_code = '04'; // cj대한통운
-        this.t_invoice = '';
-        if (validation.isNull(this.t_invoice)) {
-          this.t_invoice = '아직 송장이 등록되지 않았습니다.';
-        }
+        this.t_code = this.delivery_code; // cj대한통운
+        this.t_invoice = this.delivery_invoice;
 
         const data = {
           t_key: this.t_key,

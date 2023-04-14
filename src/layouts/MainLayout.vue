@@ -7,7 +7,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view class="bg-teal-2" />
+      <router-view class="bg-teal-2" lang="zh-CN" />
     </q-page-container>
     <q-footer reveal elevated class="bg-primary">
       <q-toolbar>

@@ -30,8 +30,8 @@
         v-for="product in products"
         :key="product.id"
         v-bind="product"
-        v-bind:item-count="product.quantity"
       />
+      <!-- v-bind:item-count="product.quantity" -->
       <!-- .filter(c =>
           c.product_name.includes(this.keyword),
         ) -->

@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `addressinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `addressinfo` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `address_id` int NOT NULL AUTO_INCREMENT,
   `post_code` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `address1` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `is_default` tinyint DEFAULT NULL,

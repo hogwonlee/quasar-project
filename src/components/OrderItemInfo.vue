@@ -1,8 +1,8 @@
 <template>
   <div>
     <q-card class="my-card" @click="card = true">
-      <q-img :src="productImg">
-        <div class="absolute-bottom text-h6 text-center" lang="zh-CN">
+      <q-img :src="img">
+        <div class="absolute-bottom text-body5 text-center" lang="zh-CN">
           {{ this.orderCount }} 개/个
         </div>
       </q-img>
@@ -11,7 +11,7 @@
       <q-dialog v-model="card">
         <q-card class="my-card q-pa-sm" style="width: 400px">
           <q-img
-            :src="productImg"
+            :src="img"
             style="width: 128px; height: 128px"
             class="rounded-borders"
           />
@@ -47,8 +47,9 @@
           <q-card-actions align="left">
             <q-btn
               glossy
-              color="negative"
+              color="warning"
               icon="delete"
+              label="오류 있음"
               @click="this.deleteConfirm = true"
             />
             <q-card-actions align="right">
@@ -112,7 +113,7 @@
       orderCount: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
     },
     props: {
-      productImg: {
+      img: {
         type: Image,
         required: true,
       },

@@ -4,7 +4,7 @@
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
       <div class="row">
         <q-input
-          v-model="post_code"
+          v-model="post_code_edit"
           filled
           class="q-ma-sm col"
           for="daum_postCode"
@@ -20,7 +20,7 @@
         />
       </div>
       <q-input
-        v-model="address1"
+        v-model="address1_edit"
         filled
         class="q-ma-sm"
         for="daum_addr"
@@ -30,7 +30,7 @@
       />
 
       <q-input
-        v-model="address2"
+        v-model="address2_edit"
         filled
         class="q-ma-sm"
         for="daum_extraAddr"
@@ -41,21 +41,21 @@
 
       <q-input
         outlined
-        v-model="address3"
+        v-model="address3_edit"
         class="q-ma-sm"
         for="daum_detailAddress"
-        label="추가 항목 (안내: 301호/204호 등과 같은 추가 내용)"
+        label="추가 항목 (안내: 301호/204호 또는 공동현관 비밀번호)"
       />
 
       <q-input
         outlined
         class="q-ma-sm"
-        v-model="address_tag"
+        v-model="address_tag_edit"
         label="주소별칭 (안내: 집/회사 등과 같은 별칭)"
       ></q-input>
       <q-input
         outlined
-        v-model="recipient"
+        v-model="recipient_edit"
         class="q-ma-sm"
         label="수령인 (안내: 받는 사람 이름)"
       ></q-input>
@@ -63,24 +63,19 @@
       <q-input
         outlined
         class="q-ma-sm"
-        v-model="recipient_phone"
+        v-model="recipient_phone_edit"
         label="수령인 전화번호 (안내: 받는 사람 전화번호)"
       ></q-input>
 
-      <div class="row">
-        <q-checkbox
-          class="q-ma-sm col"
-          left-label
-          v-model="cheked"
-          label="기본 배송지"
-        />
+      <div align="right">
         <q-btn
-          class="q-ma-sm col"
+          class="q-ma-sm"
           color="primary"
           size="lg"
           style="width: 200px"
-          label="주소 등록하기"
-          @click="exeAddrRegister"
+          label="주소 정보 변경하기"
+          @click="exeAddrInfoChange"
+          v-close-popup
         />
       </div>
     </div>
@@ -99,15 +94,49 @@
     name: 'AddressRegister',
     data() {
       return {
-        recipient: '',
-        recipient_phone: '',
-        address_tag: '',
-        post_code: '',
-        address1: '',
-        address2: '',
-        address3: '',
+        post_code_edit: '',
+        address1_edit: '',
+        address2_edit: '',
+        address3_edit: '',
+        address_tag_edit: '',
+        recipient_edit: '',
+        recipient_phone_edit: '',
         cheked: ref(true),
       };
+    },
+    props: {
+      recipient: {
+        type: String,
+        default: '',
+      },
+      recipient_phone: {
+        type: String,
+        default: '',
+      },
+      address_tag: {
+        type: String,
+        default: '',
+      },
+      post_code: {
+        type: String,
+        default: '',
+      },
+      address1: {
+        type: String,
+        default: '',
+      },
+      address2: {
+        type: String,
+        default: '',
+      },
+      address3: {
+        type: String,
+        default: '',
+      },
+      address_id: {
+        type: String,
+        default: '',
+      },
     },
     computed: {
       ...mapState({
@@ -119,27 +148,28 @@
       // addressList: address.getters.getAddressList,
     },
     mounted() {
+      this.onReset();
       // this.sample2_execDaumPostcode();
     },
 
     methods: {
-      exeAddrRegister() {
-        if (user.state.USER_ID != '') {
+      exeAddrInfoChange() {
+        if (user.state.USER.USER_ID != '') {
           const addressData = {
-            address_tag: this.address_tag,
-            recipient: this.recipient,
-            recipient_phone: this.recipient_phone,
+            address_tag: this.address_tag_edit,
+            recipient: this.recipient_edit,
+            recipient_phone: this.recipient_phone_edit,
             post_code: document.getElementById('daum_postCode').value,
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
-            address3: this.address3,
+            address3: this.address3_edit,
+            address_id: this.address_id,
             user_id: this.user_id_get,
-            is_default: this.cheked,
           };
 
           // 배송지 등록 요청 보내기
           axios({
-            url: 'http://localhost:3001/addressRegister',
+            url: 'http://localhost:3001/addressInfoChange',
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',
@@ -150,18 +180,9 @@
             data: addressData,
           })
             .then(res => {
-              // console.log(
-              //   // 응답값은 'success' & 'results'
-              //   '주소 등록 응답값: ' + JSON.stringify(res.data.results),
-              // );
-              var insertAddress = addressData;
-              insertAddress.address_id = res.data.results.insertId;
-              console.log(
-                // 응답값은 'success' 변경함.
-                '주소 등록 응답값: ' + JSON.stringify(insertAddress),
-              );
-              address.dispatch('addAddressAction', insertAddress);
-              alert.confirm('알림', '주소 등록이 완료되었습니다.');
+              console.log(res.data.results);
+              address.dispatch('updateAddressAction', addressData);
+              alert.confirm('알림', '주소 변경 완료했습니다.');
             })
             .catch(res => console.log('에러: ' + res));
         } else {
@@ -218,6 +239,15 @@
             document.getElementById('daum_detailAddress').focus();
           },
         }).open();
+      },
+      onReset() {
+        this.post_code_edit = this.post_code;
+        this.address1_edit = this.address1;
+        this.address2_edit = this.address2;
+        this.address3_edit = this.address3;
+        this.address_tag_edit = this.address_tag;
+        this.recipient_edit = this.recipient;
+        this.recipient_phone_edit = this.recipient_phone;
       },
     },
   });

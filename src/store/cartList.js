@@ -16,8 +16,8 @@ const getters = {
       );
       return {
         product_id: product.id,
-        productImg: product.productImg,
-        title: product.title,
+        img: product.img,
+        product_name: product.product_name,
         price: product.price,
         quantity,
       };
@@ -59,7 +59,9 @@ const actions = {
 
   addProductToCart({state, commit}, product, number) {
     number = 1;
-    console.log(product.title + 'ProductName' + product.quantity + 'Number');
+    console.log(
+      product.product_name + 'ProductName' + product.quantity + 'Number',
+    );
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
     const cartItem = state.items.find(item => item.product_id === product.id);
