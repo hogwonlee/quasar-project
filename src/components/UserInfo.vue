@@ -143,14 +143,7 @@
         console.log(val);
       },
     },
-    setup() {
-      function check_status() {
-        console.log('user_status' + user_status);
-      }
-      return {
-        check_status,
-      };
-    },
+
     methods: {
       check_login() {
         return check.check_login();

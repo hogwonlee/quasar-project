@@ -11,7 +11,7 @@
       </q-img>
     </div>
     <div>
-      <q-dialog v-model="card">
+      <q-dialog v-model="card" :id="category">
         <q-card class="my card row q-pa-sm" style="width: 600px; height: 300px">
           <!-- <q-drawer
             show-if-above
@@ -78,6 +78,7 @@
           <div class="col-4">
             <q-card-section>
               <div class="text-h6 text-black">{{ product_name }}</div>
+              <div class="text-h6 text-black">{{ category }}</div>
               <div class="text-h6 text-black" icon="finance_chip">
                 {{ price }} 韩元
               </div>
@@ -142,6 +143,10 @@
       itemCount: {
         type: Number,
         default: 0,
+      },
+      category: {
+        type: String,
+        default: '&',
       },
     },
     setup() {

@@ -32,6 +32,7 @@ const mutations = {
       id: products.id,
       product_name: products.product_name,
       price: products.price,
+      category: products.category,
       img: 'src/assets/' + products.img + '.jpg',
       quantity: 99,
     });

@@ -63,7 +63,7 @@
   import alert from 'src/util/modules/alert';
 
   export default {
-    emits: ['serverLogin'],
+    // emits: ['serverLogin'],
     components: {
       SignUpPage,
     },

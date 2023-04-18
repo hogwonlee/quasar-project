@@ -664,7 +664,7 @@ app.get('/orderGroupInfo', (req, res) => {
 });
 
 app.get('/productList', (req, res) => {
-  const sqlCommend = 'SELECT * FROM PRODUCTINFO ';
+  const sqlCommend = 'SELECT * FROM PRODUCTINFO ORDER BY category';
   db.query(sqlCommend, (err, results, fields) => {
     if (results.length <= 0) {
       res.status(400).send({msg: 'error', content: err});
