@@ -2,7 +2,6 @@
   <q-page class="q-pa-md">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
-
       <q-card class="row q-pl-lg bg-teal-4">
         <q-input
           :model-value="user_name_get"
@@ -37,6 +36,9 @@
     </section>
     <section v-else class="row justify-center vertical-center">
       <LoginPage />
+      <q-btn @click="check_login" label="로그인 상태 확인"> </q-btn>
+      <q-btn @click="check_name" label="로그인 이름 확인"> </q-btn>
+      {{ user_status }}
     </section>
     <!-- <q-dialog
       v-model="persistent"
@@ -106,7 +108,6 @@
   import AddressList from 'components/AddressList.vue';
   import ChangeInfo from 'components/ChangeInfo.vue';
   import ChangePassword from 'components/ChangePassword.vue';
-  import check from 'src/util/modules/check';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
 
@@ -146,9 +147,11 @@
 
     methods: {
       check_login() {
-        return check.check_login();
+        console.log(user.state.status);
       },
-
+      check_name() {
+        console.log(user.state.USER.USER_NAME);
+      },
       checkpw() {
         const userData = {
           user_id: this.user_id_get,

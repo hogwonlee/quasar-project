@@ -47,13 +47,12 @@ const getters = {
 };
 
 const actions = {
-  loginAction({commit}, user) {
+  async loginAction({commit}, user) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
     // console.log('login return 값: ' + commit('login', user));
-    commit('login', user);
-    // console.log('user status: ' + state.status);
+    return await commit('login', user);
   },
   logoutAction({commit}) {
     // console.log('userInfo액션에서 ' + typeof user);
@@ -118,6 +117,7 @@ const mutations = {
     state.status = true;
     // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);
     // return data.token;
+    return state.status;
     // state = data;
     // console.log('state 적용 완료 이후' + JSON.stringify(state));
     // Cookie.set('token', data.user_name);

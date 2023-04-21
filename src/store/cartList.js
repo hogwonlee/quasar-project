@@ -46,7 +46,7 @@ const actions = {
     // empty cart
     commit('setCartItems', {items: []});
     try {
-      await shop.buyProducts();
+      // await shop.buyProducts();
       // order.dispatch('setOrder', {items: savedCartItems});
       commit('setCheckoutStatus', 'successful');
     } catch (e) {
@@ -78,6 +78,7 @@ const actions = {
       commit('setCheckoutStatus', null);
       const cartItem = state.items.find(item => item.product_id === product.id);
       commit('decrementItemQuantity', cartItem);
+      commit('setCheckoutStatus', 'decrement');
     }
   },
   deleteProductFromCart({state, commit}, product) {

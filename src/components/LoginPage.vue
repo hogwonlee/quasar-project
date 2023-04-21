@@ -108,13 +108,14 @@
                   if (addr.address_active == 1)
                     address.dispatch('addAddressAction', addr);
                 });
-                user.dispatch('loginAction', json);
-                // .then(
-                //   alert.confirm(
-                //     '알림',
-                //     user.state.status + '로그인 되었습니다.',
-                //   ),
-                // );
+                user
+                  .dispatch('loginAction', json)
+                  .then(
+                    alert.confirm(
+                      '알림',
+                      user.state.status + '로그인 되었습니다.',
+                    ),
+                  );
               })
               .catch(response => console.log('에러: ' + response));
           } else {

@@ -15,6 +15,9 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
+  import {mapGetters, mapState, mapActions} from 'vuex';
+  import user from 'src/store/user/userInfo';
+  import address from 'src/store/user/addressInfo';
 
   export default defineComponent({
     name: 'PaySuccess',
@@ -26,6 +29,15 @@
         postJsonData: [{paymentkey: '', amount: 0, orderId: ''}],
       };
     },
+    computed: {
+      ...mapGetters('cart', {
+        cartItems: 'getCartItems',
+      }),
+      ...mapActions('cart', ['checkout']),
+      user_id_get: user.getters.getMyId,
+      user_token_get: user.getters.getMyToken,
+      addressList: address.getters.getAddressList,
+    },
     methods: {
       readResData() {
         let url = new URL(window.location.href);
@@ -34,15 +46,11 @@
           amount: url.searchParams.get('amount'),
           orderId: url.searchParams.get('orderId'),
         };
-        // console.log(this.postJsonData);
       },
 
       paymentAuthorizationRequest() {
-        //클라이언트 요청 오류: 오류번호 400
         this.readResData();
-        const requestData = JSON.parse(JSON.stringify(this.postJsonData));
-
-        // console.log(requestData);
+        const requestData = this.postJsonData;
         axios({
           url: 'https://api.tosspayments.com/v1/payments/confirm',
           method: 'POST',
@@ -57,10 +65,46 @@
 
           data: requestData,
         })
-          .then(res => {
-            // console.log(JSON.stringify(res.data));
+          .then(async res => {
+            console.log(JSON.stringify(res.data));
+            this.set_order_with_address(await this.get_address_id());
           })
           .catch(e => console.error(e));
+      },
+
+      set_order_with_address(address_id) {
+        const query_data = {
+          user_id: this.user_id_get,
+          address_id: address_id,
+          order_data: this.cartItems,
+        };
+        // console.log(JSON.stringify(query_data.order_data));
+        axios({
+          url: 'http://localhost:3001/orderRegister',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user_token_get,
+          },
+          data: query_data,
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.$store.dispatch('cart/checkout');
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+
+      get_address_id() {
+        var return_addr;
+        this.addressList.forEach(addr => {
+          if (addr.is_default === 1) {
+            return_addr = addr;
+          }
+        });
+        return return_addr;
       },
     },
   });

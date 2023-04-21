@@ -118,10 +118,10 @@
           class="absolute-right q-pa-xl q-ma-md text-bold text-h6"
           style="background: teal; color: white"
           :disabled="!cart.length"
-          @click="set_order_with_address(this.address_selected.address_id)"
           label="结算 / 결제하기"
+          @click="selectPaymentmethod(total, shipment)"
         >
-          <!-- @click="selectPaymentmethod(total, shipment)" -->
+          <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
         </q-btn>
 
         <!-- <q-btn
@@ -188,6 +188,7 @@
   import check from 'src/util/modules/check';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
+  import {date} from 'quasar';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default {
@@ -265,104 +266,59 @@
         address.dispatch('emptyAddressAction');
       },
       getSelectedAddress() {
-        // console.log('기본 주소 찾는중');
         if (!this.is_addr_added) {
           this.is_addr_added = !validation.isNull(this.addressList); // 값이 없으면 true
-          // console.log('주소가 있는가?' + this.is_addr_added);
-          // console.log(
-          //   '기본 주소의 상태는 (값이 없으면 true)' +
-          //     validation.isNull(this.address_selected), // 값이 없으면 true
-          // );
         }
 
         if (this.is_addr_added && validation.isNull(this.address_selected)) {
           var return_addr;
           this.addressList.forEach(addr => {
-            // address.getters.getAddressList.forEach(addr => {
             if (addr.is_default === 1) {
               return_addr = addr;
-            } else {
-              console.log('기본 주소가 아닌가 봄');
             }
           });
           this.address_selected = return_addr;
-          // console.log(
-          //   '주소 세팅후에는 있어야 하는데....' +
-          //     validation.isNull(this.address_selected), // 값이 없으면 true
-          // );
         }
       },
 
-      set_order(address_id) {
-        // 구매 요청 보내기 = 서버 DB에 주문 데이터 넣기
-        // console.log('주문 보내기 주소아이디: ' + address_id);
-        axios({
-          url: 'http://localhost:3001/orderGroupRegister',
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-            authorization: this.user_token_get,
-          },
+      // set_order(address_id) {
+      //   axios({
+      //     url: 'http://localhost:3001/orderGroupRegister',
+      //     method: 'POST',
+      //     headers: {
+      //       'Access-Control-Allow-Headers': '*',
+      //       'Content-Type': 'application/json',
+      //       authorization: this.user_token_get,
+      //     },
 
-          data: {user_id: this.user_id_get, address_id: address_id},
-        })
-          .then(res => {
-            // console.log(
-            //   '주문 등록 응답값: ' + JSON.stringify(res.data.results),
-            // );
-            const orderData = JSON.parse(JSON.stringify(this.cartItems));
+      //     data: {user_id: this.user_id_get, address_id: address_id},
+      //   })
+      //     .then(res => {
+      //       const orderData = JSON.parse(JSON.stringify(this.cartItems));
+      //       orderData.forEach(data => (data['order_group'] = res.data.results));
+      //       this.set_order_with_address(orderData);
+      //     })
+      //     .catch(res => console.log('에러: ' + res));
+      // },
 
-            orderData.forEach(data => (data['order_group'] = res.data.results));
+      // select_order_group() {
+      //   axios({
+      //     url: 'http://localhost:3001/deliveryInfo',
+      //     method: 'POST',
+      //     headers: {
+      //       'Access-Control-Allow-Headers': '*',
+      //       'Content-Type': 'application/json',
+      //       authorization: this.user_token_get,
+      //     },
 
-            // console.log(JSON.stringify(orderData));
-            this.set_order_with_address(orderData);
-          })
-          .catch(res => console.log('에러: ' + res));
-      },
-      set_order_with_address(address_id) {
-        const query_data = {
-          user_id: this.user_id_get,
-          address_id: address_id,
-          order_data: JSON.parse(JSON.stringify(this.cartItems)),
-        };
-        // console.log(JSON.stringify(query_data.order_data));
-        axios({
-          url: 'http://localhost:3001/orderRegister',
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-            authorization: this.user_token_get,
-          },
-          data: query_data,
-        })
-          .then(res => {
-            // // this.select_order_group();
-            // console.log(
-            //   '주문 성공후 처리: ' + JSON.stringify(res.data.results),
-            // );
-          })
-          .catch(res => console.log('에러: ' + res));
-      },
-      select_order_group() {
-        axios({
-          url: 'http://localhost:3001/deliveryInfo',
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-            authorization: this.user_token_get,
-          },
-
-          data: {user_id: this.user_id_get},
-        })
-          .then(res => {
-            console.log(JSON.stringify(res.data.results));
-            order.dispatch('pushOrderAction', res.data.results);
-          })
-          .catch(res => console.log('에러: ' + res));
-      },
+      //     data: {user_id: this.user_id_get},
+      //   })
+      //     .then(res => {
+      //       console.log(JSON.stringify(res.data.results));
+      //       order.dispatch('pushOrderAction', res.data.results);
+      //     })
+      //     .catch(res => console.log('에러: ' + res));
+      // },
       check_login() {
         if (check.check_login()) {
           return true;
@@ -393,11 +349,12 @@
       ...mapActions('cart', ['deleteProductFromCart']),
       selectPaymentmethod(total, shipment) {
         var amountOfPayment = total + shipment;
+        var random_id = 'test' + this.user_id_get + Date.now();
         // console.log(amountOfPayment);
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
-            orderId: 'test2-gO43carKfiyo7_KPPa-YM',
+            orderId: random_id,
             orderName: '토스 티셔츠 외 2건',
             customerName: '박토스',
             successUrl: 'http://localhost:9000/#/Success',
@@ -405,7 +362,6 @@
           }),
         );
       },
-      ...mapActions('cart', ['checkout']),
     },
     mounted() {
       this.getSelectedAddress();
