@@ -86,9 +86,7 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {mapActions, mapMutations, mapState} from 'vuex';
-  import user from '../store/user/userInfo';
   import axios from 'axios';
-  import address from 'src/store/user/addressInfo';
   import alert from 'src/util/modules/alert';
   export default defineComponent({
     name: 'AddressRegister',
@@ -140,12 +138,8 @@
     },
     computed: {
       ...mapState({
-        user: state => state.all,
+        user: state => state.user.USER,
       }),
-      user_id_get: user.getters.getMyId,
-      user_token_get: user.getters.getMyToken,
-      user_name_get: user.getters.getMyName,
-      // addressList: address.getters.getAddressList,
     },
     mounted() {
       this.onReset();
@@ -154,7 +148,7 @@
 
     methods: {
       exeAddrInfoChange() {
-        if (user.state.USER.USER_ID != '') {
+        if (this.user.USER_ID != '') {
           const addressData = {
             address_tag: this.address_tag_edit,
             recipient: this.recipient_edit,
@@ -164,7 +158,7 @@
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3_edit,
             address_id: this.address_id,
-            user_id: this.user_id_get,
+            user_id: this.user.USER_ID,
           };
 
           // 배송지 등록 요청 보내기
@@ -174,14 +168,14 @@
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
-              authorization: this.user_token_get,
+              authorization: this.user.USER_TOKEN,
             },
 
             data: addressData,
           })
             .then(res => {
               console.log(res.data.results);
-              address.dispatch('updateAddressAction', addressData);
+              this.$store.dispatch('address/updateAddressAction', addressData);
               alert.confirm('알림', '주소 변경 완료했습니다.');
             })
             .catch(res => console.log('에러: ' + res));

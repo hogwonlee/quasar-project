@@ -50,7 +50,6 @@
   import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
-  import user from 'src/store/user/userInfo';
 
   export default {
     data() {
@@ -63,11 +62,8 @@
     },
     computed: {
       ...mapState({
-        user: state => state.all,
+        user: state => state.user.USER,
       }),
-      user_id_get: user.getters.getMyId,
-      user_name_get: user.getters.getMyName,
-      user_phone_get: user.getters.getMyPhone,
     },
     mounted() {
       this.onReset();
@@ -87,7 +83,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: user.state.USER_TOKEN,
+            authorization: this.user.USER_TOKEN,
           },
 
           data: userData,
@@ -95,16 +91,16 @@
           .then(res => {
             // user vuex 내용 변경
             console.log(JSON.stringify(res));
-            user.dispatch('updateAction', userData);
+            this.$store.dispatch('user/updateAction', userData);
             alert.confirm('알림', '정보 변경 완료했습니다.');
           })
           .catch(res => console.log('에러: ' + res));
       },
 
       onReset() {
-        this.userId = this.user_id_get;
-        this.userNickname = this.user_name_get;
-        this.userPhone = this.user_phone_get;
+        this.userId = this.user.USER_ID;
+        this.userNickname = this.user.USER_NAME;
+        this.userPhone = this.user.USER_PHONE;
       },
     },
   };

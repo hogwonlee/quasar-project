@@ -66,16 +66,22 @@
       <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1"
         >주문 리스트</q-chip
       >
-      <p v-show="!cart.length">
+      <p v-show="!cartList.length">
         <i>상품을 추가해주세요.</i>
       </p>
       <div class="row q-pa-xs virtual-scroll-horizontal">
         <OrderItemInfo
-          @sendOrderItem="addProductToCart(product)"
-          @sendRemoveItem="removeProductFromCart(product)"
-          @sendDeleteItem="deleteProductFromCart(product)"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+          @sendDeleteItem="
+            this.$store.dispatch('cart/deleteProductFromCart', product)
+          "
           class="col-2 q-pa-sm"
-          v-for="product in cart"
+          v-for="product in cartProduct"
           :key="product.id"
           v-bind="product"
           v-bind:item-count="product.quantity"
@@ -117,27 +123,12 @@
         <q-btn
           class="absolute-right q-pa-xl q-ma-md text-bold text-h6"
           style="background: teal; color: white"
-          :disabled="!cart.length"
+          :disabled="!cartList.length"
           label="结算 / 결제하기"
           @click="selectPaymentmethod(total, shipment)"
         >
           <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
         </q-btn>
-
-        <!-- <q-btn
-          v-if="!check_login()"
-          style="background: slateblue; color: white"
-          @click="login_popup"
-          label="로그인"
-        >
-        </q-btn>
-        <q-btn
-          v-else
-          style="background: slateblue; color: white"
-          @click="logout"
-          label="로그아웃"
-        >
-        </q-btn> -->
       </div>
     </q-card>
 
@@ -178,14 +169,8 @@
   import LoginPage from 'components/LoginPage.vue';
   import {ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  import user from 'src/store/user/userInfo';
-  import address from 'src/store/user/addressInfo';
-  import cart from 'src/store/cartList';
-  import order from 'src/store/orderList';
-  import axios from 'axios';
   import validation from 'src/util/data/validation';
   import {Cookies, useQuasar} from 'quasar';
-  import check from 'src/util/modules/check';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
   import {date} from 'quasar';
@@ -237,34 +222,20 @@
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
-        cart: state => state.cart.all,
-        address: state => state.all, // store/index에 addresses로 추가됨.
-        user: state => state.all,
-        order: state => state.all,
+        cartList: state => state.cart.items,
+        addressList: state => state.address.items, // store/index에 addresses로 추가됨.
+        user: state => state.user.USER,
+        order: state => state.order.items,
+        user_status: state => state.user.status,
       }),
       ...mapGetters('cart', {
-        cart: 'cartProducts',
-        cartItems: 'getCartItems',
+        cartProduct: 'cartProducts',
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
-      user_status() {
-        return user.state.status;
-      },
-      user_id_get: user.getters.getMyId,
-      user_token_get: user.getters.getMyToken,
-      addressList: address.getters.getAddressList,
     },
-    watch: {
-      addressList: function (val) {
-        console.log(val);
-      },
-    },
+    watch: {},
     methods: {
-      logout() {
-        user.dispatch('logoutAction');
-        address.dispatch('emptyAddressAction');
-      },
       getSelectedAddress() {
         if (!this.is_addr_added) {
           this.is_addr_added = !validation.isNull(this.addressList); // 값이 없으면 true
@@ -281,76 +252,9 @@
         }
       },
 
-      // set_order(address_id) {
-      //   axios({
-      //     url: 'http://localhost:3001/orderGroupRegister',
-      //     method: 'POST',
-      //     headers: {
-      //       'Access-Control-Allow-Headers': '*',
-      //       'Content-Type': 'application/json',
-      //       authorization: this.user_token_get,
-      //     },
-
-      //     data: {user_id: this.user_id_get, address_id: address_id},
-      //   })
-      //     .then(res => {
-      //       const orderData = JSON.parse(JSON.stringify(this.cartItems));
-      //       orderData.forEach(data => (data['order_group'] = res.data.results));
-      //       this.set_order_with_address(orderData);
-      //     })
-      //     .catch(res => console.log('에러: ' + res));
-      // },
-
-      // select_order_group() {
-      //   axios({
-      //     url: 'http://localhost:3001/deliveryInfo',
-      //     method: 'POST',
-      //     headers: {
-      //       'Access-Control-Allow-Headers': '*',
-      //       'Content-Type': 'application/json',
-      //       authorization: this.user_token_get,
-      //     },
-
-      //     data: {user_id: this.user_id_get},
-      //   })
-      //     .then(res => {
-      //       console.log(JSON.stringify(res.data.results));
-      //       order.dispatch('pushOrderAction', res.data.results);
-      //     })
-      //     .catch(res => console.log('에러: ' + res));
-      // },
-      check_login() {
-        if (check.check_login()) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      check_null_address() {
-        if (address.state.post_code == '') {
-          return false;
-        } else {
-          return true;
-        }
-      },
-      login_popup() {
-        if (!this.check_login) {
-          alert('로그인이 필요합니다.');
-          return;
-        }
-        if (!this.check_null_address) {
-          alert('배송할 주소를 등록/선택해 주세요.');
-          return;
-        }
-        this.persistent = true;
-      },
-      ...mapActions('cart', ['addProductToCart']),
-      ...mapActions('cart', ['removeProductFromCart']),
-      ...mapActions('cart', ['deleteProductFromCart']),
       selectPaymentmethod(total, shipment) {
         var amountOfPayment = total + shipment;
-        var random_id = 'test' + this.user_id_get + Date.now();
-        // console.log(amountOfPayment);
+        var random_id = 'test' + this.user.USER_ID + Date.now();
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,

@@ -3,7 +3,7 @@
     <q-card class="my-card" @click="card = true">
       <q-img :src="img">
         <div class="absolute-bottom text-body5 text-center" lang="zh-CN">
-          {{ this.orderCount }} 개/个
+          {{ quantity }} 개/个
         </div>
       </q-img>
     </q-card>
@@ -27,7 +27,7 @@
 
             <div class="row no-wrap items-center">
               <div class="col text-h6 ellipsis">
-                {{ title }}
+                {{ product_name }}
               </div>
               <div
                 class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
@@ -39,7 +39,7 @@
 
           <q-card-section class="q-pt-none">
             <div class="text-subtitle1">
-              <q-icon name="payments"></q-icon> {{ price * this.orderCount }} 원
+              <q-icon name="payments"></q-icon> {{ price * quantity }} 원
             </div>
           </q-card-section>
 
@@ -47,9 +47,9 @@
           <q-card-actions align="left">
             <q-btn
               glossy
-              color="warning"
+              color="primary"
               icon="delete"
-              label="오류 있음"
+              label="상품 제거"
               @click="this.deleteConfirm = true"
             />
             <q-card-actions align="right">
@@ -57,14 +57,14 @@
                 glossy
                 color="negative"
                 icon="remove_shopping_cart"
-                @click="removefromCart(this.title)"
+                @click="removefromCart(this.product_name)"
                 ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
               >
               <q-btn
                 glossy
                 color="primary"
                 icon="add_shopping_cart"
-                @click="sendToCart(this.title)"
+                @click="sendToCart(this.product_name)"
               >
                 <q-badge rounded color="orange" floating>1</q-badge></q-btn
               ></q-card-actions
@@ -88,7 +88,7 @@
               label="확인"
               color="primary"
               v-close-popup
-              @click="deleteProductFromCart(this.title)"
+              @click="deleteProductFromCart(this.product_name)"
             />
           </q-card-actions>
         </q-card>
@@ -106,7 +106,7 @@
     name: 'OrderItemInfo',
     data: function () {
       return {
-        orderCount: this.itemCount,
+        orderCount: this.quantity,
       };
     },
     watch: {
@@ -117,7 +117,7 @@
         type: Image,
         required: true,
       },
-      title: {
+      product_name: {
         type: String,
         default: '',
       },
@@ -126,7 +126,10 @@
         type: Int32Array,
         default: 0,
       },
-      itemCount: Number,
+      quantity: {
+        type: Number,
+        default: 0,
+      },
     },
     setup() {
       return {

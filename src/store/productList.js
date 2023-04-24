@@ -29,7 +29,7 @@ const mutations = {
   },
   addToState(state, products) {
     state.all.push({
-      id: products.id,
+      product_id: products.id,
       product_name: products.product_name,
       price: products.price,
       category: products.category,

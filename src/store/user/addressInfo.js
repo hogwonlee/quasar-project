@@ -1,14 +1,8 @@
-import Vuex from 'vuex';
-
 const state = {
   items: [],
   status: '',
 };
-const getters = {
-  getAddressList: state => () => {
-    return state.items;
-  },
-};
+const getters = {};
 
 const actions = {
   addAddressAction({commit}, address) {
@@ -20,7 +14,11 @@ const actions = {
   deleteAddressAction({commit}, index) {
     commit('deleteAddressFromState', index);
   },
-  updateAddressAction({commit}, address) {
+  async updateAddressAction({state, commit}, address) {
+    var updateAddr = state.items.map(
+      item => item.address_id == address.address_id,
+    );
+    address.is_default = updateAddr.is_default;
     commit('updateAddress', {address});
   },
   setStatusAction({commit}, status) {
@@ -47,20 +45,10 @@ const mutations = {
   },
 
   updateAddress(state, {address}) {
-    state.items.map(item =>
-      item.address_id == address.address_id
-        ? {
-            // ...item,
-            address_tag: address.address_tag,
-            recipient: address.recipient,
-            recipient_phone: address.recipient_phone,
-            post_code: address.post_code,
-            address1: address.address1,
-            address2: address.address2,
-            address3: address.address3,
-          }
-        : item,
+    var index = state.items.indexOf(
+      item => item.address_id == address.address_id,
     );
+    state.items.splice(index, 1, address);
     state.status = 'up date';
   },
 
@@ -77,11 +65,11 @@ const mutations = {
   },
 };
 
-export default new Vuex.Store({
+export default {
   namespaced: true,
 
   state,
   mutations,
   actions,
   getters,
-});
+};

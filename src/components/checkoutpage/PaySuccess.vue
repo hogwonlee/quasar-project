@@ -16,8 +16,6 @@
   import {defineComponent} from 'vue';
   import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
-  import user from 'src/store/user/userInfo';
-  import address from 'src/store/user/addressInfo';
 
   export default defineComponent({
     name: 'PaySuccess',
@@ -34,9 +32,10 @@
         cartItems: 'getCartItems',
       }),
       ...mapActions('cart', ['checkout']),
-      user_id_get: user.getters.getMyId,
-      user_token_get: user.getters.getMyToken,
-      addressList: address.getters.getAddressList,
+      ...mapState({
+        user: state => state.user.USER,
+        addressList: state => state.address.items,
+      }),
     },
     methods: {
       readResData() {
@@ -74,7 +73,7 @@
 
       set_order_with_address(address_id) {
         const query_data = {
-          user_id: this.user_id_get,
+          user_id: this.user.USER_ID,
           address_id: address_id,
           order_data: this.cartItems,
         };
@@ -85,7 +84,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: this.user_token_get,
+            authorization: this.user.USER_TOKEN,
           },
           data: query_data,
         })

@@ -12,10 +12,10 @@ const getters = {
   cartProducts: (state, getters, rootState) => {
     return state.items.map(({product_id, quantity}) => {
       const product = rootState.products.all.find(
-        product => product.id === product_id,
+        product => product.product_id === product_id,
       );
       return {
-        product_id: product.id,
+        product_id: product.product_id,
         img: product.img,
         product_name: product.product_name,
         price: product.price,
@@ -59,14 +59,17 @@ const actions = {
 
   addProductToCart({state, commit}, product, number) {
     number = 1;
-    console.log(
-      product.product_name + 'ProductName' + product.quantity + 'Number',
-    );
+
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
-    const cartItem = state.items.find(item => item.product_id === product.id);
+    const cartItem = state.items.find(
+      item => item.product_id === product.product_id,
+    );
     if (!cartItem) {
-      commit('pushProductToCart', {product_id: product.id, quantity: number});
+      commit('pushProductToCart', {
+        product_id: product.product_id,
+        quantity: number,
+      });
     } else {
       commit('incrementItemQuantity', cartItem);
     }
@@ -76,7 +79,9 @@ const actions = {
   removeProductFromCart({state, commit}, product) {
     if (product.quantity > 0) {
       commit('setCheckoutStatus', null);
-      const cartItem = state.items.find(item => item.product_id === product.id);
+      const cartItem = state.items.find(
+        item => item.product_id === product.product_id,
+      );
       commit('decrementItemQuantity', cartItem);
       commit('setCheckoutStatus', 'decrement');
     }
@@ -84,7 +89,7 @@ const actions = {
   deleteProductFromCart({state, commit}, product) {
     commit('setCheckoutStatus', null);
     const savedCartItems = state.items.filter(
-      item => item.product_id != product.id,
+      item => item.product_id != product.product_id,
     );
     commit('setCartItems', {items: savedCartItems});
     commit('setCheckoutStatus', 'deleted');

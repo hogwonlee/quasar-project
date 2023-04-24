@@ -60,7 +60,7 @@
     <!-- </q-drawer> -->
     <div class="row">
       <ProductInfo
-        @sendOrderItem="addProductToCart(product)"
+        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
         class="col-3"
         style="padding: 10px"
         v-for="product in products"
@@ -91,7 +91,6 @@
       ProductInfo,
     },
     methods: {
-      ...mapActions('cart', ['addProductToCart']),
       handleScroll(val) {
         let ele = document.querySelector('.' + val);
         // console.log('엘리 값:' + JSON.stringify(ele));
@@ -108,7 +107,6 @@
       }),
     },
     created() {
-      // this.$store.dispatch('products/getAllProducts');
       axios({
         url: 'http://localhost:3001/productList',
         method: 'GET',
@@ -118,7 +116,7 @@
         },
       })
         .then(res => {
-          console.log(JSON.stringify(res.data.results));
+          // console.log(JSON.stringify(res.data.results));
           this.$store.dispatch('products/emptyStoreAction');
           res.data.results.map(element => {
             // console.log(element));

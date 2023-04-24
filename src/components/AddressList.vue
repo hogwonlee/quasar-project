@@ -28,7 +28,7 @@
                 "
               ></q-btn>
               <q-btn
-                color="warning"
+                color="primary"
                 label="주소 정보 변경"
                 @click="confirm_change_address_info(addr.address_tag, addr)"
               ></q-btn>
@@ -115,12 +115,9 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
-  import {mapState} from 'vuex';
-  import address from 'src/store/user/addressInfo';
-  import user from 'src/store/user/userInfo';
+  import {mapActions, mapState} from 'vuex';
   import {ref} from 'vue';
   import {Cookies, useQuasar} from 'quasar';
-  import check from 'src/util/modules/check';
   import validation from 'src/util/data/validation';
   import AddressRegister from './AddressRegister.vue';
   import AddressInfoChange from './AddressInfoChange.vue';
@@ -138,58 +135,52 @@
     components: {AddressRegister, AddressInfoChange},
     computed: {
       ...mapState({
-        address: state => state.all,
-        user: state => state.all,
+        user: state => state.user.USER,
+        addressList: state => state.address.items,
+        address_status: state => state.address.status,
       }),
-      user_id_get: user.getters.getMyId,
-      user_token_get: user.getters.getMyToken,
-      user_name_get: user.getters.getMyName,
-      addressList: address.getters.getAddressList,
     },
-    watch: {
-      user_id_get: function (val) {
-        console.log(val);
-      },
-      user_token_get: function (val) {
-        console.log(val);
-      },
-      user_name_get: function (val) {
-        console.log(val);
-      },
-    },
+    watch: {},
     created() {},
     mounted() {
       this.reload_addr_info();
     },
     methods: {
       reload_addr_info() {
-        if (check.check_login() && !validation.isNull(address.state.status)) {
+        if (
+          !validation.isNull(this.user.USER_ID) &&
+          !validation.isNull(this.address_status)
+        ) {
           axios({
             url: 'http://localhost:3001/addressInfo',
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
-              authorization: this.user_token_get,
+              authorization: this.user.USER_TOKEN,
             },
             data: {
-              user_id: this.user_id_get,
-              user_name: this.user_name_get,
+              user_id: this.user.USER_ID,
+              user_name: this.user.USER_NAME,
             },
           })
             .then(res => {
-              address.dispatch('emptyAddressAction');
+              this.$store.dispatch('address/emptyAddressAction');
 
+              // address.dispatch('emptyAddressAction');
               res.data.results.forEach(addr => {
                 // console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
                 if (addr.address_active === 1) {
                   // console.log('주소 활성화 확인: ' + addr.address_active);
+                  this.$store.dispatch('address/addAddressAction', addr);
 
-                  address.dispatch('addAddressAction', addr);
+                  // address.dispatch('addAddressAction', addr);
                 }
               });
               this.is_addr_added = true;
-              address.dispatch('setStatusAction', null);
+              this.$store.dispatch('address/setStatusAction', null);
+
+              // address.dispatch('setStatusAction', null);
               // console.log(address.state.status);
             })
             .catch(res => {
@@ -211,16 +202,18 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: this.user_token_get,
+            authorization: this.user.USER_TOKEN,
           },
-          data: {user_id: this.user_id_get, address_id: address_id},
+          data: {user_id: this.user.USER_ID, address_id: address_id},
         })
           .then(res => {
-            address.dispatch('emptyAddressAction');
+            this.$store.dispatch('address/emptyAddressAction');
+            // address.dispatch('emptyAddressAction');
             res.data.results.forEach(addr => {
               // console.log('수령인 확인: ' + addr.recipient);
               if (addr.address_active == 1) {
-                address.dispatch('addAddressAction', addr);
+                this.$store.dispatch('address/addAddressAction', addr);
+                // address.dispatch('addAddressAction', addr);
               }
             });
           })
@@ -235,9 +228,9 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: this.user_token_get,
+            authorization: this.user.USER_TOKEN,
           },
-          data: {user_id: this.user_id_get, address_id: address_id},
+          data: {user_id: this.user.USER_ID, address_id: address_id},
         })
           .then(res => {
             console.log(JSON.stringify(res));
@@ -245,7 +238,9 @@
               ele => ele.address_id === address_id,
             );
             console.log('찾은 주소 배열 인덱스 값: ' + deleteIndex);
-            address.dispatch('deleteAddressAction', deleteIndex);
+            this.$store.dispatch('address/deleteAddressAction', deleteIndex);
+
+            // address.dispatch('deleteAddressAction', deleteIndex);
           })
           .catch(res => {
             console.log('에러:' + res);

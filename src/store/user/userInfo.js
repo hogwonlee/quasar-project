@@ -1,6 +1,5 @@
 import Cookie from 'js-cookie';
 // import store from '../index';
-import Vuex from 'vuex';
 
 const state = {
   USER: {
@@ -13,38 +12,7 @@ const state = {
   status: false,
 };
 
-const getters = {
-  getMyId: state => () => {
-    return state.USER.USER_ID;
-  },
-  getMyName: state => () => {
-    return state.USER.USER_NAME;
-  },
-  getMyPhone: state => () => {
-    return state.USER.USER_PHONE;
-  },
-  getMyToken: state => () => {
-    return state.USER.USER_TOKEN;
-  },
-  getMyVerify: state => () => {
-    return state.USER.USER_VERIFY;
-  },
-
-  // getMyName: function ({state}) {
-  //   if (Cookie.get('user') != null) {
-  //     return state.USER_NAME;
-  //   } else {
-  //     return '로그인 정보가 없습니다.';
-  //   }
-  // },
-  // getMyPhone: function (state) {
-  //   if (Cookie.get('user') != null) {
-  //     return state.USER_PHONE;
-  //   } else {
-  //     return '로그인 정보가 없습니다.';
-  //   }
-  // },
-};
+const getters = {};
 
 const actions = {
   async loginAction({commit}, user) {
@@ -134,11 +102,11 @@ const mutations = {
   },
 };
 
-export default new Vuex.Store({
+export default {
   namespaced: true,
 
   state,
   getters,
   actions,
   mutations,
-});
+};

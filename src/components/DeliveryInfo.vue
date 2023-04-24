@@ -140,11 +140,7 @@
   import {defineComponent} from 'vue';
   import axios from 'axios';
   import {mapState, mapActions, mapGetters} from 'vuex';
-  import address from 'src/store/user/addressInfo';
-  import order from 'src/store/orderList';
-  import user from 'src/store/user/userInfo';
   import validation from 'src/util/data/validation';
-  import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
 
   export default defineComponent({
@@ -165,28 +161,26 @@
     },
     computed: {
       ...mapState({
-        address: state => state.all,
-        order: state => state.all,
-        user: state => state.all,
+        addressList: state => state.address.items,
+        order: state => state.order.items,
+        order_status: state => state.order.status,
+        user: state => state.user.USER,
+        orderGroupList: state => state.order.items,
       }),
       ...mapActions([
         ('order', ['setEmptyAction']),
         ('order', ['setStatusAction']),
         ('order', ['pushOrderAction']),
       ]),
-      user_id_get: user.getters.getMyId,
-
-      user_token_get: user.getters.getMyToken,
-      addressList: address.getters.getAddressList,
-
-      orderGroupList: order.getters.getOrderGroupList,
-
-      order_count() {
-        return order.state.items.length;
-      },
+      ...mapGetters('order', {
+        order_count: 'getOrderLength',
+      }),
     },
     mounted() {
-      if (check.check_login() && !validation.isNull(order.state.status)) {
+      if (
+        !validation.isNull(this.user.USER_ID) &&
+        !validation.isNull(this.order_status)
+      ) {
         // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&
         axios({
           url: 'http://localhost:3001/deliveryInfo',
@@ -194,24 +188,24 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: this.user_token_get,
+            authorization: this.user.USER_TOKEN,
           },
           data: {
-            user_id: this.user_id_get,
-            user_name: this.user_name_get,
+            user_id: this.user.USER_ID,
+            user_name: this.user.USER_NAME,
           },
         })
           .then(res => {
-            order.dispatch('setEmptyAction');
-            // this.$store.dispatch('order/setEmptyAction');
+            // order.dispatch('setEmptyAction');
+            this.$store.dispatch('order/setEmptyAction');
 
             res.data.results.forEach(order_group_info => {
               // console.log('주문그룹 정보: ' + JSON.stringify(order_group_info));
-              order.dispatch('pushOrderAction', order_group_info);
-              // this.$store.dispatch('order/pushOrderAction', order_group_info);
+              // order.dispatch('pushOrderAction', order_group_info);
+              this.$store.dispatch('order/pushOrderAction', order_group_info);
             });
-            order.dispatch('setStatusAction', null);
-            // this.$store.dispatch('order/setStatusAction', null);
+            // order.dispatch('setStatusAction', null);
+            this.$store.dispatch('order/setStatusAction', null);
           })
           .catch(res => {
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
@@ -231,7 +225,7 @@
       get_address_tag(address_id) {
         // console.log(JSON.stringify(address.state.items));
         var return_tag;
-        address.state.items.map(function (ele) {
+        this.addressList.map(function (ele) {
           if (ele.address_id == address_id) {
             return_tag = ele.address_tag;
           }
@@ -242,7 +236,7 @@
         this.search_order_id = orderGroup_id;
         if (validation.isNull(this.res_order[this.search_order_id])) {
           const postData = {
-            user_id: this.user_id_get,
+            user_id: this.user.USER_ID,
             order_group: orderGroup_id,
           };
 
@@ -253,7 +247,7 @@
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
-              authorization: this.user_token_get,
+              authorization: this.user.USER_TOKEN,
             },
 
             data: postData,

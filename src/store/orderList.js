@@ -5,8 +5,8 @@ const state = {
   status: 'up data',
 };
 const getters = {
-  getOrderGroupList: state => () => {
-    return state.items;
+  getOrderLength: state => {
+    return state.items.length;
   },
 };
 
@@ -52,11 +52,11 @@ const mutations = {
   },
 };
 
-export default new Vuex.Store({
+export default {
   namespaced: true,
 
   state,
   mutations,
   actions,
   getters,
-});
+};

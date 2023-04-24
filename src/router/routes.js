@@ -21,6 +21,10 @@ const routes = [
         component: () => import('components/UserInfo.vue'),
       },
       {
+        path: 'LoginPage',
+        component: () => import('components/LoginPage.vue'),
+      },
+      {
         path: 'Success',
         component: () => import('components/checkoutpage/PaySuccess.vue'),
       },

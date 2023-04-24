@@ -4,13 +4,13 @@
       <!-- <div class="text-h3">내 정보</div> -->
       <q-card class="row q-pl-lg bg-teal-4">
         <q-input
-          :model-value="user_name_get"
+          :model-value="user.USER_NAME"
           label="이름: "
           readonly
           class="col-3"
         ></q-input>
         <q-input
-          :model-value="user_phone_get"
+          :model-value="user.USER_PHONE"
           label="전화번호: "
           readonly
           class="col-9"
@@ -36,9 +36,6 @@
     </section>
     <section v-else class="row justify-center vertical-center">
       <LoginPage />
-      <q-btn @click="check_login" label="로그인 상태 확인"> </q-btn>
-      <q-btn @click="check_name" label="로그인 이름 확인"> </q-btn>
-      {{ user_status }}
     </section>
     <!-- <q-dialog
       v-model="persistent"
@@ -62,7 +59,7 @@
           <q-input
             readonly
             disable
-            v-model="user_id_get"
+            v-model="user.USER_ID"
             label="아이디"
             lazy-rules
             :rules="[val => (val && val.length > 0) || '필수 입력']"
@@ -129,32 +126,17 @@
       };
     },
     computed: {
-      user_status() {
-        return user.state.status;
-      },
-      user_id_get: user.getters.getMyId,
-      user_name_get: user.getters.getMyName,
-      user_phone_get: user.getters.getMyPhone,
+      ...mapState({
+        user_status: state => state.user.status,
+        user: state => state.user.USER,
+      }),
     },
-    watch: {
-      user_name_get: function (val) {
-        console.log(val);
-      },
-      user_phone_get: function (val) {
-        console.log(val);
-      },
-    },
+    watch: {},
 
     methods: {
-      check_login() {
-        console.log(user.state.status);
-      },
-      check_name() {
-        console.log(user.state.USER.USER_NAME);
-      },
       checkpw() {
         const userData = {
-          user_id: this.user_id_get,
+          user_id: this.user.USER_ID,
           user_pw: this.userPw,
         };
 

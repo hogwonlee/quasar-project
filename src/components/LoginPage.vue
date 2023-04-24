@@ -58,77 +58,76 @@
   import axios from 'axios';
   import {mapActions, mapMutations, mapState} from 'vuex';
   import user from 'src/store/user/userInfo';
-  import address from 'src/store/user/addressInfo';
   import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
 
   export default {
-    // emits: ['serverLogin'],
     components: {
       SignUpPage,
     },
     data() {
-      return {};
+      return {
+        userPw: '',
+        userId: '',
+      };
     },
     computed: {
       ...mapState({
-        user: state => state.all,
+        user: state => state.user.USER,
+        address: state => state.address.items.all,
       }),
-      ...mapActions('user', ['loginAction']),
-      ...mapActions('address', ['addAddressAction']),
     },
-    methods: {},
+    methods: {
+      serverLogin() {
+        if (!check.check_login()) {
+          const userData = {
+            user_id: this.userId,
+            user_pw: this.userPw,
+          };
+
+          axios
+            .post('http://localhost:3001/login', userData)
+            .then(response => {
+              // console.log(JSON.stringify(response));
+              var json = response.data;
+              json.results.forEach(addr => {
+                if (addr.address_active == 1)
+                  this.$store.dispatch('address/addAddressAction', addr);
+
+                // address.dispatch('addAddressAction', addr);
+              });
+              this.$store
+                .dispatch('user/loginAction', json)
+                // user
+                //   .dispatch('loginAction', json)
+                .then(
+                  alert.confirm(
+                    '알림',
+                    user.state.status + '로그인 되었습니다.',
+                  ),
+                );
+            })
+            .catch(response => console.log('에러: ' + response));
+        } else {
+          var alert_msg =
+            user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.';
+          alert.confirm('알림', alert_msg);
+        }
+      },
+      onReset() {
+        userId.value = null;
+        userPw.value = null;
+        accept.value = false;
+      },
+    },
 
     setup() {
-      var userId = ref(null);
-      var userPw = ref(null);
-
       const accept = ref(false);
 
       return {
-        userId,
-        userPw,
         accept,
 
         signUpWindow: ref(false),
-
-        serverLogin() {
-          if (!check.check_login()) {
-            const userData = {
-              user_id: userId.value,
-              user_pw: userPw.value,
-            };
-
-            axios
-              .post('http://localhost:3001/login', userData)
-              .then(response => {
-                // console.log(JSON.stringify(response));
-                var json = response.data;
-                json.results.forEach(addr => {
-                  if (addr.address_active == 1)
-                    address.dispatch('addAddressAction', addr);
-                });
-                user
-                  .dispatch('loginAction', json)
-                  .then(
-                    alert.confirm(
-                      '알림',
-                      user.state.status + '로그인 되었습니다.',
-                    ),
-                  );
-              })
-              .catch(response => console.log('에러: ' + response));
-          } else {
-            var alert_msg =
-              user.state.USER_NAME + '님, 이미 로그인 되어 있습니다.';
-            alert.confirm('알림', alert_msg);
-          }
-        },
-        onReset() {
-          userId.value = null;
-          userPw.value = null;
-          accept.value = false;
-        },
       };
     },
   };

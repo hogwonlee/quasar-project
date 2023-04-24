@@ -91,9 +91,7 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {mapActions, mapMutations, mapState} from 'vuex';
-  import user from '../store/user/userInfo';
   import axios from 'axios';
-  import address from 'src/store/user/addressInfo';
   import alert from 'src/util/modules/alert';
   export default defineComponent({
     name: 'AddressRegister',
@@ -111,12 +109,8 @@
     },
     computed: {
       ...mapState({
-        user: state => state.all,
+        user: state => state.user.USER,
       }),
-      user_id_get: user.getters.getMyId,
-      user_token_get: user.getters.getMyToken,
-      user_name_get: user.getters.getMyName,
-      // addressList: address.getters.getAddressList,
     },
     mounted() {
       // this.sample2_execDaumPostcode();
@@ -124,7 +118,7 @@
 
     methods: {
       exeAddrRegister() {
-        if (user.state.USER_ID != '') {
+        if (this.user.USER_ID != '') {
           const addressData = {
             address_tag: this.address_tag,
             recipient: this.recipient,
@@ -133,7 +127,7 @@
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
-            user_id: this.user_id_get,
+            user_id: this.user.USER_ID,
             is_default: this.cheked,
           };
 
@@ -144,7 +138,7 @@
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
-              authorization: this.user_token_get,
+              authorization: this.user.USER_TOKEN,
             },
 
             data: addressData,
@@ -160,7 +154,7 @@
                 // 응답값은 'success' 변경함.
                 '주소 등록 응답값: ' + JSON.stringify(insertAddress),
               );
-              address.dispatch('addAddressAction', insertAddress);
+              this.$store.dispatch('address/addAddressAction', insertAddress);
               alert.confirm('알림', '주소 등록이 완료되었습니다.');
             })
             .catch(res => console.log('에러: ' + res));
