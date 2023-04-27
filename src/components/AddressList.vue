@@ -8,39 +8,37 @@
         :key="addr.address_id"
         v-bind="addr"
       >
-        <div class="q-gutter-sm q-ma-xs">
+        <div class="q-ma-xs">
           <q-card-section>
-            <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
-              <q-radio
-                v-if="addr.is_default"
-                v-model="shape"
-                :val="check_default_address(addr)"
-                checked-icon="task_alt"
-                unchecked-icon="panorama_fish_eye"
-                label="배송지로 선택됨"
-              />
-              <q-btn
-                v-if="!addr.is_default"
-                color="primary"
-                label="이 배송지로 변경"
-                @click="
-                  confirm_change_default(addr.address_tag, addr.address_id)
-                "
-              ></q-btn>
+            <div class="absolute-top-right q-gutter-sm q-pt-md q-pr-sm">
               <q-btn
                 color="primary"
-                label="주소 정보 변경"
+                :label="selected_local.changeaddrinfo"
                 @click="confirm_change_address_info(addr.address_tag, addr)"
               ></q-btn>
 
               <q-btn
                 v-if="!addr.is_default"
                 color="negative"
-                label="삭제"
+                :label="selected_local.del"
                 @click="confirm_delete(addr.address_tag, addr.address_id)"
               ></q-btn>
             </div>
-            <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div>
+            <q-radio
+              v-if="addr.is_default"
+              v-model="shape"
+              :val="check_default_address(addr)"
+              checked-icon="task_alt"
+              unchecked-icon="panorama_fish_eye"
+              :label="selected_local.defaultaddr"
+            />
+            <q-btn
+              v-if="!addr.is_default"
+              color="primary"
+              :label="selected_local.changedefaultaddr"
+              @click="confirm_change_default(addr.address_tag, addr.address_id)"
+            ></q-btn>
+            <!-- <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div> -->
             <!-- <div class="text-subtitle2">수령인: {{ addr.recipient }}</div> -->
             <!-- <div class="text-h6">배송지 ID: {{ addr.address_id }}</div> -->
             <!-- <q-input
@@ -51,31 +49,38 @@
             </q-input> -->
             <div class="row">
               <q-input
-                class="col-3"
-                label="수령인: "
+                class="col-md-3 col-sm-6 col-xs-6"
+                :label="selected_local.addrname"
+                readonly
+                :model-value="addr.address_tag"
+              >
+              </q-input>
+              <q-input
+                class="col-md-3 col-sm-6 col-xs-6"
+                :label="selected_local.recipient"
                 readonly
                 :model-value="addr.recipient"
               >
               </q-input>
               <q-input
-                class="col-9"
-                label="전화번호: "
+                class="col-md-3 col-sm-6 col-xs-6"
+                :label="selected_local.tel"
                 readonly
                 :model-value="addr.recipient_phone"
                 mask="(###)####-####"
               >
               </q-input>
               <q-input
-                class="col-3"
-                label="우편번호: "
+                class="col-md-3 col-sm-6 col-xs-6"
+                :label="selected_local.postcode"
                 readonly
                 :model-value="addr.post_code"
                 mask="###-##"
               >
               </q-input>
               <q-input
-                class="col-9"
-                label="주소: "
+                class="col-md-9 col-sm-12 col-xs-12"
+                :label="selected_local.addr"
                 readonly
                 :model-value="
                   addr.address1 + ' ' + addr.address2 + ' ' + addr.address3
@@ -98,7 +103,7 @@
           icon="add"
           color="info"
           class="col-12"
-          label="신규 주소 등록"
+          :label="selected_local.registernewaddr"
           @click="register = true"
         ></q-btn>
       </div>
@@ -138,6 +143,7 @@
         user: state => state.user.USER,
         addressList: state => state.address.items,
         address_status: state => state.address.status,
+        selected_local: state => state.ui_local.status,
       }),
     },
     watch: {},
@@ -251,8 +257,9 @@
       const $q = useQuasar();
       function confirm_change_default(address_tag, address_id) {
         $q.dialog({
-          title: 'Confirm',
-          message: '이 배송지로 변경하시겠습니까? (' + address_tag + ')',
+          title: this.selected_local.confirm,
+          message:
+            this.selected_local.confirmchangedefault + '(' + address_tag + ')',
           cancel: true,
           persistent: false,
         }).onOk(() => {
@@ -261,8 +268,9 @@
       }
       function confirm_change_address_info(address_tag, addr) {
         $q.dialog({
-          title: 'Confirm',
-          message: '이 주소지 정보를 변경하시겠습니까? (' + address_tag + ')',
+          title: this.selected_local.confirm,
+          message:
+            this.selected_local.confirmchangeaddrinfo + '(' + address_tag + ')',
           cancel: true,
           persistent: false,
         }).onOk(() => {
@@ -274,8 +282,9 @@
       }
       function confirm_delete(address_tag, address_id) {
         $q.dialog({
-          title: 'Confirm',
-          message: '이 주소를 삭제하시겠습니까? (' + address_tag + ')',
+          title: this.selected_local.confirm,
+          message:
+            this.selected_local.confirmdeleteaddr + '(' + address_tag + ')',
           cancel: true,
           persistent: false,
         }).onOk(() => {

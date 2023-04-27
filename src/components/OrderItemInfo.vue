@@ -1,96 +1,157 @@
 <template>
   <div>
-    <q-card class="my-card" @click="card = true">
-      <q-img :src="img">
-        <div class="absolute-bottom text-body5 text-center" lang="zh-CN">
-          {{ quantity }} 개/个
-        </div>
+    <div @click="card = true">
+      <q-img :src="img" class="rounded-borders">
+        <q-badge
+          color="positive"
+          floating
+          rounded
+          transparent
+          :label="quantity"
+        />
+        <!-- <q-chip
+          class="absolute-bottom row justify-center"
+          style="vertical-align: bottom"
+          icon="sell"
+          text-color="white"
+          >{{ product_name }}
+        </q-chip> -->
       </q-img>
-    </q-card>
+    </div>
     <div>
-      <q-dialog v-model="card">
-        <q-card class="my-card q-pa-sm" style="width: 400px">
-          <q-img
-            :src="img"
-            style="width: 128px; height: 128px"
-            class="rounded-borders"
-          />
-
-          <q-card-section>
-            <q-btn
-              fab
-              color="primary"
-              icon="payments"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%)"
-            />
-
-            <div class="row no-wrap items-center">
-              <div class="col text-h6 ellipsis">
-                {{ product_name }}
-              </div>
-              <div
-                class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+      <q-dialog v-model="card" :id="category">
+        <q-card class="bg-teal-3" style="width: 75%; height: fit-content">
+          <q-btn
+            class="absolute-top-right bg-grey z-top q-ma-xs"
+            icon="close"
+            v-close-popup
+          >
+          </q-btn>
+          <!-- <q-drawer
+            show-if-above
+            :width="160"
+            :breakpoint="160"
+            class="q-pa-sm"
+            style="height: 300px; border-right: 1px solid silver"
+          > -->
+          <q-card-section class="row q-py-xs">
+            <q-img :src="img" class="rounded-borders col-5" />
+            <q-card-section class="col-6">
+              <q-input
+                readonly
+                disable
+                borderless
+                dense="true"
+                label="名称： "
+                :model-value="product_name"
               >
-                {{ price }} 원
-              </div>
-            </div>
-          </q-card-section>
+              </q-input>
+              <!-- <q-input
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="类别： "
+              :model-value="category"
+            >
+            </q-input> -->
 
-          <q-card-section class="q-pt-none">
-            <div class="text-subtitle1">
-              <q-icon name="payments"></q-icon> {{ price * quantity }} 원
-            </div>
+              <q-input
+                readonly
+                disable
+                borderless
+                dense="true"
+                label="规格/风味： "
+                :model-value="tag"
+              >
+              </q-input>
+            </q-card-section>
           </q-card-section>
-
           <q-separator />
-          <q-card-actions align="left">
-            <q-btn
-              glossy
-              color="primary"
-              icon="delete"
-              label="상품 제거"
-              @click="this.deleteConfirm = true"
-            />
-            <q-card-actions align="right">
-              <q-btn
-                glossy
-                color="negative"
-                icon="remove_shopping_cart"
-                @click="removefromCart(this.product_name)"
-                ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
-              >
-              <q-btn
-                glossy
-                color="primary"
-                icon="add_shopping_cart"
-                @click="sendToCart(this.product_name)"
-              >
-                <q-badge rounded color="orange" floating>1</q-badge></q-btn
-              ></q-card-actions
+          <!-- </q-drawer> -->
+          <q-card-section class="row justify-center q-py-none">
+            <q-input
+              class="q-pa-sm col-4"
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="单价： "
+              :model-value="price"
             >
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-      <q-dialog v-model="deleteConfirm" persistent>
-        <q-card>
-          <q-card-section class="row items-center">
-            <q-avatar icon="warning" color="warning" text-color="white" />
-            <span class="q-ml-sm"
-              >이 상품을 장바구니에서 제거하시겠습니까?</span
+            </q-input>
+            <q-input
+              class="q-pa-sm col-8"
+              readonly
+              disable
+              outlined
+              bg-color="teal-2"
+              dense="true"
+              input-class="text-right"
+              :model-value="price * quantity"
             >
+              <template v-slot:prepend>
+                <q-icon name="shopping_cart_checkout"></q-icon>
+              </template>
+            </q-input>
           </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn flat label="취소" color="primary" v-close-popup />
+          <q-card-section class="row justify-center q-py-none">
             <q-btn
-              flat
-              label="확인"
-              color="primary"
-              v-close-popup
-              @click="deleteProductFromCart(this.product_name)"
-            />
-          </q-card-actions>
+              class="col-3"
+              style="height: 56px; vertical-align: bottom"
+              icon="remove"
+              @click="removefromCart(this.product_name)"
+            ></q-btn>
+            <q-input
+              class="q-px-xs col-6"
+              style="vertical-align: top"
+              readonly
+              disable
+              outlined
+              dense="true"
+              bg-color="teal-2"
+              :model-value="quantity"
+              input-class="text-right"
+            ></q-input>
+            <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
+            <q-btn
+              class="col-3"
+              style="height: 56px; vertical-align: bottom"
+              icon="add"
+              @click="sendToCart(this.product_name)"
+            ></q-btn>
+            <!-- <q-badge rounded color="orange" floating>1</q-badge> -->
+          </q-card-section>
+
+          <q-btn
+            glossy
+            color="primary"
+            icon="delete"
+            label="상품 제거"
+            @click="this.deleteConfirm = true"
+          />
+          <q-dialog v-model="deleteConfirm" persistent>
+            <q-card>
+              <q-card-section class="row items-center">
+                <q-avatar icon="warning" color="warning" text-color="white" />
+                <span class="q-ml-sm"
+                  >이 상품을 장바구니에서 제거하시겠습니까?</span
+                >
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="취소" color="primary" v-close-popup />
+                <q-btn
+                  flat
+                  label="확인"
+                  color="primary"
+                  v-close-popup
+                  @click="deleteProductFromCart(this.product_name)"
+                />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
         </q-card>
       </q-dialog>
     </div>
@@ -104,14 +165,7 @@
 
   export default defineComponent({
     name: 'OrderItemInfo',
-    data: function () {
-      return {
-        orderCount: this.quantity,
-      };
-    },
-    watch: {
-      orderCount: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
-    },
+
     props: {
       img: {
         type: Image,
@@ -121,7 +175,10 @@
         type: String,
         default: '',
       },
-
+      tag: {
+        type: String,
+        default: '',
+      },
       price: {
         type: Int32Array,
         default: 0,
@@ -148,8 +205,9 @@
       sendToCart(name) {
         this.addThisItem();
         Notify.create({
-          message: '(' + name + ') 1개를 장바구니에 넣었습니다.',
-          color: 'purple',
+          position: 'top',
+          message: '购物车： (' + name + ') + 1',
+          color: 'green',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
         this.$emit('sendOrderItem');
@@ -158,14 +216,16 @@
         if (this.orderCount > 0) {
           this.removeThisItem();
           Notify.create({
-            message: '(' + name + ') 1개를 장바구니에서 제거했습니다.',
+            position: 'top',
+            message: '购物车： (' + name + ') - 1',
             color: 'red',
           });
 
           this.$emit('sendRemoveItem');
         } else {
           Notify.create({
-            message: '모두 제거했습니다. 더이상 제거할 수 없습니다.',
+            position: 'top',
+            message: '已卸完',
             color: 'red',
           });
         }
@@ -174,7 +234,8 @@
         this.orderCount = 0;
 
         Notify.create({
-          message: '장바구니에서 제거했습니다. (' + name + ')',
+          position: 'top',
+          message: '已删除： (' + name + ')',
           color: 'red',
         });
 

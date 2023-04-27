@@ -3,6 +3,7 @@ import shop from './storage';
 // initial state
 const state = () => ({
   all: [],
+  staus: 'update',
 });
 
 // getters
@@ -33,9 +34,11 @@ const mutations = {
       product_name: products.product_name,
       price: products.price,
       category: products.category,
+      tag: products.tag,
       img: 'src/assets/' + products.img + '.jpg',
       quantity: 99,
     });
+    state.staus = null;
   },
   decrementProductInventory(state, {id}) {
     const product = state.all.find(product => product.id === id);

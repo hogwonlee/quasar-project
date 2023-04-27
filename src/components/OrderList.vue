@@ -9,11 +9,19 @@
           color="white-1"
           standout
           readonly
-          label="배송주소/送货地址"
+          label="收件人/수령인"
+          :model-value="this.address_selected.recipient"
+        >
+          <template v-slot:prepend>
+            <q-icon name="person" />
+          </template>
+        </q-input>
+        <q-input
+          color="white-1"
+          standout
+          readonly
+          label="送货地址/배송주소"
           :model-value="
-            '(' +
-            this.address_selected.recipient +
-            ') ' +
             this.address_selected.address1 +
             ' ' +
             this.address_selected.address2 +
@@ -39,7 +47,7 @@
           v-if="!is_addr_added"
           class="text-bold text-white"
           color="negative"
-          label="주소등록 / 地址登记"
+          label="登录地址"
           lang="zh-CN"
           @click="register_popup = true"
         ></q-btn>
@@ -47,7 +55,7 @@
           v-else
           class="text-bold"
           color="primary"
-          label="변경 / 变更"
+          label="变更"
           lang="zh-CN"
           @click="address_popup = true"
         ></q-btn>
@@ -64,7 +72,7 @@
 
     <div class="q-pa-md bg-teal">
       <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1"
-        >주문 리스트</q-chip
+        >订单 주문 리스트</q-chip
       >
       <p v-show="!cartList.length">
         <i>상품을 추가해주세요.</i>
@@ -80,7 +88,7 @@
           @sendDeleteItem="
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
-          class="col-2 q-pa-sm"
+          class="col-xs-3 col-sm-3 col-md-2 q-pa-xs"
           v-for="product in cartProduct"
           :key="product.id"
           v-bind="product"
@@ -89,24 +97,24 @@
       </div>
     </div>
 
-    <q-card class="row q-py-sm bg-teal-2">
-      <q-markup-table flat bordered class="col-8 q-ma-md justify-center">
+    <q-card class="q-py-sm bg-teal-2">
+      <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
-            <td class="text-left bg-teal col-4">주문 금액:</td>
-            <td class="text-right col-8">{{ total }} 원</td>
+            <td class="text-left bg-teal col-4">食品价格:</td>
+            <td class="text-right col-8">{{ total }} 韩元</td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">배송비:</td>
+            <td class="text-left bg-teal col-4">运送费:</td>
             <td class="text-right col-8">
               <q-chip
                 dense
                 color="teal"
                 icon="new_releases"
-                label="2만원 이상 구매 시 무료 배송"
+                label="满3万，免运费"
                 text-color="white"
               />
-              {{ shipment }} 원
+              {{ shipment }} 韩元
             </td>
           </tr>
           <tr class="row">
@@ -114,29 +122,26 @@
             <td class="text-right col-8">5000 임시 임의 수</td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">총:</td>
-            <td class="text-right col-8">{{ total + shipment }} 원</td>
+            <td class="text-left bg-teal col-4">总计:</td>
+            <td class="text-right col-8">{{ total + shipment }} 韩元</td>
           </tr>
         </tbody>
       </q-markup-table>
-      <div class="col-3">
-        <q-btn
-          class="absolute-right q-pa-xl q-ma-md text-bold text-h6"
-          style="background: teal; color: white"
-          :disabled="!cartList.length"
-          label="结算 / 결제하기"
-          @click="selectPaymentmethod(total, shipment)"
-        >
-          <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
-        </q-btn>
-      </div>
+      <q-btn
+        style="background: teal; color: white"
+        :disabled="!cartList.length"
+        label="结算 / 결제하기"
+        @click="selectPaymentmethod(total, shipment)"
+      >
+        <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
+      </q-btn>
     </q-card>
 
     <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p>
     <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
       <q-card>
         <q-card-section>
-          <div class="text-h6">결제 수단</div>
+          <div class="text-h6">收银台</div>
         </q-card-section>
 
         <q-separator />

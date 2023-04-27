@@ -19,6 +19,7 @@ const getters = {
         img: product.img,
         product_name: product.product_name,
         price: product.price,
+        tag: product.tag,
         quantity,
       };
     });
@@ -32,9 +33,9 @@ const getters = {
     }, 0);
   },
   shipmentPrice: (state, getters) => {
-    return getters.cartTotalPrice >= 20000 || getters.cartTotalPrice === 0
+    return getters.cartTotalPrice >= 30000 || getters.cartTotalPrice === 0
       ? 0
-      : 3000;
+      : 2800;
   },
 };
 

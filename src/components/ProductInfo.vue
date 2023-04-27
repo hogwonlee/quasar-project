@@ -2,17 +2,30 @@
   <!-- <q-item-section v-if="icon" avatar>
     <q-icon :name="icon" />
   </q-item-section> -->
-  <div lang="zh-CN">
+  <div>
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders">
-        <div class="absolute-bottom text-body3 text-center">
-          {{ price }} 원/韩元
-        </div>
+        <q-chip
+          class="absolute-bottom"
+          dense
+          text-color="white"
+          icon="img:src\assets\icons\currency-krw-white.png"
+        >
+          {{ price }}
+
+          <q-badge color="teal" floating rounded transparent :label="tag" />
+        </q-chip>
       </q-img>
     </div>
     <div>
       <q-dialog v-model="card" :id="category">
-        <q-card class="my card row q-pa-sm" style="width: 600px; height: 300px">
+        <q-card class="bg-teal-3" style="width: 75%; height: fit-content">
+          <q-btn
+            class="absolute-top-right bg-grey z-top q-ma-xs"
+            icon="close"
+            v-close-popup
+          >
+          </q-btn>
           <!-- <q-drawer
             show-if-above
             :width="160"
@@ -20,88 +33,107 @@
             class="q-pa-sm"
             style="height: 300px; border-right: 1px solid silver"
           > -->
-          <div class="col-4">
-            <q-img
-              :src="img"
-              style="height: 140px; max-width: 140px"
-              class="rounded-borders"
-            />
-          </div>
-          <div class="col-8">
-            <!-- </q-drawer> -->
-            <q-card>
-              <q-input
-                readonly
-                disable
-                outlined
-                input-class="text-right"
-                :model-value="price * this.orderCount"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="payments"></q-icon>
-                </template>
-                <template v-slot:append> 원/韩元 </template>
-              </q-input>
+          <q-img :src="img" class="rounded-borders" />
+          <q-card-section class="q-ma-xs q-py-none row">
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="名称： "
+              :model-value="product_name"
+            >
+            </q-input>
+            <!-- <q-input
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="类别： "
+              :model-value="category"
+            >
+            </q-input> -->
 
-              <q-card-section align="center" class="row justify-center">
-                <q-btn
-                  class="col-3"
-                  style="height: 56px; vertical-align: bottom"
-                  glossy
-                  color="negative"
-                  icon="remove_shopping_cart"
-                  @click="removefromCart(this.product_name)"
-                  ><q-badge rounded color="orange" floating>-1</q-badge></q-btn
-                >
-                <q-input
-                  class="q-pl-sm q-pr-sm col-5"
-                  style="vertical-align: top"
-                  outlined
-                  readonly
-                  disable
-                  v-model="this.orderCount"
-                  input-class="text-right"
-                ></q-input>
-                <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
-                <q-btn
-                  class="col-3"
-                  style="height: 56px; vertical-align: bottom"
-                  glossy
-                  color="primary"
-                  icon="add_shopping_cart"
-                  @click="sendToCart(this.product_name)"
-                  ><q-badge rounded color="orange" floating>1</q-badge></q-btn
-                >
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-4">
-            <q-card-section>
-              <div class="text-h6 text-black">{{ product_name }}</div>
-              <div class="text-h6 text-black">{{ category }}</div>
-              <div class="text-h6 text-black" icon="finance_chip">
-                {{ price }} 韩元
-              </div>
-            </q-card-section>
-          </div>
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="规格/风味： "
+              :model-value="tag"
+            >
+            </q-input>
+            <!-- </q-drawer> -->
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              dense="true"
+              label="单价： "
+              :model-value="price"
+            >
+            </q-input>
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              outlined
+              bg-color="teal-2"
+              label="价格： "
+              dense="true"
+              input-class="text-right"
+              :model-value="price * this.orderCount"
+            >
+            </q-input>
+          </q-card-section>
+          <q-separator />
+
+          <q-card-section class="row justify-center q-py-none">
+            <q-btn
+              class="col-3"
+              style="height: 56px; vertical-align: bottom"
+              icon="remove"
+              @click="removefromCart(this.product_name)"
+            ></q-btn>
+            <q-input
+              class="q-px-xs col-6"
+              style="vertical-align: top"
+              readonly
+              disable
+              outlined
+              dense="true"
+              bg-color="teal-2"
+              v-model="this.orderCount"
+              input-class="text-right"
+            ></q-input>
+            <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
+            <q-btn
+              class="col-3"
+              style="height: 56px; vertical-align: bottom"
+              icon="add"
+              @click="sendToCart(this.product_name)"
+            ></q-btn>
+            <!-- <q-badge rounded color="orange" floating>1</q-badge> -->
+          </q-card-section>
+          <q-card-section class="row justify-center q-gutter-sm q-py-xs">
+            <q-btn
+              class="col-6"
+              glossy
+              color="primary"
+              tag="a"
+              to="/OrderList"
+              label="前往收银台"
+            >
+              <!-- icon="shopping_cart_checkout" -->
+            </q-btn>
+            <q-btn class="col-5" glossy label="再逛逛" v-close-popup> </q-btn>
+          </q-card-section>
           <!-- <span class="q-pa-md">
               구매 금액: {{  }}</span
                 > -->
-          <div class="col-8">
-            <q-card-section align="center">
-              <q-btn class="col-5" label="다른 상품 보기" v-close-popup></q-btn>
-              <q-btn
-                glossy
-                class="col-5"
-                color="primary"
-                label="결제하기"
-                tag="a"
-                to="/OrderList"
-                icon="shopping_cart_checkout"
-              >
-              </q-btn>
-            </q-card-section>
-          </div>
         </q-card>
       </q-dialog>
     </div>
@@ -115,6 +147,7 @@
 
   export default defineComponent({
     name: 'ProductInfo',
+    components: {},
     data: function () {
       return {
         orderCount: this.itemCount,
@@ -129,6 +162,10 @@
         required: true,
       },
       product_name: {
+        type: String,
+        default: '',
+      },
+      tag: {
         type: String,
         default: '',
       },
@@ -165,8 +202,9 @@
       sendToCart(name) {
         this.addThisItem();
         Notify.create({
-          message: '(' + name + ') 1개를 장바구니에 넣었습니다.',
-          color: 'purple',
+          position: 'top',
+          message: '购物车： (' + name + ') + 1',
+          color: 'green',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
         this.$emit('sendOrderItem');
@@ -175,13 +213,15 @@
         if (this.orderCount > 0) {
           this.removeThisItem();
           Notify.create({
-            message: '(' + name + ') 1개를 장바구니에서 제거했습니다.',
+            position: 'top',
+            message: '购物车： (' + name + ') - 1',
             color: 'red',
           });
           this.$emit('sendRemoveItem');
         } else {
           Notify.create({
-            message: '모두 제거했습니다. 더이상 제거할 수 없습니다.',
+            position: 'top',
+            message: '已卸完',
             color: 'red',
           });
         }
