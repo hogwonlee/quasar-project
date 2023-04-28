@@ -240,6 +240,7 @@
         });
 
         this.$emit('sendDeleteItem');
+        this.card = false;
       },
     },
   });

@@ -6,9 +6,8 @@
       style="width: 150px; max-height: 50px"
       borderless
       v-model="keyword"
-      label="| 검색/搜索"
+      :label="selected_local.search"
       label-color="white"
-      lang="zh-CN"
     >
       <template v-slot:append>
         <q-icon
@@ -24,23 +23,28 @@
       <q-list v-if="list_show" bordered separator class="bg-accent">
         <q-item clickable v-ripple>
           <q-item-section @click="handleScroll('饮料')">
-            <q-item-label overline>饮料</q-item-label>
+            <q-item-label overline>饮料/음료수</q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
           <q-item-section @click="handleScroll('调味料')">
-            <q-item-label overline>调味料</q-item-label>
+            <q-item-label overline>调味料/조미료</q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
           <q-item-section @click="handleScroll('零食')">
-            <q-item-label overline>零食</q-item-label>
+            <q-item-label overline>零食/간식</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
-      <q-btn fab label="种类" color="accent" @click="list_show = !list_show" />
+      <q-btn
+        fab
+        :label="selected_local.category"
+        color="accent"
+        @click="list_show = !list_show"
+      />
     </q-page-sticky>
     <!-- </q-scroll-area> -->
     <!-- </q-drawer> -->
@@ -93,29 +97,30 @@
         checkoutStatus: state => state.cart.checkoutStatus,
         products: state => state.products.all,
         products_status: state => state.products.status,
+        selected_local: state => state.ui_local.status,
       }),
     },
-    created() {
-      if (this.products_status != null) {
-        console.log(this.products_status);
-        axios({
-          url: 'http://localhost:3001/productList',
-          method: 'GET',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-          },
+    mounted() {
+      // console.log(this.products_status);
+      // if (this.products_status != null) {
+      axios({
+        url: 'http://localhost:3001/productList',
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Headers': '*',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => {
+          // console.log(JSON.stringify(res.data.results));
+          this.$store.dispatch('products/emptyStoreAction');
+          res.data.results.map(element => {
+            // console.log(element));
+            this.$store.dispatch('products/getProductAction', element);
+          });
         })
-          .then(res => {
-            // console.log(JSON.stringify(res.data.results));
-            this.$store.dispatch('products/emptyStoreAction');
-            res.data.results.map(element => {
-              // console.log(element));
-              this.$store.dispatch('products/getProductAction', element);
-            });
-          })
-          .catch();
-      }
+        .catch();
+      // }
     },
     setup() {
       return {

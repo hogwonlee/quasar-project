@@ -5,13 +5,13 @@
       <q-card class="row q-pl-lg bg-teal-4">
         <q-input
           :model-value="user.USER_NAME"
-          label="이름: "
+          :label="selected_local.name"
           readonly
           class="col-3"
         ></q-input>
         <q-input
           :model-value="user.USER_PHONE"
-          label="전화번호: "
+          :label="selected_local.tel"
           readonly
           class="col-9"
         ></q-input>
@@ -19,12 +19,12 @@
         <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
           <q-btn
             color="primary"
-            label="내 정보 변경"
+            :label="selected_local.changemyinfo"
             @click="this.checkPasswordDialog = true"
           ></q-btn>
           <q-btn
             color="primary"
-            label="비밀번호 변경"
+            :label="selected_local.changepassword"
             @click="this.changePasswordDialog = true"
           ></q-btn>
         </div>
@@ -52,7 +52,7 @@
     >
       <q-card class="bg-teal text-white" style="width: 300px">
         <q-card-section>
-          <div class="text-h6">비밀번호 확인</div>
+          <div class="text-h6">{{ selected_local.confirmpassword }}</div>
         </q-card-section>
 
         <q-form @submit="checkpw" @reset="onReset" class="q-gutter-md">
@@ -60,22 +60,35 @@
             readonly
             disable
             v-model="user.USER_ID"
-            label="아이디"
+            :label="selected_local.identity"
             lazy-rules
-            :rules="[val => (val && val.length > 0) || '필수 입력']"
+            :rules="[
+              val => (val && val.length > 0) || selected_local.essential,
+            ]"
           />
 
           <q-input
             filled
             v-model="userPw"
-            label="비밀번호"
+            :label="selected_local.password"
             lazy-rules
-            :rules="[val => (val && val.length > 0) || '필수 입력']"
+            :rules="[
+              val => (val && val.length > 0) || selected_local.essential,
+            ]"
           />
 
           <div>
-            <q-btn label="확인" type="submit" color="primary" v-close-popup />
-            <q-btn label="취소" color="primary" v-close-popup />
+            <q-btn
+              :label="selected_local.confirm"
+              type="submit"
+              color="primary"
+              v-close-popup
+            />
+            <q-btn
+              :label="selected_local.cancel"
+              color="primary"
+              v-close-popup
+            />
           </div>
         </q-form>
       </q-card>
@@ -129,6 +142,7 @@
       ...mapState({
         user_status: state => state.user.status,
         user: state => state.user.USER,
+        selected_local: state => state.ui_local.status,
       }),
     },
     watch: {},
@@ -147,7 +161,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: user.state.USER.USER_TOKEN,
+            authorization: this.user.USER_TOKEN,
           },
         })
           .then(res => {
@@ -160,8 +174,8 @@
           .catch(res => {
             if (res.status != 200) {
               alert.confirm(
-                '오류 / 错误',
-                '비밀번호가 올바르지 않습니다. / 密码错误',
+                this.selected_local.err,
+                this.selected_local.errpassword,
               );
             }
           });

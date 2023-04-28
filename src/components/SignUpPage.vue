@@ -1,17 +1,17 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+  <div>
     <!-- <q-dialog persistent transition-show="scale" transition-hide="scale"> -->
-    <q-card class="bg-teal text-white" style="width: 300px">
+    <q-card class="bg-teal text-black">
       <q-card-section>
-        <div class="text-h6">Sign Up</div>
+        <div class="text-h6">{{ selected_local.signup }}</div>
       </q-card-section>
 
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
         <q-input
           filled
           v-model="userId"
-          label="아이디"
-          hint="사용할 아이디를 입력하세요"
+          :label="selected_local.identity"
+          :hint="selected_local.idhint"
           lazy-rules
           :rules="[val => (val && val.length > 0) || hint]"
         />
@@ -19,63 +19,92 @@
         <q-input
           filled
           v-model="userNickname"
-          label="이름"
-          hint="(필수)배송 받을 분의 이름을 입력하세요"
+          :label="selected_local.name"
+          :hint="selected_local.namehint"
           lazy-rules
-          :rules="[
-            val =>
-              (val && val.length > 0) ||
-              '(필수)배송 받을 분의 이름을 입력하세요',
-          ]"
-        />
-
-        <q-input
-          filled
-          v-model="userPw"
-          label="비밀번호"
-          hint="(필수)비밀번호를 입력하세요"
-          lazy-rules
-          :rules="[
-            val => (val && val.length > 0) || '(필수)비밀번호를 입력하세요',
-          ]"
-        />
-
-        <q-input
-          filled
-          v-model="userPwCheck"
-          label="비밀번호 일치확인"
-          hint="(필수)비밀번호를 다시 한번 입력하세요"
-          lazy-rules
-          :rules="[this.value == this.userPw || hint]"
+          :rules="[val => (val && val.length > 0) || hint]"
         />
 
         <q-input
           filled
           v-model="userPhone"
-          label="전화번호"
-          hint="(필수)전화번호를 입력하세요"
+          :label="selected_local.tel"
+          :hint="selected_local.telhint"
+          mask="(###)####-####"
           lazy-rules
           :rules="[val => (val && val.length > 0) || hint]"
         />
 
-        <q-toggle v-model="accept" label="I accept the license and terms" />
+        <!-- <q-toggle v-model="accept" :label="selected_local.licenseterms" /> -->
 
-        <div>
+        <q-input
+          filled
+          v-model="userPw"
+          :type="ispwd ? 'password' : 'text'"
+          :label="selected_local.password"
+          :hint="selected_local.passwordhint"
+          lazy-rules
+          :rules="[
+            val => (val && val.length > 0) || hint,
+            val => (val && val.length > 0) || hint,
+            val => (val && val.length > 0) || hint,
+          ]"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="ispwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="ispwd = !ispwd"
+            />
+          </template>
+        </q-input>
+
+        <q-input
+          filled
+          v-model="userPwCheck"
+          :type="ispwd ? 'password' : 'text'"
+          :label="selected_local.matchpassword"
+          :hint="selected_local.matchpasswordhint"
+          lazy-rules
+          :rules="[this.value == this.userPw || hint]"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="ispwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="ispwd = !ispwd"
+            />
+          </template>
+        </q-input>
+
+        <div class="row justify-center q-gutter-sm">
           <q-btn
-            label="가입하기"
+            :label="selected_local.signup"
+            class="col-5"
             type="submit"
             color="primary"
             v-close-popup
-            :disable="this.userPw != this.userPwCheck"
+            :disable="
+              this.userPw != this.userPwCheck ||
+              this.userId == '' ||
+              this.userPw == '' ||
+              this.userNickname == '' ||
+              this.userPhone == ''
+            "
           />
-          <q-btn label="취소" type="submit" color="primary" v-close-popup />
           <q-btn
+            :label="selected_local.cancel"
+            class="col-5"
+            color="primary"
+            v-close-popup
+          />
+          <!-- <q-btn
             label="다시 입력"
             type="reset"
             color="primary"
             flat
             class="q-ml-sm"
-          />
+          /> -->
         </div>
       </q-form>
     </q-card>
@@ -84,76 +113,63 @@
 </template>
 
 <script>
-  import {useQuasar} from 'quasar';
+  import {defineComponent} from 'vue';
   import {ref} from 'vue';
+  import {mapState} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
 
-  export default {
-    setup() {
-      const $q = useQuasar();
+  export default defineComponent({
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
+    },
+    methods: {
+      onSubmit() {
+        const userData = {
+          user_id: this.userId,
+          user_pw: this.userPw,
+          user_name: this.userNickname,
+          user_phone: this.userPhone,
+        };
 
-      var userNickname = ref(null);
-      var userPw = ref(null);
-      var userPwCheck = ref(null);
-      const accept = ref(false);
-      var userId = ref(null);
-      var userPhone = ref(null);
+        //회원가입 등록 요청 보내기
+        axios({
+          url: 'http://localhost:3001/register',
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
 
+          data: userData,
+        })
+          .then(res => {
+            if (res.status == 200) {
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.signupcomplete,
+              );
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+
+      onReset() {
+        this.userId = null;
+        this.userPw = null;
+      },
+    },
+    data: function () {
       return {
-        userId,
-        userNickname,
-        userPw,
-        accept,
-        userPwCheck,
-        userPhone,
-        // onSubmit() {
-        //   console.log(userId.value + userNickname.value);
-        // },
-        onSubmit() {
-          if (accept.value !== true) {
-            $q.notify({
-              color: 'red-5',
-              textColor: 'white',
-              icon: 'warning',
-              message: 'You need to accept the license and terms first',
-            });
-          } else {
-            $q.notify({
-              color: 'green-4',
-              textColor: 'white',
-              icon: 'cloud_done',
-              message: 'Submitted',
-            });
-            const userData = {
-              user_id: userId.value,
-              user_pw: userPw.value,
-              user_name: userNickname.value,
-              user_phone: userPhone.value,
-            };
-
-            //회원가입 등록 요청 보내기
-            axios({
-              url: 'http://localhost:3001/register',
-              method: 'POST',
-              headers: {
-                'Access-Control-Allow-Headers': '*',
-                'Content-Type': 'application/json',
-              },
-
-              data: userData,
-            })
-              .then(alert.confirm('알림', '회원가입 완료했습니다.'))
-              .catch(res => console.log('에러: ' + res));
-          }
-        },
-
-        onReset() {
-          userId.value = null;
-          userPw.value = null;
-          accept.value = false;
-        },
+        userNickname: ref(null),
+        userPw: ref(null),
+        userPwCheck: ref(null),
+        userId: ref(null),
+        userPhone: ref(null),
+        ispwd: ref(true),
       };
     },
-  };
+  });
 </script>

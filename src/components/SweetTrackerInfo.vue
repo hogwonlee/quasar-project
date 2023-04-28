@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-md">
     <div class="bg-primary">
-      <q-chip outline color="grey-1" class="text-body3 text-grey-1"
-        >운송장 번호</q-chip
-      >
+      <q-chip outline color="grey-1" class="text-body3 text-grey-1">
+        {{ selected_local.shippingnum }}
+      </q-chip>
       <div class="text-h3 text-grey-1">{{ t_invoice }}</div>
       <div class="text-body3 text-grey-1">{{ code_name[t_code] }}</div>
     </div>
@@ -16,56 +16,54 @@
     >
       <q-step
         :name="1"
-        title="상품준비중"
+        :title="selected_local.prepareproduct"
         icon="shelves"
         active-icon="shelves"
         done-icon="shelves"
         :done="step >= 1"
       >
-        주문을 확인하는대로 상품을 준비해서 배송하도록 하겠습니다.
+        {{ selected_local.deliverlevel1 }}
       </q-step>
       <q-step
         :name="2"
-        title="상품이동중"
+        :title="selected_local.moving"
         icon="zoom_in_map"
         active-icon="zoom_in_map"
         done-icon="zoom_in_map"
         :done="step >= 2"
       >
-        상품을 배송업체에 전달했습니다. 2,3일 사이에 고객님께 배송될 예정입니다.
+        {{ selected_local.deliverlevel2 }}
       </q-step>
 
       <q-step
         :name="3"
-        title="배송지도착"
+        :title="selected_local.arrivalresion"
         icon="warehouse"
         active-icon="warehouse"
         done-icon="warehouse"
         :done="step >= 3"
       >
-        집 근처 배송지에 도착했습니다. 조금만 더 기다려주세요.
+        {{ selected_local.deliverlevel3 }}
       </q-step>
-
       <q-step
         :name="5"
-        title="배송출발"
+        :title="selected_local.deliverstart"
         icon="local_shipping"
         active-icon="local_shipping"
         done-icon="local_shipping"
         :done="step >= 5"
       >
-        고객님 집 근처 배송지에서 출발했습니다. 곧 고객님께 전달될 예정입니다.
+        {{ selected_local.deliverlevel5 }}
       </q-step>
-
       <q-step
         :name="6"
-        title="배송완료/"
+        :title="selected_local.delivercomplete"
         icon="how_to_reg"
         active-icon="how_to_reg"
         done-icon="how_to_reg"
         :done="step >= 6"
       >
-        드디어 도착했습니다! 잘 받으시길 바랍니다!
+        {{ selected_local.deliverlevel6 }}
       </q-step>
     </q-stepper>
     <div v-if="step >= 2">
@@ -105,12 +103,16 @@
 <script>
   import {defineComponent, ref} from 'vue';
   import axios from 'axios';
-  import validation from 'src/util/data/validation';
-  import alert from 'src/util/modules/alert';
+  import {mapState} from 'vuex';
 
   export default defineComponent({
     name: 'SweetTrackerInfo',
     components: {},
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
+    },
     data() {
       return {
         t_key: '',

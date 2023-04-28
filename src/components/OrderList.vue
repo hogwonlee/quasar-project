@@ -9,7 +9,7 @@
           color="white-1"
           standout
           readonly
-          label="收件人/수령인"
+          :label="selected_local.recipient"
           :model-value="this.address_selected.recipient"
         >
           <template v-slot:prepend>
@@ -20,7 +20,7 @@
           color="white-1"
           standout
           readonly
-          label="送货地址/배송주소"
+          :label="selected_local.receiveaddr"
           :model-value="
             this.address_selected.address1 +
             ' ' +
@@ -47,16 +47,14 @@
           v-if="!is_addr_added"
           class="text-bold text-white"
           color="negative"
-          label="登录地址"
-          lang="zh-CN"
+          :label="selected_local.addrresister"
           @click="register_popup = true"
         ></q-btn>
         <q-btn
           v-else
           class="text-bold"
           color="primary"
-          label="变更"
-          lang="zh-CN"
+          :label="selected_local.change"
           @click="address_popup = true"
         ></q-btn>
       </div>
@@ -71,11 +69,11 @@
     </q-dialog>
 
     <div class="q-pa-md bg-teal">
-      <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1"
-        >订单 주문 리스트</q-chip
-      >
+      <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1">{{
+        selected_local.orderlist
+      }}</q-chip>
       <p v-show="!cartList.length">
-        <i>상품을 추가해주세요.</i>
+        <i>{{ selected_local.noordernotice }}</i>
       </p>
       <div class="row q-pa-xs virtual-scroll-horizontal">
         <OrderItemInfo
@@ -101,47 +99,52 @@
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
-            <td class="text-left bg-teal col-4">食品价格:</td>
+            <td class="text-left bg-teal col-4">
+              {{ selected_local.foodprice }}
+            </td>
             <td class="text-right col-8">{{ total }} 韩元</td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">运送费:</td>
+            <td class="text-left bg-teal col-4">
+              {{ selected_local.delivercost }}
+            </td>
             <td class="text-right col-8">
               <q-chip
                 dense
                 color="teal"
                 icon="new_releases"
-                label="满3万，免运费"
+                :label="selected_local.delivercostnotice"
                 text-color="white"
               />
               {{ shipment }} 韩元
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">포인트:</td>
-            <td class="text-right col-8">5000 임시 임의 수</td>
+            <td class="text-left bg-teal col-4">{{ selected_local.point }}</td>
+            <td class="text-right col-8">5000</td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">总计:</td>
+            <td class="text-left bg-teal col-4">{{ selected_local.total }}</td>
             <td class="text-right col-8">{{ total + shipment }} 韩元</td>
           </tr>
         </tbody>
       </q-markup-table>
       <q-btn
-        style="background: teal; color: white"
+        class="row justify-center"
+        style="background: teal; color: white; width: 50%"
         :disabled="!cartList.length"
-        label="结算 / 결제하기"
+        :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment)"
       >
         <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
       </q-btn>
     </q-card>
 
-    <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p>
+    <!-- <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p> -->
     <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
       <q-card>
         <q-card-section>
-          <div class="text-h6">收银台</div>
+          <div class="text-h6">{{ selected_local.checkout }}</div>
         </q-card-section>
 
         <q-separator />
@@ -153,8 +156,18 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-popup />
-          <q-btn flat label="결제" color="primary" v-close-popup />
+          <q-btn
+            flat
+            :label="selected_local.cancel"
+            color="primary"
+            v-close-popup
+          />
+          <q-btn
+            flat
+            :label="selected_local.checkout"
+            color="primary"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -172,7 +185,7 @@
   import {mapGetters, mapState, mapActions} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
   import LoginPage from 'components/LoginPage.vue';
-  import {ref} from 'vue';
+  import {defineComponent, ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
   import validation from 'src/util/data/validation';
   import {Cookies, useQuasar} from 'quasar';
@@ -181,7 +194,7 @@
   import {date} from 'quasar';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
-  export default {
+  export default defineComponent({
     name: 'OrderList',
     components: {
       OrderItemInfo,
@@ -189,39 +202,16 @@
       AddressList,
       AddressRegister,
     },
-    setup() {
-      const warning_text =
-        '경고: 등록한 주소가 없습니다. 신규 주소를 등록해주세요!';
-      const $q = useQuasar();
-      function confirm() {
-        $q.dialog({
-          title: 'Confirm',
-          message: '로그아웃 되었습니다.',
-          cancel: true,
-          persistent: true,
-        })
-          .onOk(() => {
-            // console.log('>>>> OK')
-          })
-          .onOk(() => {
-            // console.log('>>>> second OK catcher')
-          })
-          .onCancel(() => {
-            // console.log('>>>> Cancel')
-          })
-          .onDismiss(() => {
-            // console.log('I am triggered on both OK and Cancel')
-          });
-      }
+
+    data: function () {
       return {
-        confirm,
         is_addr_added: ref(false),
         basic: ref(false),
         persistent: ref(false),
         address_selected: '',
         address_popup: ref(false),
         register_popup: ref(false),
-        warning_text,
+        warning_text: '경고: 등록한 주소가 없습니다. 신규 주소를 등록해주세요!',
       };
     },
     computed: {
@@ -232,6 +222,7 @@
         user: state => state.user.USER,
         order: state => state.order.items,
         user_status: state => state.user.status,
+        selected_local: state => state.ui_local.status,
       }),
       ...mapGetters('cart', {
         cartProduct: 'cartProducts',
@@ -239,7 +230,6 @@
         shipment: 'shipmentPrice',
       }),
     },
-    watch: {},
     methods: {
       getSelectedAddress() {
         if (!this.is_addr_added) {
@@ -264,8 +254,12 @@
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
             orderId: random_id,
-            orderName: '토스 티셔츠 외 2건',
-            customerName: '박토스',
+            orderName:
+              this.cartList[0].product_id +
+              this.cartProduct[0].product_name +
+              this.cartList[0].quantity +
+              '...',
+            customerName: this.user.USER_NAME,
             successUrl: 'http://localhost:9000/#/Success',
             failUrl: 'http://localhost:9000/#/Fail',
           }),
@@ -275,5 +269,5 @@
     mounted() {
       this.getSelectedAddress();
     },
-  };
+  });
 </script>

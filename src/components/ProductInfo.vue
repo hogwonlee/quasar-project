@@ -41,7 +41,7 @@
               disable
               borderless
               dense="true"
-              label="名称： "
+              :label="selected_local.productname"
               :model-value="product_name"
             >
             </q-input>
@@ -61,7 +61,7 @@
               disable
               borderless
               dense="true"
-              label="规格/风味： "
+              :label="selected_local.flavorandspec"
               :model-value="tag"
             >
             </q-input>
@@ -72,7 +72,7 @@
               disable
               borderless
               dense="true"
-              label="单价： "
+              :label="selected_local.unitprice"
               :model-value="price"
             >
             </q-input>
@@ -82,7 +82,7 @@
               disable
               outlined
               bg-color="teal-2"
-              label="价格： "
+              :label="selected_local.sellprice"
               dense="true"
               input-class="text-right"
               :model-value="price * this.orderCount"
@@ -125,11 +125,17 @@
               color="primary"
               tag="a"
               to="/OrderList"
-              label="前往收银台"
+              :label="selected_local.gocounter"
             >
               <!-- icon="shopping_cart_checkout" -->
             </q-btn>
-            <q-btn class="col-5" glossy label="再逛逛" v-close-popup> </q-btn>
+            <q-btn
+              class="col-5"
+              glossy
+              :label="selected_local.lookaround"
+              v-close-popup
+            >
+            </q-btn>
           </q-card-section>
           <!-- <span class="q-pa-md">
               구매 금액: {{  }}</span
@@ -144,6 +150,7 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {Notify} from 'quasar';
+  import {mapState} from 'vuex';
 
   export default defineComponent({
     name: 'ProductInfo',
@@ -152,6 +159,11 @@
       return {
         orderCount: this.itemCount,
       };
+    },
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
     },
     watch: {
       orderCount: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
@@ -203,7 +215,7 @@
         this.addThisItem();
         Notify.create({
           position: 'top',
-          message: '购物车： (' + name + ') + 1',
+          message: this.selected_local.shopingcart + '： (' + name + ') + 1',
           color: 'green',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
@@ -214,14 +226,14 @@
           this.removeThisItem();
           Notify.create({
             position: 'top',
-            message: '购物车： (' + name + ') - 1',
+            message: this.selected_local.shopingcart + '： (' + name + ') - 1',
             color: 'red',
           });
           this.$emit('sendRemoveItem');
         } else {
           Notify.create({
             position: 'top',
-            message: '已卸完',
+            message: this.selected_local.deletecomplete,
             color: 'red',
           });
         }
