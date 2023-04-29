@@ -85,14 +85,14 @@
           })
             .then(response => {
               console.log(JSON.stringify(response));
-              var json = response.data;
               if (response.status == 200) {
+                var json = response.data;
                 json.results.forEach(addr => {
                   if (addr.address_active == 1)
                     this.$store.dispatch('address/addAddressAction', addr);
                 });
                 this.$store.dispatch('user/loginAction', json);
-              } else {
+              } else if (response.status == 400) {
                 alert.confirm(
                   selected_local.notice,
                   this.user.USER_NAME + selected_local.wrongpw,

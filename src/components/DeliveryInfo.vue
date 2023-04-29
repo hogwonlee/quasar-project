@@ -3,7 +3,7 @@
     <div v-if="order_count > 0">
       <q-card
         class="my-card"
-        v-for="order in orderGroupList"
+        v-for="order in orderGroupList.slice().reverse()"
         :key="order.id"
         v-bind="order"
       >
@@ -14,58 +14,50 @@
           <div class="text-h6">수령인: {{ order.recipient }}</div> -->
             <div class="row">
               <q-input
-                class="col-3"
+                class="col-md-6 col-sm-12 col-xs-12"
+                :model-value="order.orderGroup_id"
+                :label="selected_local.ordergroup"
+                readonly
+              ></q-input>
+              <q-input
+                class="col-md-3 col-sm-6 col-xs-6"
+                :model-value="get_address_tag(order.address_id)"
+                :label="selected_local.addrname"
+                readonly
+              ></q-input>
+              <q-input
+                class="col-md-3 col-sm-6 col-xs-6"
                 :model-value="order.order_date"
                 mask="####-##-##"
-                label="주문 날짜"
+                :label="selected_local.orderdate"
                 readonly
               ></q-input>
-              <q-input
-                class="col-3"
+              <!-- <q-input
+                class="col-md-3 col-sm-6 col-xs-6"
                 :model-value="order.order_time"
                 readonly
-                label="주문 시간"
-              ></q-input>
+                :label="selected_local.ordertime"
+              ></q-input> -->
 
-              <q-input
-                class="col-6"
-                :model-value="get_address_tag(order.address_id)"
-                label="배송지 이름"
-                readonly
-              ></q-input>
-
-              <q-input
+              <!-- <q-input
                 class="col-3"
                 :model-value="order.delivery_code"
                 readonly
-                label="택배사코드"
-              ></q-input>
-              <!-- <div class="text-subtitle2">
-            주문 시점: {{ order.order_date + order.order_time }}
-          </div> -->
-
-              <q-input
-                class="col-9"
-                :model-value="order.delivery_invoice"
-                label="송장번호"
-                readonly
-                mask="###/####/###/####"
-              ></q-input>
+                :label="selected_local.delivercompany"
+              ></q-input> -->
             </div>
-            <!-- <div class="text-subtitle2">
-            배송송장: {{ order.delivery_invoice }}
-          </div> -->
+
             <div class="absolute-top-right q-pa-sm q-gutter-sm">
               <q-btn
                 color="warning"
-                label="배송조회 - 스윗트래커 키값 새로 받아야 함."
+                :label="selected_local.tracedeliver"
                 @click="
                   this.tracker_info(order.delivery_code, order.delivery_invoice)
                 "
               ></q-btn>
               <q-btn
                 color="primary"
-                label="주문 상세정보"
+                :label="selected_local.detailorder"
                 @click="get_order_list(order.orderGroup_id)"
               ></q-btn>
             </div>
@@ -84,49 +76,27 @@
         class="text-body2"
         input-class="text-center"
       ></q-input>
-      <!-- <q-page class="flex flex-center">
-        <img
-          alt="Shop logo"
-          src="~assets/online_shop_logo.jpg"
-          style="width: 80px; height: 180px"
-        />
-      </q-page> -->
     </div>
     <q-dialog v-model="search_order">
-      <q-card>
-        <q-card-section class="row">
-          <q-input class="col-3" label="품명 / 品名" readonly></q-input>
-          <q-input class="col-3" label="설명 / 简介" readonly></q-input>
-          <q-input class="col-2" label="단가 / 单价" readonly></q-input>
-          <q-input class="col-2" label="수량 / 数量" readonly></q-input>
-          <q-input class="col-2" label="가격 / 价格" readonly></q-input>
-        </q-card-section>
-        <q-card-section
-          class="row"
-          v-for="order in this.res_order[search_order_id]"
-          :key="order.id"
-        >
-          <q-input
-            class="col-3"
-            :model-value="order.product_name"
-            readonly
-          ></q-input>
-          <q-input class="col-3" :model-value="order.tag" readonly></q-input>
-          <q-input class="col-2" :model-value="order.price" readonly></q-input>
-          <q-input
-            class="col-2"
-            :model-value="order.quantity"
-            readonly
-          ></q-input>
-          <q-input
-            class="col-2"
-            :model-value="order.quantity * order.price"
-            readonly
-          ></q-input>
-        </q-card-section>
-      </q-card>
+      <q-table
+        :title="
+          selected_local.ordergroup +
+          ': ' +
+          res_order[search_order_id][0].order_group
+        "
+        :rows="res_order[search_order_id]"
+        :columns="columns"
+        row-key="name"
+      />
     </q-dialog>
     <q-dialog v-model="tracker">
+      <!-- <q-input
+                class="col-9"
+                :model-value="order.delivery_invoice"
+                :label="selected_local.shippingnum"
+                readonly
+                mask="###/####/###/####"
+              ></q-input> -->
       <SweetTrackerInfo
         v-bind:delivery_code="this.child_code"
         v-bind:delivery_invoice="this.child_invoice"
@@ -157,6 +127,7 @@
         info_text: '주문내역이 없습니다. / 暂无订单',
         center_text: '中国食品',
         res_order: [],
+        columns: [],
       };
     },
     computed: {
@@ -166,6 +137,7 @@
         order_status: state => state.order.status,
         user: state => state.user.USER,
         orderGroupList: state => state.order.items,
+        selected_local: state => state.ui_local.status,
       }),
       ...mapActions([
         ('order', ['setEmptyAction']),
@@ -177,6 +149,8 @@
       }),
     },
     mounted() {
+      this.set_columns();
+
       if (
         !validation.isNull(this.user.USER_ID) &&
         !validation.isNull(this.order_status)
@@ -198,7 +172,6 @@
           .then(res => {
             // order.dispatch('setEmptyAction');
             this.$store.dispatch('order/setEmptyAction');
-
             res.data.results.forEach(order_group_info => {
               // console.log('주문그룹 정보: ' + JSON.stringify(order_group_info));
               // order.dispatch('pushOrderAction', order_group_info);
@@ -215,7 +188,10 @@
     methods: {
       tracker_info(code, invoice) {
         if (validation.isNull(invoice)) {
-          alert.confirm('알림', '송장이 등록되지 않았습니다.');
+          alert.confirm(
+            this.selected_local.notice,
+            this.selected_local.nodeliverinvoice,
+          );
         } else {
           this.child_code = code;
           this.child_invoice = invoice;
@@ -261,6 +237,33 @@
         } else {
           this.search_order = true;
         }
+      },
+      set_columns() {
+        this.columns = [
+          {
+            name: 'product_name',
+            required: true,
+            label: this.selected_local.productname,
+            align: 'left',
+            field: row => row.product_name,
+            format: val => `${val}`,
+            sortable: true,
+          },
+          {
+            name: 'quantity',
+            align: 'center',
+            label: this.selected_local.quantity,
+            field: 'quantity',
+            sortable: true,
+          },
+          {
+            name: 'price',
+            align: 'center',
+            label: this.selected_local.unitprice,
+            field: 'price',
+            sortable: true,
+          },
+        ];
       },
     },
   });

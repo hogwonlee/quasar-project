@@ -2,18 +2,23 @@
   <q-page class="q-pa-md">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
-      <q-card class="row q-pl-lg bg-teal-4">
+      <q-card class="row bg-teal-2" flat>
+        <q-input
+          :model-value="selected_local.myinfo"
+          readonly
+          class="col-12"
+        ></q-input>
         <q-input
           :model-value="user.USER_NAME"
           :label="selected_local.name"
           readonly
-          class="col-3"
+          class="q-pl-lg col-6"
         ></q-input>
         <q-input
           :model-value="user.USER_PHONE"
           :label="selected_local.tel"
           readonly
-          class="col-9"
+          class="col-6"
         ></q-input>
 
         <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
@@ -169,15 +174,16 @@
             if (res.status == 200) {
               // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
               this.changeInfoDialog = true;
-            }
-          })
-          .catch(res => {
-            if (res.status != 200) {
+            } else if (res.msg == 'error') {
               alert.confirm(
-                this.selected_local.err,
-                this.selected_local.errpassword,
+                this.selected_local.notice,
+                this.selected_local.wrongpw,
               );
             }
+          })
+
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
           });
       },
     },

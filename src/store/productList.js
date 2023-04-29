@@ -1,4 +1,4 @@
-import shop from './storage';
+// import shop from './storage';
 
 // initial state
 const state = () => ({
@@ -11,10 +11,10 @@ const getters = {};
 
 // actions
 const actions = {
-  async getAllProducts({commit}) {
-    const products = await shop.getProducts();
-    commit('setProducts', products);
-  },
+  // async getAllProducts({commit}) {
+  //   const products = await shop.getProducts();
+  //   commit('setProducts', products);
+  // },
   getProductAction({commit}, products) {
     commit('addToState', products);
   },

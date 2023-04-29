@@ -1,64 +1,5 @@
 <template>
   <div>
-    <q-card class="bg-teal-2">
-      <div v-if="user_status">
-        <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
-      <div>수령인: {{ this.address_selected.recipient }}</div>
-      <div>전화: {{ this.address_selected.recipient_phone }}</div> -->
-        <q-input
-          color="white-1"
-          standout
-          readonly
-          :label="selected_local.recipient"
-          :model-value="this.address_selected.recipient"
-        >
-          <template v-slot:prepend>
-            <q-icon name="person" />
-          </template>
-        </q-input>
-        <q-input
-          color="white-1"
-          standout
-          readonly
-          :label="selected_local.receiveaddr"
-          :model-value="
-            this.address_selected.address1 +
-            ' ' +
-            this.address_selected.address2 +
-            ' ' +
-            this.address_selected.address3
-          "
-        >
-          <template v-slot:prepend>
-            <q-icon name="place" />
-          </template>
-        </q-input>
-      </div>
-      <div v-else>
-        <q-input
-          v-model="warning_text"
-          readonly
-          standout
-          color="red-10"
-        ></q-input>
-      </div>
-      <div class="absolute-top-right q-ma-sm">
-        <q-btn
-          v-if="!is_addr_added"
-          class="text-bold text-white"
-          color="negative"
-          :label="selected_local.addrresister"
-          @click="register_popup = true"
-        ></q-btn>
-        <q-btn
-          v-else
-          class="text-bold"
-          color="primary"
-          :label="selected_local.change"
-          @click="address_popup = true"
-        ></q-btn>
-      </div>
-    </q-card>
     <q-dialog v-model="register_popup">
       <AddressRegister class="q-px-sm q-pb-sm bg-secondary" />
     </q-dialog>
@@ -129,16 +70,114 @@
           </tr>
         </tbody>
       </q-markup-table>
+    </q-card>
+
+    <q-card class="bg-teal-2">
+      <div v-if="user_status">
+        <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
+      <div>수령인: {{ this.address_selected.recipient }}</div>
+      <div>전화: {{ this.address_selected.recipient_phone }}</div> -->
+        <div v-if="!is_addr_added">
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.noselectaddrnotice"
+          >
+            <template v-slot:prepend>
+              <q-icon name="place" />
+            </template>
+          </q-input>
+          <q-btn
+            class="text-bold absolute-top-right q-ma-sm z-top"
+            color="negative"
+            :label="selected_local.addrresister"
+            @click="register_popup = true"
+          ></q-btn>
+        </div>
+        <div v-else-if="no_selected_addr">
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.noselectaddrnotice"
+          >
+            <template v-slot:prepend>
+              <q-icon name="place" />
+            </template>
+          </q-input>
+          <q-btn
+            class="text-bold absolute-top-right q-ma-sm z-top"
+            color="primary"
+            :label="selected_local.change"
+            @click="address_popup = true"
+          ></q-btn>
+        </div>
+        <div v-else>
+          <q-btn
+            class="text-bold absolute-top-right q-ma-sm z-top"
+            color="primary"
+            :label="selected_local.change"
+            @click="address_popup = true"
+          ></q-btn>
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.recipient"
+            :model-value="this.address_selected.recipient"
+          >
+            <template v-slot:prepend>
+              <q-icon name="person" />
+            </template>
+          </q-input>
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.receiveaddr"
+            :model-value="
+              this.address_selected.address1 +
+              ' ' +
+              this.address_selected.address2 +
+              ' ' +
+              this.address_selected.address3
+            "
+          >
+            <template v-slot:prepend>
+              <q-icon name="place" />
+            </template>
+          </q-input>
+        </div>
+      </div>
+      <div v-else>
+        <q-btn
+          class="text-bold absolute-top-right q-ma-sm z-top"
+          color="negative"
+          :label="selected_local.gotologinvue"
+          tag="a"
+          to="/UserInfo"
+        ></q-btn>
+        <q-input
+          v-model="selected_local.nologinwarning"
+          readonly
+          standout
+          color="red-10"
+        ></q-input>
+      </div>
+    </q-card>
+    <div class="row justify-end">
       <q-btn
-        class="row justify-center"
-        style="background: teal; color: white; width: 50%"
+        color="primary"
+        size="22px"
+        class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length"
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment)"
       >
         <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
       </q-btn>
-    </q-card>
+    </div>
 
     <!-- <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p> -->
     <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
@@ -188,7 +227,6 @@
   import {defineComponent, ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
   import validation from 'src/util/data/validation';
-  import {Cookies, useQuasar} from 'quasar';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
   import {date} from 'quasar';
@@ -211,7 +249,6 @@
         address_selected: '',
         address_popup: ref(false),
         register_popup: ref(false),
-        warning_text: '경고: 등록한 주소가 없습니다. 신규 주소를 등록해주세요!',
       };
     },
     computed: {
@@ -229,14 +266,17 @@
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
+      no_selected_addr() {
+        return validation.isNull(this.address_selected);
+      },
     },
     methods: {
       getSelectedAddress() {
         if (!this.is_addr_added) {
-          this.is_addr_added = !validation.isNull(this.addressList); // 값이 없으면 true
+          this.is_addr_added = !this.no_selected_addr; // 값이 없으면 true
         }
 
-        if (this.is_addr_added && validation.isNull(this.address_selected)) {
+        if (this.is_addr_added && this.no_selected_addr) {
           var return_addr;
           this.addressList.forEach(addr => {
             if (addr.is_default === 1) {

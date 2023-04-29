@@ -6,9 +6,10 @@
       style="width: 150px; max-height: 50px"
       borderless
       v-model="keyword"
-      :label="selected_local.search"
       label-color="white"
+      :label="selected_local.search"
     >
+      <!-- :label="selected_local.search" -->
       <template v-slot:append>
         <q-icon
           v-if="keyword !== ''"
@@ -39,6 +40,7 @@
           </q-item-section>
         </q-item>
       </q-list>
+      <!-- :label="selected_local.category" -->
       <q-btn
         fab
         :label="selected_local.category"

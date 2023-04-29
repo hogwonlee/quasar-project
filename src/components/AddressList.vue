@@ -101,7 +101,7 @@
       <div class="q-py-sm row">
         <q-btn
           icon="add"
-          color="info"
+          color="primary"
           class="col-12"
           :label="selected_local.registernewaddr"
           @click="register = true"
