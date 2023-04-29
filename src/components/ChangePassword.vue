@@ -76,11 +76,12 @@
 </template>
 
 <script>
+  import {defineComponent} from 'vue';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
 
-  export default {
+  export default defineComponent({
     data() {
       return {
         userId: '',
@@ -144,5 +145,5 @@
     setup() {
       return {};
     },
-  };
+  });
 </script>
