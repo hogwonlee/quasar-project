@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `addressinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `addressinfo` (
-  `address_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `post_code` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `address1` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `is_default` tinyint DEFAULT NULL,
@@ -35,8 +35,7 @@ CREATE TABLE `addressinfo` (
   `address3` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `address_active` tinyint DEFAULT '1',
 
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -46,7 +45,7 @@ CREATE TABLE `addressinfo` (
 
 LOCK TABLES `addressinfo` WRITE;
 /*!40000 ALTER TABLE `addressinfo` DISABLE KEYS */;
-INSERT INTO `addressinfo` VALUES (1,'08365','서울 구로구 천왕로 56(천왕동, 천왕 이펜하우스 3단지)303-1503',0,'호권','01084920526','hogwon',NULL,NULL,NULL),(29,'08365','서울 구로구 천왕로 56',1,'호권','01084920526','we',' (천왕동, 천왕 이펜하우스 3단지)','홈','303-1503'),(30,'08365','서울 구로구 천왕로 56',0,'호권','01084920526','we',' (천왕동, 천왕 이펜하우스 3단지)','도서관','303-1503');
+INSERT INTO `addressinfo` VALUES (1,'08365','서울 구로구 천왕로 56(천왕동, 천왕 이펜하우스 3단지)303-1503',0,'호권','01084920526','hogwon',NULL,NULL,NULL,1),(29,'08365','서울 구로구 천왕로 56',1,'호권','01084920526','we',' (천왕동, 천왕 이펜하우스 3단지)','홈','303-1503',1),(30,'08365','서울 구로구 천왕로 56',0,'호권','01084920526','we',' (천왕동, 천왕 이펜하우스 3단지)','도서관','303-1503',1);
 /*!40000 ALTER TABLE `addressinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

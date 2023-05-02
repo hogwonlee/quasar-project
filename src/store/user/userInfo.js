@@ -15,14 +15,14 @@ const state = {
 const getters = {};
 
 const actions = {
-  async loginAction({commit}, user) {
+  async loginAction({ commit }, user) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
     // console.log('login return 값: ' + commit('login', user));
     return await commit('login', user);
   },
-  logoutAction({commit}) {
+  logoutAction({ commit }) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
@@ -30,7 +30,7 @@ const actions = {
     commit('logout');
     // console.log('user status: ' + state.status);
   },
-  updateAction({commit}, changeuserinfo) {
+  updateAction({ commit }, changeuserinfo) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
@@ -66,21 +66,21 @@ const mutations = {
   login(state, data) {
     // console.log('userInfo에서 ' + typeof data);
     // console.log('userInfo에서 출력' + data);
-    // console.log('userInfo에서 접근' + JSON.stringify(data.results[0]));
+    // console.log('userInfo에서 접근' + JSON.stringify(data.results.user));
     Cookie.set('token', data.token);
-    Cookie.set('verify', data.results[0].user_name);
-    Cookie.set('user', JSON.stringify(data.results[0].user_id));
+    Cookie.set('verify', data.results.user.user_name);
+    Cookie.set('user', JSON.stringify(data.results.user.user_id));
     // state.USER = {
-    //   USER_ID: data.results[0].user_id,
-    //   USER_NAME: data.results[0].user_name,
-    //   USER_VERIFY: data.results[0].user_name,
-    //   USER_PHONE: data.results[0].user_phone,
+    //   USER_ID: data.results.user.user_id,
+    //   USER_NAME: data.results.user.user_name,
+    //   USER_VERIFY: data.results.user.user_name,
+    //   USER_PHONE: data.results.user.user_phone,
     //   USER_TOKEN: Cookie.get('token'),
     // };
-    state.USER.USER_ID = data.results[0].user_id;
-    state.USER.USER_NAME = data.results[0].user_name;
-    state.USER.USER_VERIFY = data.results[0].user_name;
-    state.USER.USER_PHONE = data.results[0].user_phone;
+    state.USER.USER_ID = data.results.user.user_id;
+    state.USER.USER_NAME = data.results.user.user_name;
+    state.USER.USER_VERIFY = data.results.user.user_name;
+    state.USER.USER_PHONE = data.results.user.user_phone;
     state.USER.USER_TOKEN = Cookie.get('token');
     state.status = true;
     // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);

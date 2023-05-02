@@ -28,6 +28,9 @@ const MemoryStore = require('memorystore')(session);
 const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
+const auth = require('./router/auth')
+const authRouter = require('./router/index')
+const noAuthRouter = require('./router/noauth')
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -53,8 +56,8 @@ const sessionObj = {
   secret: 'my key',
   resave: false,
   saveUninitialized: true,
-  store: new MemoryStore({checkPeriod: maxAge}),
-  cookie: {maxAge},
+  store: new MemoryStore({ checkPeriod: maxAge }),
+  cookie: { maxAge },
 };
 app.use(session(sessionObj));
 
@@ -63,7 +66,7 @@ appServer.listen(app.get('port'), () => {
 });
 
 // 미들웨어를 등록한다
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(serveStatic(path.join(_dirname, 'public')));
 app.use(bodyParser.json());
 app.use(
@@ -80,55 +83,9 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
   console.log('get: ' + req.header.authorization);
-  const {coo} = req.session;
+  const { coo } = req.session;
   if (coo) {
     console.log('이미 로그인 하미' + coo);
-  }
-});
-
-app.post('/login', (req, res) => {
-  // console.log('로그인 함수가 실행됩니다.');
-  const sqlCommend =
-    'SELECT * FROM USERINFO LEFT OUTER JOIN ADDRESSINFO ON USERINFO.user_id = ADDRESSINFO.user_id WHERE USERINFO.user_id = ? AND USERINFO.user_pw = ? ';
-  const body = req.body;
-  const param = {
-    user_id: body.user_id,
-    user_pw: body.user_pw,
-  };
-  if (req.session.user) {
-    // 세션에 유저가 존재한다면
-    console.log('이미 로그인 돼있습니다~');
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
-    res.write('<h1> already Login</h1>');
-    res.end();
-  } else {
-    db.query(
-      sqlCommend,
-      [param.user_id, param.user_pw],
-      (err, results, fields) => {
-        if (results.length <= 0) {
-          console.log('로그인요청:' + err);
-          res.status(400).send({msg: 'error', content: err});
-        } else {
-          // console.log(results[0].user_id);
-          req.session.cookie.user = {
-            id: results[0].user_id,
-            pw: results[0].user_pw,
-            name: results[0].user_name,
-            authorized: true,
-          };
-          const token = jwt.sign(
-            {
-              USER_ID: results[0].user_id, //페이로드
-            },
-            jwtObj.secret,
-            jwtObj.option,
-          );
-          res.status(200).send({token, results});
-          // });
-        }
-      },
-    );
   }
 });
 
@@ -146,9 +103,9 @@ app.post('/checkpw', (req, res) => {
     (err, results, fields) => {
       if (results.length <= 0) {
         console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
+        res.status(400).send({ msg: 'error', content: err });
       } else {
-        res.status(200).send({msg: 'success'});
+        res.status(200).send({ msg: 'success' });
       }
     },
   );
@@ -169,9 +126,9 @@ app.post('/changeuserinfo', (req, res) => {
     (err, results, fields) => {
       if (results.length <= 0) {
         console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
+        res.status(400).send({ msg: 'error', content: err });
       } else {
-        res.status(200).send({results});
+        res.status(200).send({ results });
       }
     },
   );
@@ -191,7 +148,7 @@ app.post('/changepw', (req, res) => {
     (err, results, fields) => {
       if (results.length <= 0) {
         console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
+        res.status(400).send({ msg: 'error', content: err });
       } else {
         const sqlCommend_update =
           'UPDATE USERINFO SET user_pw = ? WHERE user_id = ? ';
@@ -205,9 +162,9 @@ app.post('/changepw', (req, res) => {
           (err, results, fields) => {
             if (results.length <= 0) {
               console.log('비밀번호 변경 오류:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({msg: 'success'});
+              res.status(200).send({ msg: 'success' });
             }
           },
         );
@@ -230,12 +187,16 @@ app.post('/register', (req, res) => {
   db.query(sqlCommend, param, (err, results, fields) => {
     if (err) {
       console.log('회원가입요청:' + err);
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({msg: 'success', param: param});
+      res.status(200).send({ msg: 'success', param: param });
     }
   });
 });
+
+app.use(noAuthRouter)
+
+app.use(auth.checkAuth)
 
 app.post('/addressRegister', (req, res) => {
   if (req.headers.authorization != null) {
@@ -262,7 +223,7 @@ app.post('/addressRegister', (req, res) => {
           db.query(sqlCommend, param, (err, results, fields) => {
             if (err) {
               console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               if ((body.is_default = 1)) {
                 // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
@@ -274,11 +235,11 @@ app.post('/addressRegister', (req, res) => {
                   (err, results, fields) => {
                     if (err) {
                       console.log('배송 주소 기본 설정 초기화:' + err);
-                      res.status(400).send({msg: 'error', content: err});
+                      res.status(400).send({ msg: 'error', content: err });
                     } else {
                       console.log(
                         '배송 주소 기본 설정 초기화 성공:' +
-                          JSON.stringify(results),
+                        JSON.stringify(results),
                       );
                     }
                   },
@@ -295,7 +256,7 @@ app.post('/addressRegister', (req, res) => {
                   (err, results, fields) => {
                     if (err) {
                       console.log('기본 배송지 변경 요청:' + err);
-                      res.status(400).send({msg: 'error', content: err});
+                      res.status(400).send({ msg: 'error', content: err });
                     } else {
                       console.log(
                         '기본 배송지 설정 성공:' + JSON.stringify(results),
@@ -307,7 +268,7 @@ app.post('/addressRegister', (req, res) => {
               // var insertId = results.insertId;
               // results = {id: insertId, ...param};
               // console.log('배송지 등록 성공 결과값:' + JSON.stringify(results));
-              res.status(200).send({msg: 'success', results});
+              res.status(200).send({ msg: 'success', results });
             }
           });
         } else {
@@ -335,7 +296,7 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
           db.query(sqlCommend_reset, param, (err, results, fields) => {
             if (err) {
               console.log('배송 주소 기본 설정 초기화:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               console.log(
                 '배송 주소 기본 설정 초기화 성공:' + JSON.stringify(results),
@@ -354,7 +315,7 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
             (err, results, fields) => {
               if (err) {
                 console.log('기본 배송지 변경 요청:' + err);
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
               } else {
                 console.log('기본 배송지 설정 성공:' + JSON.stringify(results));
               }
@@ -367,10 +328,10 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
           db.query(sqlCommend_select, param, (err, results, fields) => {
             if (err) {
               // console.log('배송 주소 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               // console.log('userInfo 로그인 유저 조회 답변:' + results);
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -419,9 +380,9 @@ app.post('/addressInfoChange', (req, res) => {
             (err, results, fields) => {
               if (results.length <= 0) {
                 console.log('주소 정보 변경:' + err);
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
               } else {
-                res.status(200).send({results});
+                res.status(200).send({ results });
               }
             },
           );
@@ -450,9 +411,9 @@ app.post('/deleteAddress', (req, res) => {
           db.query(sqlCommend_delete, param, (err, results, fields) => {
             if (err) {
               console.log('배송 주소 기본 설정 초기화:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({msg: 'success'});
+              res.status(200).send({ msg: 'success' });
             }
           });
         }
@@ -474,7 +435,7 @@ app.post('/orderGroupRegister', (req, res) => {
           'INSERT INTO ORDERGROUP SET address_id = ? AND user_id = ?';
         const body = req.body;
         console.log(body);
-        const param = {address_id: body.address_id, user_id: body.user_id};
+        const param = { address_id: body.address_id, user_id: body.user_id };
 
         db.query(
           sqlCommend,
@@ -482,13 +443,13 @@ app.post('/orderGroupRegister', (req, res) => {
           (err, results, fields) => {
             if (err) {
               console.log('주문 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               // results = param;
               var results = results.insertId;
 
               console.log('주문 등록 성공 결과값:' + results);
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           },
         );
@@ -512,7 +473,7 @@ app.post('/orderRegister', (req, res) => {
           const sqlCommend =
             'INSERT INTO ORDERGROUP SET address_id = ?, user_id = ?';
           const body = req.body;
-          const param = {address_id: body.address_id, user_id: body.user_id};
+          const param = { address_id: body.address_id, user_id: body.user_id };
 
           db.query(
             sqlCommend,
@@ -520,7 +481,7 @@ app.post('/orderRegister', (req, res) => {
             (err, results, fields) => {
               if (err) {
                 console.log('주문 추가 요청:' + err);
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
               } else {
                 const insert_sql =
                   'INSERT INTO ORDERINFO (product_id, quantity, order_group) VALUES ';
@@ -551,12 +512,12 @@ app.post('/orderRegister', (req, res) => {
                 db.query(sqlCommend_insert, (err, results, fields) => {
                   if (err) {
                     console.log('주문 추가 요청:' + err);
-                    res.status(400).send({msg: 'error', content: err});
+                    res.status(400).send({ msg: 'error', content: err });
                   } else {
                     console.log(
                       '주문 등록 성공 결과값:' + JSON.stringify(results),
                     );
-                    res.status(200).send({results});
+                    res.status(200).send({ results });
                   }
                 });
               }
@@ -582,14 +543,14 @@ app.post('/orderList', (req, res) => {
           const sqlCommend =
             'SELECT * FROM ORDERINFO JOIN PRODUCTINFO ON ORDERINFO.product_id=PRODUCTINFO.id WHERE order_group = ?';
           const body = req.body;
-          const param = {order_group: body.order_group};
+          const param = { order_group: body.order_group };
 
           db.query(sqlCommend, param.order_group, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -615,10 +576,10 @@ app.post('/addressInfo', (req, res) => {
           db.query(sqlCommend, param, (err, results, fields) => {
             if (err) {
               // console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
               // console.log('userInfo 로그인 유저 조회 답변:' + results);
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -641,9 +602,9 @@ app.post('/deliveryInfo', (req, res) => {
   // console.log(sqlCommend + param);
   db.query(sqlCommend, param, (err, results, fields) => {
     if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({results});
+      res.status(200).send({ results });
     }
   });
 });
@@ -656,9 +617,9 @@ app.get('/orderGroupInfo', (req, res) => {
   // console.log(sqlCommend + param);
   db.query(sqlCommend, param, (err, results, fields) => {
     if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({results});
+      res.status(200).send({ results });
     }
   });
 });
@@ -667,9 +628,9 @@ app.get('/productList', (req, res) => {
   const sqlCommend = 'SELECT * FROM PRODUCTINFO ORDER BY category';
   db.query(sqlCommend, (err, results, fields) => {
     if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({results});
+      res.status(200).send({ results });
     }
   });
 });

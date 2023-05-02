@@ -87,7 +87,7 @@
               console.log(JSON.stringify(response));
               if (response.status == 200) {
                 var json = response.data;
-                json.results.forEach(addr => {
+                json.results.address.forEach(addr => {
                   if (addr.address_active == 1)
                     this.$store.dispatch('address/addAddressAction', addr);
                 });

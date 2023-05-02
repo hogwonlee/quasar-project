@@ -5,29 +5,29 @@ const state = {
 const getters = {};
 
 const actions = {
-  addAddressAction({commit}, address) {
-    commit('pushAddressToState', {address});
+  addAddressAction({ commit }, address) {
+    commit('pushAddressToState', { address });
   },
-  emptyAddressAction({commit}) {
-    commit('setAddressItems', {items: []});
+  emptyAddressAction({ commit }) {
+    commit('setAddressItems', { items: [] });
   },
-  deleteAddressAction({commit}, index) {
+  deleteAddressAction({ commit }, index) {
     commit('deleteAddressFromState', index);
   },
-  async updateAddressAction({state, commit}, address) {
+  async updateAddressAction({ state, commit }, address) {
     var updateAddr = state.items.map(
       item => item.address_id == address.address_id,
     );
     address.is_default = updateAddr.is_default;
-    commit('updateAddress', {address});
+    commit('updateAddress', { address });
   },
-  setStatusAction({commit}, status) {
+  setStatusAction({ commit }, status) {
     commit('setStatus', status);
   },
 };
 
 const mutations = {
-  pushAddressToState(state, {address}) {
+  pushAddressToState(state, { address }) {
     state.items.push({
       address_id: address.address_id,
       address_tag: address.address_tag,
@@ -35,8 +35,8 @@ const mutations = {
       recipient_phone: address.recipient_phone,
       post_code: address.post_code,
       address1: address.address1,
-      address2: address.address2,
-      address3: address.address3,
+      address2: address.address2 || '',
+      address3: address.address3 || '',
       is_default: address.is_default,
       user_id: address.user_id,
     });
@@ -44,7 +44,7 @@ const mutations = {
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
 
-  updateAddress(state, {address}) {
+  updateAddress(state, { address }) {
     var index = state.items.indexOf(
       item => item.address_id == address.address_id,
     );
@@ -57,7 +57,7 @@ const mutations = {
     state.status = 'delete';
     // console.log('vuex에 추가한 주소 정보: ' + state.items.recipient);
   },
-  setAddressItems(state, {items}) {
+  setAddressItems(state, { items }) {
     state.items = items;
   },
   setStatus(state, status) {

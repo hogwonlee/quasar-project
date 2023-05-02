@@ -28,7 +28,6 @@ CREATE TABLE `userinfo` (
   `user_phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_pw` varchar(100) COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `id_UNIQUE` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +37,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES ('[object Object]','[object Object]','[object Object]','[object Object]'),('hogwon','호권','010-8492-0526','1234'),('userId','userNickname','userPhone','userPw'),('we','we','we','we');
+INSERT INTO `userinfo` VALUES ('hogwon','호권','010-8492-0526','1234'),('userId','userNickname','userPhone','userPw'),('we','we','we','we');
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
