@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-xl">
     <section>
-      <div class="text-h1">결제성공</div>
+      <div class="text-h3">{{ selected_local.paymentsuccess }}</div>
       <q-btn
-        label="주문 현황 확인"
+        :label="selected_local.gotodeliveryinfovue"
         tag="a"
         to="/DeliveryInfo"
         color="primary"
@@ -21,6 +21,11 @@
     name: 'PaySuccess',
     mounted() {
       this.paymentAuthorizationRequest();
+    },
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
     },
     data() {
       return {

@@ -2,20 +2,16 @@
   <div>
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders">
-        <q-badge
+        <!-- <q-badge
           color="positive"
           floating
           rounded
           transparent
           :label="quantity"
-        />
-        <!-- <q-chip
-          class="absolute-bottom row justify-center"
-          style="vertical-align: bottom"
-          icon="sell"
-          text-color="white"
-          >{{ product_name }}
-        </q-chip> -->
+        /> -->
+        <q-chip class="absolute-bottom" text-right text-color="white"
+          >x {{ quantity }}
+        </q-chip>
       </q-img>
     </div>
     <div>

@@ -12,14 +12,17 @@
           icon="img:src\assets\icons\currency-krw-white.png"
         >
           {{ price }}
-
-          <q-badge color="teal" floating rounded transparent :label="tag" />
+          <q-badge color="teal" floating rounded transparent :v-model="tag" />
         </q-chip>
       </q-img>
     </div>
     <div>
+      <!-- id로 카테고리를 추가한건 종류별 찾기 위함.-->
       <q-dialog v-model="card" :id="category">
-        <q-card class="bg-teal-3" style="width: 75%; height: fit-content">
+        <q-card
+          class="bg-teal-3 row justify-center"
+          style="width: 75%; height: fit-content"
+        >
           <q-btn
             class="absolute-top-right bg-grey z-top q-ma-xs"
             icon="close"
@@ -33,7 +36,7 @@
             class="q-pa-sm"
             style="height: 300px; border-right: 1px solid silver"
           > -->
-          <q-img :src="img" class="rounded-borders" />
+          <q-img :src="img" style="max-width: 75%" class="rounded-borders" />
           <q-card-section class="q-ma-xs q-py-none row">
             <q-input
               class="col-6"
@@ -118,9 +121,11 @@
             ></q-btn>
             <!-- <q-badge rounded color="orange" floating>1</q-badge> -->
           </q-card-section>
-          <q-card-section class="row justify-center q-gutter-sm q-py-xs">
+          <q-card-section
+            class="row justify-center q-gutter-xs q-py-xs q-px-none"
+          >
             <q-btn
-              class="col-6"
+              class="col-6.5"
               glossy
               color="primary"
               tag="a"
@@ -130,7 +135,7 @@
               <!-- icon="shopping_cart_checkout" -->
             </q-btn>
             <q-btn
-              class="col-5"
+              class="col-4.5"
               glossy
               :label="selected_local.lookaround"
               v-close-popup

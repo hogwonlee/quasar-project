@@ -56,7 +56,7 @@
         @sendRemoveItem="
           this.$store.dispatch('cart/removeProductFromCart', product)
         "
-        class="col-xs-3 col-sm-3 col-md-2 q-pa-xs"
+        class="col-xs-3 col-sm-3 col-md-1 q-pa-xs"
         v-for="product in products"
         :key="product.id"
         v-bind="product"
@@ -93,6 +93,28 @@
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
       },
+      products_update() {
+        // console.log(this.products_status);
+        // if (this.products_status != null) {
+        axios({
+          url: 'http://localhost:3001/productList',
+          method: 'GET',
+          // headers: {
+          //   'Access-Control-Allow-Headers': '*',
+          //   'Content-Type': 'application/json',
+          // },
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res.data.results));
+            this.$store.dispatch('products/emptyStoreAction');
+            res.data.results.map(element => {
+              // console.log(element));
+              this.$store.dispatch('products/getProductAction', element);
+            });
+          })
+          .catch();
+        // }
+      },
     },
     computed: {
       ...mapState({
@@ -103,26 +125,7 @@
       }),
     },
     mounted() {
-      // console.log(this.products_status);
-      // if (this.products_status != null) {
-      axios({
-        url: 'http://localhost:3001/productList',
-        method: 'GET',
-        headers: {
-          'Access-Control-Allow-Headers': '*',
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(res => {
-          // console.log(JSON.stringify(res.data.results));
-          this.$store.dispatch('products/emptyStoreAction');
-          res.data.results.map(element => {
-            // console.log(element));
-            this.$store.dispatch('products/getProductAction', element);
-          });
-        })
-        .catch();
-      // }
+      // this.products_update();
     },
     setup() {
       return {

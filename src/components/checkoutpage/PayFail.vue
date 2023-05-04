@@ -1,7 +1,13 @@
 <template>
   <q-page class="q-pa-xl">
     <section>
-      <div class="text-h1">결제실패</div>
+      <div class="text-h3">{{ selected_local.paymentfail }}</div>
+      <q-btn
+        :label="selected_local.gobackorderlistinfovue"
+        tag="a"
+        to="/OrderList"
+        color="primary"
+      ></q-btn>
     </section>
   </q-page>
 </template>
@@ -19,6 +25,11 @@
         orderId: url.searchParams.get('orderId'),
       };
       // console.log(this.postJsonData);
+    },
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
     },
     data() {
       return {

@@ -1,74 +1,66 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-card class="bg-teal text-white" style="width: 300px">
+    <q-card class="bg-teal text-black" style="width: 300px">
       <q-card-section>
-        <div class="text-h6">비밀번호 변경</div>
+        <div class="text-h6">{{ selected_local.changepw }}</div>
       </q-card-section>
 
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+      <q-form @submit="onSubmit" @reset="onReset">
         <q-input
           readonly
           disable
           v-model="userId"
-          label="아이디"
-          lazy-rules
-          :rules="[val => (val && val.length > 0) || hint]"
+          :label="selected_local.identity"
         />
 
         <q-input
           readonly
           disable
           v-model="userNickname"
-          label="이름"
-          lazy-rules
-          :rules="[
-            val =>
-              (val && val.length > 0) ||
-              '(필수)배송 받을 분의 이름을 입력하세요',
-          ]"
+          :label="selected_local.name"
         />
 
         <q-input
           filled
           v-model="userPw"
-          label="기존 비밀번호"
-          hint="(필수)기존 비밀번호를 입력하세요"
+          :label="selected_local.oldpw"
+          :hint="selected_local.inputoldpw"
           lazy-rules
           :rules="[
-            val => (val && val.length > 0) || '(필수)비밀번호를 입력하세요',
+            val => (val && val.length > 0) || selected_local.passwordhint,
           ]"
         />
 
         <q-input
           filled
           v-model="newPw"
-          label="비밀번호"
-          hint="(필수)비밀번호를 입력하세요"
+          :label="selected_local.password"
+          :hint="selected_local.inputnewpw"
           lazy-rules
           :rules="[
-            val => (val && val.length > 0) || '(필수)비밀번호를 입력하세요',
+            val => (val && val.length > 0) || selected_local.passwordhint,
           ]"
         />
 
         <q-input
           filled
           v-model="newPwCheck"
-          label="비밀번호 일치확인"
-          hint="(필수)비밀번호를 다시 한번 입력하세요"
+          :label="selected_local.matchpassword"
+          :hint="selected_local.matchpasswordhint"
           lazy-rules
-          :rules="[this.value == this.newPw || hint]"
+          :rules="[this.value == this.newPw || selected_local.passwordhint]"
         />
 
-        <div>
+        <div class="q-gutter-md">
           <q-btn
-            label="비밀번호 변경하기"
+            :label="selected_local.changepw"
             type="submit"
             color="primary"
             v-close-popup
             :disable="this.newPw != this.newPwCheck"
           />
-          <q-btn label="취소" color="primary" v-close-popup />
-          <q-btn label="다시 입력" type="reset" color="primary" />
+          <q-btn :label="selected_local.cancel" color="primary" v-close-popup />
+          <q-btn :label="selected_local.reinput" type="reset" color="primary" />
         </div>
       </q-form>
     </q-card>
@@ -94,6 +86,7 @@
     computed: {
       ...mapState({
         user: state => state.user.USER,
+        selected_local: state => state.ui_local.status,
       }),
     },
     mounted() {
@@ -121,16 +114,19 @@
         })
           .then(res => {
             if (res.status == 200) {
-              alert.confirm('알림', '비밀번호 변경 완료했습니다.');
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.changepwsuccess,
+              );
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.errpassword,
+              );
             }
           })
           .catch(res => {
-            if (res.status != 200) {
-              alert.confirm(
-                '오류 / 错误',
-                '비밀번호가 올바르지 않습니다. / 密码错误',
-              );
-            }
+            console.log(res);
           });
       },
 

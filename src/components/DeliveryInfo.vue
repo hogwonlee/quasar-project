@@ -149,8 +149,6 @@
       }),
     },
     mounted() {
-      this.set_columns();
-
       if (
         !validation.isNull(this.user.USER_ID) &&
         !validation.isNull(this.order_status)
@@ -209,6 +207,7 @@
         return return_tag;
       },
       get_order_list(orderGroup_id) {
+        this.set_columns();
         this.search_order_id = orderGroup_id;
         if (validation.isNull(this.res_order[this.search_order_id])) {
           const postData = {

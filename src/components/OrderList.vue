@@ -43,7 +43,9 @@
             <td class="text-left bg-teal col-4">
               {{ selected_local.foodprice }}
             </td>
-            <td class="text-right col-8">{{ total }} 韩元</td>
+            <td class="text-right col-8">
+              {{ total }} {{ selected_local.won }}
+            </td>
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">
@@ -57,16 +59,18 @@
                 :label="selected_local.delivercostnotice"
                 text-color="white"
               />
-              {{ shipment }} 韩元
+              {{ shipment }} {{ selected_local.won }}
             </td>
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">{{ selected_local.point }}</td>
-            <td class="text-right col-8">5000</td>
+            <td class="text-right col-8">5000 P</td>
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">{{ selected_local.total }}</td>
-            <td class="text-right col-8">{{ total + shipment }} 韩元</td>
+            <td class="text-right col-8">
+              {{ total + shipment }} {{ selected_local.won }}
+            </td>
           </tr>
         </tbody>
       </q-markup-table>
@@ -89,7 +93,7 @@
             </template>
           </q-input>
           <q-btn
-            class="text-bold absolute-top-right q-ma-sm z-top"
+            class="text-bold absolute-top-right q-ma-sm"
             color="negative"
             :label="selected_local.addrresister"
             @click="register_popup = true"
@@ -107,19 +111,13 @@
             </template>
           </q-input>
           <q-btn
-            class="text-bold absolute-top-right q-ma-sm z-top"
+            class="text-bold absolute-top-right q-ma-sm"
             color="primary"
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
         </div>
         <div v-else>
-          <q-btn
-            class="text-bold absolute-top-right q-ma-sm z-top"
-            color="primary"
-            :label="selected_local.change"
-            @click="address_popup = true"
-          ></q-btn>
           <q-input
             color="white-1"
             standout
@@ -131,12 +129,22 @@
               <q-icon name="person" />
             </template>
           </q-input>
+          <q-btn
+            class="text-bold absolute-top-right q-ma-sm"
+            color="primary"
+            :label="selected_local.change"
+            @click="address_popup = true"
+          ></q-btn>
           <q-input
             color="white-1"
             standout
             readonly
+            autogrow
             :label="selected_local.receiveaddr"
             :model-value="
+              '(' +
+              this.address_selected.address_tag +
+              ') ' +
               this.address_selected.address1 +
               ' ' +
               this.address_selected.address2 +
@@ -151,27 +159,31 @@
         </div>
       </div>
       <div v-else>
-        <q-btn
-          class="text-bold absolute-top-right q-ma-sm z-top"
-          color="negative"
-          :label="selected_local.gotologinvue"
-          tag="a"
-          to="/UserInfo"
-        ></q-btn>
         <q-input
           v-model="selected_local.nologinwarning"
           readonly
           standout
           color="red-10"
         ></q-input>
+        <q-btn
+          class="text-bold absolute-top-right q-ma-sm"
+          color="negative"
+          :label="selected_local.gotologinvue"
+          tag="a"
+          to="/UserInfo"
+        ></q-btn>
       </div>
     </q-card>
     <div class="row justify-end">
+      <div class="text-red text-bold q-pa-sm">
+        <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
+        <div v-if="no_login">{{ selected_local.needloginfirst }}</div>
+      </div>
       <q-btn
         color="primary"
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
-        :disabled="!cartList.length"
+        :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment)"
       >
@@ -243,7 +255,6 @@
 
     data: function () {
       return {
-        is_addr_added: ref(false),
         basic: ref(false),
         persistent: ref(false),
         address_selected: '',
@@ -255,7 +266,7 @@
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
         cartList: state => state.cart.items,
-        addressList: state => state.address.items, // store/index에 addresses로 추가됨.
+        addressList: state => state.address.items,
         user: state => state.user.USER,
         order: state => state.order.items,
         user_status: state => state.user.status,
@@ -269,22 +280,22 @@
       no_selected_addr() {
         return validation.isNull(this.address_selected);
       },
+      no_login() {
+        return validation.isNull(this.user.USER_ID);
+      },
+      is_addr_added() {
+        return this.addressList.length;
+      },
     },
     methods: {
       getSelectedAddress() {
-        if (!this.is_addr_added) {
-          this.is_addr_added = !this.no_selected_addr; // 값이 없으면 true
-        }
-
-        if (this.is_addr_added && this.no_selected_addr) {
-          var return_addr;
-          this.addressList.forEach(addr => {
-            if (addr.is_default === 1) {
-              return_addr = addr;
-            }
-          });
-          this.address_selected = return_addr;
-        }
+        var return_addr;
+        this.addressList.forEach(addr => {
+          if (addr.is_default === 1) {
+            return_addr = addr;
+          }
+        });
+        this.address_selected = return_addr;
       },
 
       selectPaymentmethod(total, shipment) {

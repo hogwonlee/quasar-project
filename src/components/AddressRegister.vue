@@ -8,14 +8,14 @@
           filled
           class="q-ma-sm col"
           for="daum_postCode"
-          placeholder="우편번호 (안내: 주소 선택하면 자동으로 등록)"
+          :placeholder="selected_local.postcodeandhint"
           readonly
           disable
         />
         <q-btn
           class="q-ma-sm col"
           color="primary"
-          label="우편번호 찾기"
+          :label="selected_local.postcoderegister"
           @click="sample2_execDaumPostcode"
         />
       </div>
@@ -24,7 +24,7 @@
         filled
         class="q-ma-sm"
         for="daum_addr"
-        placeholder="주소 (안내: 주소 선택하면 자동으로 등록)"
+        :placeholder="selected_local.addrandhint"
         readonly
         disable
       />
@@ -36,7 +36,7 @@
         for="daum_extraAddr"
         readonly
         disable
-        placeholder="상세주소 (안내: 주소 선택하면 자동으로 등록)"
+        :placeholder="selected_local.addrdetailandhint"
       />
 
       <q-input
@@ -44,27 +44,27 @@
         v-model="address3"
         class="q-ma-sm"
         for="daum_detailAddress"
-        label="추가 항목 (안내: 301호/204호 등과 같은 추가 내용)"
+        :label="selected_local.addrextraandhint"
       />
 
       <q-input
         outlined
         class="q-ma-sm"
         v-model="address_tag"
-        label="주소별칭 (안내: 집/회사 등과 같은 별칭)"
+        :label="selected_local.addrtagandhint"
       ></q-input>
       <q-input
         outlined
         v-model="recipient"
         class="q-ma-sm"
-        label="수령인 (안내: 받는 사람 이름)"
+        :label="selected_local.recipient"
       ></q-input>
 
       <q-input
         outlined
         class="q-ma-sm"
         v-model="recipient_phone"
-        label="수령인 전화번호 (안내: 받는 사람 전화번호)"
+        :label="selected_local.recipientphone"
       ></q-input>
 
       <div class="row">
@@ -72,14 +72,14 @@
           class="q-ma-sm col"
           left-label
           v-model="cheked"
-          label="기본 배송지"
+          :label="selected_local.defaultaddr"
         />
         <q-btn
           class="q-ma-sm col"
           color="primary"
-          size="lg"
+          size="md"
           style="width: 200px"
-          label="주소 등록하기"
+          :label="selected_local.addrresister"
           @click="exeAddrRegister"
         />
       </div>
@@ -110,6 +110,7 @@
     computed: {
       ...mapState({
         user: state => state.user.USER,
+        selected_local: state => state.ui_local.status,
       }),
     },
     mounted() {
@@ -155,11 +156,17 @@
                 '주소 등록 응답값: ' + JSON.stringify(insertAddress),
               );
               this.$store.dispatch('address/addAddressAction', insertAddress);
-              alert.confirm('알림', '주소 등록이 완료되었습니다.');
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.addrresistersuccess,
+              );
             })
             .catch(res => console.log('에러: ' + res));
         } else {
-          alert('로그인이 필요합니다.');
+          alert.confirm(
+            this.selected_local.notice,
+            this.selected_local.needloginfirst,
+          );
         }
       },
 
