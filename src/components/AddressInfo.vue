@@ -1,58 +1,131 @@
 <template>
-  <q-card dark bordered class="bg-grey-9 my-card">
-    <q-card-section>
-      <div class="text-h6">{{ id }}</div>
-      <div class="text-h6">{{ recipient }}</div>
-      <div class="text-subtitle2">{{ recipientPhone }}</div>
-    </q-card-section>
+  <div class="q-pa-none q-ma-xs">
+    <q-card class="transparent" flat>
+      <q-card-section class="row items-center q-pa-none">
+        <div class="text-h6 text-bold q-mx-sm q-pa-none q-my-none">
+          {{ recipient }}
+          <q-chip
+            class="q-py-none q-my-none"
+            v-if="is_default"
+            dense
+            text-color="primary"
+          >
+            {{ selected_local.defaultaddr }}
+          </q-chip>
+        </div>
+        <q-space />
+        <q-fab
+          v-model="addr_option"
+          icon="settings"
+          text-color="primary"
+          color="white"
+          padding="sm"
+          class="absolute-top-right"
+          direction="left"
+        >
+          <q-fab-action
+            color="white"
+            text-color="primary"
+            padding="none"
+            :label="selected_local.changeaddrinfo"
+            @click="this.$emit('send_change_addr')"
+          />
+          <q-fab-action
+            v-if="!is_default"
+            color="white"
+            text-color="primary"
+            padding="none"
+            :label="selected_local.changedefaultaddr"
+            @click="this.$emit('send_change_default')"
+          />
+          <q-fab-action
+            v-if="!is_default"
+            color="white"
+            text-color="negative"
+            padding="none"
+            :label="selected_local.del"
+            @click="this.$emit('send_delete')"
+          />
+        </q-fab>
+      </q-card-section>
+    </q-card>
 
-    <q-separator dark inset />
-
-    <q-card-section>
-      <div class="text-body2">{{ postCode }}</div>
-      <div class="text-body2">{{ address }}</div>
-      <div class="text-body2">{{ selected }}</div>
-    </q-card-section>
-  </q-card>
+    <q-input
+      class="col-md-3 col-sm-6 col-xs-6 q-ma-none q-pa-none q-mx-sm"
+      borderless
+      readonly
+      :model-value="recipient_phone"
+      mask="(###)####-####"
+      style="height: 30px"
+    >
+    </q-input>
+    <div class="q-ma-sm">
+      {{
+        '(' + address_tag + ') ' + address1 + ' ' + address2 + ' ' + address3
+      }}
+    </div>
+  </div>
 </template>
 
 <script>
-  import {defineComponent} from 'vue';
+  import {defineComponent, ref} from 'vue';
+  import {mapState} from 'vuex';
 
   export default defineComponent({
     name: 'AddressInfo',
     data: function () {
       return {};
     },
-    watch: {},
+    computed: {
+      ...mapState({
+        user: state => state.user.USER,
+        addressList: state => state.address.items,
+        address_status: state => state.address.status,
+        selected_local: state => state.ui_local.status,
+      }),
+    },
     props: {
-      id: {
-        type: Number,
-        default: 0,
+      address_tag: {
+        type: String,
+        default: '',
+      },
+      address_id: {
+        type: String,
+        default: '',
+      },
+      is_default: {
+        type: String,
+        default: '',
       },
       recipient: {
         type: String,
         default: '',
       },
-      recipientPhone: {
-        type: String,
-        default: '',
-      },
-      postCode: {
-        type: String,
-        default: '',
-      },
-      address: {
-        type: String,
-        default: '',
-      },
-      selected: {
+      recipient_phone: {
         type: Boolean,
         default: false,
       },
+      post_code: {
+        type: String,
+        default: '',
+      },
+      address1: {
+        type: String,
+        default: '',
+      },
+      address2: {
+        type: String,
+        default: '',
+      },
+      address3: {
+        type: String,
+        default: '',
+      },
     },
     setup() {
-      return {};
+      return {
+        addr_option: ref(false),
+      };
     },
     methods: {},
   });

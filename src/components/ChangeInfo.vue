@@ -2,11 +2,12 @@
   <div class="q-pa-md q-gutter-sm">
     <q-card class="bg-teal text-black" style="width: 300px">
       <q-card-section>
-        <div class="text-h6">{{ selected_local.changemyinfo }}</div>
+        <div class="text-h6 text-black">{{ selected_local.changemyinfo }}</div>
       </q-card-section>
 
       <q-form @submit="onSubmit" @reset="onReset">
         <q-input
+          filled
           readonly
           disable
           v-model="userId"
@@ -17,6 +18,7 @@
           filled
           v-model="userNickname"
           :label="selected_local.name"
+          label-color="white"
           lazy-rules
           :rules="[val => (val && val.length > 0) || '']"
         />
@@ -25,11 +27,12 @@
           filled
           v-model="userPhone"
           :label="selected_local.tel"
+          label-color="white"
           lazy-rules
           :rules="[val => (val && val.length > 0) || '']"
         />
 
-        <div class="q-gutter-md">
+        <div class="q-gutter-sm q-py-sm">
           <q-btn
             :label="selected_local.confirm"
             type="submit"

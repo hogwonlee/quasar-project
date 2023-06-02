@@ -21,7 +21,11 @@
             v-close-popup
             @click="serverLogin"
           />
-          <q-btn :label="selected_local.forgetpw" color="warning" />
+          <q-btn
+            :label="selected_local.forgetpw"
+            color="primary"
+            @click="show_forget_pw"
+          />
           <q-btn
             :label="selected_local.signup"
             @click="this.signUpWindow = true"
@@ -67,6 +71,12 @@
       }),
     },
     methods: {
+      show_forget_pw() {
+        alert.confirm(
+          this.selected_local.forget_pw_title,
+          this.selected_local.forget_pw_body,
+        );
+      },
       serverLogin() {
         if (!check.check_login()) {
           const userData = {
@@ -84,10 +94,11 @@
             data: userData,
           })
             .then(response => {
-              console.log(JSON.stringify(response));
+              // console.log(JSON.stringify(response));
               if (response.status == 200) {
+                this.$store.dispatch('address/emptyAddressAction');
                 var json = response.data;
-                json.results.address.forEach(addr => {
+                json.results.forEach(addr => {
                   if (addr.address_active == 1)
                     this.$store.dispatch('address/addAddressAction', addr);
                 });

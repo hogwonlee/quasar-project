@@ -7,17 +7,21 @@
 
       <q-form @submit="onSubmit" @reset="onReset">
         <q-input
+          filled
           readonly
           disable
           v-model="userId"
           :label="selected_local.identity"
+          hint="자동입력"
         />
 
         <q-input
+          filled
           readonly
           disable
           v-model="userNickname"
           :label="selected_local.name"
+          hint="자동입력"
         />
 
         <q-input
@@ -25,6 +29,7 @@
           v-model="userPw"
           :label="selected_local.oldpw"
           :hint="selected_local.inputoldpw"
+          label-color="white"
           lazy-rules
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
@@ -36,6 +41,7 @@
           v-model="newPw"
           :label="selected_local.password"
           :hint="selected_local.inputnewpw"
+          label-color="white"
           lazy-rules
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
@@ -47,11 +53,12 @@
           v-model="newPwCheck"
           :label="selected_local.matchpassword"
           :hint="selected_local.matchpasswordhint"
+          label-color="white"
           lazy-rules
           :rules="[this.value == this.newPw || selected_local.passwordhint]"
         />
 
-        <div class="q-gutter-md">
+        <div class="q-gutter-sm q-py-sm">
           <q-btn
             :label="selected_local.changepw"
             type="submit"

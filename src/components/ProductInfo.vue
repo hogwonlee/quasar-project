@@ -1,10 +1,36 @@
 <template>
-  <!-- <q-item-section v-if="icon" avatar>
-    <q-icon :name="icon" />
-  </q-item-section> -->
   <div>
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders">
+        <div class="absolute-top-right transparent">
+          <q-badge
+            v-if="bonuscondition != null"
+            class="absolute-right"
+            color="orange"
+            floating
+            rounded
+          >
+            {{ bonuscondition }}+1
+          </q-badge>
+          <q-badge
+            v-if="cutprice != null"
+            class="absolute-right"
+            color="orange"
+            floating
+            rounded
+          >
+            - {{ cutprice }}
+          </q-badge>
+          <q-badge
+            v-if="stock != null"
+            class="absolute-right"
+            color="red"
+            floating
+            rounded
+          >
+            <q-icon name="warning" color="white" />
+          </q-badge>
+        </div>
         <q-chip
           class="absolute-bottom"
           dense
@@ -12,16 +38,14 @@
           icon="img:src\assets\icons\currency-krw-white.png"
         >
           {{ price }}
-          <q-badge color="teal" floating rounded transparent :v-model="tag" />
         </q-chip>
       </q-img>
     </div>
     <div>
-      <!-- id로 카테고리를 추가한건 종류별 찾기 위함.-->
-      <q-dialog v-model="card" :id="category">
+      <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
-          class="bg-teal-3 row justify-center"
-          style="width: 75%; height: fit-content"
+          class="bg-teal-3 row justify-center q-px-none q-mx-none"
+          style="width: 75%; height: 60%"
         >
           <q-btn
             class="absolute-top-right bg-grey z-top q-ma-xs"
@@ -29,122 +53,197 @@
             v-close-popup
           >
           </q-btn>
-          <!-- <q-drawer
-            show-if-above
-            :width="160"
-            :breakpoint="160"
-            class="q-pa-sm"
-            style="height: 300px; border-right: 1px solid silver"
-          > -->
-          <q-img :src="img" style="max-width: 75%" class="rounded-borders" />
-          <q-card-section class="q-ma-xs q-py-none row">
-            <q-input
-              class="col-6"
-              readonly
-              disable
-              borderless
-              dense="true"
-              :label="selected_local.productname"
-              :model-value="product_name"
-            >
-            </q-input>
-            <!-- <q-input
-              readonly
-              disable
-              borderless
-              dense="true"
-              label="类别： "
-              :model-value="category"
-            >
-            </q-input> -->
+          <q-badge
+            class="absolute-top-right z-top q-ma-xs q-mt-xl"
+            v-if="bonuscondition != null"
+            color="orange"
+            floating
+            rounded
+          >
+            {{ bonuscondition }}+1
+          </q-badge>
 
-            <q-input
-              class="col-6"
-              readonly
-              disable
-              borderless
-              dense="true"
-              :label="selected_local.flavorandspec"
-              :model-value="tag"
+          <q-btn-toggle
+            v-if="boxprice != null"
+            class="absolute-top-left q-ma-xs z-top"
+            v-model="bulkbuy"
+            push
+            glossy
+            toggle-color="primary"
+            toggle-text-color="white"
+            color="grey"
+            text-color="black"
+            :options="[
+              {label: '单个', value: false},
+              {label: '捆绑', value: true},
+            ]"
+          />
+          <q-img
+            :src="img"
+            style="max-width: 75%"
+            class="rounded-borders q-mt-xs"
+          >
+            <q-chip
+              v-if="bulkbuy == false"
+              class="absolute-bottom"
+              dense
+              text-color="white"
+              icon="img:src\assets\icons\currency-krw-white.png"
             >
-            </q-input>
-            <!-- </q-drawer> -->
-            <q-input
-              class="col-6"
-              readonly
-              disable
-              borderless
-              dense="true"
-              :label="selected_local.unitprice"
-              :model-value="price"
+              {{ price }}
+              <q-badge
+                color="teal"
+                floating
+                rounded
+                transparent
+                v-if="cutprice != null"
+              >
+                - {{ cutprice }}
+              </q-badge>
+            </q-chip>
+            <q-chip
+              v-else
+              class="absolute-bottom"
+              dense
+              text-color="white"
+              icon="img:src\assets\icons\currency-krw-white.png"
             >
-            </q-input>
-            <q-input
-              class="col-6"
+              {{ boxprice }}
+              <q-badge color="orange" floating rounded>
+                {{ boxcapacity }} 个装
+              </q-badge>
+            </q-chip>
+            <div class="absolute-bottom-right transparent">
+              <q-badge
+                v-if="stock != null"
+                class="q-mt-md"
+                color="red"
+                floating
+                rounded
+              >
+                <q-icon name="warning" color="white" />
+                {{ stock == null ? '充足' : '即将下架' }}
+              </q-badge>
+            </div>
+          </q-img>
+
+          <q-card-section class="row q-px-sm q-py-none">
+            <!-- :label="selected_local.sellprice" -->
+            <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
+              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              {{ (price - cutprice) * this.localQuantity }}
+              {{ selected_local.won }}
+            </div>
+            <div v-else class="col-12 text-h6 text-bold">
+              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+            </div>
+            <!-- <q-input
+              v-if="!bulkbuy"
+              class="col-12 q-my-xs"
               readonly
               disable
+              square
               outlined
               bg-color="teal-2"
-              :label="selected_local.sellprice"
-              dense="true"
               input-class="text-right"
-              :model-value="price * this.orderCount"
+              :model-value="(price - cutprice) * this.localQuantity"
             >
-            </q-input>
-          </q-card-section>
-          <q-separator />
+            </q-input> -->
+            <!-- :label="selected_local.sellprice" -->
 
-          <q-card-section class="row justify-center q-py-none">
+            <!-- <q-input
+              v-else
+              class="col-12 q-my-xs"
+              readonly
+              square
+              outlined
+              disable
+              bg-color="teal-2"
+              input-class="text-right"
+              :model-value="boxprice * this.localQuantity"
+            >
+            </q-input> -->
             <q-btn
+              :disable="localQuantity <= 0"
               class="col-3"
-              style="height: 56px; vertical-align: bottom"
               icon="remove"
-              @click="removefromCart(this.product_name)"
+              @click="handle(-1)"
             ></q-btn>
             <q-input
-              class="q-px-xs col-6"
+              class="col-6"
               style="vertical-align: top"
               readonly
               disable
               outlined
-              dense="true"
               bg-color="teal-2"
-              v-model="this.orderCount"
+              v-model="this.localQuantity"
               input-class="text-right"
-            ></q-input>
-            <!-- <span class="q-pa-md">수량: {{ this.orderCount }} </span> -->
+            >
+              <div
+                v-if="bonuscondition != null && localQuantity >= bonuscondition"
+                class="q-mt-sm q-ml-lg absolute-right transparent"
+              >
+                <q-badge color="orange" floating rounded>
+                  赠 {{ parseInt(localQuantity / bonuscondition) }}
+                </q-badge>
+              </div>
+            </q-input>
+            <q-btn class="col-3" icon="add" @click="handle(1)"></q-btn>
+
             <q-btn
-              class="col-3"
-              style="height: 56px; vertical-align: bottom"
-              icon="add"
-              @click="sendToCart(this.product_name)"
-            ></q-btn>
-            <!-- <q-badge rounded color="orange" floating>1</q-badge> -->
-          </q-card-section>
-          <q-card-section
-            class="row justify-center q-gutter-xs q-py-xs q-px-none"
-          >
-            <q-btn
-              class="col-6.5"
+              class="col-9 q-my-xs"
               glossy
+              icon="shopping_cart_checkout"
               color="primary"
               tag="a"
               to="/OrderList"
               :label="selected_local.gocounter"
-            >
-              <!-- icon="shopping_cart_checkout" -->
-            </q-btn>
+            />
             <q-btn
-              class="col-4.5"
+              class="col-3 q-my-xs"
+              color="white"
+              text-color="primary"
               glossy
-              :label="selected_local.lookaround"
-              v-close-popup
-            >
-            </q-btn>
+              icon="add_shopping_cart"
+              @click="sendToCart(this.product_name, quantity)"
+            />
           </q-card-section>
-          <!-- <span class="q-pa-md">
-              구매 금액: {{  }}</span
-                > -->
+          <q-card-section class="row q-mt-none q-pt-none q-px-sm">
+            <q-bar dense class="col-12 bg-teal text-white"> 基本信息 </q-bar>
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              :label="selected_local.flavorandspec"
+              :model-value="tag"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              label="保质期: "
+              model-value="12个月"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              label="生产日期: "
+              model-value="2023-12-23 이후"
+            />
+          </q-card-section>
         </q-card>
       </q-dialog>
     </div>
@@ -161,19 +260,39 @@
     name: 'ProductInfo',
     components: {},
     data: function () {
-      return {
-        orderCount: this.itemCount,
-      };
+      return {};
     },
     computed: {
       ...mapState({
         selected_local: state => state.ui_local.status,
       }),
+      localParam: {
+        get: function () {
+          return this.buyoption;
+        },
+        set: function (buyoption) {
+          this.$emit('setbuyoption', buyoption);
+        },
+      },
+      localQuantity: {
+        get: function () {
+          return this.quantity;
+        },
+        set: function (value) {
+          this.$emit('setquantity', value);
+        },
+      },
     },
     watch: {
-      orderCount: function (val) {}, //주문 수량 추가 시 화면에 바로 수량을 확인할 수 있도록 추가한 변수임.
+      bulkbuy: function (val) {
+        this.localParam = val;
+      },
     },
     props: {
+      product_id: {
+        type: Number,
+        default: 0,
+      },
       img: {
         type: String,
         required: true,
@@ -202,46 +321,68 @@
         type: String,
         default: '&',
       },
+      keyword: {
+        type: String,
+        default: '&',
+      },
+      cutprice: {
+        type: Number,
+        default: 0,
+      },
+      bonuscondition: {
+        type: Number,
+        default: 0,
+      },
+      boxprice: {
+        type: Number,
+        default: 0,
+      },
+      boxcapacity: {
+        type: Number,
+        default: 0,
+      },
+      stock: {
+        type: Number,
+        default: 0,
+      },
+      stored: {
+        type: Number,
+        default: 0,
+      },
+      quantity: {
+        type: Number,
+        default: 0,
+      },
+      buyoption: {
+        type: Boolean,
+        default: false,
+      },
     },
     setup() {
       return {
         card: ref(false),
+        bulkbuy: ref(false),
       };
     },
+    mounted() {
+      this.resetbuyoption();
+    },
     methods: {
-      removeThisItem() {
-        this.orderCount--;
-        if (this.orderCount <= 0) this.orderCount = 0;
+      resetbuyoption() {
+        this.localParam = false;
       },
-      addThisItem() {
-        this.orderCount++;
+      handle(value) {
+        this.localQuantity += value;
       },
-      sendToCart(name) {
-        this.addThisItem();
+      sendToCart(name, quantity) {
         Notify.create({
           position: 'top',
-          message: this.selected_local.shopingcart + '： (' + name + ') + 1',
-          color: 'green',
+          message:
+            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
+          color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
         this.$emit('sendOrderItem');
-      },
-      removefromCart(name) {
-        if (this.orderCount > 0) {
-          this.removeThisItem();
-          Notify.create({
-            position: 'top',
-            message: this.selected_local.shopingcart + '： (' + name + ') - 1',
-            color: 'red',
-          });
-          this.$emit('sendRemoveItem');
-        } else {
-          Notify.create({
-            position: 'top',
-            message: this.selected_local.deletecomplete,
-            color: 'red',
-          });
-        }
       },
     },
   });

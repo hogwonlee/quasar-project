@@ -4,6 +4,7 @@
 const state = () => ({
   all: [],
   staus: 'update',
+  version: 0,
 });
 
 // getters
@@ -18,6 +19,9 @@ const actions = {
   getProductAction({commit}, products) {
     commit('addToState', products);
   },
+  getVersionAction({commit}, version) {
+    commit('setVersion', version);
+  },
   emptyStoreAction({commit}) {
     commit('setProducts', []);
   },
@@ -28,6 +32,9 @@ const mutations = {
   setProducts(state, products) {
     state.all = products;
   },
+  setVersion(state, version) {
+    state.version = version;
+  },
   addToState(state, products) {
     state.all.push({
       product_id: products.id,
@@ -36,13 +43,17 @@ const mutations = {
       category: products.category,
       tag: products.tag,
       img: 'src/assets/' + products.img + '.jpg',
-      quantity: 99,
+      stock: products.stock,
+      keyword: products.keyword,
+      cutprice: products.cutprice,
+      bonuscondition: products.bonuscondition,
+      boxprice: products.boxprice,
+      boxcapacity: products.boxcapacity,
+      stored: products.stored,
+      quantity: 0,
+      buyoption: false,
     });
     state.staus = null;
-  },
-  decrementProductInventory(state, {id}) {
-    const product = state.all.find(product => product.id === id);
-    product.inventory--;
   },
 };
 

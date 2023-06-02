@@ -60,23 +60,48 @@
                 :label="selected_local.detailorder"
                 @click="get_order_list(order.orderGroup_id)"
               ></q-btn>
+              <q-btn
+                color="primary"
+                label="교환/반품"
+                @click="show_claim()"
+              ></q-btn>
             </div>
           </q-card-section>
         </div>
       </q-card>
     </div>
     <div v-else>
-      <q-input
-        v-model="info_title"
-        class="text-h3"
-        input-class="text-center"
-      ></q-input>
-      <q-input
-        v-model="info_text"
-        class="text-body2"
-        input-class="text-center"
-      ></q-input>
+      <div class="col-12 text-h6 text-bold">{{ info_title }}</div>
+      <div class="text-subtitle2 q-ml-md">
+        {{ info_text }}
+      </div>
     </div>
+    <div class="q-gutter-sm q-ma-none q-pa-none">
+      <q-btn
+        style="width: 100%"
+        align="between"
+        label="배송안내"
+        icon-right="keyboard_arrow_right"
+        color="white"
+        text-color="teal"
+        @click="delivery_policy_vue = true"
+      />
+      <q-btn
+        style="width: 100%"
+        align="between"
+        label="교환/반품 안내"
+        icon-right="keyboard_arrow_right"
+        color="white"
+        text-color="teal"
+        @click="exchange_policy_vue = true"
+      />
+    </div>
+    <q-dialog v-model="delivery_policy_vue">
+      <DeliveryPolicy class="bg-teal-2" />
+    </q-dialog>
+    <q-dialog v-model="exchange_policy_vue">
+      <ExchangePolicy class="bg-teal-2" />
+    </q-dialog>
     <q-dialog v-model="search_order">
       <q-table
         :title="
@@ -107,19 +132,21 @@
 
 <script>
   import SweetTrackerInfo from 'components/SweetTrackerInfo.vue';
-  import {defineComponent} from 'vue';
+  import {defineComponent, ref} from 'vue';
   import axios from 'axios';
   import {mapState, mapActions, mapGetters} from 'vuex';
   import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
+  import DeliveryPolicy from './policy/DeliveryPolicy.vue';
+  import ExchangePolicy from './policy/ExchangePolicy.vue';
 
   export default defineComponent({
     name: 'DeliveryInfo',
-    components: {SweetTrackerInfo},
+    components: {SweetTrackerInfo, DeliveryPolicy, ExchangePolicy},
     data() {
       return {
-        tracker: false,
-        search_order: false,
+        tracker: ref(false),
+        search_order: ref(false),
         search_order_id: 0,
         child_code: '',
         child_invoice: '',
@@ -128,6 +155,8 @@
         center_text: '中国食品',
         res_order: [],
         columns: [],
+        delivery_policy_vue: ref(false),
+        exchange_policy_vue: ref(false),
       };
     },
     computed: {
@@ -195,6 +224,12 @@
           this.child_invoice = invoice;
           this.tracker = true;
         }
+      },
+      show_claim() {
+        alert.confirm(
+          this.selected_local.claim_title,
+          this.selected_local.claim_body,
+        );
       },
       get_address_tag(address_id) {
         // console.log(JSON.stringify(address.state.items));

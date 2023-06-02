@@ -13,6 +13,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   import {defineComponent} from 'vue';
 
   export default defineComponent({

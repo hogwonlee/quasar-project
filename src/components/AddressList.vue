@@ -1,119 +1,50 @@
 <template>
   <div>
+    <q-card class="transparent" flat>
+      <q-card-section class="row items-center q-pa-none">
+        <div class="text-h6 text-bold">주소 리스트</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
+    </q-card>
     <div :v-model="is_addr_added">
       <q-card
-        class="my-card"
-        :class="addr.is_default ? 'bg-info' : 'bg-grey-3'"
-        v-for="addr in addressList"
-        :key="addr.address_id"
-        v-bind="addr"
+        class="transparent my-card q-gutter-xs q-pa-none q-ma-none"
+        flat
+        square
+        outlined
       >
-        <div class="q-ma-xs">
-          <q-card-section>
-            <div class="absolute-top-right q-gutter-sm q-pt-md q-pr-sm">
-              <q-btn
-                color="primary"
-                :label="selected_local.changeaddrinfo"
-                @click="confirm_change_address_info(addr.address_tag, addr)"
-              ></q-btn>
-
-              <q-btn
-                v-if="!addr.is_default"
-                color="negative"
-                :label="selected_local.del"
-                @click="confirm_delete(addr.address_tag, addr.address_id)"
-              ></q-btn>
-            </div>
-            <q-radio
-              v-if="addr.is_default"
-              v-model="shape"
-              :val="check_default_address(addr)"
-              checked-icon="task_alt"
-              unchecked-icon="panorama_fish_eye"
-              :label="selected_local.defaultaddr"
-            />
-            <q-btn
-              v-if="!addr.is_default"
-              color="primary"
-              :label="selected_local.changedefaultaddr"
-              @click="confirm_change_default(addr.address_tag, addr.address_id)"
-            ></q-btn>
-            <!-- <div class="text-h6">배송지 이름: {{ addr.address_tag }}</div> -->
-            <!-- <div class="text-subtitle2">수령인: {{ addr.recipient }}</div> -->
-            <!-- <div class="text-h6">배송지 ID: {{ addr.address_id }}</div> -->
-            <!-- <q-input
-              label="배송지 이름: "
-              readonly
-              v-model:model-value="addr.address_tag"
-            >
-            </q-input> -->
-            <div class="row">
-              <q-input
-                class="col-md-3 col-sm-6 col-xs-6"
-                :label="selected_local.addrname"
-                readonly
-                :model-value="addr.address_tag"
-              >
-              </q-input>
-              <q-input
-                class="col-md-3 col-sm-6 col-xs-6"
-                :label="selected_local.recipient"
-                readonly
-                :model-value="addr.recipient"
-              >
-              </q-input>
-              <q-input
-                class="col-md-3 col-sm-6 col-xs-6"
-                :label="selected_local.tel"
-                readonly
-                :model-value="addr.recipient_phone"
-                mask="(###)####-####"
-              >
-              </q-input>
-              <q-input
-                class="col-md-3 col-sm-6 col-xs-6"
-                :label="selected_local.postcode"
-                readonly
-                :model-value="addr.post_code"
-                mask="###-##"
-              >
-              </q-input>
-              <q-input
-                class="col-md-9 col-sm-12 col-xs-12"
-                :label="selected_local.addr"
-                readonly
-                :model-value="
-                  addr.address1 + ' ' + addr.address2 + ' ' + addr.address3
-                "
-              >
-              </q-input>
-            </div>
-            <!-- <div class="text-subtitle2">우편번호: {{ addr.post_code }}</div>
-            <div class="text-subtitle2">
-              주소:
-              {{ addr.address1 + ' ' + addr.address2 + ' ' + addr.address3 }}
-            </div> -->
-            <!-- <div class="text-subtitle2">기본 배송지: {{ addr.is_default }}</div> -->
-            <!-- <q-separator color="primary"></q-separator> -->
-          </q-card-section>
-        </div>
+        <AddressInfo
+          :class="addr.is_default ? 'bg-teal' : 'bg-teal-3'"
+          rounded
+          v-for="addr in addressList"
+          :key="addr.address_id"
+          v-bind="addr"
+          @send_change_addr="
+            confirm_change_address_info(addr.address_tag, addr)
+          "
+          @send_delete="confirm_delete(addr.address_tag, addr.address_id)"
+          @send_change_default="
+            confirm_change_default(addr.address_tag, addr.address_id)
+          "
+        />
       </q-card>
-      <div class="q-py-sm row">
-        <q-btn
-          icon="add"
-          color="primary"
-          class="col-12"
-          :label="selected_local.registernewaddr"
-          @click="register = true"
-        ></q-btn>
-      </div>
-      <q-dialog v-model="register">
-        <AddressRegister />
-      </q-dialog>
-      <q-dialog v-model="changeAddress">
-        <AddressInfoChange v-bind="this.change_addr" />
-      </q-dialog>
+      <q-btn
+        icon="add"
+        color="primary"
+        class="col-12"
+        style="width: 100%"
+        :label="selected_local.registernewaddr"
+        @click="register = true"
+      ></q-btn>
     </div>
+    <!-- <div v-else>배송 받을 주소지를 추가해주세요.</div> -->
+    <q-dialog v-model="register">
+      <AddressRegister />
+    </q-dialog>
+    <q-dialog v-model="changeAddress">
+      <AddressInfoChange v-bind="this.change_addr" />
+    </q-dialog>
   </div>
 </template>
 
@@ -126,6 +57,7 @@
   import validation from 'src/util/data/validation';
   import AddressRegister from './AddressRegister.vue';
   import AddressInfoChange from './AddressInfoChange.vue';
+  import AddressInfo from './AddressInfo.vue';
 
   export default defineComponent({
     name: 'AddressList',
@@ -137,7 +69,11 @@
         change_addr: {},
       };
     },
-    components: {AddressRegister, AddressInfoChange},
+    components: {
+      AddressRegister,
+      AddressInfoChange,
+      AddressInfo,
+    },
     computed: {
       ...mapState({
         user: state => state.user.USER,
@@ -297,6 +233,7 @@
         confirm_change_address_info,
         shape: ref('line'),
         checkPasswordDialog: ref(false),
+        addr_option: ref(false),
       };
     },
   });

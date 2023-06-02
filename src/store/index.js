@@ -3,7 +3,9 @@ import createPersistedState from 'vuex-persistedstate';
 import user from './user/userInfo';
 import cart from './cartList';
 import products from './productList';
+import category from './category';
 import address from './user/addressInfo';
+import coupon from './user/couponInfo';
 import order from './orderList';
 import ui_local from './ui_local';
 
@@ -17,13 +19,24 @@ export default createStore({
     products,
     address,
     ui_local,
+    category,
+    coupon,
   },
   strict: false,
   plugins: [
     createLogger(),
 
     createPersistedState({
-      paths: ['user', 'cart', 'products', 'address', 'order', 'ui_local'],
+      paths: [
+        'user',
+        'cart',
+        'products',
+        'address',
+        'order',
+        'ui_local',
+        'category',
+        'coupon',
+      ],
     }),
   ],
   // plugins: debug

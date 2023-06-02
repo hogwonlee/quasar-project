@@ -3,11 +3,7 @@
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
       <q-card class="row bg-teal-2" flat>
-        <q-input
-          :model-value="selected_local.myinfo"
-          readonly
-          class="col-12"
-        ></q-input>
+        <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
         <q-input
           :model-value="user.USER_NAME"
           :label="selected_local.name"
@@ -22,22 +18,84 @@
         ></q-input>
 
         <div class="absolute-top-right q-gutter-sm q-pt-sm q-pr-sm">
-          <q-btn
-            color="primary"
-            :label="selected_local.changemyinfo"
-            @click="this.checkPasswordDialog = true"
-          ></q-btn>
-          <q-btn
-            color="primary"
-            :label="selected_local.changepassword"
-            @click="this.changePasswordDialog = true"
-          ></q-btn>
+          <q-fab
+            v-model="addr_option"
+            icon="settings"
+            text-color="primary"
+            color="white"
+            padding="sm"
+            direction="left"
+            class="absolute-top-right"
+          >
+            <q-fab-action
+              color="white"
+              text-color="primary"
+              padding="none"
+              :label="selected_local.changemyinfo"
+              @click="this.checkPasswordDialog = true"
+            />
+            <q-fab-action
+              color="white"
+              text-color="primary"
+              padding="none"
+              :label="selected_local.changepassword"
+              @click="this.changePasswordDialog = true"
+            />
+          </q-fab>
         </div>
       </q-card>
       <!-- <div class="text-h6">이름: {{ user_name_get }}</div>
       <div class="text-h6">전화번호: {{ user_phone_get }}</div> -->
-
-      <AddressList />
+      <div class="q-gutter-sm q-ma-none q-pa-none">
+        <q-btn
+          style="width: 100%"
+          align="between"
+          label="주소 리스트"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="address_vue = true"
+        />
+        <q-btn
+          style="width: 100%"
+          align="between"
+          label="쿠폰 리스트"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="coupon_vue = true"
+        />
+        <q-btn
+          style="width: 100%"
+          align="between"
+          label="이용약관"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="service_policy_vue = true"
+        />
+        <q-btn
+          style="width: 100%"
+          align="between"
+          label="개인정보취급방침"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="privacy_policy_vue = true"
+        />
+      </div>
+      <q-dialog v-model="coupon_vue">
+        <CouponList class="bg-teal-2" />
+      </q-dialog>
+      <q-dialog v-model="address_vue">
+        <AddressList class="bg-teal-2" />
+      </q-dialog>
+      <q-dialog v-model="privacy_policy_vue">
+        <PrivacyPolicy class="bg-teal-2" />
+      </q-dialog>
+      <q-dialog v-model="service_policy_vue">
+        <ServicePolicy class="bg-teal-2" />
+      </q-dialog>
     </section>
     <section v-else class="row justify-center vertical-center">
       <LoginPage />
@@ -55,13 +113,16 @@
       transition-show="scale"
       transition-hide="scale"
     >
-      <q-card class="bg-teal text-white" style="width: 300px">
+      <q-card class="bg-teal text-black" style="width: 300px">
         <q-card-section>
-          <div class="text-h6">{{ selected_local.confirmpassword }}</div>
+          <div class="text-h6">
+            {{ selected_local.confirmpassword }}
+          </div>
         </q-card-section>
 
         <q-form @submit="checkpw" @reset="onReset" class="q-gutter-md">
           <q-input
+            filled
             readonly
             disable
             v-model="user.USER_ID"
@@ -76,13 +137,14 @@
             filled
             v-model="userPw"
             :label="selected_local.password"
+            label-color="white"
             lazy-rules
             :rules="[
               val => (val && val.length > 0) || selected_local.essential,
             ]"
           />
 
-          <div>
+          <div class="q-gutter-sm q-py-sm">
             <q-btn
               :label="selected_local.confirm"
               type="submit"
@@ -125,6 +187,9 @@
   import ChangePassword from 'components/ChangePassword.vue';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
+  import CouponList from 'components/CouponList.vue';
+  import PrivacyPolicy from './policy/PrivacyPolicy.vue';
+  import ServicePolicy from './policy/ServicePolicy.vue';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -133,6 +198,9 @@
       AddressList,
       ChangeInfo,
       ChangePassword,
+      CouponList,
+      PrivacyPolicy,
+      ServicePolicy,
     },
     data: function () {
       return {
@@ -141,6 +209,11 @@
         checkPasswordDialog: ref(false),
         changeInfoDialog: ref(false),
         changePasswordDialog: ref(false),
+        addr_option: ref(false),
+        coupon_vue: ref(false),
+        address_vue: ref(false),
+        service_policy_vue: ref(false),
+        privacy_policy_vue: ref(false),
       };
     },
     computed: {

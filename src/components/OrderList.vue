@@ -6,7 +6,7 @@
     <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
 
     <q-dialog v-model="address_popup">
-      <AddressList class="q-px-sm q-pb-sm bg-secondary" />
+      <AddressList class="bg-teal-2" />
     </q-dialog>
 
     <div class="q-pa-md bg-teal">
@@ -28,10 +28,10 @@
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
           class="col-xs-3 col-sm-3 col-md-2 q-pa-xs"
-          v-for="product in cartProduct"
-          :key="product.id"
+          v-for="product in cartList"
+          :key="product.product_id"
           v-bind="product"
-          v-bind:item-count="product.quantity"
+          @setquantity="product.quantity = $event"
         />
       </div>
     </div>
@@ -63,19 +63,43 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">{{ selected_local.point }}</td>
-            <td class="text-right col-8">5000 P</td>
+            <td class="text-left bg-teal col-4">
+              {{ selected_local.point }}
+            </td>
+            <td class="text-right col-8">
+              <q-btn
+                size="sm"
+                icon="info"
+                flat
+                text-color="teal"
+                @click="coupon_list = true"
+              />
+              -
+              {{
+                reservedCoupon() != undefined
+                  ? reservedCoupon().coupon_price
+                  : 0
+              }}
+              P
+            </td>
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">{{ selected_local.total }}</td>
             <td class="text-right col-8">
-              {{ total + shipment }} {{ selected_local.won }}
+              {{
+                reservedCoupon() != undefined
+                  ? total + shipment - reservedCoupon().coupon_price
+                  : total + shipment - 0
+              }}
+              {{ selected_local.won }}
             </td>
           </tr>
         </tbody>
       </q-markup-table>
     </q-card>
-
+    <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
+      <CouponList class="bg-teal-2" v-bind:food_price="total" />
+    </q-dialog>
     <q-card class="bg-teal-2">
       <div v-if="user_status">
         <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
@@ -185,7 +209,7 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
-        @click="selectPaymentmethod(total, shipment)"
+        @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
         <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
       </q-btn>
@@ -205,7 +229,6 @@
         </q-card-section>
 
         <q-separator />
-
         <q-card-actions align="right">
           <q-btn
             flat
@@ -229,12 +252,14 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
+    <!-- <q-btn label="쿠폰 예약 확인" @click="reservedCoupon"></q-btn> -->
   </div>
 </template>
 
 <script>
   import {mapGetters, mapState, mapActions} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
+  import CouponList from 'components/CouponList.vue';
   import LoginPage from 'components/LoginPage.vue';
   import {defineComponent, ref} from 'vue';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
@@ -242,6 +267,7 @@
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
   import {date} from 'quasar';
+  import axios from 'axios';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default defineComponent({
@@ -251,6 +277,7 @@
       LoginPage,
       AddressList,
       AddressRegister,
+      CouponList,
     },
 
     data: function () {
@@ -260,7 +287,64 @@
         address_selected: '',
         address_popup: ref(false),
         register_popup: ref(false),
+        coupon_list: ref(false),
+        selected_coupon_id: ref(null),
       };
+    },
+    watch: {
+      total: function (val, old) {
+        // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
+        if (old < 50000 && val >= 50000) {
+          // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
+          console.log('50000 구매 쿠폰 적용');
+          if (this.couponList.length > 0) {
+            var coupon_id = this.find_coupon(50000);
+            if (coupon_id == null) {
+              console.log('no 50000 condition coupon');
+              if (this.reservedCoupon() != undefined) {
+                console.log(
+                  'use condition = 30000 coupon :' +
+                    this.reservedCoupon.coupon_name,
+                );
+              } else {
+                console.log('30000 구매 쿠폰 적용');
+                coupon_id = this.find_coupon(30000);
+                this.reserve_use_coupon(coupon_id);
+              }
+            } else {
+              if (this.reservedCoupon() != undefined) {
+                this.reserve_cancle_coupon();
+              }
+              this.reserve_use_coupon(coupon_id);
+            }
+          }
+        } else if (
+          (old < 30000 && val >= 30000 && val < 50000) ||
+          (old >= 50000 && val >= 30000 && val < 50000)
+        ) {
+          console.log('30000 구매 쿠폰 적용');
+
+          // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
+          if (this.couponList.length > 0) {
+            var coupon_id = this.find_coupon(30000);
+            if (this.reservedCoupon() != undefined) {
+              this.reserve_cancle_coupon();
+            }
+            if (coupon_id == null) {
+              console.log('no 30000 coupon');
+            } else {
+              this.reserve_use_coupon(coupon_id);
+            }
+          }
+        } else if (old >= 30000 && val < 30000) {
+          console.log('쿠폰 적용 취소');
+
+          //기존에 예약한 쿠폰 모두 취소.
+          if (this.reservedCoupon() != undefined) {
+            this.reserve_cancle_coupon();
+          }
+        }
+      },
     },
     computed: {
       ...mapState({
@@ -271,12 +355,15 @@
         order: state => state.order.items,
         user_status: state => state.user.status,
         selected_local: state => state.ui_local.status,
+        couponList: state => state.coupon.items,
+        coupon_status: state => state.coupon.status,
       }),
       ...mapGetters('cart', {
-        cartProduct: 'cartProducts',
+        cartProducts: 'cartProducts',
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
+
       no_selected_addr() {
         return validation.isNull(this.address_selected);
       },
@@ -297,9 +384,14 @@
         });
         this.address_selected = return_addr;
       },
-
-      selectPaymentmethod(total, shipment) {
-        var amountOfPayment = total + shipment;
+      selectPaymentmethod(total, shipment, coupon) {
+        var discount;
+        if (coupon != undefined) {
+          discount = coupon.coupon_price;
+        } else {
+          discount = 0;
+        }
+        var amountOfPayment = total + shipment - discount;
         var random_id = 'test' + this.user.USER_ID + Date.now();
         loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
@@ -307,7 +399,7 @@
             orderId: random_id,
             orderName:
               this.cartList[0].product_id +
-              this.cartProduct[0].product_name +
+              this.cartList[0].product_name +
               this.cartList[0].quantity +
               '...',
             customerName: this.user.USER_NAME,
@@ -316,9 +408,96 @@
           }),
         );
       },
+      find_coupon(val) {
+        // var coupon;
+        // this.couponList.forEach(item => {
+        //   if (item.use_condition === val) {
+        //     coupon = item;
+        //   }
+        // });
+        var coupon = this.couponList.find(item => item.use_condition === val);
+        console.log(coupon.coupon_name);
+        if (coupon == undefined) {
+          return null;
+        } else {
+          return coupon.coupon_id;
+        }
+      },
+      reserve_use_coupon(coupon_id) {
+        this.$store.dispatch('coupon/reserveUseCouponAction', coupon_id);
+      },
+      reserve_cancle_coupon() {
+        this.$store.dispatch('coupon/reserveCancleAction');
+      },
+      reservedCoupon() {
+        return this.couponList.find(
+          element => element.coupon_use_reserve === 1,
+        );
+      },
+      read_coupon() {
+        if (this.coupon_status === '') {
+          axios({
+            url: 'http://localhost:3001/mycoupon',
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: this.user.USER_TOKEN,
+            },
+            data: {
+              user_id: this.user.USER_ID,
+              user_name: this.user.USER_NAME,
+            },
+          })
+            .then(res => {
+              this.$store.dispatch('coupon/emptyCouponAction');
+
+              res.data.results.forEach(coupon => {
+                if (coupon.available === 1) {
+                  this.$store.dispatch('coupon/addCouponAction', coupon);
+                }
+              });
+              // this.$store.dispatch('coupon/setStatusAction', null);
+            })
+            .catch(res => {
+              console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+            });
+        }
+      },
     },
     mounted() {
+      this.read_coupon();
       this.getSelectedAddress();
     },
+    // created() {
+    //   if (this.total >= 50000) {
+    //     // 주문페이지 첫 진입후 주문금액이 5만원 초과 시, 쿠폰 읽어오고 쿠폰 사용 예약
+    //     if (this.couponList.length > 0) {
+    //       var coupon_id = this.find_coupon(50000);
+    //       coupon_id != null
+    //         ? coupon_id
+    //         : this.find_coupon(30000) != null
+    //         ? (coupon_id = this.find_coupon(30000))
+    //         : (coupon_id = null);
+
+    //       if (coupon_id == null) {
+    //         console.log('no coupon');
+    //       } else {
+    //         this.reserve_use_coupon(coupon_id);
+    //       }
+    //     }
+    //   } else if (this.total >= 30000) {
+    //     // 주문페이지 첫 진입후 주문금액이 3만원 초과 시, 쿠폰 읽어오고 쿠폰 사용 예약
+    //     if (this.couponList.length > 0) {
+    //       var coupon_id = this.find_coupon(30000);
+    //       coupon_id != null
+    //         ? coupon_id
+    //         : this.find_coupon(30000) != null
+    //         ? (coupon_id = this.find_coupon(30000))
+    //         : (coupon_id = null);
+    //       this.reserve_use_coupon(coupon_id);
+    //     }
+    //   }
+    // },
   });
 </script>
