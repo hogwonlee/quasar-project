@@ -23,9 +23,9 @@
     <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
       <q-fab
         v-model="event_fab"
-        label="이벤트안내(~23.05.31)"
+        label="이벤트안내(~23.12.31)"
         text-color="primary"
-        vertical-actions-align="left"
+        vertical-actions-align="right"
         color="white"
         padding="none xl"
         icon="keyboard_arrow_down"
@@ -34,15 +34,15 @@
         <q-fab-action
           padding="3px"
           color="primary"
-          label="가격 할인 이벤트"
-          @click="list_show = true"
+          label="회원 가입 이벤트"
+          @click="register_event_info()"
         />
         <q-card></q-card>
         <q-fab-action
           padding="3px"
           color="primary"
-          label="?+1 이벤트"
-          @click="list_show = true"
+          label="5353 쿠폰 이벤트"
+          @click="coupon_5353_event()"
         />
       </q-fab>
     </q-page-sticky>
@@ -104,6 +104,8 @@
   import {mapState, mapActions} from 'vuex';
   import axios from 'axios';
   import {scroll} from 'quasar';
+  import alert from 'src/util/modules/alert';
+  import validation from 'src/util/data/validation';
   const {getScrollTarget, setVerticalScrollPosition} = scroll;
 
   export default defineComponent({
@@ -117,6 +119,18 @@
       };
     },
     methods: {
+      register_event_info() {
+        alert.confirm(
+          '회원 가입 이벤트 안내',
+          '이벤트 기간동안 회원 가입만 하면 3천원 쿠폰을 지급합니다. (해당 쿠폰은 3만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+        );
+      },
+      coupon_5353_event() {
+        alert.confirm(
+          '5353 쿠폰 이벤트 안내',
+          '이벤트 기간동안 구매 상품의 금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (해당 쿠폰은 5만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+        );
+      },
       handleScroll(val) {
         console.log(val);
         let ele = document.querySelector('.' + val);
@@ -127,38 +141,30 @@
       },
       products_update() {
         const params = {version: this.storeversion};
-        console.log(params);
-        // console.log(this.products_status);
-        // if (this.products_status != null) {
         axios
-          .get(
-            'http://localhost:3001/productList',
-            {params: params},
-            // {
-            //   headers: {
-            //     'Access-Control-Allow-Headers': '*',
-            //     'Content-Type': 'application/json',
-            //   },
-            // },
-          )
+          .get('http://localhost:3001/productList', {params: params})
           .then(res => {
-            if (res.data.results == null) {
-              console.log(res.data.msg);
+            if (res.status == 200) {
+              if (validation.isNull(res.data.results)) {
+                console.log('no update');
+              } else {
+                this.$store.dispatch('products/emptyStoreAction');
+                res.data.results.map(element => {
+                  this.$store.dispatch('products/getProductAction', element);
+                });
+                this.$store.dispatch('category/emptyStoreAction');
+                res.data.category.map(element => {
+                  this.$store.dispatch('category/getCategoryAction', element);
+                });
+                this.$store.dispatch(
+                  'products/getVersionAction',
+                  res.data.version,
+                );
+              }
             } else {
-              // console.log(JSON.stringify(res.data.results));
-              this.$store.dispatch('products/emptyStoreAction');
-              res.data.results.map(element => {
-                // console.log(element));
-                this.$store.dispatch('products/getProductAction', element);
-              });
-              // console.log(res.data.category);
-              this.$store.dispatch('category/emptyStoreAction');
-              res.data.category.map(element => {
-                this.$store.dispatch('category/getCategoryAction', element);
-              });
-              this.$store.dispatch(
-                'products/getVersionAction',
-                res.data.version,
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
               );
             }
           })

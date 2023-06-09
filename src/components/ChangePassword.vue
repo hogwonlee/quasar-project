@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-card class="bg-teal text-black" style="width: 300px">
+    <q-card class="bg-white text-black" style="width: 300px">
       <q-card-section>
         <div class="text-h6">{{ selected_local.changepw }}</div>
       </q-card-section>
@@ -29,7 +29,7 @@
           v-model="userPw"
           :label="selected_local.oldpw"
           :hint="selected_local.inputoldpw"
-          label-color="white"
+          label-color="black"
           lazy-rules
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
@@ -41,7 +41,7 @@
           v-model="newPw"
           :label="selected_local.password"
           :hint="selected_local.inputnewpw"
-          label-color="white"
+          label-color="black"
           lazy-rules
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
@@ -53,7 +53,7 @@
           v-model="newPwCheck"
           :label="selected_local.matchpassword"
           :hint="selected_local.matchpasswordhint"
-          label-color="white"
+          label-color="black"
           lazy-rules
           :rules="[this.value == this.newPw || selected_local.passwordhint]"
         />

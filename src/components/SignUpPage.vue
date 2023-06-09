@@ -1,42 +1,46 @@
 <template>
   <div>
-    <!-- <q-dialog persistent transition-show="scale" transition-hide="scale"> -->
-    <q-card class="bg-teal text-black">
+    <q-card class="bg-white text-black">
       <q-card-section>
         <div class="text-h6">{{ selected_local.signup }}</div>
       </q-card-section>
-
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
         <q-input
+          for="user_id"
           filled
           v-model="userId"
           :label="selected_local.identity"
           :hint="selected_local.idhint"
           lazy-rules
-          :rules="[val => (val && val.length > 0) || hint]"
+          :rules="[
+            val =>
+              (!!val && val.length >= 6 && val.length <= 12) ||
+              selected_local.idhint,
+          ]"
         />
-
         <q-input
+          for="user_name"
           filled
           v-model="userNickname"
           :label="selected_local.name"
           :hint="selected_local.namehint"
           lazy-rules
-          :rules="[val => (val && val.length > 0) || hint]"
+          :rules="[val => (!!val && val.length > 0) || selected_local.namehint]"
         />
-
         <q-input
           filled
           v-model="userPhone"
           :label="selected_local.tel"
           :hint="selected_local.telhint"
+          type="tel"
           mask="(###)####-####"
           lazy-rules
-          :rules="[val => (val && val.length > 0) || hint]"
+          :rules="[
+            val =>
+              (!!val && val.length >= 13 && val.length <= 15) ||
+              selected_local.telhint,
+          ]"
         />
-
-        <!-- <q-toggle v-model="accept" :label="selected_local.licenseterms" /> -->
-
         <q-input
           filled
           v-model="userPw"
@@ -45,9 +49,9 @@
           :hint="selected_local.passwordhint"
           lazy-rules
           :rules="[
-            val => (val && val.length > 0) || hint,
-            val => (val && val.length > 0) || hint,
-            val => (val && val.length > 0) || hint,
+            val =>
+              (!!val && val.length >= 8 && val.length <= 16) ||
+              selected_local.passwordhint,
           ]"
         >
           <template v-slot:append>
@@ -66,7 +70,10 @@
           :label="selected_local.matchpassword"
           :hint="selected_local.matchpasswordhint"
           lazy-rules
-          :rules="[this.value == this.userPw || hint]"
+          :rules="[
+            val =>
+              (!!val && val == this.userPw) || selected_local.matchpasswordhint,
+          ]"
         >
           <template v-slot:append>
             <q-icon
@@ -76,8 +83,7 @@
             />
           </template>
         </q-input>
-
-        <div class="row justify-center q-gutter-sm">
+        <div class="row justify-center q-gutter-sm q-py-sm">
           <q-btn
             :label="selected_local.signup"
             class="col-5"
@@ -85,11 +91,18 @@
             color="primary"
             v-close-popup
             :disable="
-              this.userPw != this.userPwCheck ||
-              this.userId == '' ||
-              this.userPw == '' ||
-              this.userNickname == '' ||
-              this.userPhone == ''
+              userPw != userPwCheck ||
+              userId == null ||
+              userPw == null ||
+              userNickname == null ||
+              userPhone == null ||
+              userPwCheck == null ||
+              userId.length < 6 ||
+              userId.length > 12 ||
+              userPhone.length < 13 ||
+              userPhone.length > 15 ||
+              userPw.length < 8 ||
+              userPw.length > 16
             "
           />
           <q-btn
@@ -98,13 +111,6 @@
             color="primary"
             v-close-popup
           />
-          <!-- <q-btn
-            label="다시 입력"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          /> -->
         </div>
       </q-form>
     </q-card>

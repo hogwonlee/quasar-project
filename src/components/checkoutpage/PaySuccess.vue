@@ -73,8 +73,14 @@
           data: requestData,
         })
           .then(async res => {
-            console.log(JSON.stringify(res.data));
-            this.set_order_with_address(await this.get_address_id());
+            if (res.status == 200) {
+              // console.log(JSON.stringify(res.data));
+              this.set_order_with_address(await this.get_address_id());
+            } else {
+              console.log(
+                '결제오류 났으면 PayFail 페이지로 이동해야 하지 않나?',
+              );
+            }
           })
           .catch(e => console.error(e));
       },

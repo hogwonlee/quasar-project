@@ -15,7 +15,7 @@
         outlined
       >
         <AddressInfo
-          :class="addr.is_default ? 'bg-teal' : 'bg-teal-3'"
+          :class="addr.is_default ? 'bg-white' : 'bg-grey-5'"
           rounded
           v-for="addr in addressList"
           :key="addr.address_id"
@@ -55,6 +55,7 @@
   import {ref} from 'vue';
   import {Cookies, useQuasar} from 'quasar';
   import validation from 'src/util/data/validation';
+  import alert from 'src/util/modules/alert';
   import AddressRegister from './AddressRegister.vue';
   import AddressInfoChange from './AddressInfoChange.vue';
   import AddressInfo from './AddressInfo.vue';
@@ -107,23 +108,21 @@
             },
           })
             .then(res => {
-              this.$store.dispatch('address/emptyAddressAction');
-
-              // address.dispatch('emptyAddressAction');
-              res.data.results.forEach(addr => {
-                // console.log('주소 조회 => 수령인 확인: ' + addr.recipient);
-                if (addr.address_active === 1) {
-                  // console.log('주소 활성화 확인: ' + addr.address_active);
-                  this.$store.dispatch('address/addAddressAction', addr);
-
-                  // address.dispatch('addAddressAction', addr);
-                }
-              });
-              this.is_addr_added = true;
-              this.$store.dispatch('address/setStatusAction', null);
-
-              // address.dispatch('setStatusAction', null);
-              // console.log(address.state.status);
+              if (res.status == 200) {
+                this.$store.dispatch('address/emptyAddressAction');
+                res.data.results.forEach(addr => {
+                  if (addr.address_active === 1) {
+                    this.$store.dispatch('address/addAddressAction', addr);
+                  }
+                });
+                this.is_addr_added = true;
+                this.$store.dispatch('address/setStatusAction', null);
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => {
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
@@ -149,15 +148,22 @@
           data: {user_id: this.user.USER_ID, address_id: address_id},
         })
           .then(res => {
-            this.$store.dispatch('address/emptyAddressAction');
-            // address.dispatch('emptyAddressAction');
-            res.data.results.forEach(addr => {
-              // console.log('수령인 확인: ' + addr.recipient);
-              if (addr.address_active == 1) {
-                this.$store.dispatch('address/addAddressAction', addr);
-                // address.dispatch('addAddressAction', addr);
-              }
-            });
+            if (res.status == 200) {
+              this.$store.dispatch('address/emptyAddressAction');
+              // address.dispatch('emptyAddressAction');
+              res.data.results.forEach(addr => {
+                // console.log('수령인 확인: ' + addr.recipient);
+                if (addr.address_active == 1) {
+                  this.$store.dispatch('address/addAddressAction', addr);
+                  // address.dispatch('addAddressAction', addr);
+                }
+              });
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
           })
           .catch(res => {
             console.log('에러:' + res);
@@ -175,14 +181,19 @@
           data: {user_id: this.user.USER_ID, address_id: address_id},
         })
           .then(res => {
-            console.log(JSON.stringify(res));
-            var deleteIndex = this.addressList.findIndex(
-              ele => ele.address_id === address_id,
-            );
-            console.log('찾은 주소 배열 인덱스 값: ' + deleteIndex);
-            this.$store.dispatch('address/deleteAddressAction', deleteIndex);
-
-            // address.dispatch('deleteAddressAction', deleteIndex);
+            if (res.status == 200) {
+              console.log(JSON.stringify(res));
+              var deleteIndex = this.addressList.findIndex(
+                ele => ele.address_id === address_id,
+              );
+              console.log('찾은 주소 배열 인덱스 값: ' + deleteIndex);
+              this.$store.dispatch('address/deleteAddressAction', deleteIndex);
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
           })
           .catch(res => {
             console.log('에러:' + res);

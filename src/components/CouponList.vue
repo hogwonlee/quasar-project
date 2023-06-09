@@ -3,9 +3,16 @@
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <div class="text-h6 text-bold">내 쿠폰</div>
+        <div class="text-h6 text-bold">쿠폰 정보</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
+        <div class="text-body2 q-ml-md">
+          쿠폰 사용 안내: 쿠폰은 조건에 맞으면 자동으로 사용하게 됩니다.
+        </div>
+        <div class="text-body2 q-ml-md">
+          쿠폰 사용 조건 안내: 상품 구매 금액만 3만원 또는 5만원 초과하면 사용할
+          수 있습니다.
+        </div>
       </q-card-section>
     </q-card>
     <!-- <div class="text-body2 q-pl-sm text-bold">안내:</div>
@@ -20,28 +27,6 @@
         :key="coupon.coupon_id"
         v-bind="coupon"
       >
-        <!-- <q-icon
-        name="arrow_forward_ios"
-        color="teal-2"
-        class="absolute-left q-mt-lg"
-      />
-      <q-icon
-        name="arrow_forward_ios"
-        color="teal-2"
-        class="absolute-bottom-left q-mb-lg"
-      />
-
-      <q-icon
-        name="arrow_back_ios"
-        color="teal-2"
-        class="absolute-right q-mt-lg"
-      />
-      <q-icon
-        name="arrow_back_ios"
-        color="teal-2"
-        class="absolute-bottom-right q-mb-lg"
-      /> -->
-
         <q-card-section class="bg-grey-3 q-pa-none">
           <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
             {{ coupon.coupon_name }}
@@ -138,14 +123,19 @@
             },
           })
             .then(res => {
-              this.$store.dispatch('coupon/emptyCouponAction');
-
-              res.data.results.forEach(coupon => {
-                if (coupon.available === 1) {
-                  this.$store.dispatch('coupon/addCouponAction', coupon);
-                }
-              });
-              // this.$store.dispatch('coupon/setStatusAction', null);
+              if (res.status == 200) {
+                this.$store.dispatch('coupon/emptyCouponAction');
+                res.data.results.forEach(coupon => {
+                  if (coupon.available === 1) {
+                    this.$store.dispatch('coupon/addCouponAction', coupon);
+                  }
+                });
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => {
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.

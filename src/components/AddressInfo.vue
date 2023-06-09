@@ -3,7 +3,7 @@
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
         <div class="text-h6 text-bold q-mx-sm q-pa-none q-my-none">
-          {{ recipient }}
+          {{ '(' + address_tag + ') ' + recipient }}
           <q-chip
             class="q-py-none q-my-none"
             v-if="is_default"
@@ -24,13 +24,6 @@
           direction="left"
         >
           <q-fab-action
-            color="white"
-            text-color="primary"
-            padding="none"
-            :label="selected_local.changeaddrinfo"
-            @click="this.$emit('send_change_addr')"
-          />
-          <q-fab-action
             v-if="!is_default"
             color="white"
             text-color="primary"
@@ -38,6 +31,14 @@
             :label="selected_local.changedefaultaddr"
             @click="this.$emit('send_change_default')"
           />
+          <q-fab-action
+            color="white"
+            text-color="primary"
+            padding="none"
+            :label="selected_local.changeaddrinfo"
+            @click="this.$emit('send_change_addr')"
+          />
+
           <q-fab-action
             v-if="!is_default"
             color="white"
@@ -60,9 +61,7 @@
     >
     </q-input>
     <div class="q-ma-sm">
-      {{
-        '(' + address_tag + ') ' + address1 + ' ' + address2 + ' ' + address3
-      }}
+      {{ address1 + ' ' + address2 + ' ' + address3 }}
     </div>
   </div>
 </template>

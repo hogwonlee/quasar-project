@@ -1,7 +1,31 @@
 <template>
-  <div class="bg-secondary">
+  <div class="bg-white">
     <div>
+      <q-card-section class="row items-center q-pa-none">
+        <div class="q-pl-sm text-h6 text-bold">주소 변경</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag_edit"
+        :label="selected_local.addrtagandhint"
+      ></q-input>
+      <q-input
+        outlined
+        v-model="recipient_edit"
+        class="q-ma-sm"
+        :label="selected_local.recipient"
+      ></q-input>
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="recipient_phone_edit"
+        :label="selected_local.recipientphone"
+      ></q-input>
       <div class="row">
         <q-input
           v-model="post_code_edit"
@@ -46,26 +70,6 @@
         for="daum_detailAddress"
         :label="selected_local.addrextraandhint"
       />
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="address_tag_edit"
-        :label="selected_local.addrtagandhint"
-      ></q-input>
-      <q-input
-        outlined
-        v-model="recipient_edit"
-        class="q-ma-sm"
-        :label="selected_local.recipient"
-      ></q-input>
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="recipient_phone_edit"
-        :label="selected_local.recipientphone"
-      ></q-input>
 
       <div align="right">
         <q-btn
@@ -175,12 +179,22 @@
             data: addressData,
           })
             .then(res => {
-              console.log(res.data.results);
-              this.$store.dispatch('address/updateAddressAction', addressData);
-              alert.confirm(
-                this.selected_local.notice,
-                this.selected_local.addrchangesuccess,
-              );
+              if (res.status == 200) {
+                // console.log(res.data.results);
+                this.$store.dispatch(
+                  'address/updateAddressAction',
+                  addressData,
+                );
+                alert.confirm(
+                  this.selected_local.notice,
+                  this.selected_local.addrchangesuccess,
+                );
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => console.log('에러: ' + res));
         } else {

@@ -113,7 +113,7 @@
       transition-show="scale"
       transition-hide="scale"
     >
-      <q-card class="bg-teal text-black" style="width: 300px">
+      <q-card class="bg-white text-black" style="width: 300px">
         <q-card-section>
           <div class="text-h6">
             {{ selected_local.confirmpassword }}
@@ -137,7 +137,7 @@
             filled
             v-model="userPw"
             :label="selected_local.password"
-            label-color="white"
+            label-color="black"
             lazy-rules
             :rules="[
               val => (val && val.length > 0) || selected_local.essential,
@@ -247,7 +247,7 @@
             if (res.status == 200) {
               // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
               this.changeInfoDialog = true;
-            } else if (res.msg == 'error') {
+            } else {
               alert.confirm(
                 this.selected_local.notice,
                 this.selected_local.wrongpw,

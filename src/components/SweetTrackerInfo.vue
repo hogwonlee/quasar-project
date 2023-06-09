@@ -104,6 +104,7 @@
   import {defineComponent, ref} from 'vue';
   import axios from 'axios';
   import {mapState} from 'vuex';
+  import alert from 'src/util/modules/alert';
 
   export default defineComponent({
     name: 'SweetTrackerInfo',
@@ -227,13 +228,18 @@
           params: data, //GET 사용할 때는 params, POST 사용할 때는 data
         })
           .then(res => {
-            // console.log(res.data.lastDetail.level);
-
-            this.step = res.data.lastDetail.level;
-
-            this.delivery_info = res.data.trackingDetails;
-
-            // console.log(JSON.stringify(this.delivery_info));
+            if (res.status == 200) {
+              this.step = res.data.lastDetail.level;
+              this.delivery_info = res.data.trackingDetails;
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err +
+                  ': ' +
+                  res.data.e_code +
+                  res.data.e_message,
+              );
+            }
           })
           .catch(e => console.log(e));
       },

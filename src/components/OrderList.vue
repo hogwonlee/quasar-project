@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-model="register_popup">
-      <AddressRegister class="q-px-sm q-pb-sm bg-secondary" />
+      <AddressRegister />
     </q-dialog>
     <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
 
@@ -44,6 +44,13 @@
               {{ selected_local.foodprice }}
             </td>
             <td class="text-right col-8">
+              <q-btn
+                size="sm"
+                icon="info"
+                flat
+                text-color="teal"
+                @click="buy_event_info()"
+              />
               {{ total }} {{ selected_local.won }}
             </td>
           </tr>
@@ -252,7 +259,6 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
-    <!-- <q-btn label="쿠폰 예약 확인" @click="reservedCoupon"></q-btn> -->
   </div>
 </template>
 
@@ -268,6 +274,7 @@
   import AddressRegister from './AddressRegister.vue';
   import {date} from 'quasar';
   import axios from 'axios';
+  import alert from 'src/util/modules/alert';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
 
   export default defineComponent({
@@ -323,7 +330,6 @@
           (old >= 50000 && val >= 30000 && val < 50000)
         ) {
           console.log('30000 구매 쿠폰 적용');
-
           // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
           if (this.couponList.length > 0) {
             var coupon_id = this.find_coupon(30000);
@@ -337,8 +343,6 @@
             }
           }
         } else if (old >= 30000 && val < 30000) {
-          console.log('쿠폰 적용 취소');
-
           //기존에 예약한 쿠폰 모두 취소.
           if (this.reservedCoupon() != undefined) {
             this.reserve_cancle_coupon();
@@ -375,6 +379,12 @@
       },
     },
     methods: {
+      buy_event_info() {
+        alert.confirm(
+          '5353 쿠폰 이벤트 안내',
+          '이벤트 기간동안 구매 상품의 금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (해당 쿠폰은 5만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+        );
+      },
       getSelectedAddress() {
         var return_addr;
         this.addressList.forEach(addr => {
@@ -409,12 +419,6 @@
         );
       },
       find_coupon(val) {
-        // var coupon;
-        // this.couponList.forEach(item => {
-        //   if (item.use_condition === val) {
-        //     coupon = item;
-        //   }
-        // });
         var coupon = this.couponList.find(item => item.use_condition === val);
         console.log(coupon.coupon_name);
         if (coupon == undefined) {
@@ -435,7 +439,7 @@
         );
       },
       read_coupon() {
-        if (this.coupon_status === '') {
+        if (this.coupon_status === '' && this.no_login == false) {
           axios({
             url: 'http://localhost:3001/mycoupon',
             method: 'POST',
@@ -450,14 +454,19 @@
             },
           })
             .then(res => {
-              this.$store.dispatch('coupon/emptyCouponAction');
-
-              res.data.results.forEach(coupon => {
-                if (coupon.available === 1) {
-                  this.$store.dispatch('coupon/addCouponAction', coupon);
-                }
-              });
-              // this.$store.dispatch('coupon/setStatusAction', null);
+              if (res.status == 200) {
+                this.$store.dispatch('coupon/emptyCouponAction');
+                res.data.results.forEach(coupon => {
+                  if (coupon.available === 1) {
+                    this.$store.dispatch('coupon/addCouponAction', coupon);
+                  }
+                });
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => {
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
@@ -468,36 +477,45 @@
     mounted() {
       this.read_coupon();
       this.getSelectedAddress();
+      if (this.total >= 50000) {
+        // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
+        console.log('50000 구매 쿠폰 적용');
+        if (this.couponList.length > 0) {
+          var coupon_id = this.find_coupon(50000);
+          if (coupon_id == null) {
+            console.log('no 50000 condition coupon');
+            if (this.reservedCoupon() != undefined) {
+              console.log(
+                'use condition = 30000 coupon :' +
+                  this.reservedCoupon.coupon_name,
+              );
+            } else {
+              console.log('30000 구매 쿠폰 적용');
+              coupon_id = this.find_coupon(30000);
+              this.reserve_use_coupon(coupon_id);
+            }
+          } else {
+            if (this.reservedCoupon() != undefined) {
+              this.reserve_cancle_coupon();
+            }
+            this.reserve_use_coupon(coupon_id);
+          }
+        }
+      } else if (this.total >= 30000) {
+        console.log('30000 구매 쿠폰 적용');
+        // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
+        if (this.couponList.length > 0) {
+          var coupon_id = this.find_coupon(30000);
+          if (this.reservedCoupon() != undefined) {
+            this.reserve_cancle_coupon();
+          }
+          if (coupon_id == null) {
+            console.log('no 30000 coupon');
+          } else {
+            this.reserve_use_coupon(coupon_id);
+          }
+        }
+      }
     },
-    // created() {
-    //   if (this.total >= 50000) {
-    //     // 주문페이지 첫 진입후 주문금액이 5만원 초과 시, 쿠폰 읽어오고 쿠폰 사용 예약
-    //     if (this.couponList.length > 0) {
-    //       var coupon_id = this.find_coupon(50000);
-    //       coupon_id != null
-    //         ? coupon_id
-    //         : this.find_coupon(30000) != null
-    //         ? (coupon_id = this.find_coupon(30000))
-    //         : (coupon_id = null);
-
-    //       if (coupon_id == null) {
-    //         console.log('no coupon');
-    //       } else {
-    //         this.reserve_use_coupon(coupon_id);
-    //       }
-    //     }
-    //   } else if (this.total >= 30000) {
-    //     // 주문페이지 첫 진입후 주문금액이 3만원 초과 시, 쿠폰 읽어오고 쿠폰 사용 예약
-    //     if (this.couponList.length > 0) {
-    //       var coupon_id = this.find_coupon(30000);
-    //       coupon_id != null
-    //         ? coupon_id
-    //         : this.find_coupon(30000) != null
-    //         ? (coupon_id = this.find_coupon(30000))
-    //         : (coupon_id = null);
-    //       this.reserve_use_coupon(coupon_id);
-    //     }
-    //   }
-    // },
   });
 </script>

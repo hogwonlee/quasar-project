@@ -1,8 +1,40 @@
 <template>
-  <div class="bg-secondary">
-    <div>
+  <div>
+    <q-card class="bg-white">
+      <q-card-section class="row items-center q-pa-none">
+        <div class="q-pl-sm text-h6 text-bold">주소 등록</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag"
+        :label="selected_local.addrtagandhint"
+      ></q-input>
+      <q-input
+        outlined
+        v-model="recipient"
+        class="q-ma-sm"
+        :label="selected_local.recipient"
+      ></q-input>
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="recipient_phone"
+        :label="selected_local.recipientphone"
+      ></q-input>
+
       <div class="row">
+        <q-btn
+          class="q-ma-sm col"
+          color="primary"
+          :label="selected_local.postcoderegister"
+          @click="sample2_execDaumPostcode"
+        />
         <q-input
           v-model="post_code"
           filled
@@ -12,15 +44,9 @@
           readonly
           disable
         />
-        <q-btn
-          class="q-ma-sm col"
-          color="primary"
-          :label="selected_local.postcoderegister"
-          @click="sample2_execDaumPostcode"
-        />
       </div>
       <q-input
-        v-model="address1"
+        :v-model="address1"
         filled
         class="q-ma-sm"
         for="daum_addr"
@@ -47,26 +73,6 @@
         :label="selected_local.addrextraandhint"
       />
 
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="address_tag"
-        :label="selected_local.addrtagandhint"
-      ></q-input>
-      <q-input
-        outlined
-        v-model="recipient"
-        class="q-ma-sm"
-        :label="selected_local.recipient"
-      ></q-input>
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="recipient_phone"
-        :label="selected_local.recipientphone"
-      ></q-input>
-
       <div class="row">
         <q-checkbox
           class="q-ma-sm col"
@@ -83,7 +89,7 @@
           @click="exeAddrRegister"
         />
       </div>
-    </div>
+    </q-card>
   </div>
 </template>
 
@@ -145,21 +151,20 @@
             data: addressData,
           })
             .then(res => {
-              // console.log(
-              //   // 응답값은 'success' & 'results'
-              //   '주소 등록 응답값: ' + JSON.stringify(res.data.results),
-              // );
-              var insertAddress = addressData;
-              insertAddress.address_id = res.data.results.insertId;
-              console.log(
-                // 응답값은 'success' 변경함.
-                '주소 등록 응답값: ' + JSON.stringify(insertAddress),
-              );
-              this.$store.dispatch('address/addAddressAction', insertAddress);
-              alert.confirm(
-                this.selected_local.notice,
-                this.selected_local.addrresistersuccess,
-              );
+              if (res.status == 200) {
+                var insertAddress = addressData;
+                insertAddress.address_id = res.data.results.insertId;
+                this.$store.dispatch('address/addAddressAction', insertAddress);
+                alert.confirm(
+                  this.selected_local.notice,
+                  this.selected_local.addrresistersuccess,
+                );
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => console.log('에러: ' + res));
         } else {

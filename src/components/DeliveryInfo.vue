@@ -197,15 +197,18 @@
           },
         })
           .then(res => {
-            // order.dispatch('setEmptyAction');
-            this.$store.dispatch('order/setEmptyAction');
-            res.data.results.forEach(order_group_info => {
-              // console.log('주문그룹 정보: ' + JSON.stringify(order_group_info));
-              // order.dispatch('pushOrderAction', order_group_info);
-              this.$store.dispatch('order/pushOrderAction', order_group_info);
-            });
-            // order.dispatch('setStatusAction', null);
-            this.$store.dispatch('order/setStatusAction', null);
+            if (res.status == 200) {
+              this.$store.dispatch('order/setEmptyAction');
+              res.data.results.forEach(order_group_info => {
+                this.$store.dispatch('order/pushOrderAction', order_group_info);
+              });
+              this.$store.dispatch('order/setStatusAction', null);
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
           })
           .catch(res => {
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
@@ -263,9 +266,15 @@
             data: postData,
           })
             .then(res => {
-              this.res_order[orderGroup_id] = res.data.results;
-              console.log(JSON.stringify(res.data.results));
-              this.search_order = true;
+              if (res.status == 200) {
+                this.res_order[orderGroup_id] = res.data.results;
+                this.search_order = true;
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
             })
             .catch(res => console.log('에러: ' + res));
         } else {

@@ -1,7 +1,7 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+  <div class="q-pa-xs q-gutter-sm">
     <!-- <q-dialog persistent transition-show="scale" transition-hide="scale"> -->
-    <q-card class="bg-teal text-black">
+    <q-card class="bg-white text-black">
       <q-card-section>
         <div class="text-h6">{{ selected_local.login }}</div>
       </q-card-section>
@@ -13,7 +13,7 @@
 
         <q-input filled v-model="userPw" :label="selected_local.password" />
 
-        <div class="q-gutter-sm q-pa-sm">
+        <div class="q-gutter-xs q-py-xs">
           <q-btn
             :label="selected_local.login"
             type="submit"
@@ -103,14 +103,22 @@
                     this.$store.dispatch('address/addAddressAction', addr);
                 });
                 this.$store.dispatch('user/loginAction', json);
-              } else if (response.status == 400) {
-                alert.confirm(
-                  selected_local.notice,
-                  this.user.USER_NAME + selected_local.wrongpw,
-                );
+              } else {
+                console.log('what error');
               }
             })
-            .catch(response => console.log('에러: ' + response));
+            .catch(ex => {
+              //expected error
+              if (ex.response && ex.response.status == 400) {
+                alert.confirm(
+                  this.selected_local.notice,
+                  this.user.USER_ID + this.selected_local.wrongpw,
+                );
+              } else {
+                //unexpected
+                console.log('로그인 중 예상치 못한 오류가 발생했습니다.');
+              }
+            });
         } else {
           var alert_msg = this.user.USER_NAME + selected_local.loginnotice;
           alert.confirm(selected_local.notice, alert_msg);

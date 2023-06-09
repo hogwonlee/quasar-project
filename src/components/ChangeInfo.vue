@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-card class="bg-teal text-black" style="width: 300px">
+    <q-card class="bg-white text-black" style="width: 300px">
       <q-card-section>
         <div class="text-h6 text-black">{{ selected_local.changemyinfo }}</div>
       </q-card-section>
@@ -18,7 +18,7 @@
           filled
           v-model="userNickname"
           :label="selected_local.name"
-          label-color="white"
+          label-color="black"
           lazy-rules
           :rules="[val => (val && val.length > 0) || '']"
         />
@@ -27,7 +27,7 @@
           filled
           v-model="userPhone"
           :label="selected_local.tel"
-          label-color="white"
+          label-color="black"
           lazy-rules
           :rules="[val => (val && val.length > 0) || '']"
         />
@@ -92,13 +92,18 @@
           data: userData,
         })
           .then(res => {
-            // user vuex 내용 변경
-            console.log(JSON.stringify(res));
-            this.$store.dispatch('user/updateAction', userData);
-            alert.confirm(
-              this.selected_local.notice,
-              this.selected_local.changemyinfosuccess,
-            );
+            if (res.status == 200) {
+              this.$store.dispatch('user/updateAction', userData);
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.changemyinfosuccess,
+              );
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
           })
           .catch(res => console.log('에러: ' + res));
       },
