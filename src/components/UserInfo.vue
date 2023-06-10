@@ -190,6 +190,7 @@
   import CouponList from 'components/CouponList.vue';
   import PrivacyPolicy from './policy/PrivacyPolicy.vue';
   import ServicePolicy from './policy/ServicePolicy.vue';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -233,7 +234,7 @@
         };
 
         axios({
-          url: 'http://localhost:3001/checkpw',
+          url: `${configs.server}/checkpw`,
           method: 'POST',
           data: userData,
           headers: {

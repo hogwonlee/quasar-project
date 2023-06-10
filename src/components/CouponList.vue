@@ -77,7 +77,8 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
-  import {mapState} from 'vuex';
+  import { mapState } from 'vuex';
+  import configs from '/src/configs'
 
   export default defineComponent({
     name: 'CouponList',
@@ -110,7 +111,7 @@
         if (this.coupon_status === '') {
           console.log('쿠폰데이터 불러오기');
           axios({
-            url: 'http://localhost:3001/mycoupon',
+            url: `${configs.server}/mycoupon`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

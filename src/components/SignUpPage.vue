@@ -124,6 +124,7 @@
   import {mapState} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     computed: {
@@ -142,7 +143,7 @@
 
         //회원가입 등록 요청 보내기
         axios({
-          url: 'http://localhost:3001/register',
+          url: `${configs.server}/register`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',

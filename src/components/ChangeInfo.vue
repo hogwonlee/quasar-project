@@ -52,6 +52,7 @@
   import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
+  import configs from '/src/configs'
 
   export default {
     data() {
@@ -81,7 +82,7 @@
 
         //회원가입 등록 요청 보내기
         axios({
-          url: 'http://localhost:3001/changeuserinfo',
+          url: `${configs.server}/changeuserinfo`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',

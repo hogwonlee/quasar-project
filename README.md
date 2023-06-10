@@ -44,3 +44,14 @@ quasar build
 ### Customize the configuration
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+
+
+# 실행 시 환경 변수 적용
+
+BACKEND_SERVER=https://{backend_server}
+
+linux:
+`
+exports  BACKEND_SERVER=https://{backend_server}
+
+`
