@@ -55,3 +55,9 @@ linux:
 exports  BACKEND_SERVER=https://{backend_server}
 
 `
+
+
+#  REDIS 설치
+`
+docker run -p 6379:6379 -it redis/redis-stack-server:latest
+`

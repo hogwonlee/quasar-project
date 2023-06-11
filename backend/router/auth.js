@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const userController = require('../controller/user')
 const addressController = require('../controller/address')
+const redisController = require('../utils/redis')
 
 let jwtObj = {
   secret: 'mysecrettoken', // 원하는 시크릿 키
@@ -15,10 +16,15 @@ let jwtObj = {
 };
 
 module.exports = {
-  checkAuth: (req, res, next) => {
+  checkAuth: async (req, res, next) => {
 
     if (req.headers.authorization == null) {
       res.status(401).send({ msg: 'error', content: 'no authrozation' })
+      return
+    }
+    let userInfo = await redisController.getToken(req.headers.authorization)
+    if (!userInfo) {
+      res.status(401).send({ msg: 'error', content: 'session time out.' })
       return
     }
 
@@ -75,6 +81,9 @@ module.exports = {
         jwtObj.secret,
         jwtObj.option,
       )
+
+      await redisController.setToken(token, user)
+
       let address = await addressController.getAddressByUserId(user.user_id)
       res.status(200).send({ token, results: { user, address } })
     }
