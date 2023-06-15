@@ -28,6 +28,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.2.4",
     "quasar": "^2.6.0",
+    "redis": "^4.6.7",
     "sequelize": "^6.31.0",
     "session-file-store": "^1.5.0",
     "url": "^0.11.0",

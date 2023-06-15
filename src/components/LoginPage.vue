@@ -52,6 +52,7 @@
   import {mapActions, mapMutations, mapState} from 'vuex';
   import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     components: {
@@ -85,7 +86,7 @@
           };
           // console.log(JSON.stringify(userData));
           axios({
-            url: 'http://localhost:3001/login',
+            url: `${configs.server}/login`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

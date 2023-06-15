@@ -79,6 +79,7 @@
   import {mapGetters, mapState, mapActions} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
+  import configs from '/src/configs'
 
   export default defineComponent({
     data() {
@@ -109,7 +110,7 @@
 
         //회원가입 등록 요청 보내기
         axios({
-          url: 'http://localhost:3001/changepw',
+          url: `${configs.server}/changepw`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',

@@ -44,3 +44,20 @@ quasar build
 ### Customize the configuration
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+
+
+# 실행 시 환경 변수 적용
+
+BACKEND_SERVER=https://{backend_server}
+
+linux:
+`
+exports  BACKEND_SERVER=https://{backend_server}
+
+`
+
+
+#  REDIS 설치
+`
+docker run -p 6379:6379 -it redis/redis-stack-server:latest
+`

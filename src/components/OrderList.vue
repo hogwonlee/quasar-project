@@ -276,6 +276,7 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     name: 'OrderList',
@@ -441,7 +442,7 @@
       read_coupon() {
         if (this.coupon_status === '' && this.no_login == false) {
           axios({
-            url: 'http://localhost:3001/mycoupon',
+            url: `${configs.server}/mycoupon`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

@@ -59,6 +59,7 @@
   import AddressRegister from './AddressRegister.vue';
   import AddressInfoChange from './AddressInfoChange.vue';
   import AddressInfo from './AddressInfo.vue';
+  import configs from '/src/configs'
 
   export default defineComponent({
     name: 'AddressList',
@@ -95,7 +96,7 @@
           !validation.isNull(this.address_status)
         ) {
           axios({
-            url: 'http://localhost:3001/addressInfo',
+            url: `${configs.server}/addressInfo`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',
@@ -138,7 +139,7 @@
       },
       change_default_address(address_id) {
         axios({
-          url: 'http://localhost:3001/addressChangeDefaultAddress',
+          url: `${configs.server}/addressChangeDefaultAddress`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
@@ -171,7 +172,7 @@
       },
       delete_address(address_id) {
         axios({
-          url: 'http://localhost:3001/deleteAddress',
+          url: `${configs.server}/deleteAddress`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',

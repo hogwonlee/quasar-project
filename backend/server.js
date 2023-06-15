@@ -198,6 +198,7 @@ app.use(noAuthRouter)
 
 app.use(auth.checkAuth)
 
+
 app.post('/addressRegister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {

@@ -92,6 +92,7 @@
   import {mapActions, mapMutations, mapState} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
+  import configs from 'src/configs/';
   export default defineComponent({
     name: 'AddressRegister',
     data() {
@@ -168,7 +169,7 @@
 
           // 배송지 등록 요청 보내기
           axios({
-            url: 'http://localhost:3001/addressInfoChange',
+            url: `${configs.server}/addressInfoChange`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

@@ -106,7 +106,10 @@
   import {scroll} from 'quasar';
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
-  const {getScrollTarget, setVerticalScrollPosition} = scroll;
+  import configs from 'src/configs/';
+
+  const { getScrollTarget, setVerticalScrollPosition } = scroll;
+
 
   export default defineComponent({
     name: 'ProductList',
@@ -142,7 +145,7 @@
       products_update() {
         const params = {version: this.storeversion};
         axios
-          .get('http://localhost:3001/productList', {params: params})
+          .get(`${configs.server}/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
               if (validation.isNull(res.data.results)) {

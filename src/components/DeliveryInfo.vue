@@ -139,6 +139,7 @@
   import alert from 'src/util/modules/alert';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
+  import configs from '/src/configs'
 
   export default defineComponent({
     name: 'DeliveryInfo',
@@ -184,7 +185,7 @@
       ) {
         // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&
         axios({
-          url: 'http://localhost:3001/deliveryInfo',
+          url: `${configs.server}/deliveryInfo`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
@@ -255,7 +256,7 @@
 
           // 배송지 등록 요청 보내기
           axios({
-            url: 'http://localhost:3001/orderList',
+            url: `${configs.server}/orderList`,
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

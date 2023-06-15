@@ -15,7 +15,8 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
-  import {mapGetters, mapState, mapActions} from 'vuex';
+  import { mapGetters, mapState, mapActions } from 'vuex';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     name: 'PaySuccess',
@@ -97,7 +98,7 @@
         };
         // console.log(JSON.stringify(query_data.order_data));
         axios({
-          url: 'http://localhost:3001/orderRegister',
+          url: `${configs.server}/orderRegister`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
