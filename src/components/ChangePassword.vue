@@ -12,7 +12,7 @@
           disable
           v-model="userId"
           :label="selected_local.identity"
-          hint="자동입력"
+          :hint="selected_local.auto_input"
         />
 
         <q-input
@@ -21,7 +21,7 @@
           disable
           v-model="userNickname"
           :label="selected_local.name"
-          hint="자동입력"
+          :hint="selected_local.auto_input"
         />
 
         <q-input
@@ -79,7 +79,7 @@
   import {mapGetters, mapState, mapActions} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
-  import configs from '/src/configs'
+  import configs from '/src/configs';
 
   export default defineComponent({
     data() {
