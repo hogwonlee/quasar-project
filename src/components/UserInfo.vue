@@ -50,7 +50,7 @@
         <q-btn
           style="width: 100%"
           align="between"
-          label="주소 리스트"
+          :label="selected_local.addr"
           icon-right="keyboard_arrow_right"
           color="white"
           text-color="teal"
@@ -59,7 +59,7 @@
         <q-btn
           style="width: 100%"
           align="between"
-          label="쿠폰 리스트"
+          :label="selected_local.coupon_info"
           icon-right="keyboard_arrow_right"
           color="white"
           text-color="teal"
@@ -68,7 +68,7 @@
         <q-btn
           style="width: 100%"
           align="between"
-          label="이용약관"
+          :label="selected_local.use_policy + '(한국어)'"
           icon-right="keyboard_arrow_right"
           color="white"
           text-color="teal"
@@ -77,11 +77,29 @@
         <q-btn
           style="width: 100%"
           align="between"
-          label="개인정보취급방침"
+          :label="selected_local.use_policy + '(中文)'"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="service_policy_cn_vue = true"
+        />
+        <q-btn
+          style="width: 100%"
+          align="between"
+          :label="selected_local.privacy_policy + '(한국어)'"
           icon-right="keyboard_arrow_right"
           color="white"
           text-color="teal"
           @click="privacy_policy_vue = true"
+        />
+        <q-btn
+          style="width: 100%"
+          align="between"
+          :label="selected_local.privacy_policy + '(中文)'"
+          icon-right="keyboard_arrow_right"
+          color="white"
+          text-color="teal"
+          @click="privacy_policy_cn_vue = true"
         />
       </div>
       <q-dialog v-model="coupon_vue">
@@ -93,8 +111,14 @@
       <q-dialog v-model="privacy_policy_vue">
         <PrivacyPolicy class="bg-teal-2" />
       </q-dialog>
+      <q-dialog v-model="privacy_policy_cn_vue">
+        <PrivacyPolicy_cn class="bg-teal-2" />
+      </q-dialog>
       <q-dialog v-model="service_policy_vue">
         <ServicePolicy class="bg-teal-2" />
+      </q-dialog>
+      <q-dialog v-model="service_policy_cn_vue">
+        <ServicePolicy_cn class="bg-teal-2" />
       </q-dialog>
     </section>
     <section v-else class="row justify-center vertical-center">
@@ -189,7 +213,9 @@
   import alert from 'src/util/modules/alert';
   import CouponList from 'components/CouponList.vue';
   import PrivacyPolicy from './policy/PrivacyPolicy.vue';
+  import PrivacyPolicy_cn from './policy/PrivacyPolicy_cn.vue';
   import ServicePolicy from './policy/ServicePolicy.vue';
+  import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
   import configs from 'src/configs/';
 
   export default defineComponent({
@@ -201,7 +227,9 @@
       ChangePassword,
       CouponList,
       PrivacyPolicy,
+      PrivacyPolicy_cn,
       ServicePolicy,
+      ServicePolicy_cn,
     },
     data: function () {
       return {
@@ -214,7 +242,9 @@
         coupon_vue: ref(false),
         address_vue: ref(false),
         service_policy_vue: ref(false),
+        service_policy_cn_vue: ref(false),
         privacy_policy_vue: ref(false),
+        privacy_policy_cn_vue: ref(false),
       };
     },
     computed: {

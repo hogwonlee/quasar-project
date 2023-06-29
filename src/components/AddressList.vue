@@ -2,7 +2,7 @@
   <div>
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <div class="text-h6 text-bold">주소 리스트</div>
+        <div class="text-h6 text-bold">{{ selected_local.addr }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -59,7 +59,7 @@
   import AddressRegister from './AddressRegister.vue';
   import AddressInfoChange from './AddressInfoChange.vue';
   import AddressInfo from './AddressInfo.vue';
-  import configs from '/src/configs'
+  import configs from '/src/configs';
 
   export default defineComponent({
     name: 'AddressList',

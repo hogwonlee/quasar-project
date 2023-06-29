@@ -50,6 +50,8 @@ const mutations = {
       boxprice: products.boxprice,
       boxcapacity: products.boxcapacity,
       stored: products.stored,
+      shelf_life: products.shelf_life,
+      production_date: products.production_date,
       quantity: 0,
       buyoption: false,
     });

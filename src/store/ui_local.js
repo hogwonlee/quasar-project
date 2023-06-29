@@ -121,6 +121,42 @@ const _ko = {
   forget_pw_title: '비밀번호 찾기',
   forget_pw_body:
     '(010)8492-0526 저에게 연락주시면 비밀번호를 초기화하여 빠르게 대응하여 신규 초기화 비밀번호를 보내드리겠습니다.',
+
+  auto_input: '자동입력',
+  coupon_info: '쿠폰 정보',
+  coupon_use_info:
+    '쿠폰 사용 안내: 쿠폰은 조건에 맞으면 자동으로 사용하게 됩니다.',
+  coupon_use_condition:
+    '쿠폰 사용 조건 안내: 상품 구매 금액만 3만원 또는 5만원 초과하면 사용할 수 있습니다.',
+  use_reserve: '사용예정',
+  use_condition: '사용조건: ',
+  more: '이상',
+  use_limit: '사용기한: ',
+  up_to: '까지',
+  coupon_name_none: '쿠폰 이름 (현재 보유 중인 쿠폰이 없습니다.)',
+  coupon_value_none: '쿠폰 금액',
+  deliver_info_title: '배송안내',
+  deliver_info_text: '최근 2주간 주문이 없습니다.',
+  claim: '교환/환불',
+  claim_info: '교환/반품 안내',
+  bundle_count: '개입',
+  stock_enough: '충분', //充足
+  stock_null: '곧 내림', //即将下架
+  n_plus_one: '증정', //赠
+  shelf_life: '유통기간: ', //保质期:
+  month_count: '개월', //个月
+  production_date: '생산날짜: ', //生产日期:
+  after: ' 이후',
+  confirm_delete: '이 상품을 장바구니에서 제거하시겠습니까?',
+  deleted: '삭제함. (',
+  event_5353_info: '5353 쿠폰 이벤트 안내',
+  event_5353_detail:
+    '이벤트 기간동안 구매 상품의 금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (해당 쿠폰은 5만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+  product_unit: '하나', //单个
+  product_bundle: '묶음', //捆绑
+  duplicate_id_warning: '중복 아이디가 있어서 다른 아이디로 생성 바랍니다.',
+  use_policy: '이용약관',
+  privacy_policy: '개인정보취급방침',
 };
 const _cn = {
   chinafood: '中国食品',
@@ -242,6 +278,40 @@ const _cn = {
     '(010)8492-0526 为了改善服务，我必需知晓发生的问题，请一定联系或者发信息给我！',
   forget_pw_title: '申请找回密码',
   forget_pw_body: '(010)8492-0526 联系我，将尽快为您初始化新密码并通知你。',
+
+  auto_input: '自动填充',
+  coupon_info: '优惠券',
+  coupon_use_info: '优惠券使用规则：满足优惠券使用条件则自动使用。',
+  coupon_use_condition: '优惠券使用条件：购买金额满3万或者5万即可使用。',
+  use_reserve: '使用预定',
+  use_condition: '使用条件：',
+  more: '以上',
+  use_limit: '使用期限：',
+  up_to: '截止',
+  coupon_name_none: '优惠券名称（现无可用优惠券）',
+  coupon_value_none: '优惠券金额',
+  deliver_info_title: '运送信息',
+  deliver_info_text: '近2周内没有购买记录。',
+  claim: '交换|返货',
+  claim_info: '交换|返货政策',
+  bundle_count: '个装',
+  stock_enough: '充足', //充足
+  stock_null: '即将下架', //即将下架
+  n_plus_one: '赠', //赠
+  shelf_life: '保质期：', //保质期:
+  month_count: '个月', //个月
+  production_date: '生产日期：', //生产日期:
+  after: '以后',
+  confirm_delete: '确定要删除此商品吗？',
+  deleted: '已删除。(',
+  event_5353_info: '5353优惠券活动消息',
+  event_5353_detail:
+    '活动期间内，如购买额超过5万韩元，则赠送3千韩元优惠券！购买额超过5万韩元，即可使用该优惠券。该优惠券的使用期限为3个月。',
+  product_unit: '单个', //单个
+  product_bundle: '捆绑', //捆绑
+  duplicate_id_warning: '重复账号。请使用其他账号。',
+  use_policy: '使用条款',
+  privacy_policy: '个人信息使用方针',
 };
 
 const state = {

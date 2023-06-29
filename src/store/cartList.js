@@ -29,6 +29,8 @@ const getters = {
         bonuscondition: product.bonuscondition,
         boxprice: product.boxprice,
         boxcapacity: product.boxcapacity,
+        shelf_life: product.shelf_life,
+        production_date: product.production_date,
         buyoption,
         // stored: product.stored,
         quantity,

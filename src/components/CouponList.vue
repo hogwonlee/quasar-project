@@ -3,15 +3,14 @@
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <div class="text-h6 text-bold">쿠폰 정보</div>
+        <div class="text-h6 text-bold">{{ selected_local.coupon_info }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
         <div class="text-body2 q-ml-md">
-          쿠폰 사용 안내: 쿠폰은 조건에 맞으면 자동으로 사용하게 됩니다.
+          {{ selected_local.coupon_use_info }}
         </div>
         <div class="text-body2 q-ml-md">
-          쿠폰 사용 조건 안내: 상품 구매 금액만 3만원 또는 5만원 초과하면 사용할
-          수 있습니다.
+          {{ selected_local.coupon_use_condition }}
         </div>
       </q-card-section>
     </q-card>
@@ -33,7 +32,7 @@
             <q-chip
               v-if="coupon.coupon_use_reserve == 1"
               color="primary"
-              label="사용예정"
+              :label="selected_local.use_reserve"
               icon="star"
             ></q-chip>
           </div>
@@ -41,14 +40,16 @@
         <q-card-section class="bg-deep-purple q-px-none q-pt-xs q-pb-none">
           <div class="text-h3 text-bold text-white q-mx-sm">
             <q-icon name="img:src\assets\icons\currency-krw-white.png" />
-            {{ coupon.coupon_price }} 원
+            {{ coupon.coupon_price }} {{ selected_local.won }}
           </div>
           <q-separator dark />
           <div class="text-caption text-grey-3 q-ml-md">
-            사용조건: {{ coupon.use_condition }}
+            {{ selected_local.use_condition }} {{ coupon.use_condition }}
+            {{ selected_local.more }}
           </div>
           <div class="text-caption text-grey-3 q-ml-md">
-            사용기한: {{ coupon.limit_date }} from {{ coupon.gift_day }}
+            {{ selected_local.use_limit }} {{ coupon.limit_date }}
+            {{ selected_local.up_to }}
           </div>
         </q-card-section>
       </q-card>
@@ -57,13 +58,13 @@
       <q-card class="my-card q-pa-none q-ma-xs">
         <q-card-section class="bg-grey-3 q-pa-none">
           <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
-            쿠폰 이름 (현재 보유 중인 쿠폰이 없습니다.)
+            {{ selected_local.coupon_name_none }}
           </div>
         </q-card-section>
         <q-card-section class="bg-deep-purple q-px-none q-pt-xs q-pb-none">
           <div class="text-h3 text-bold text-white q-mx-sm">
             <q-icon name="img:src\assets\icons\currency-krw-white.png" />
-            쿠폰 금액
+            {{ selected_local.coupon_value_none }}
           </div>
           <q-separator dark />
           <div class="text-caption text-grey-3 q-ml-md">사용조건:</div>
@@ -77,8 +78,8 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
-  import { mapState } from 'vuex';
-  import configs from '/src/configs'
+  import {mapState} from 'vuex';
+  import configs from '/src/configs';
 
   export default defineComponent({
     name: 'CouponList',

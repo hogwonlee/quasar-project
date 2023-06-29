@@ -2,7 +2,9 @@
   <div>
     <q-card class="bg-white">
       <q-card-section class="row items-center q-pa-none">
-        <div class="q-pl-sm text-h6 text-bold">주소 등록</div>
+        <div class="q-pl-sm text-h6 text-bold">
+          {{ selected_local.registernewaddr }}
+        </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -99,7 +101,7 @@
   import {mapActions, mapMutations, mapState} from 'vuex';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
-  import configs from '/src/configs'
+  import configs from '/src/configs';
   export default defineComponent({
     name: 'AddressRegister',
     data() {

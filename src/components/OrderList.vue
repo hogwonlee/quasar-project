@@ -382,8 +382,8 @@
     methods: {
       buy_event_info() {
         alert.confirm(
-          '5353 쿠폰 이벤트 안내',
-          '이벤트 기간동안 구매 상품의 금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (해당 쿠폰은 5만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+          this.selected_local.event_5353_info,
+          this.selected_local.event_5353_detail,
         );
       },
       getSelectedAddress() {

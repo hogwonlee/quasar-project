@@ -62,7 +62,7 @@
               ></q-btn>
               <q-btn
                 color="primary"
-                label="교환/반품"
+                :label="selected_local.claim"
                 @click="show_claim()"
               ></q-btn>
             </div>
@@ -71,16 +71,18 @@
       </q-card>
     </div>
     <div v-else>
-      <div class="col-12 text-h6 text-bold">{{ info_title }}</div>
+      <div class="col-12 text-h6 text-bold">
+        {{ selected_local.deliver_info_title }}
+      </div>
       <div class="text-subtitle2 q-ml-md">
-        {{ info_text }}
+        {{ selected_local.deliver_info_text }}
       </div>
     </div>
     <div class="q-gutter-sm q-ma-none q-pa-none">
       <q-btn
         style="width: 100%"
         align="between"
-        label="배송안내"
+        :label="selected_local.deliver_info_title + '(한국어)'"
         icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
@@ -89,18 +91,42 @@
       <q-btn
         style="width: 100%"
         align="between"
-        label="교환/반품 안내"
+        :label="selected_local.deliver_info_title + '(中文)'"
+        icon-right="keyboard_arrow_right"
+        color="white"
+        text-color="teal"
+        @click="delivery_policy_cn_vue = true"
+      />
+      <q-btn
+        style="width: 100%"
+        align="between"
+        :label="selected_local.claim_info + '(한국어)'"
         icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
         @click="exchange_policy_vue = true"
       />
+      <q-btn
+        style="width: 100%"
+        align="between"
+        :label="selected_local.claim_info + '(中文)'"
+        icon-right="keyboard_arrow_right"
+        color="white"
+        text-color="teal"
+        @click="exchange_policy_cn_vue = true"
+      />
     </div>
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy class="bg-teal-2" />
     </q-dialog>
+    <q-dialog v-model="delivery_policy_cn_vue">
+      <DeliveryPolicy_cn class="bg-teal-2" />
+    </q-dialog>
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy class="bg-teal-2" />
+    </q-dialog>
+    <q-dialog v-model="exchange_policy_cn_vue">
+      <ExchangePolicy_cn class="bg-teal-2" />
     </q-dialog>
     <q-dialog v-model="search_order">
       <q-table
@@ -139,11 +165,19 @@
   import alert from 'src/util/modules/alert';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
-  import configs from '/src/configs'
+  import DeliveryPolicy_cn from './policy/DeliveryPolicy_cn.vue';
+  import ExchangePolicy_cn from './policy/ExchangePolicy_cn.vue';
+  import configs from '/src/configs';
 
   export default defineComponent({
     name: 'DeliveryInfo',
-    components: {SweetTrackerInfo, DeliveryPolicy, ExchangePolicy},
+    components: {
+      SweetTrackerInfo,
+      DeliveryPolicy,
+      ExchangePolicy,
+      DeliveryPolicy_cn,
+      ExchangePolicy_cn,
+    },
     data() {
       return {
         tracker: ref(false),
@@ -151,13 +185,13 @@
         search_order_id: 0,
         child_code: '',
         child_invoice: '',
-        info_title: '안내 / 提醒',
-        info_text: '주문내역이 없습니다. / 暂无订单',
         center_text: '中国食品',
         res_order: [],
         columns: [],
         delivery_policy_vue: ref(false),
+        delivery_policy_cn_vue: ref(false),
         exchange_policy_vue: ref(false),
+        exchange_policy_cn_vue: ref(false),
       };
     },
     computed: {

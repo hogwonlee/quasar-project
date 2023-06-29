@@ -4,7 +4,7 @@
       <q-img :src="img" class="rounded-borders">
         <div class="absolute-top-right q-mt-sm transparent">
           <q-badge v-if="buyoption == true" color="teal" floating rounded>
-            {{ boxcapacity }} 个装
+            {{ boxcapacity }} {{ selected_local.bundle_count }}
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
@@ -80,7 +80,7 @@
             >
               {{ boxprice }}
               <q-badge color="orange" floating rounded>
-                {{ boxcapacity }} 个装
+                {{ boxcapacity }} {{ selected_local.bundle_count }}
               </q-badge>
             </q-chip>
             <div class="absolute-bottom-right transparent">
@@ -92,7 +92,11 @@
                 rounded
               >
                 <q-icon name="warning" color="white" />
-                {{ stock == null ? '充足' : '即将下架' }}
+                {{
+                  stock == null
+                    ? selected_local.stock_enough
+                    : selected_local.stock_null
+                }}
               </q-badge>
             </div>
           </q-img>
@@ -128,7 +132,8 @@
                 class="q-mt-sm q-ml-lg absolute-right transparent"
               >
                 <q-badge color="orange" floating rounded>
-                  赠 {{ parseInt(localQuantity / bonuscondition) }}
+                  {{ selected_local.n_plus_one }}
+                  {{ parseInt(localQuantity / bonuscondition) }}
                 </q-badge>
               </div>
             </q-input>
@@ -180,16 +185,16 @@
               readonly
               disable
               borderless
-              label="保质期: "
-              model-value="12个月"
+              :label="selected_local.shelf_life"
+              :model-value="shelf_life + selected_local.month_count"
             />
             <q-input
               class="col-6"
               readonly
               disable
               borderless
-              label="生产日期: "
-              model-value="2023-12-23 이후"
+              :label="selected_local.production_date"
+              :model-value="production_date + selected_local.after"
             />
           </q-card-section>
         </q-card>
@@ -198,16 +203,19 @@
         <q-card>
           <q-card-section class="row items-center">
             <q-avatar icon="warning" color="warning" text-color="white" />
-            <span class="q-ml-sm"
-              >이 상품을 장바구니에서 제거하시겠습니까?</span
-            >
+            <span class="q-ml-sm">{{ selected_local.confirm_delete }} </span>
           </q-card-section>
 
           <q-card-actions align="right">
-            <q-btn flat label="취소" color="primary" v-close-popup />
             <q-btn
               flat
-              label="확인"
+              :label="selected_local.cancel"
+              color="primary"
+              v-close-popup
+            />
+            <q-btn
+              flat
+              :label="selected_local.confirm"
               color="primary"
               v-close-popup
               @click="deleteProductFromCart(product_name)"
@@ -297,6 +305,14 @@
         type: Number,
         default: 0,
       },
+      shelf_life: {
+        type: Number,
+        default: 0,
+      },
+      production_date: {
+        type: Date,
+        default: '1900-01-01',
+      },
     },
     setup() {
       return {
@@ -323,7 +339,7 @@
 
         Notify.create({
           position: 'top',
-          message: '已删除： (' + name + ')',
+          message: this.selected_local.deleted + name + ')',
           color: 'red',
         });
 

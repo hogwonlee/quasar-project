@@ -161,11 +161,18 @@
             } else if (res.status == 400) {
               alert.confirm(
                 this.selected_local.notice,
-                '중복 아이디가 있어서 다른 아이디로 생성 바랍니다.',
+                this.selected_local.duplicate_id_warning,
               );
             }
           })
-          .catch(res => console.log('에러: ' + res));
+          .catch(res => {
+            if (res.status == 400) {
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.duplicate_id_warning,
+              );
+            }
+          });
       },
 
       onReset() {

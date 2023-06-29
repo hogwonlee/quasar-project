@@ -2,7 +2,9 @@
   <div class="bg-white">
     <div>
       <q-card-section class="row items-center q-pa-none">
-        <div class="q-pl-sm text-h6 text-bold">주소 변경</div>
+        <div class="q-pl-sm text-h6 text-bold">
+          {{ selected_local.changeaddrinfo }}
+        </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
