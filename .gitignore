@@ -278,3 +278,13 @@ src-cordova/app-release-unsigned.apk
 src-cordova/cfomarket-mobileapps.keystore
 src-cordova/cfomarket.apk
 src-cordova/zipalign.exe
+yarn.lock
+src/configs/index.js
+src-cordova/config.xml
+src-cordova/package-lock.json
+src-cordova/package.json
+yarn.lock
+src/configs/index.js
+src-cordova/config.xml
+src-cordova/package-lock.json
+src-cordova/package.json

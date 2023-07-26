@@ -69,9 +69,21 @@ npm install shelljs
 
 # 빌드 버전 매칭
 
-cordova 9.1.0 (npm uninstall -g cordova npm install -g cordova@9.1.0)
+cordova 9.1.0 (npm uninstall -g cordova npm install -g cordova@9.0.0)
 gradle 4.10.3
 jdk 8 (jdk-1.8)
+
+# 빌드 명령어
+
+quasar mode add cordova
+cd src-cordova
+cordova platform add android
+--> 새로 생성시 cordova가 12버전으로 생성됨. package.json에서 버전 9.0.0으로 수정후, cordova 삭제하고 다시 9버전으로 설치.
+cordova requirements
+quasar dev -m cordova -T android -warning-mode=all
+
+cordova plugin rm org.apache.cordova.console --save
+cordova build --release android
 
 # 키 생성
 
@@ -109,15 +121,18 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore [원하는네�
 
 # zipalign 로 apk 최적화
 
-zipalign.exe 파일을 apk, keystore 파일들과 같은 폴더에 위치시킨다. (android studio의 build-tools\33.0.3 폴더에서 복사해서 src-cordova에 붙여넣기함.)
+zipalign.exe 파일을 apk, keystore 파일들과 같은 폴더에 위치시킨다. (android studio의 build-tools\33.0.0 폴더에서 복사해서 src-cordova에 붙여넣기함.)
 그리고 cmd 명령어 창에서 위 3개 파일이 위치한 폴더로 이동한 다음 아래 명령어 실행.
 zipalign -v 4 app-release-unsigned.apk [원하는네임].apk
+
+---
 
 # 빌드 명령어
 
 quasar mode add cordova
 cd src-cordova
 cordova platform add android
+--> 새로 생성시 cordova가 12버전으로 생성됨. package.json에서 버전 9.0.0으로 수정후, cordova 삭제하고 다시 9버전으로 설치.
 cordova requirements
 quasar dev -m cordova -T android -warning-mode=all
 
