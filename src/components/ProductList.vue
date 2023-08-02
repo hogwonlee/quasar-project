@@ -170,7 +170,9 @@
               );
             }
           })
-          .catch();
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
         // }
       },
       setproductbuyoption(product, buyoption) {
