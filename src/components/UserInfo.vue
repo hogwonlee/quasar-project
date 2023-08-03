@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md bg-teal-2">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
       <q-card class="row bg-teal-2" flat>
@@ -103,22 +103,40 @@
         />
       </div>
       <q-dialog v-model="coupon_vue">
-        <CouponList class="bg-teal-2" />
+        <CouponList
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
       <q-dialog v-model="address_vue">
-        <AddressList class="bg-teal-2" />
+        <AddressList
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
       <q-dialog v-model="privacy_policy_vue">
-        <PrivacyPolicy class="bg-teal-2" />
+        <PrivacyPolicy
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
       <q-dialog v-model="privacy_policy_cn_vue">
-        <PrivacyPolicy_cn class="bg-teal-2" />
+        <PrivacyPolicy_cn
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
       <q-dialog v-model="service_policy_vue">
-        <ServicePolicy class="bg-teal-2" />
+        <ServicePolicy
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
       <q-dialog v-model="service_policy_cn_vue">
-        <ServicePolicy_cn class="bg-teal-2" />
+        <ServicePolicy_cn
+          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+          style="margin-top: 28%; max-height: 500px"
+        />
       </q-dialog>
     </section>
     <section v-else class="row justify-center vertical-center">

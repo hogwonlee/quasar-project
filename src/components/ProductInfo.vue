@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img :src="img" class="rounded-borders">
+      <q-img :src="img" class="rounded-borders" :ratio="1">
         <div class="absolute-top-right transparent">
           <q-badge
             v-if="bonuscondition != null"
@@ -31,13 +31,16 @@
             <q-icon name="warning" color="white" />
           </q-badge>
         </div>
-        <q-chip
-          class="absolute-bottom"
-          dense
-          text-color="white"
-          icon="img:src\assets\icons\currency-krw-white.png"
-        >
-          {{ price }}
+        <q-chip class="absolute-bottom" dense text-color="white">
+          <div class="absolute-bottom q-pl-sm">
+            <q-icon name="img:icons\currency-krw-white.png"></q-icon>
+            {{ price }}
+          </div>
+          <div v-if="flavor_refer != null" class="absolute-right">
+            <q-badge floating rounded>
+              {{ flavor_refer }}
+            </q-badge>
+          </div>
         </q-chip>
       </q-img>
     </div>
@@ -88,7 +91,7 @@
               class="absolute-bottom"
               dense
               text-color="white"
-              icon="img:src\assets\icons\currency-krw-white.png"
+              icon="img:icons\currency-krw-white.png"
             >
               {{ price }}
               <q-badge
@@ -106,7 +109,7 @@
               class="absolute-bottom"
               dense
               text-color="white"
-              icon="img:src\assets\icons\currency-krw-white.png"
+              icon="img:icons\currency-krw-white.png"
             >
               {{ boxprice }}
               <q-badge color="orange" floating rounded>
@@ -134,12 +137,12 @@
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
             <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
-              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              <q-icon name="img:icons\currency-krw-black.png" />
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
             </div>
             <div v-else class="col-12 text-h6 text-bold">
-              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              <q-icon name="img:icons\currency-krw-black.png" />
               {{ boxprice * this.localQuantity }} {{ selected_local.won }}
             </div>
             <!-- <q-input
@@ -369,6 +372,10 @@
       production_date: {
         type: Date,
         default: '1900-01-01',
+      },
+      flavor_refer: {
+        type: String,
+        default: '',
       },
     },
     setup() {

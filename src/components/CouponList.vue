@@ -40,7 +40,7 @@
         <q-card-section class="bg-deep-purple q-px-none q-pt-xs q-pb-none">
           <div class="text-h3 text-bold text-white q-mx-sm">
             <q-icon name="img:src\assets\icons\currency-krw-white.png" />
-            {{ coupon.coupon_price }} {{ selected_local.won }}
+            {{ coupon.coupon_price / 1000 }} {{ selected_local.won000 }}
           </div>
           <q-separator dark />
           <div class="text-caption text-grey-3 q-ml-md">

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md bg-teal-2">
     <div v-if="order_count > 0">
       <q-card
         class="my-card"
@@ -117,16 +117,29 @@
       />
     </div>
     <q-dialog v-model="delivery_policy_vue">
-      <DeliveryPolicy class="bg-teal-2" />
+      <DeliveryPolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
     </q-dialog>
     <q-dialog v-model="delivery_policy_cn_vue">
-      <DeliveryPolicy_cn class="bg-teal-2" />
+      <DeliveryPolicy_cn
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+      />
     </q-dialog>
     <q-dialog v-model="exchange_policy_vue">
-      <ExchangePolicy class="bg-teal-2" />
+      <ExchangePolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
     </q-dialog>
     <q-dialog v-model="exchange_policy_cn_vue">
-      <ExchangePolicy_cn class="bg-teal-2" />
+      <ExchangePolicy_cn
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
     </q-dialog>
     <q-dialog v-model="search_order">
       <q-table
@@ -214,7 +227,7 @@
     },
     mounted() {
       if (
-        !validation.isNull(this.user.USER_ID) &&
+        !validation.isNull(this.addressList.address_id) &&
         !validation.isNull(this.order_status)
       ) {
         // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&

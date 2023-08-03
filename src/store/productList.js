@@ -42,7 +42,7 @@ const mutations = {
       price: products.price,
       category: products.category,
       tag: products.tag,
-      img: 'src/assets/' + products.img + '.jpg',
+      img: 'images/' + products.img + '.jpg',
       stock: products.stock,
       keyword: products.keyword,
       cutprice: products.cutprice,
@@ -52,6 +52,7 @@ const mutations = {
       stored: products.stored,
       shelf_life: products.shelf_life,
       production_date: products.production_date,
+      flavor_refer: products.flavor_refer,
       quantity: 0,
       buyoption: false,
     });

@@ -114,6 +114,7 @@ const _ko = {
   paymentfail: '결제에 실패하였습니다...',
   paymentsuccess: '주문이 완료되었습니다.',
   won: '원',
+  won000: '천원',
   needselectedaddr: '배송지 정보가 필요합니다.',
   claim_title: '교환/환불 요청',
   claim_boy:
@@ -272,6 +273,7 @@ const _cn = {
   paymentfail: '支付失败...',
   paymentsuccess: '下单完毕！',
   won: '韩元',
+  won000: '千韩元',
   needselectedaddr: '请先登录发货地址。',
   claim_title: '申请退换',
   claim_boy:

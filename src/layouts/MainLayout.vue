@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR fFf" class="bg-teal-2">
+  <q-layout view="hHh LpR fFf">
     <q-header elevated class="bg-primary">
       <q-toolbar>
         <q-toolbar-title>
@@ -23,7 +23,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view class="bg-teal-2" />
+      <router-view />
     </q-page-container>
     <q-footer>
       <q-toolbar class="row justify-center bg-secondary">
