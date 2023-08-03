@@ -274,7 +274,7 @@ const _cn = {
   paymentsuccess: '下单完毕！',
   won: '韩元',
   won000: '千韩元',
-  needselectedaddr: '请先登录发货地址。',
+  needselectedaddr: '请先登录地址。',
   claim_title: '申请退换',
   claim_boy:
     '(010)8492-0526 为了改善服务，我必需知晓发生的问题，请一定联系或者发信息给我！',

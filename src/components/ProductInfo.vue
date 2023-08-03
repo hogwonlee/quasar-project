@@ -65,22 +65,23 @@
           >
             {{ bonuscondition }}+1
           </q-badge>
-
-          <q-btn-toggle
-            v-if="boxprice != null"
-            class="absolute-top-left q-ma-xs z-top"
-            v-model="bulkbuy"
-            push
-            glossy
-            toggle-color="primary"
-            toggle-text-color="white"
-            color="grey"
-            text-color="black"
-            :options="[
-              {label: selected_local.product_unit, value: false},
-              {label: selected_local.product_bundle, value: true},
-            ]"
-          />
+          <div class="absolute-top-left z-top q-ma-xs">
+            <q-btn-toggle
+              v-if="boxprice != null"
+              v-model="bulkbuy"
+              toggle-color="primary"
+              toggle-text-color="white"
+              color="grey"
+              text-color="black"
+              unelevated
+              glossy
+              style="flex-direction: column"
+              :options="[
+                {label: selected_local.product_unit, value: false},
+                {label: selected_local.product_bundle, value: true},
+              ]"
+            />
+          </div>
           <q-img
             :src="img"
             style="max-width: 75%"
@@ -88,7 +89,7 @@
           >
             <q-chip
               v-if="bulkbuy == false"
-              class="absolute-bottom"
+              class="absolute-bottom q-ml-lg"
               dense
               text-color="white"
               icon="img:icons\currency-krw-white.png"

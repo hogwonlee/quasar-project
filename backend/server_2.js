@@ -286,7 +286,7 @@ app.post('/addressRegister', (req, res) => {
       if (err) {
         console.log('addressRegister 에러 발생: ' + err);
       } else {
-        // console.log('디코디드: ' + decoded.USER_ID);
+        console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend = 'INSERT INTO ADDRESSINFO SET ?';
           const body = req.body;
