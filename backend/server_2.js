@@ -256,14 +256,14 @@ app.post('/login', (req, res) => {
         } else {
           console.log(JSON.stringify(results));
           req.session.cookie.user = {
-            id: results[0].user_id,
+            id: results[0].id,
             pw: hashpw(results[0].user_pw),
             name: results[0].user_name,
             authorized: true,
           };
           const token = jwt.sign(
             {
-              USER_ID: results[0].user_id, //페이로드
+              USER_ID: results[0].id, //페이로드
             },
             jwtObj.secret,
             jwtObj.option,
@@ -281,11 +281,13 @@ app.post('/login', (req, res) => {
 // app.use(auth.checkAuth);
 
 app.post('/addressRegister', (req, res) => {
+  console.log(`token: ${req.headers.authorization}`);
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
         console.log('addressRegister 에러 발생: ' + err);
       } else {
+        console.log('디코디드: ' + JSON.stringify(decoded));
         console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend = 'INSERT INTO ADDRESSINFO SET ?';
