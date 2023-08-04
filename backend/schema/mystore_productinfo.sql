@@ -24,15 +24,25 @@ DROP TABLE IF EXISTS `productinfo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `productinfo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `price` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `img` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `tag` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `category` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `keyword` varchar(45) COLLATE gb2312_bin DEFAULT NULL,
+  `product_name` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `price` int DEFAULT NULL,
+  `img` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `tag` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
+  `keyword` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `cutprice` int DEFAULT NULL COMMENT 'discount amount. Provided at a discount by the discount amount from the displayed amount.',
+  `bonuscondition` int DEFAULT NULL COMMENT 'Minimum purchase quantity for bonus offer. Same as the 1+1 event held at the convenience store.',
+  `boxprice` int DEFAULT NULL COMMENT 'Price when sold as a box. drinks only',
+  `stock` int DEFAULT NULL COMMENT 'If inventory is entered, it will no longer be sold once the quantity is exhausted.',
+  `stored` tinyint DEFAULT '1' COMMENT 'sale or not. When changed to 0, the product is not exposed. Remove from product list.',
+  `boxcapacity` int DEFAULT NULL,
+  `list_index` int DEFAULT NULL,
+  `flavor_refer` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `shelf_life` int DEFAULT NULL,
+  `production_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=gb2312 COLLATE=gb2312_bin
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

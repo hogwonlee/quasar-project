@@ -27,8 +27,14 @@ CREATE TABLE `orderinfo` (
   `product_id` int DEFAULT NULL,
   `quantity` int DEFAULT NULL,
   `order_group` int DEFAULT NULL,
+  `bulk_buy` tinyint DEFAULT NULL,
+  `bonus_quantity` int DEFAULT NULL,
+  `cut_money` int DEFAULT NULL,
+  `flavor` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `list_index` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

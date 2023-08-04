@@ -23,12 +23,13 @@ DROP TABLE IF EXISTS `userinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `userinfo` (
-  `user_id` varchar(45) COLLATE utf8mb3_bin NOT NULL,
+  `id` varchar(45) COLLATE utf8mb3_bin NOT NULL,
   `user_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_pw` varchar(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

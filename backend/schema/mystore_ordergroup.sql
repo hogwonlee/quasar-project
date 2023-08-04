@@ -27,10 +27,16 @@ CREATE TABLE `ordergroup` (
   `address_id` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `delivery_code` varchar(45) COLLATE utf8mb3_bin DEFAULT '04',
   `delivery_invoice` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
-   `user_id` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `user_id` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `order_date` date NOT NULL DEFAULT (curdate()),
+  `order_time` time NOT NULL DEFAULT (curtime()),
+  `total_price` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `satisfy_coupon` varchar(45) COLLATE utf8mb3_bin NOT NULL,
+  `food_price` int DEFAULT NULL,
+  `used_coupon_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
