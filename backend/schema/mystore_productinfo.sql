@@ -51,6 +51,43 @@ CREATE TABLE `productinfo` (
 
 LOCK TABLES `productinfo` WRITE;
 /*!40000 ALTER TABLE `productinfo` DISABLE KEYS */;
+INSERT INTO `mystore`.`productinfo`
+(`id`,
+`product_name`,
+`price`,
+`img`,
+`tag`,
+`category`,
+`keyword`,
+`cutprice`,
+`bonuscondition`,
+`boxprice`,
+`stock`,
+`stored`,
+`boxcapacity`,
+`list_index`,
+`flavor_refer`,
+`shelf_life`,
+`production_date`)
+VALUES
+(<{id: }>,
+<{product_name: }>,
+<{price: }>,
+<{img: }>,
+<{tag: }>,
+<{category: }>,
+<{keyword: }>,
+<{cutprice: }>,
+<{bonuscondition: }>,
+<{boxprice: }>,
+<{stock: }>,
+<{stored: 1}>,
+<{boxcapacity: }>,
+<{list_index: }>,
+<{flavor_refer: }>,
+<{shelf_life: }>,
+<{production_date: }>);
+
 /*!40000 ALTER TABLE `productinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
