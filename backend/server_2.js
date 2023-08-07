@@ -29,6 +29,7 @@ const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
 const {stringify} = require('querystring');
+const db = require('./configs/db')
 const {date} = require('quasar');
 // const auth = require('./router/auth');
 // const authRouter = require('./router/index');
@@ -42,11 +43,11 @@ function hashpw(password) {
 }
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
-  port: 3306,
-  database: 'mystore',
+  host: db.host,
+  user: db.username,
+  password: db.password,
+  port: db.port,
+  database: db.database,
   allowPublicKeyRetrieval: true,
   ssl: false,
 });
@@ -56,7 +57,7 @@ db.connect();
 const _dirname = path.resolve();
 const app = express(); // express Server
 
-app.set('port', 3000);
+app.set('port', 80);
 
 const appServer = http.createServer(app);
 // 세션세팅
