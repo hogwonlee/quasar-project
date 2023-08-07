@@ -137,14 +137,19 @@
 
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
-            <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons\currency-krw-black.png" />
-              {{ (price - cutprice) * this.localQuantity }}
-              {{ selected_local.won }}
-            </div>
-            <div v-else class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons\currency-krw-black.png" />
-              {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+            <div
+              class="col-12"
+              :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
+            >
+              <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ (price - cutprice) * this.localQuantity }}
+                {{ selected_local.won }}
+              </div>
+              <div v-else class="col-12 text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+              </div>
             </div>
             <!-- <q-input
               v-if="!bulkbuy"
