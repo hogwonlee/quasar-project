@@ -43,7 +43,7 @@ function hashpw(password) {
 
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'hogwon',
+  user: 'root',
   password: '1234',
   port: 3306,
   database: 'mystore',
