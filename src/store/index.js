@@ -7,6 +7,7 @@ import category from './category';
 import address from './user/addressInfo';
 import coupon from './user/couponInfo';
 import order from './orderList';
+import api_addr from './apiAddressResult';
 import ui_local from './ui_local';
 
 // const debug = process.env.NODE_ENV !== 'production';
@@ -21,6 +22,7 @@ export default createStore({
     ui_local,
     category,
     coupon,
+    api_addr,
   },
   strict: false,
   plugins: [
@@ -36,6 +38,7 @@ export default createStore({
         'ui_local',
         'category',
         'coupon',
+        'api_addr',
       ],
     }),
   ],

@@ -15,12 +15,21 @@
         class="q-ma-sm"
         v-model="address_tag"
         :label="selected_local.addrtagandhint"
+        lazy-rules
+        :rules="[
+          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
+        ]"
       ></q-input>
       <q-input
         outlined
         v-model="recipient"
         class="q-ma-sm"
         :label="selected_local.recipient"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length <= 20) || '请输入收件人姓名（小于20字节）',
+        ]"
       ></q-input>
 
       <q-input
@@ -28,6 +37,15 @@
         class="q-ma-sm"
         v-model="recipient_phone"
         :label="selected_local.recipientphone"
+        :hint="selected_local.telhint"
+        type="tel"
+        mask="(###)####-####"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length >= 13 && val.length <= 15) ||
+            selected_local.telhint,
+        ]"
       ></q-input>
 
       <div class="row">
@@ -35,8 +53,9 @@
           class="q-ma-sm col"
           color="primary"
           :label="selected_local.postcoderegister"
-          @click="sample2_execDaumPostcode"
+          @click="addr_search_api_card = !addr_search_api_card"
         />
+
         <q-input
           v-model="post_code"
           filled
@@ -47,6 +66,36 @@
           disable
         />
       </div>
+      <q-card-section v-show="addr_search_api_card">
+        <div class="q-pl-sm text-h6 text-bold">주소 검색 API</div>
+        <q-input label="주소입력" v-model="keyword">
+          <template v-slot:append>
+            <q-icon
+              v-if="text !== ''"
+              name="close"
+              @click="text = ''"
+              class="cursor-pointer"
+            />
+            <q-btn
+              icon="search"
+              round
+              @click="search_addr_api(keyword)"
+            ></q-btn>
+          </template>
+        </q-input>
+        <!-- <q-table :rows="api_addr" row-key="zipNo"> </q-table> -->
+      </q-card-section>
+      <!-- <q-card
+        id="wrap"
+        v-show="addr_search"
+        class="z-top bg-primary relative-position"
+      >
+        <q-card-section class="row items-center q-pa-none">
+          <div class="q-ma-md text-h6 text-bold">주소 검색</div>
+          <q-space />
+          <q-btn icon="close" flat round dense @click="foldDaumPostcode()" />
+        </q-card-section>
+      </q-card> -->
       <q-input
         :v-model="address1"
         filled
@@ -73,6 +122,8 @@
         class="q-ma-sm"
         for="daum_detailAddress"
         :label="selected_local.addrextraandhint"
+        lazy-rules
+        :rules="[val => !!val || '请输入附加信息']"
       />
 
       <div class="row">
@@ -88,6 +139,16 @@
           size="md"
           style="width: 200px"
           :label="selected_local.addrresister"
+          :disable="
+            address_tag.value == null ||
+            recipient.value == null ||
+            recipient_phone.value == null ||
+            (recipient_phone.length >= 13 && recipient_phone.length <= 15) ||
+            post_code.value == null ||
+            address1.value == null ||
+            address2.value == null ||
+            address3.value == null
+          "
           @click="exeAddrRegister"
         />
       </div>
@@ -102,6 +163,7 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from '/src/configs';
+
   export default defineComponent({
     name: 'AddressRegister',
     data() {
@@ -113,20 +175,128 @@
         address1: '',
         address2: '',
         address3: '',
+        keyword: '',
         cheked: ref(true),
+        addr_search_api_card: ref(false),
       };
     },
+    setup() {},
     computed: {
       ...mapState({
         user: state => state.user.USER,
+        api_addr: state => state.api_addr.address,
         selected_local: state => state.ui_local.status,
       }),
     },
-    mounted() {
-      // this.sample2_execDaumPostcode();
-    },
-
+    // watch: {
+    //   addr_search: function (new_a, old_a) {
+    //     console.log('전: ' + old_a + ', 후: ' + new_a);
+    //   },
+    // },
     methods: {
+      /// @brief 주소검색창 - 특수문자 제거
+
+      checkSearchedWord(obj) {
+        console.log(obj);
+        if (obj.length > 0) {
+          // 특수문자 제거
+
+          var expText = /[%=><]/;
+
+          if (expText.test(obj.value) == true) {
+            alert('특수문자를 입력 할수 없습니다.');
+
+            obj.value = obj.value.split(expText).join('');
+
+            return false;
+          }
+
+          // 특정문자열(sql예약어의 앞뒤공백포함) 제거
+
+          var sqlArray = new Array(
+            'OR',
+            'SELECT',
+            'INSERT',
+            'DELETE',
+            'UPDATE',
+            'CREATE',
+
+            'DROP',
+            'EXEC',
+            'UNION',
+            'FETCH',
+            'DECLARE',
+            'TRUNCATE',
+          );
+
+          // sql 예약어
+
+          var regex = '';
+
+          for (var num = 0; num < sqlArray.length; num++) {
+            regex = new RegExp(sqlArray[num], 'gi');
+
+            if (regex.test(obj.value)) {
+              alert(
+                '"' +
+                  sqlArray[num] +
+                  '"와(과) 같은 특정문자로 검색할 수 없습니다.',
+              );
+
+              obj.value = obj.value.replace(regex, '');
+
+              return false;
+            }
+          }
+        }
+
+        return true;
+      },
+
+      search_addr_api(text) {
+        // 적용예 (api 호출 전에 검색어 체크)
+        if (!this.checkSearchedWord(text)) {
+          return;
+        }
+        axios({
+          url: 'https://business.juso.go.kr/addrlink/addrLinkApi.do',
+          method: 'POST',
+          data: {
+            confmKey: 'devU01TX0FVVEgyMDIzMDgwNzE0MDMyOTExMzk5NTI=',
+            currentPage: 1,
+            countPerPage: 5,
+            keyword: text,
+            resultType: 'json',
+          },
+        })
+          .then(res => {
+            let errCode = res.results.common.errorCode;
+
+            let errDesc = res.results.common.errorMessage;
+
+            if (errCode == '0') {
+              if (res != null) {
+                this.load_addr(res);
+              }
+            } else {
+              alert.confirm('Error', errDesc);
+            }
+            console.log('api_addr: ' + JSON.parse(this.api_addr));
+          })
+          .catch(err => {
+            console.log('Addr_API_Error: ' + err);
+          });
+      },
+      load_addr(juso) {
+        if (juso.results.common.totalCount > 0) {
+          this.$store.dispatch('api_addr/emptyAddressAction');
+          juso.results.juso.forEach(addr => {
+            this.$store.dispatch('api_addr/loadAddressAction', addr);
+          });
+        } else {
+          console.log('조회된 데이터가 없습니다.');
+        }
+      },
       exeAddrRegister() {
         if (this.user.USER_ID != '') {
           const addressData = {
@@ -176,57 +346,6 @@
             this.selected_local.needloginfirst,
           );
         }
-      },
-
-      sample2_execDaumPostcode() {
-        new daum.Postcode({
-          oncomplete: function (data) {
-            // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var addr = ''; // 주소 변수
-            var extraAddr = ''; // 참고항목 변수
-
-            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') {
-              // 사용자가 도로명 주소를 선택했을 경우
-              addr = data.roadAddress;
-            } else {
-              // 사용자가 지번 주소를 선택했을 경우(J)
-              addr = data.jibunAddress;
-            }
-
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if (data.userSelectedType === 'R') {
-              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-              if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                extraAddr += data.bname;
-              }
-              // 건물명이 있고, 공동주택일 경우 추가한다.
-              if (data.buildingName !== '' && data.apartment === 'Y') {
-                extraAddr +=
-                  extraAddr !== ''
-                    ? ', ' + data.buildingName
-                    : data.buildingName;
-              }
-              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-              if (extraAddr !== '') {
-                extraAddr = ' (' + extraAddr + ')';
-              }
-              document.getElementById('daum_extraAddr').value = extraAddr;
-            } else {
-              document.getElementById('daum_extraAddr').value = '';
-            }
-
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('daum_addr').value = addr;
-            document.getElementById('daum_postCode').value = data.zonecode;
-            // 커서를 상세주소 필드로 이동한다.
-            document.getElementById('daum_detailAddress').focus();
-          },
-        }).open();
       },
     },
   });
