@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `productinfo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `productinfo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_"name"` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
+  `product_name` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
   `price` int DEFAULT NULL,
   `img` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
   `tag` varchar(45) CHARACTER SET gb2312 COLLATE gb2312_bin DEFAULT NULL,
