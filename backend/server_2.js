@@ -57,7 +57,7 @@ db.connect();
 const _dirname = path.resolve();
 const app = express(); // express Server
 
-app.set('port', 80);
+app.set('port', 3000);
 
 const appServer = http.createServer(app);
 // 세션세팅
