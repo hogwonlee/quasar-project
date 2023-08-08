@@ -251,6 +251,10 @@ app.post('/login', (req, res) => {
       sqlCommend,
       [param.user_id, param.user_pw],
       (err, results, fields) => {
+        if (err) {
+          console.error(err)
+          res.status(500).send({msg: 'error', content: err});
+        }
         if (results.length <= 0) {
           console.log('로그인요청:' + err);
           res.status(400).send({msg: 'error', content: err});
@@ -731,6 +735,10 @@ app.get('/productList', (req, res) => {
   console.log(req.query);
   const sqlCommend_v = 'SELECT * FROM STOREVERSION';
   db.query(sqlCommend_v, (err, results, fields) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send({msg: 'error', content: err});
+    }
     if (results.length <= 0) {
       res.status(400).send({msg: 'error', content: err});
     } else {
