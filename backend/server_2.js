@@ -100,7 +100,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/checkpw', (req, res) => {
-  const sqlCommend = 'SELECT * FROM USERINFO WHERE id = ? AND user_pw = ? ';
+  const sqlCommend = 'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
   const body = req.body;
   const param = {
     user_id: body.user_id,
@@ -123,7 +123,7 @@ app.post('/checkpw', (req, res) => {
 
 app.post('/changeuserinfo', (req, res) => {
   const sqlCommend =
-    'UPDATE USERINFO SET user_name = ? , user_phone = ? WHERE id = ? ';
+    'UPDATE userinfo SET user_name = ? , user_phone = ? WHERE id = ? ';
   const body = req.body;
   const param = {
     user_id: body.user_id,
@@ -146,7 +146,7 @@ app.post('/changeuserinfo', (req, res) => {
 
 app.post('/changepw', (req, res) => {
   const sqlCommend_select =
-    'SELECT * FROM USERINFO WHERE id = ? AND user_pw = ? ';
+    'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
   const body = req.body;
   const param_select = {
     user_id: body.user_id,
@@ -161,7 +161,7 @@ app.post('/changepw', (req, res) => {
         res.status(400).send({msg: 'error', content: err});
       } else {
         const sqlCommend_update =
-          'UPDATE USERINFO SET user_pw = ? WHERE id = ? ';
+          'UPDATE userinfo SET user_pw = ? WHERE id = ? ';
         const param_update = {
           user_id: body.user_id,
           user_pw: hashpw(body.newPw),
@@ -184,7 +184,7 @@ app.post('/changepw', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  const sqlCommend = 'INSERT INTO USERINFO SET ?';
+  const sqlCommend = 'INSERT INTO userinfo SET ?';
   const body = req.body;
   console.log(body);
   const param = {
@@ -202,7 +202,7 @@ app.post('/register', (req, res) => {
       //오픈 이벤트: 특정 날짜 이전에 계정 생성 시, 쿠폰 지급
       if (Date.now() <= new Date('2023-12-31')) {
         const sqlCommend_gift =
-          'INSERT INTO USERCOUPON SET coupon_id = ?, user_id = ?';
+          'INSERT INTO usercoupon SET coupon_id = ?, user_id = ?';
         const param_gift = {
           coupon_id: 1,
           user_id: req.body.user_id,
@@ -232,7 +232,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
   // console.log('로그인 함수가 실행됩니다.');
   const sqlCommend =
-    'SELECT * FROM USERINFO LEFT OUTER JOIN ADDRESSINFO ON USERINFO.id = ADDRESSINFO.user_id WHERE USERINFO.id = ? AND USERINFO.user_pw = ? ';
+    'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
   const body = req.body;
   const param = {
     user_id: body.user_id,
@@ -295,7 +295,7 @@ app.post('/addressRegister', (req, res) => {
         console.log('디코디드: ' + JSON.stringify(decoded));
         console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend = 'INSERT INTO ADDRESSINFO SET ?';
+          const sqlCommend = 'INSERT INTO addressinfo SET ?';
           const body = req.body;
           const param = {
             address_tag: body.address_tag,
@@ -317,7 +317,7 @@ app.post('/addressRegister', (req, res) => {
               if ((body.is_default = 1)) {
                 // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
                 const sqlCommend_reset =
-                  'UPDATE ADDRESSINFO SET is_default = 0 WHERE user_id = ?';
+                  'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
                 db.query(
                   sqlCommend_reset,
                   param.user_id,
@@ -334,7 +334,7 @@ app.post('/addressRegister', (req, res) => {
                   },
                 );
                 const sqlCommend_default =
-                  'UPDATE ADDRESSINFO SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+                  'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
                 const param_2 = {
                   user_id: body.user_id,
                   address_id: results.insertId,
@@ -379,7 +379,7 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
         // console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend_reset =
-            'UPDATE ADDRESSINFO SET is_default = 0 WHERE user_id = ?';
+            'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
           const body = req.body;
           const param = body.user_id;
           db.query(sqlCommend_reset, param, (err, results, fields) => {
@@ -393,7 +393,7 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
             }
           });
           const sqlCommend_default =
-            'UPDATE ADDRESSINFO SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+            'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
           const param_2 = {
             user_id: body.user_id,
             address_id: body.address_id,
@@ -412,7 +412,7 @@ app.post('/addressChangeDefaultAddress', (req, res) => {
           );
 
           const sqlCommend_select =
-            'SELECT * FROM ADDRESSINFO WHERE user_id = ?';
+            'SELECT * FROM addressinfo WHERE user_id = ?';
 
           db.query(sqlCommend_select, param, (err, results, fields) => {
             if (err) {
@@ -442,7 +442,7 @@ app.post('/addressInfoChange', (req, res) => {
         // console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend_update =
-            'UPDATE ADDRESSINFO SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
+            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
           const body = req.body;
           const param_update = {
             address_tag: body.address_tag,
@@ -494,7 +494,7 @@ app.post('/deleteAddress', (req, res) => {
         // console.log('디코디드: ' + decoded.USER_ID);
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend_delete =
-            'UPDATE ADDRESSINFO SET address_active = 0 WHERE address_id = ?';
+            'UPDATE addressinfo SET address_active = 0 WHERE address_id = ?';
           const body = req.body;
           const param = body.address_id;
           db.query(sqlCommend_delete, param, (err, results, fields) => {
@@ -524,7 +524,7 @@ app.post('/orderRegister', (req, res) => {
           //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
           if (req.body.total_price >= 50000) {
             const sqlCommend_gift =
-              'INSERT INTO USERCOUPON SET coupon_id = 2 AND user_id = ?';
+              'INSERT INTO usercoupon SET coupon_id = 2 AND user_id = ?';
             const param_gift = {user_id: req.body.user_id};
             db.query(
               sqlCommend_gift,
@@ -541,7 +541,7 @@ app.post('/orderRegister', (req, res) => {
           //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
           if (req.body.used_coupon_id != null) {
             const sqlCommend_useCoupon =
-              'UPDATE USERCOUPON SET available = 0 WHERE user_id = ? AND coupon_id = ?';
+              'UPDATE usercoupon SET available = 0 WHERE user_id = ? AND coupon_id = ?';
             const param_useCoupon = {
               user_id: req.body.user_id,
               coupon_id: req.body.used_coupon_id,
@@ -558,7 +558,7 @@ app.post('/orderRegister', (req, res) => {
           }
 
           const sqlCommend =
-            'INSERT INTO ORDERGROUP SET address_id = ?, user_id = ?, total_price = ?, satisfy_coupon = ?';
+            'INSERT INTO ordergroup SET address_id = ?, user_id = ?, total_price = ?, satisfy_coupon = ?';
           const body = req.body;
           const param = {
             address_id: body.address_id,
@@ -585,7 +585,7 @@ app.post('/orderRegister', (req, res) => {
                 res.status(400).send({msg: 'error', content: err});
               } else {
                 const insert_sql =
-                  'INSERT INTO ORDERINFO (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+                  'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
                 console.log(JSON.stringify(body.order_data));
                 var order_data = body.order_data;
                 order_data.map(element => {
@@ -648,7 +648,7 @@ app.post('/orderList', (req, res) => {
       } else {
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend =
-            'SELECT * FROM ORDERINFO JOIN PRODUCTINFO ON ORDERINFO.product_id=PRODUCTINFO.id WHERE order_group = ?';
+            'SELECT * FROM orderinfo JOIN productinfo ON orderinfo.product_id=productinfo.id WHERE order_group = ?';
           const body = req.body;
           const param = {order_group: body.order_group};
 
@@ -677,7 +677,7 @@ app.post('/addressInfo', (req, res) => {
         console.log('addressInfo 에러 발생: ' + err);
       } else {
         if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend = 'SELECT * FROM ADDRESSINFO WHERE user_id = ?';
+          const sqlCommend = 'SELECT * FROM addressinfo WHERE user_id = ?';
           const body = req.body;
           const param = body.user_id;
           db.query(sqlCommend, param, (err, results, fields) => {
@@ -701,8 +701,8 @@ app.post('/addressInfo', (req, res) => {
 
 app.post('/deliveryInfo', (req, res) => {
   const sqlCommend =
-    // 'SELECT * FROM ORDERGROUP JOIN ADDRESSINFO ON ORDERGROUP.address_id = ADDRESSINFO.address_id WHERE ORDERGROUP.user_id = ? ';
-    'SELECT * FROM ORDERGROUP LEFT OUTER JOIN ADDRESSINFO ON ORDERGROUP.address_id = ADDRESSINFO.address_id WHERE ORDERGROUP.user_id = ? AND ORDERGROUP.order_date > DATE_SUB(NOW(), INTERVAL 14 DAY)';
+    // 'SELECT * FROM ordergroup JOIN addressinfo ON ordergroup.address_id = addressinfo.address_id WHERE ordergroup.user_id = ? ';
+    'SELECT * FROM ordergroup LEFT OUTER JOIN addressinfo ON ordergroup.address_id = addressinfo.address_id WHERE ordergroup.user_id = ? AND ordergroup.order_date > DATE_SUB(NOW(), INTERVAL 14 DAY)';
 
   const body = req.body;
   const param = body.user_id;
@@ -717,7 +717,7 @@ app.post('/deliveryInfo', (req, res) => {
 });
 
 app.get('/orderGroupInfo', (req, res) => {
-  const sqlCommend = 'SELECT * FROM ORDERGROUP WHERE ORDERGROUP.id = ?';
+  const sqlCommend = 'SELECT * FROM ordergroup WHERE ordergroup.id = ?';
 
   const body = req.body;
   const param = body.id;
@@ -733,7 +733,7 @@ app.get('/orderGroupInfo', (req, res) => {
 
 app.get('/productList', (req, res) => {
   console.log(req.query);
-  const sqlCommend_v = 'SELECT * FROM STOREVERSION';
+  const sqlCommend_v = 'SELECT * FROM storeversion';
   db.query(sqlCommend_v, (err, results, fields) => {
     if (err) {
       console.error(err)
@@ -750,12 +750,12 @@ app.get('/productList', (req, res) => {
       let store_version = results[0].version;
       console.log(store_version + '///' + local_version);
       if (store_version > local_version) {
-        const sqlCommend = 'SELECT * FROM PRODUCTINFO ORDER BY category';
+        const sqlCommend = 'SELECT * FROM productinfo ORDER BY category';
         db.query(sqlCommend, (err, results, fields) => {
           if (results.length <= 0) {
             res.status(400).send({msg: 'error', content: err});
           } else {
-            const sqlCommendCate = 'SELECT DISTINCT category FROM PRODUCTINFO';
+            const sqlCommendCate = 'SELECT DISTINCT category FROM productinfo';
             db.query(sqlCommendCate, (err, results_category, fields) => {
               if (results.length <= 0) {
                 res.status(400).send({msg: 'error', content: err});
@@ -778,7 +778,7 @@ app.get('/productList', (req, res) => {
 
 app.post('/mycoupon', (req, res) => {
   const sqlCommend =
-    'SELECT * FROM USERCOUPON JOIN COUPON ON USERCOUPON.coupon_id = COUPON.id WHERE user_id = ? AND available = TRUE';
+    'SELECT * FROM usercoupon JOIN COUPON ON usercoupon.coupon_id = COUPON.id WHERE user_id = ? AND available = TRUE';
 
   const body = req.body;
   const param = {user_id: body.user_id};
