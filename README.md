@@ -141,11 +141,12 @@ cordova plugin rm org.apache.cordova.console --save
 cordova build --release android
 
 
-# 서버 node -v 14 이상
+# 서버 node -v 16 이상
 
 ```
 apt install curl
-curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+apt install -y nodejs
 ```
 인증
 ```
@@ -175,4 +176,21 @@ pm2 restart [순번 (예: 0), 혹은 명칭(예: server)]
 
 pm2 restart  0
 pm2 restart server
+
+# 웹앱 실행
+quasar 설치
+```
+yarn global add @quasar/cli
+pm2 start "quasar dev" --name webapp
+```
+
+상태확인
+```
+pm2 list
+```
+
+접속 확인
+```
+http://175.119.224.213:9000
+```
 

@@ -414,8 +414,8 @@
               this.cartList[0].quantity +
               '...',
             customerName: this.user.USER_NAME,
-            successUrl: 'http://localhost:9000/#/Success',
-            failUrl: 'http://localhost:9000/#/Fail',
+            successUrl: 'http://175.119.224.213:9000/#/Success',
+            failUrl: 'http://175.119.224.213:9000/#/Fail',
           }),
         );
       },
