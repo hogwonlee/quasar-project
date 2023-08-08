@@ -778,11 +778,11 @@ app.get('/productList', (req, res) => {
 
 app.post('/mycoupon', (req, res) => {
   const sqlCommend =
-    'SELECT * FROM usercoupon JOIN COUPON ON usercoupon.coupon_id = COUPON.id WHERE user_id = ? AND available = TRUE';
+    'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE user_id = ? AND available = TRUE';
 
   const body = req.body;
   const param = {user_id: body.user_id};
-  console.log(sqlCommend + param.user_id);
+  console.log(sqlCommend, param.user_id);
   db.query(sqlCommend, param.user_id, (err, results, fields) => {
     if (results.length <= 0) {
       res.status(400).send({msg: 'error', content: err});
