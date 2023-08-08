@@ -38,7 +38,6 @@ export default createStore({
         'ui_local',
         'category',
         'coupon',
-        'api_addr',
       ],
     }),
   ],

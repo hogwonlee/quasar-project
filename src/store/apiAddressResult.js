@@ -1,9 +1,9 @@
 // import shop from './storage';
 
 // initial state
-const state = () => ({
-  address: [],
-});
+const state = {
+  api_address: [],
+};
 
 // getters
 const getters = {};
@@ -15,7 +15,7 @@ const actions = {
   //   commit('setProducts', products);
   // },
   loadAddressAction({commit}, addr) {
-    commit('addToState', addr);
+    commit('addToState', {addr});
   },
   emptyAddressAction({commit}) {
     commit('setItems', []);
@@ -24,13 +24,14 @@ const actions = {
 
 // mutations
 const mutations = {
-  setItems(state, {items}) {
-    state.items = items;
+  setItems(state, items) {
+    state.api_address = items;
   },
-  addToState(state, addr) {
-    state.address.push({
+  addToState(state, {addr}) {
+    state.api_address.push({
       zipNo: addr.zipNo,
-      roadAddr: addr.roadAddr,
+      roadAddrPart1: addr.roadAddrPart1,
+      roadAddrPart2: addr.roadAddrPart2,
       jibunAddr: addr.jibunAddr,
     });
   },
