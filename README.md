@@ -139,3 +139,40 @@ quasar dev -m cordova -T android -warning-mode=all
 
 cordova plugin rm org.apache.cordova.console --save
 cordova build --release android
+
+
+# 서버 node -v 14 이상
+
+```
+apt install curl
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+```
+인증
+```
+node -v
+```
+
+# 서버에서 백엔드 서비스 실행
+
+pm2 라는 백엔드 노드 프로세스 관리자 설치
+```
+yarn add global pm2
+```
+
+서비스 디렉토리에서 
+
+```
+pm2 start server_2.js --name server
+```
+
+## 서비스 확인
+
+pm2 list
+
+## 서비스 재시작
+
+pm2 restart [순번 (예: 0), 혹은 명칭(예: server)]
+
+pm2 restart  0
+pm2 restart server
+
