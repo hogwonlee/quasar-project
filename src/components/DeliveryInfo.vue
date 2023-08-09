@@ -78,39 +78,37 @@
         {{ selected_local.deliver_info_text }}
       </div>
     </div>
-    <div class="q-gutter-sm q-ma-none q-pa-none">
+    <q-separator />
+
+    <div class="row q-mt-sm">
       <q-btn
-        style="width: 100%"
-        align="between"
+        class="col-6"
+        outline
         :label="selected_local.deliver_info_title + '(한국어)'"
-        icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
         @click="delivery_policy_vue = true"
       />
       <q-btn
-        style="width: 100%"
-        align="between"
+        class="col-6"
+        outline
         :label="selected_local.deliver_info_title + '(中文)'"
-        icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
         @click="delivery_policy_cn_vue = true"
       />
       <q-btn
-        style="width: 100%"
-        align="between"
+        class="col-6"
+        outline
         :label="selected_local.claim_info + '(한국어)'"
-        icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
         @click="exchange_policy_vue = true"
       />
       <q-btn
-        style="width: 100%"
-        align="between"
+        class="col-6"
+        outline
         :label="selected_local.claim_info + '(中文)'"
-        icon-right="keyboard_arrow_right"
         color="white"
         text-color="teal"
         @click="exchange_policy_cn_vue = true"

@@ -4,7 +4,7 @@
       <q-img :src="img" class="rounded-borders" :ratio="1">
         <div class="absolute-top-right transparent">
           <q-badge
-            v-if="bonuscondition != null"
+            v-if="bonuscondition > 0"
             class="absolute-right"
             color="orange"
             floating
@@ -13,7 +13,7 @@
             {{ bonuscondition }}+1
           </q-badge>
           <q-badge
-            v-if="cutprice != null"
+            v-if="cutprice > 0"
             class="absolute-right"
             color="orange"
             floating
@@ -22,7 +22,7 @@
             - {{ cutprice }}
           </q-badge>
           <q-badge
-            v-if="stock != null"
+            v-if="stock > 0"
             class="absolute-right"
             color="red"
             floating
@@ -58,7 +58,7 @@
           </q-btn>
           <q-badge
             class="absolute-top-right z-top q-ma-xs q-mt-xl"
-            v-if="bonuscondition != null"
+            v-if="bonuscondition > 0"
             color="orange"
             floating
             rounded
@@ -67,7 +67,7 @@
           </q-badge>
           <div class="absolute-top-left z-top q-ma-xs">
             <q-btn-toggle
-              v-if="boxprice != null"
+              v-if="boxprice > 0"
               v-model="bulkbuy"
               toggle-color="primary"
               toggle-text-color="white"
@@ -100,7 +100,7 @@
                 floating
                 rounded
                 transparent
-                v-if="cutprice != null"
+                v-if="cutprice > 0"
               >
                 - {{ cutprice }}
               </q-badge>
@@ -119,7 +119,7 @@
             </q-chip>
             <div class="absolute-bottom-right transparent">
               <q-badge
-                v-if="stock != null"
+                v-if="stock > 0"
                 class="q-mt-md"
                 color="red"
                 floating
@@ -127,7 +127,7 @@
               >
                 <q-icon name="warning" color="white" />
                 {{
-                  stock == null
+                  stock == null || stock == 0 || stock == ''
                     ? selected_local.stock_enough
                     : selected_local.stock_null
                 }}
@@ -194,7 +194,7 @@
               input-class="text-right"
             >
               <div
-                v-if="bonuscondition != null && localQuantity >= bonuscondition"
+                v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
                 class="q-mt-sm q-ml-lg absolute-right transparent"
               >
                 <q-badge color="orange" floating rounded>

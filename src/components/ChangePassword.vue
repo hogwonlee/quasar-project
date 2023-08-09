@@ -27,6 +27,7 @@
         <q-input
           filled
           v-model="userPw"
+          :type="isPwd ? 'password' : 'text'"
           :label="selected_local.oldpw"
           :hint="selected_local.inputoldpw"
           label-color="black"
@@ -34,11 +35,20 @@
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
           ]"
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <q-input
           filled
           v-model="newPw"
+          :type="isPwd ? 'password' : 'text'"
           :label="selected_local.password"
           :hint="selected_local.inputnewpw"
           label-color="black"
@@ -46,17 +56,34 @@
           :rules="[
             val => (val && val.length > 0) || selected_local.passwordhint,
           ]"
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <q-input
           filled
           v-model="newPwCheck"
+          :type="isPwd ? 'password' : 'text'"
           :label="selected_local.matchpassword"
           :hint="selected_local.matchpasswordhint"
           label-color="black"
           lazy-rules
           :rules="[this.value == this.newPw || selected_local.passwordhint]"
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <div class="q-gutter-sm q-py-sm">
           <q-btn
@@ -89,6 +116,7 @@
         userPw: '',
         newPw: '',
         newPwCheck: '',
+        isPwd: true,
       };
     },
     computed: {
@@ -134,6 +162,10 @@
             }
           })
           .catch(res => {
+            alert.confirm(
+              this.selected_local.err,
+              this.selected_local.errpassword,
+            );
             console.log(res);
           });
       },

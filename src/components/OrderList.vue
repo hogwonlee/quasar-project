@@ -42,15 +42,17 @@
           <tr class="row">
             <td class="text-left bg-teal col-4">
               {{ selected_local.foodprice }}
-            </td>
-            <td class="text-right col-8">
               <q-btn
+                class="text-bold"
                 size="sm"
-                icon="info"
-                flat
-                text-color="teal"
+                label="?"
+                round
+                color="primary"
+                text-color="white"
                 @click="buy_event_info()"
               />
+            </td>
+            <td class="text-right col-8">
               {{ total }} {{ selected_local.won }}
             </td>
           </tr>
@@ -72,15 +74,17 @@
           <tr class="row">
             <td class="text-left bg-teal col-4">
               {{ selected_local.point }}
-            </td>
-            <td class="text-right col-8">
               <q-btn
+                class="text-bold"
                 size="sm"
-                icon="info"
-                flat
-                text-color="teal"
+                label="?"
+                round
+                color="primary"
+                text-color="white"
                 @click="coupon_list = true"
               />
+            </td>
+            <td class="text-right col-8">
               -
               {{
                 reservedCoupon() != undefined

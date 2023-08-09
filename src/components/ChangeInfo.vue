@@ -52,7 +52,7 @@
   import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
-  import configs from '/src/configs'
+  import configs from '/src/configs';
 
   export default {
     data() {
@@ -80,7 +80,6 @@
           user_phone: this.userPhone,
         };
 
-        //회원가입 등록 요청 보내기
         axios({
           url: `${configs.server}/changeuserinfo`,
           method: 'POST',
@@ -106,7 +105,13 @@
               );
             }
           })
-          .catch(res => console.log('에러: ' + res));
+          .catch(res => {
+            alert.confirm(
+              this.selected_local.err,
+              this.selected_local.err + ': ' + res.data.content,
+            );
+            console.log('에러: ' + res);
+          });
       },
 
       onReset() {

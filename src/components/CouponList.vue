@@ -101,9 +101,6 @@
       },
     },
     watch: {},
-    created() {
-      // this.setcouponList();
-    },
     mounted() {
       this.read_coupon();
     },
@@ -146,37 +143,6 @@
       },
       coupon_use_reserve(usecoupon) {
         this.$store.dispatch('coupon/reserveUseCouponAction', usecoupon);
-      },
-      setcouponList() {
-        this.couponList = [
-          {
-            coupon_id: 1,
-            coupon_name: '회원가입 이벤트 쿠폰',
-            coupon_point: 3000,
-            coupon_desc1: '30000만원 이상 구매시 사용 가능',
-            coupon_desc2: '2023-5-1까지 회원가입 시 지급',
-            coupon_endday: '2023-10-23까지 (수령 후 3개월 내)',
-          },
-          {
-            coupon_id: 2,
-            coupon_name: '5만원 구매 감사 쿠폰',
-            coupon_point: 3000,
-            coupon_desc1: '50000만원 이상 구매시 사용 가능',
-            coupon_desc2: '50000만원 이상 구매시 해당 쿠폰이 지급',
-            coupon_endday: '2023-10-23까지 (수령 후 3개월 내)',
-          },
-          {
-            coupon_id: 3,
-            coupon_name: '조건 없는 선물 쿠폰',
-            coupon_point: 3000,
-            coupon_desc1: '조건없이 사용 가능',
-            coupon_desc2: '누군가의 선물',
-            coupon_endday: '언제나 사용가능',
-          },
-        ];
-      },
-      resetcouponList() {
-        this.couponList = [];
       },
     },
     setup() {

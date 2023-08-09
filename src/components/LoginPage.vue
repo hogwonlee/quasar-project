@@ -11,7 +11,20 @@
         <!-- lazy-rules
           :rules="[val => (val && val.length > 0) || '필수 입력']" -->
 
-        <q-input filled v-model="userPw" :label="selected_local.password" />
+        <q-input
+          filled
+          v-model="userPw"
+          :label="selected_local.password"
+          :type="isPwd ? 'password' : 'text'"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <div class="q-gutter-xs q-py-xs">
           <q-btn
@@ -137,7 +150,7 @@
 
       return {
         accept,
-
+        isPwd: ref(true),
         signUpWindow: ref(false),
       };
     },
