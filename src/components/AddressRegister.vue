@@ -322,7 +322,7 @@
           url: 'http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do',
           type: 'POST',
           data: {
-            confmKey: 'devU01TX0FVVEgyMDIzMDgwNjE1NTIzNjExMzk5Mzg=',
+            confmKey: 'U01TX0FVVEgyMDIzMDgwOTEyNTE0NzExNDAwMTg=',
             currentPage: 1,
             countPerPage: 5,
             keyword: text,
