@@ -354,6 +354,10 @@
           }
         }
       },
+      default_addr: function (new_default) {
+        // console.log('기본 배송지 변경: ' + new_default.address2);
+        this.address_selected = new_default[0];
+      },
     },
     computed: {
       ...mapState({
@@ -372,7 +376,9 @@
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
       }),
-
+      ...mapGetters('address', {
+        default_addr: 'getDefaultAddr',
+      }),
       no_selected_addr() {
         return validation.isNull(this.address_selected);
       },
@@ -389,15 +395,6 @@
           this.selected_local.event_5353_info,
           this.selected_local.event_5353_detail,
         );
-      },
-      getSelectedAddress() {
-        var return_addr;
-        this.addressList.forEach(addr => {
-          if (addr.is_default === 1) {
-            return_addr = addr;
-          }
-        });
-        this.address_selected = return_addr;
       },
       selectPaymentmethod(total, shipment, coupon) {
         var discount;
@@ -425,7 +422,6 @@
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
-        console.log(coupon.coupon_name);
         if (coupon == undefined) {
           return null;
         } else {
@@ -481,7 +477,7 @@
     },
     mounted() {
       this.read_coupon();
-      this.getSelectedAddress();
+      this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
         // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
         console.log('50000 구매 쿠폰 적용');

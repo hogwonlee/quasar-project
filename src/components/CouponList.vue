@@ -48,7 +48,8 @@
             {{ selected_local.more }}
           </div>
           <div class="text-caption text-grey-3 q-ml-md">
-            {{ selected_local.use_limit }} {{ coupon.limit_date }}
+            {{ selected_local.use_limit }}
+            {{ limit_date(coupon.gift_day, 90) }}
             {{ selected_local.up_to }}
           </div>
         </q-card-section>
@@ -80,6 +81,9 @@
   import axios from 'axios';
   import {mapState} from 'vuex';
   import configs from '/src/configs';
+  import {date} from 'quasar';
+
+  const {addToDate} = date;
 
   export default defineComponent({
     name: 'CouponList',
@@ -143,6 +147,16 @@
       },
       coupon_use_reserve(usecoupon) {
         this.$store.dispatch('coupon/reserveUseCouponAction', usecoupon);
+      },
+      limit_date(day, plus_day) {
+        return addToDate(new Date(day), {day: plus_day}).toLocaleString(
+          'ko-KR',
+          {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          },
+        );
       },
     },
     setup() {

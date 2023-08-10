@@ -1,13 +1,8 @@
 <template>
   <q-page class="q-pa-xl">
     <section>
-      <div class="text-h3">{{ selected_local.paymentfail }}</div>
-      <q-btn
-        :label="selected_local.gobackorderlistinfovue"
-        tag="a"
-        to="/OrderList"
-        color="primary"
-      ></q-btn>
+      <div class="text-h3">결제 실패 ...</div>
+      <q-btn label="돌아가기" tag="a" to="/OrderList" color="primary"></q-btn>
     </section>
   </q-page>
 </template>

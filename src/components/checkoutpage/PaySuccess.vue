@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-xl">
     <section>
-      <div class="text-h3">{{ selected_local.paymentsuccess }}</div>
+      <div class="text-h3">주문 완료!</div>
       <q-btn
-        :label="selected_local.gotodeliveryinfovue"
+        label="주문 현황 확인하기"
         tag="a"
         to="/DeliveryInfo"
         color="primary"
@@ -15,7 +15,7 @@
 <script>
   import {defineComponent} from 'vue';
   import axios from 'axios';
-  import { mapGetters, mapState, mapActions } from 'vuex';
+  import {mapGetters, mapState, mapActions} from 'vuex';
   import configs from 'src/configs/';
 
   export default defineComponent({

@@ -196,6 +196,7 @@
             address3 == null
           "
           @click="exeAddrRegister"
+          v-close-popup
         />
       </div>
     </q-card>
@@ -381,9 +382,7 @@
           })
             .then(res => {
               if (res.status == 200) {
-                var insertAddress = addressData;
-                insertAddress.address_id = res.data.results.insertId;
-                this.$store.dispatch('address/addAddressAction', insertAddress);
+                this.reload_addr_info();
                 alert.confirm(
                   this.selected_local.notice,
                   this.selected_local.addrresistersuccess,
@@ -402,6 +401,40 @@
             this.selected_local.needloginfirst,
           );
         }
+      },
+      reload_addr_info() {
+        axios({
+          url: `${configs.server}/addressInfo`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: {
+            user_id: this.user.USER_ID,
+            user_name: this.user.USER_NAME,
+          },
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.$store.dispatch('address/emptyAddressAction');
+              res.data.results.forEach(addr => {
+                if (addr.address_active === 1) {
+                  this.$store.dispatch('address/addAddressAction', addr);
+                }
+              });
+              this.$store.dispatch('address/setStatusAction', null);
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
       },
     },
   });

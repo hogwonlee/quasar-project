@@ -40,7 +40,7 @@
           />
           <q-badge
             class="absolute-top-right z-top q-ma-xs q-mt-xl"
-            v-if="bonuscondition != null"
+            v-if="bonuscondition > 0"
             color="orange"
             floating
             rounded
@@ -58,7 +58,7 @@
               class="absolute-bottom"
               dense
               text-color="white"
-              icon="img:src\assets\icons\currency-krw-white.png"
+              icon="img:icons\currency-krw-white.png"
             >
               {{ price }}
               <q-badge
@@ -66,7 +66,7 @@
                 floating
                 rounded
                 transparent
-                v-if="cutprice != null"
+                v-if="cutprice > 0"
               >
                 - {{ cutprice }}
               </q-badge>
@@ -76,16 +76,16 @@
               class="absolute-bottom"
               dense
               text-color="white"
-              icon="img:src\assets\icons\currency-krw-white.png"
+              icon="img:icons\currency-krw-white.png"
             >
               {{ boxprice }}
               <q-badge color="orange" floating rounded>
                 {{ boxcapacity }} {{ selected_local.bundle_count }}
               </q-badge>
             </q-chip>
-            <div class="absolute-bottom-right transparent">
+            <!-- <div class="absolute-bottom-right transparent">
               <q-badge
-                v-if="stock != null"
+                v-if="stock >0"
                 class="q-mt-md"
                 color="red"
                 floating
@@ -98,17 +98,17 @@
                     : selected_local.stock_null
                 }}
               </q-badge>
-            </div>
+            </div> -->
           </q-img>
 
           <q-card-section class="row q-px-sm q-py-none">
             <div v-if="!buyoption" class="col-12 text-h6 text-bold">
-              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              <q-icon name="img:icons\currency-krw-black.png" />
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
             </div>
             <div v-else class="col-12 text-h6 text-bold">
-              <q-icon name="img:src\assets\icons\currency-krw-black.png" />
+              <q-icon name="img:icons\currency-krw-black.png" />
               {{ boxprice * this.localQuantity }} {{ selected_local.won }}
             </div>
             <q-btn
@@ -128,7 +128,7 @@
               input-class="text-right"
             >
               <div
-                v-if="bonuscondition != null && localQuantity >= bonuscondition"
+                v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
                 class="q-mt-sm q-ml-lg absolute-right transparent"
               >
                 <q-badge color="orange" floating rounded>

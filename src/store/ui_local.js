@@ -319,7 +319,7 @@ const _cn = {
 const state = {
   ko: _ko,
   cn: _cn,
-  status: _cn,
+  status: _ko,
 };
 
 const actions = {
