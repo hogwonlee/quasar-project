@@ -29,11 +29,11 @@ const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
 const {stringify} = require('querystring');
-const dbConfig = require('./configs/db')
+const dbConfig = require('./configs/db');
 const {date} = require('quasar');
-// const auth = require('./router/auth');
-// const authRouter = require('./router/index');
-// const noAuthRouter = require('./router/noauth');
+const auth = require('./router/auth');
+const authRouter = require('./router/index');
+const noAuthRouter = require('./router/noauth');
 const crypto = require('crypto');
 // const salt = crypto.randomBytes(32).toString('hex');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
@@ -98,6 +98,10 @@ app.get('/', (req, res) => {
     console.log('이미 로그인 하미' + coo);
   }
 });
+
+app.use(noAuthRouter);
+
+app.use(auth.checkAuth);
 
 app.post('/checkpw', (req, res) => {
   const sqlCommend = 'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
@@ -183,107 +187,103 @@ app.post('/changepw', (req, res) => {
   );
 });
 
-app.post('/register', (req, res) => {
-  const sqlCommend = 'INSERT INTO userinfo SET ?';
-  const body = req.body;
-  console.log(body);
-  const param = {
-    id: body.user_id,
-    user_pw: hashpw(body.user_pw),
-    user_name: body.user_name,
-    user_phone: body.user_phone,
-  };
+// app.post('/register', (req, res) => {
+//   const sqlCommend = 'INSERT INTO userinfo SET ?';
+//   const body = req.body;
+//   console.log(body);
+//   const param = {
+//     id: body.user_id,
+//     user_pw: hashpw(body.user_pw),
+//     user_name: body.user_name,
+//     user_phone: body.user_phone,
+//   };
 
-  db.query(sqlCommend, param, (err, results, fields) => {
-    if (err) {
-      console.log('회원가입요청:' + err);
-      res.status(400).send({msg: 'error', content: err});
-    } else {
-      //오픈 이벤트: 특정 날짜 이전에 계정 생성 시, 쿠폰 지급
-      if (Date.now() <= new Date('2023-12-31')) {
-        const sqlCommend_gift =
-          'INSERT INTO usercoupon SET coupon_id = ?, user_id = ?';
-        const param_gift = {
-          coupon_id: 1,
-          user_id: req.body.user_id,
-        };
-        db.query(
-          sqlCommend_gift,
-          [param_gift.coupon_id, param_gift.user_id],
-          (err_gift, results_gift, fields) => {
-            if (err) {
-              console.log('쿠폰 요청:' + err_gift);
-              res.status(400).send({msg: 'error', content: err});
-            } else {
-              console.log(
-                '쿠폰 지급 성공 결과값:' + JSON.stringify(results_gift),
-              );
-              res.status(200).send(results_gift);
-            }
-          },
-        );
-      } else {
-        res.status(200).send(results);
-      }
-    }
-  });
-});
+//   db.query(sqlCommend, param, (err, results, fields) => {
+//     if (err) {
+//       console.log('회원가입요청:' + err);
+//       res.status(400).send({msg: 'error', content: err});
+//     } else {
+//       //오픈 이벤트: 특정 날짜 이전에 계정 생성 시, 쿠폰 지급
+//       if (Date.now() <= new Date('2023-12-31')) {
+//         const sqlCommend_gift =
+//           'INSERT INTO usercoupon SET coupon_id = ?, user_id = ?';
+//         const param_gift = {
+//           coupon_id: 1,
+//           user_id: req.body.user_id,
+//         };
+//         db.query(
+//           sqlCommend_gift,
+//           [param_gift.coupon_id, param_gift.user_id],
+//           (err_gift, results_gift, fields) => {
+//             if (err) {
+//               console.log('쿠폰 요청:' + err_gift);
+//               res.status(400).send({msg: 'error', content: err});
+//             } else {
+//               console.log(
+//                 '쿠폰 지급 성공 결과값:' + JSON.stringify(results_gift),
+//               );
+//               res.status(200).send(results_gift);
+//             }
+//           },
+//         );
+//       } else {
+//         res.status(200).send(results);
+//       }
+//     }
+//   });
+// });
 
-app.post('/login', (req, res) => {
-  // console.log('로그인 함수가 실행됩니다.');
-  const sqlCommend =
-    'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
-  const body = req.body;
-  const param = {
-    user_id: body.user_id,
-    user_pw: hashpw(body.user_pw),
-  };
-  console.log(param.user_pw);
+// app.post('/login', (req, res) => {
+//   // console.log('로그인 함수가 실행됩니다.');
+//   const sqlCommend =
+//     'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
+//   const body = req.body;
+//   const param = {
+//     user_id: body.user_id,
+//     user_pw: hashpw(body.user_pw),
+//   };
+//   console.log(param.user_pw);
 
-  if (req.session.user) {
-    // 세션에 유저가 존재한다면
-    console.log('이미 로그인 돼있습니다~');
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
-    res.write('<h1> already Login</h1>');
-    res.end();
-  } else {
-    db.query(
-      sqlCommend,
-      [param.user_id, param.user_pw],
-      (err, results, fields) => {
-        if (err) {
-          console.error(err)
-          res.status(500).send({msg: 'error', content: err});
-        }
-        if (results.length <= 0) {
-          console.log('로그인요청:' + err);
-          res.status(400).send({msg: 'error', content: err});
-        } else {
-          console.log(JSON.stringify(results));
-          req.session.cookie.user = {
-            id: results[0].id,
-            pw: hashpw(results[0].user_pw),
-            name: results[0].user_name,
-            authorized: true,
-          };
-          const token = jwt.sign(
-            {
-              USER_ID: results[0].id, //페이로드
-            },
-            jwtObj.secret,
-            jwtObj.option,
-          );
-          res.status(200).send({token, results});
-          // });
-        }
-      },
-    );
-  }
-});
-
-// app.use(noAuthRouter);
-
-// app.use(auth.checkAuth);
+//   if (req.session.user) {
+//     // 세션에 유저가 존재한다면
+//     console.log('이미 로그인 돼있습니다~');
+//     res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
+//     res.write('<h1> already Login</h1>');
+//     res.end();
+//   } else {
+//     db.query(
+//       sqlCommend,
+//       [param.user_id, param.user_pw],
+//       (err, results, fields) => {
+//         if (err) {
+//           console.error(err);
+//           res.status(500).send({msg: 'error', content: err});
+//         }
+//         if (results.length <= 0) {
+//           console.log('로그인요청:' + err);
+//           res.status(400).send({msg: 'error', content: err});
+//         } else {
+//           console.log(JSON.stringify(results));
+//           req.session.cookie.user = {
+//             id: results[0].id,
+//             pw: hashpw(results[0].user_pw),
+//             name: results[0].user_name,
+//             authorized: true,
+//           };
+//           const token = jwt.sign(
+//             {
+//               USER_ID: results[0].id, //페이로드
+//             },
+//             jwtObj.secret,
+//             jwtObj.option,
+//           );
+//           res.status(200).send({token, results});
+//           // });
+//         }
+//       },
+//     );
+//   }
+// });
 
 app.post('/addressRegister', (req, res) => {
   console.log(`token: ${req.headers.authorization}`);
@@ -736,7 +736,7 @@ app.get('/productList', (req, res) => {
   const sqlCommend_v = 'SELECT * FROM storeversion';
   db.query(sqlCommend_v, (err, results, fields) => {
     if (err) {
-      console.error(err)
+      console.error(err);
       res.status(500).send({msg: 'error', content: err});
     }
     if (results.length <= 0) {
