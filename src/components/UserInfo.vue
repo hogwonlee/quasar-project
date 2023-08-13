@@ -374,6 +374,8 @@
   import configs from 'src/configs/';
   import {date} from 'quasar';
   const {addToDate} = date;
+  import https from 'https';
+  import security from 'src/util/modules/security';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -427,13 +429,16 @@
       checkpw() {
         const userData = {
           user_id: this.user.USER_ID,
-          user_pw: this.userPw,
+          user_pw: security.encryptRsaContent(this.userPw),
         };
 
         axios({
           url: `${configs.server}/checkpw`,
           method: 'POST',
           data: userData,
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

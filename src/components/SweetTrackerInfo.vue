@@ -105,6 +105,7 @@
   import axios from 'axios';
   import {mapState} from 'vuex';
   import alert from 'src/util/modules/alert';
+  import https from 'https';
 
   export default defineComponent({
     name: 'SweetTrackerInfo',
@@ -225,6 +226,9 @@
         axios({
           url: 'http://info.sweettracker.co.kr/api/v1/trackingInfo',
           method: 'GET',
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           params: data, //GET 사용할 때는 params, POST 사용할 때는 data
         })
           .then(res => {

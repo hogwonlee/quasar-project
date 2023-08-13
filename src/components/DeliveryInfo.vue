@@ -179,6 +179,7 @@
   import DeliveryPolicy_cn from './policy/DeliveryPolicy_cn.vue';
   import ExchangePolicy_cn from './policy/ExchangePolicy_cn.vue';
   import configs from '/src/configs';
+  import https from 'https';
 
   export default defineComponent({
     name: 'DeliveryInfo',
@@ -232,6 +233,9 @@
         axios({
           url: `${configs.server}/deliveryInfo`,
           method: 'POST',
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
@@ -303,6 +307,9 @@
           axios({
             url: `${configs.server}/orderList`,
             method: 'POST',
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: false,
+            }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',

@@ -8,7 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const {configure} = require('quasar/wrappers');
+const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -83,7 +83,7 @@ module.exports = configure(function (/* ctx */) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'http://175.119.224.213:3000/',
+          target: 'https://175.119.224.213:3000/',
           changeOrigin: true,
           pathRewrite: {
             '^/api': '',

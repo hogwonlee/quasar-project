@@ -211,6 +211,7 @@
   import alert from 'src/util/modules/alert';
   import configs from '/src/configs';
   import {Dialog} from 'quasar';
+  import https from 'https';
 
   export default defineComponent({
     name: 'AddressRegister',
@@ -373,6 +374,9 @@
           axios({
             url: `${configs.server}/addressRegister`,
             method: 'POST',
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: false,
+            }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
@@ -406,6 +410,9 @@
         axios({
           url: `${configs.server}/addressInfo`,
           method: 'POST',
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

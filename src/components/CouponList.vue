@@ -82,6 +82,7 @@
   import {mapState} from 'vuex';
   import configs from '/src/configs';
   import {date} from 'quasar';
+  import https from 'https';
 
   const {addToDate} = date;
 
@@ -114,6 +115,9 @@
           console.log('쿠폰데이터 불러오기');
           axios({
             url: `${configs.server}/mycoupon`,
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: false,
+            }),
             method: 'POST',
             headers: {
               'Access-Control-Allow-Headers': '*',

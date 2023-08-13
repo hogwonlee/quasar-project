@@ -53,6 +53,8 @@
   import {mapGetters, mapState, mapActions} from 'vuex';
   import alert from 'src/util/modules/alert';
   import configs from '/src/configs';
+  import https from 'https';
+  import secuirity from 'src/util/modules/security';
 
   export default {
     data() {
@@ -83,6 +85,9 @@
         axios({
           url: `${configs.server}/changeuserinfo`,
           method: 'POST',
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

@@ -125,6 +125,8 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
+  import https from 'https';
+  import security from 'src/util/modules/security';
 
   export default defineComponent({
     computed: {
@@ -136,7 +138,7 @@
       onSubmit() {
         const userData = {
           user_id: this.userId,
-          user_pw: this.userPw,
+          user_pw: security.encryptRsaContent(this.userPw),
           user_name: this.userNickname,
           user_phone: this.userPhone,
         };
@@ -145,6 +147,9 @@
         axios({
           url: `${configs.server}/register`,
           method: 'POST',
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

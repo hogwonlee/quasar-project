@@ -7,6 +7,7 @@ const addressController = require('../controller/address');
 const redisController = require('../utils/redis');
 const crypto = require('crypto');
 const dbConfig = require('../configs/db');
+const security = require('../utils/security')
 
 const mysql = require('mysql');
 
@@ -38,18 +39,18 @@ let jwtObj = {
 module.exports = {
   checkAuth: async (req, res, next) => {
     if (req.headers.authorization == null) {
-      res.status(401).send({msg: 'error', content: 'no authrozation'});
+      res.status(401).send({ msg: 'error', content: 'no authrozation' });
       return;
     }
     let userInfo = await redisController.getToken(req.headers.authorization);
     if (!userInfo) {
-      res.status(401).send({msg: 'error', content: 'session time out.'});
+      res.status(401).send({ msg: 'error', content: 'session time out.' });
       return;
     }
 
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        res.status(401).send({msg: 'error', content: err});
+        res.status(401).send({ msg: 'error', content: err });
         return;
       }
 
@@ -64,14 +65,14 @@ module.exports = {
     const body = req.body;
     const param = {
       user_id: body.user_id,
-      user_pw: hashpw(body.user_pw),
+      user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
     };
     console.log(param.user_pw);
 
     if (req.session.user) {
       // 세션에 유저가 존재한다면
       console.log('이미 로그인 돼있습니다~');
-      res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
       res.write('<h1> already Login</h1>');
       res.end();
     } else {
@@ -81,11 +82,11 @@ module.exports = {
         (err, results, fields) => {
           if (err) {
             console.error(err);
-            res.status(500).send({msg: 'error', content: err});
+            res.status(500).send({ msg: 'error', content: err });
           }
           if (results.length <= 0) {
             console.log('로그인요청:' + err);
-            res.status(400).send({msg: 'error', content: err});
+            res.status(400).send({ msg: 'error', content: err });
           } else {
             console.log(JSON.stringify(results));
             req.session.cookie.user = {
@@ -102,7 +103,7 @@ module.exports = {
               jwtObj.option,
             );
             redisController.setToken(token, req.session.cookie.user);
-            res.status(200).send({token, results});
+            res.status(200).send({ token, results });
             // });
           }
         },
@@ -116,7 +117,7 @@ module.exports = {
     console.log(body);
     const param = {
       id: body.user_id,
-      user_pw: hashpw(body.user_pw),
+      user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
       user_name: body.user_name,
       user_phone: body.user_phone,
     };
@@ -124,7 +125,7 @@ module.exports = {
     db.query(sqlCommend, param, (err, results, fields) => {
       if (err) {
         console.log('회원가입요청:' + err);
-        res.status(400).send({msg: 'error', content: err});
+        res.status(400).send({ msg: 'error', content: err });
       } else {
         //오픈 이벤트: 특정 날짜 이전에 계정 생성 시, 쿠폰 지급
         if (Date.now() <= new Date('2023-12-31')) {
@@ -140,7 +141,7 @@ module.exports = {
             (err_gift, results_gift, fields) => {
               if (err) {
                 console.log('쿠폰 요청:' + err_gift);
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
               } else {
                 console.log(
                   '쿠폰 지급 성공 결과값:' + JSON.stringify(results_gift),
