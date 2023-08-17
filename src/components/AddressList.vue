@@ -60,7 +60,7 @@
   import AddressInfoChange from './AddressInfoChange.vue';
   import AddressInfo from './AddressInfo.vue';
   import configs from '/src/configs';
-  import https from 'https';
+  // import https from 'https';
 
   export default defineComponent({
     name: 'AddressList',
@@ -99,9 +99,9 @@
           axios({
             url: `${configs.server}/addressInfo`,
             method: 'POST',
-            httpsAgent: new https.Agent({
-              rejectUnauthorized: false,
-            }),
+            // httpsAgent: new https.Agent({
+            //   rejectUnauthorized: false,
+            // }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
@@ -145,9 +145,9 @@
         axios({
           url: `${configs.server}/addressChangeDefaultAddress`,
           method: 'POST',
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
+          // httpsAgent: new https.Agent({
+          //   rejectUnauthorized: false,
+          // }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
@@ -181,9 +181,9 @@
         axios({
           url: `${configs.server}/deleteAddress`,
           method: 'POST',
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
+          // httpsAgent: new https.Agent({
+          //            rejectUnauthorized: false,
+          //          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

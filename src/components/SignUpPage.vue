@@ -125,7 +125,7 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  import https from 'https';
+  // import https from 'https';
   import security from 'src/util/modules/security';
 
   export default defineComponent({
@@ -147,9 +147,9 @@
         axios({
           url: `${configs.server}/register`,
           method: 'POST',
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
+          // httpsAgent: new https.Agent({
+          //            rejectUnauthorized: false,
+          //          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

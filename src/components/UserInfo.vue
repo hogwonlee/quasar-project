@@ -160,9 +160,9 @@
                 ></q-chip>
               </div>
             </q-card-section>
-            <q-card-section class="bg-deep-purple q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
-                <q-icon name="img:src\assets\icons\currency-krw-white.png" />
+                <q-icon name="img:icons\kr_won.png" />
                 {{ coupon.coupon_price / 1000 }} {{ selected_local.won000 }}
               </div>
               <q-separator class="q-my-sm" />
@@ -185,9 +185,9 @@
                 {{ selected_local.coupon_name_none }}
               </div>
             </q-card-section>
-            <q-card-section class="bg-deep-purple q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
-                <q-icon name="img:src\assets\icons\currency-krw-white.png" />
+                <q-icon name="img:icons\kr_won.png" />
                 {{ selected_local.coupon_value_none }}
               </div>
               <q-separator class="q-my-sm" />
@@ -197,85 +197,144 @@
           </q-card>
         </q-card-section>
       </q-card>
-      <q-separator class="q-my-sm" />
-
-      <div class="row">
-        <q-btn
-          class="col-6"
-          outline
-          :label="selected_local.use_policy + '(한국어)'"
-          color="white"
-          text-color="teal"
-          @click="service_policy_vue = true"
-        />
-        <q-btn
-          class="col-6"
-          outline
-          :label="selected_local.use_policy + '(中文)'"
-          color="white"
-          text-color="teal"
-          @click="service_policy_cn_vue = true"
-        />
-        <q-btn
-          class="col-6"
-          outline
-          :label="selected_local.privacy_policy + '(한국어)'"
-          color="white"
-          text-color="teal"
-          @click="privacy_policy_vue = true"
-        />
-        <q-btn
-          class="col-6"
-          outline
-          :label="selected_local.privacy_policy + '(中文)'"
-          color="white"
-          text-color="teal"
-          @click="privacy_policy_cn_vue = true"
-        />
-      </div>
-      <q-dialog v-model="register">
-        <AddressRegister />
-      </q-dialog>
-      <q-dialog v-model="coupon_vue">
-        <CouponList
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
-      <q-dialog v-model="address_vue">
-        <AddressList
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
-      <q-dialog v-model="privacy_policy_vue">
-        <PrivacyPolicy
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
-      <q-dialog v-model="privacy_policy_cn_vue">
-        <PrivacyPolicy_cn
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
-      <q-dialog v-model="service_policy_vue">
-        <ServicePolicy
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
-      <q-dialog v-model="service_policy_cn_vue">
-        <ServicePolicy_cn
-          class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-          style="margin-top: 28%; max-height: 500px"
-        />
-      </q-dialog>
     </section>
     <section v-else class="row justify-center vertical-center">
       <LoginPage />
     </section>
+    <q-separator class="q-my-sm" />
+
+    <div class="row justify-center">
+      <q-btn
+        class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
+        outline
+        :label="selected_local.use_policy"
+        color="white"
+        text-color="teal"
+        @click="service_policy_vue = true"
+      />
+      <!-- <q-btn
+    class="col-6"
+    outline
+    :label="selected_local.use_policy + '(中文)'"
+    color="white"
+    text-color="teal"
+    @click="service_policy_cn_vue = true"
+  /> -->
+      <q-btn
+        class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
+        outline
+        :label="selected_local.privacy_policy"
+        color="white"
+        text-color="teal"
+        @click="privacy_policy_vue = true"
+      />
+      <!-- <q-btn
+    class="col-6"
+    outline
+    :label="selected_local.privacy_policy + '(中文)'"
+    color="white"
+    text-color="teal"
+    @click="privacy_policy_cn_vue = true"
+  /> -->
+      <!-- <div class="row q-mt-sm"> -->
+      <q-btn
+        class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
+        outline
+        :label="selected_local.deliver_info_title"
+        color="white"
+        text-color="teal"
+        @click="delivery_policy_vue = true"
+      />
+      <!-- <q-btn
+  class="col-6"
+  outline
+  :label="selected_local.deliver_info_title + '(中文)'"
+  color="white"
+  text-color="teal"
+  @click="delivery_policy_cn_vue = true"
+/> -->
+      <q-btn
+        class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
+        outline
+        :label="selected_local.claim_info"
+        color="white"
+        text-color="teal"
+        @click="exchange_policy_vue = true"
+      />
+      <!-- <q-btn
+  class="col-6"
+  outline
+  :label="selected_local.claim_info + '(中文)'"
+  color="white"
+  text-color="teal"
+  @click="exchange_policy_cn_vue = true"
+/> -->
+      <!-- </div> -->
+    </div>
+    <q-dialog v-model="register">
+      <AddressRegister />
+    </q-dialog>
+    <q-dialog v-model="coupon_vue">
+      <CouponList
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <q-dialog v-model="address_vue">
+      <AddressList
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <q-dialog v-model="privacy_policy_vue">
+      <PrivacyPolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <!-- <q-dialog v-model="privacy_policy_cn_vue">
+  <PrivacyPolicy_cn
+    class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+    style="margin-top: 28%; max-height: 500px"
+  />
+</q-dialog> -->
+    <q-dialog v-model="service_policy_vue">
+      <ServicePolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <!-- <q-dialog v-model="service_policy_cn_vue">
+  <ServicePolicy_cn
+    class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+  />
+</q-dialog> -->
+    <q-dialog v-model="delivery_policy_vue">
+      <DeliveryPolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <!-- <q-dialog v-model="delivery_policy_cn_vue">
+<DeliveryPolicy_cn
+  class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+  style="margin-top: 28%; max-height: 500px"
+/>
+/>
+</q-dialog> -->
+    <q-dialog v-model="exchange_policy_vue">
+      <ExchangePolicy
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        style="margin-top: 28%; max-height: 500px"
+      />
+    </q-dialog>
+    <!-- style="margin-top: 28%; max-height: 500px" -->
+    <!-- <q-dialog v-model="exchange_policy_cn_vue">
+<ExchangePolicy_cn
+  class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+  style="margin-top: 28%; max-height: 500px"
+/>
+</q-dialog> -->
     <q-dialog
       v-model="checkPasswordDialog"
       persistent
@@ -368,13 +427,14 @@
   import alert from 'src/util/modules/alert';
   import CouponList from 'components/CouponList.vue';
   import PrivacyPolicy from './policy/PrivacyPolicy.vue';
-  import PrivacyPolicy_cn from './policy/PrivacyPolicy_cn.vue';
+  // import PrivacyPolicy_cn from './policy/PrivacyPolicy_cn.vue';
   import ServicePolicy from './policy/ServicePolicy.vue';
-  import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
+  // import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
+  import DeliveryPolicy from './policy/DeliveryPolicy.vue';
+  import ExchangePolicy from './policy/ExchangePolicy.vue';
   import configs from 'src/configs/';
   import {date} from 'quasar';
   const {addToDate} = date;
-  import https from 'https';
   import security from 'src/util/modules/security';
 
   export default defineComponent({
@@ -385,9 +445,11 @@
       ChangePassword,
       CouponList,
       PrivacyPolicy,
-      PrivacyPolicy_cn,
+      // PrivacyPolicy_cn,
       ServicePolicy,
-      ServicePolicy_cn,
+      // ServicePolicy_cn,
+      DeliveryPolicy,
+      ExchangePolicy,
       AddressRegister,
       AddressList,
     },
@@ -405,9 +467,11 @@
         coupon_vue: ref(false),
         address_vue: ref(false),
         service_policy_vue: ref(false),
-        service_policy_cn_vue: ref(false),
+        // service_policy_cn_vue: ref(false),
         privacy_policy_vue: ref(false),
-        privacy_policy_cn_vue: ref(false),
+        // privacy_policy_cn_vue: ref(false),
+        delivery_policy_vue: ref(false),
+        exchange_policy_vue: ref(false),
         isPwd: ref(true),
       };
     },
@@ -436,9 +500,6 @@
           url: `${configs.server}/checkpw`,
           method: 'POST',
           data: userData,
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',

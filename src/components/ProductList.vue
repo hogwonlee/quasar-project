@@ -79,7 +79,12 @@
         <ProductInfo
           class="col-xs-3 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in products.filter(
-            p => p.category == c.category && p.stored == 1,
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name.includes(keyword) ||
+                p.category.includes(keyword) ||
+                p.keyword.includes(keyword)),
           )"
           :key="product.id"
           v-bind="product"
@@ -94,6 +99,40 @@
         />
       </div>
     </div>
+    <q-separator />
+    <q-page-container>
+      <div class="q-gutter-md row inline">
+        <q-field label="상호명" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>중국식품온라인</div>
+          </template>
+        </q-field>
+        <q-field label="대표자" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>이호권</div>
+          </template>
+        </q-field>
+        <q-field label="전화번호" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>010-8492-0526</div>
+          </template>
+        </q-field>
+        <q-field
+          label="사업자등록번호"
+          stack-label
+          style="max-width: fit-content"
+        >
+          <template v-slot:control>
+            <div>306-37-32411</div>
+          </template>
+        </q-field>
+        <q-field label="사업장 주소" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>서울시 구로구 천왕로 56 이펜하우스 3단지 303-1503</div>
+          </template>
+        </q-field>
+      </div>
+    </q-page-container>
   </div>
 </template>
 

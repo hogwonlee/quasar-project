@@ -281,7 +281,7 @@
   import alert from 'src/util/modules/alert';
   const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
   import configs from 'src/configs/';
-  import https from 'https';
+  // import https from 'https';
   import security from 'src/util/modules/security';
 
   export default defineComponent({
@@ -446,9 +446,9 @@
           axios({
             url: `${configs.server}/mycoupon`,
             method: 'POST',
-            httpsAgent: new https.Agent({
-              rejectUnauthorized: false,
-            }),
+            // httpsAgent: new https.Agent({
+            //              rejectUnauthorized: false,
+            //            }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',

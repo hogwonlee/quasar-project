@@ -80,7 +80,7 @@
     </div>
     <q-separator />
 
-    <div class="row q-mt-sm">
+    <!-- <div class="row q-mt-sm">
       <q-btn
         class="col-6"
         outline
@@ -113,8 +113,8 @@
         text-color="teal"
         @click="exchange_policy_cn_vue = true"
       />
-    </div>
-    <q-dialog v-model="delivery_policy_vue">
+    </div> -->
+    <!-- <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
         class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
@@ -138,7 +138,7 @@
         class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
-    </q-dialog>
+    </q-dialog> -->
     <q-dialog v-model="search_order">
       <q-table
         :title="
@@ -174,21 +174,20 @@
   import {mapState, mapActions, mapGetters} from 'vuex';
   import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
-  import DeliveryPolicy from './policy/DeliveryPolicy.vue';
-  import ExchangePolicy from './policy/ExchangePolicy.vue';
-  import DeliveryPolicy_cn from './policy/DeliveryPolicy_cn.vue';
-  import ExchangePolicy_cn from './policy/ExchangePolicy_cn.vue';
+  // import DeliveryPolicy from './policy/DeliveryPolicy.vue';
+  // import ExchangePolicy from './policy/ExchangePolicy.vue';
+  // import DeliveryPolicy_cn from './policy/DeliveryPolicy_cn.vue';
+  // import ExchangePolicy_cn from './policy/ExchangePolicy_cn.vue';
   import configs from '/src/configs';
-  import https from 'https';
 
   export default defineComponent({
     name: 'DeliveryInfo',
     components: {
       SweetTrackerInfo,
-      DeliveryPolicy,
-      ExchangePolicy,
-      DeliveryPolicy_cn,
-      ExchangePolicy_cn,
+      // DeliveryPolicy,
+      // ExchangePolicy,
+      // DeliveryPolicy_cn,
+      // ExchangePolicy_cn,
     },
     data() {
       return {
@@ -233,9 +232,6 @@
         axios({
           url: `${configs.server}/deliveryInfo`,
           method: 'POST',
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
@@ -307,9 +303,9 @@
           axios({
             url: `${configs.server}/orderList`,
             method: 'POST',
-            httpsAgent: new https.Agent({
-              rejectUnauthorized: false,
-            }),
+            // httpsAgent: new https.Agent({
+            //              rejectUnauthorized: false,
+            //            }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',

@@ -152,7 +152,7 @@ const _ko = {
   deleted: '삭제함. (',
   event_5353_info: '5353 쿠폰 이벤트 안내',
   event_5353_detail:
-    '이벤트 기간동안 구매금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (다음번 구매할 때, 구매금액이 5만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+    '이벤트 기간동안 구매금액이 5만원을 초과할 경우, 3천원 쿠폰을 지급합니다. (다음번 구매할 때, 구매금액이 5만원 이상 구매 시 사용가능합니다. 받은 후 90일 내에 사용하셔야 합니다.)',
   product_unit: '하나', //单个
   product_bundle: '묶음', //捆绑
   duplicate_id_warning: '중복 아이디가 있어서 다른 아이디로 생성 바랍니다.',
@@ -177,7 +177,7 @@ const _cn = {
   postcode: '邮政编码',
   addr: '地址列表',
   registernewaddr: '登录新地址',
-  confirmchangedefault: '确实要变更该地址为基本送货地址吗？',
+  confirmchangedefault: '确实要变更该地址为默认送货地址吗？',
   confirmchangeaddrinfo: '要变更该地址信息吗？',
   confirmdeleteaddr: '要删除该地址吗？',
   confirm: '确认',
@@ -264,7 +264,7 @@ const _cn = {
   addrextraandhint: '其他信息 (如，几栋几号公用大门密码)',
   addrtagandhint: '地址名称 (如，家，公司，儿子家...)',
   recipientphone: '收件人手机号',
-  defaultaddr: '基本收件地址',
+  defaultaddr: '默认收件地址',
   addrresistersuccess: '地址登录完毕！',
   needloginfirst: '请先登录账号。',
   addrchangesuccess: '地址信息变更完毕',
@@ -308,7 +308,7 @@ const _cn = {
   deleted: '已删除。(',
   event_5353_info: '5353优惠券活动消息',
   event_5353_detail:
-    '活动期间内，如购买额超过5万韩元，则赠送3千韩元优惠券！下次购物时，购买额超过5万韩元，即可使用该优惠券。该优惠券的使用期限为3个月。',
+    '活动期间内，如购买额超过5万韩元，则赠送3千韩元优惠券！下次购物时，购买额超过5万韩元，即可使用该优惠券。该优惠券的使用期限为90天。',
   product_unit: '单个', //单个
   product_bundle: '捆绑', //捆绑
   duplicate_id_warning: '重复账号。请使用其他账号。',
@@ -319,7 +319,7 @@ const _cn = {
 const state = {
   ko: _ko,
   cn: _cn,
-  status: _ko,
+  status: _cn,
 };
 
 const actions = {

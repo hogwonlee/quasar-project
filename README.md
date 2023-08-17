@@ -114,6 +114,10 @@ CN=hogwon lee, OU=hogwon lee, O=hogwon lee, L=서울시 구로구 천왕로 56, 
 Warning:
 JKS 키 저장소는 고유 형식을 사용합니다. "keytool -importkeystore -srckeystore cfomarket-mobileapps.keystore -destkeystore cfomarket-mobileapps.keystore -deststoretype pkcs12"를 사용하는 산업 표준 형식인 PKCS12로 이전하는 것이 좋습니다.
 
+# 아이콘 생성
+
+icongenie generate -m cordova -i ./public/icons/cfomarket.png -b ./public/icons/bg.png
+
 # 사이닝
 
 APK 파일을 생성된 키스토어와 같은 폴더에 위치시켜야 한다. (src-cordova 폴더에 키스토어 생성되었다. cfomarket-mobileapps.keystore)
@@ -140,7 +144,6 @@ quasar dev -m cordova -T android -warning-mode=all
 cordova plugin rm org.apache.cordova.console --save
 cordova build --release android
 
-
 # 서버 node -v 16 이상
 
 ```
@@ -148,7 +151,9 @@ apt install curl
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 apt install -y nodejs
 ```
+
 인증
+
 ```
 node -v
 ```
@@ -156,11 +161,12 @@ node -v
 # 서버에서 백엔드 서비스 실행
 
 pm2 라는 백엔드 노드 프로세스 관리자 설치
+
 ```
 yarn add global pm2
 ```
 
-서비스 디렉토리에서 
+서비스 디렉토리에서
 
 ```
 pm2 start server_2.js --name server
@@ -174,23 +180,26 @@ pm2 list
 
 pm2 restart [순번 (예: 0), 혹은 명칭(예: server)]
 
-pm2 restart  0
+pm2 restart 0
 pm2 restart server
 
 # 웹앱 실행
+
 quasar 설치
+
 ```
 yarn global add @quasar/cli
 pm2 start "quasar dev" --name webapp
 ```
 
 상태확인
+
 ```
 pm2 list
 ```
 
 접속 확인
+
 ```
 http://175.119.224.213:9000
 ```
-

@@ -221,6 +221,7 @@
               glossy
               icon="add_shopping_cart"
               @click="sendToCart(this.product_name, quantity)"
+              :disable="this.localQuantity <= 0"
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
