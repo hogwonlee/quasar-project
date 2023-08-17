@@ -12,9 +12,16 @@ module.exports = {
   getToken: async token => {
     if (!token) return null;
     let sUser = await redis.get(token);
-    if (!sUser) {
+    if (!sUser) return null;
+    if (sUser) {
       await redis.setex(token, thirtyMinuteOnSecond, sUser);
     }
-    return JSON.parse(sUser);
+
+    try {
+      return JSON.parse(sUser);
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   },
 };
