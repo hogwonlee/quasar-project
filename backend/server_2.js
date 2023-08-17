@@ -17,7 +17,6 @@ let jwtObj = {
   },
 };
 
-const mysql = require('mysql');
 const express = require('express');
 const serveStatic = require('serve-static');
 const http = require('http');
@@ -29,7 +28,6 @@ const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
 const {stringify} = require('querystring');
-const dbConfig = require('./configs/db');
 const {date} = require('quasar');
 const auth = require('./router/auth');
 const authRouter = require('./router/index');
@@ -42,17 +40,7 @@ function hashpw(password) {
   return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
 }
 
-const db = mysql.createConnection({
-  host: dbConfig.host,
-  user: dbConfig.username,
-  password: dbConfig.password,
-  port: dbConfig.port,
-  database: dbConfig.database,
-  allowPublicKeyRetrieval: true,
-  ssl: false,
-});
-
-db.connect();
+const {db} = require('./models/database');
 
 const _dirname = path.resolve();
 const app = express(); // express Server
@@ -731,50 +719,50 @@ app.get('/orderGroupInfo', (req, res) => {
   });
 });
 
-app.get('/productList', (req, res) => {
-  console.log(req.query);
-  const sqlCommend_v = 'SELECT * FROM storeversion';
-  db.query(sqlCommend_v, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send({msg: 'error', content: err});
-    }
-    if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
-    } else {
-      // return;
-      let local_version = parseInt(req.query.version, 10);
-      if (isNaN(local_version)) {
-        local_version = 0;
-      }
-      let store_version = results[0].version;
-      console.log(store_version + '///' + local_version);
-      if (store_version > local_version) {
-        const sqlCommend = 'SELECT * FROM productinfo ORDER BY category';
-        db.query(sqlCommend, (err, results, fields) => {
-          if (results.length <= 0) {
-            res.status(400).send({msg: 'error', content: err});
-          } else {
-            const sqlCommendCate = 'SELECT DISTINCT category FROM productinfo';
-            db.query(sqlCommendCate, (err, results_category, fields) => {
-              if (results.length <= 0) {
-                res.status(400).send({msg: 'error', content: err});
-              } else {
-                res.status(200).send({
-                  results: results,
-                  category: results_category,
-                  version: store_version,
-                });
-              }
-            });
-          }
-        });
-      } else {
-        res.status(200).send({msg: 'no update'});
-      }
-    }
-  });
-});
+// app.get('/productList', (req, res) => {
+//   console.log(req.query);
+//   const sqlCommend_v = 'SELECT * FROM storeversion';
+//   db.query(sqlCommend_v, (err, results, fields) => {
+//     if (err) {
+//       console.error(err);
+//       res.status(500).send({msg: 'error', content: err});
+//     }
+//     if (results.length <= 0) {
+//       res.status(400).send({msg: 'error', content: err});
+//     } else {
+//       // return;
+//       let local_version = parseInt(req.query.version, 10);
+//       if (isNaN(local_version)) {
+//         local_version = 0;
+//       }
+//       let store_version = results[0].version;
+//       console.log(store_version + '///' + local_version);
+//       if (store_version > local_version) {
+//         const sqlCommend = 'SELECT * FROM productinfo ORDER BY category';
+//         db.query(sqlCommend, (err, results, fields) => {
+//           if (results.length <= 0) {
+//             res.status(400).send({msg: 'error', content: err});
+//           } else {
+//             const sqlCommendCate = 'SELECT DISTINCT category FROM productinfo';
+//             db.query(sqlCommendCate, (err, results_category, fields) => {
+//               if (results.length <= 0) {
+//                 res.status(400).send({msg: 'error', content: err});
+//               } else {
+//                 res.status(200).send({
+//                   results: results,
+//                   category: results_category,
+//                   version: store_version,
+//                 });
+//               }
+//             });
+//           }
+//         });
+//       } else {
+//         res.status(200).send({msg: 'no update'});
+//       }
+//     }
+//   });
+// });
 
 app.post('/mycoupon', (req, res) => {
   const sqlCommend =
