@@ -126,7 +126,8 @@
           </template>
         </q-table>
         <q-card-section v-show="api_addr.length <= 0">
-          * 검색어 예: 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)
+          * 검색어 예: 도로명(반포대로 (空格)58), 건물명(독립기념관),
+          지번(삼성동 (空格)25)
         </q-card-section>
       </q-card-section>
 
@@ -185,15 +186,15 @@
           style="width: 200px"
           :label="selected_local.addrresister"
           :disable="
-            address_tag == null ||
-            recipient == null ||
-            recipient_phone == null ||
+            address_tag == '' ||
+            recipient == '' ||
+            recipient_phone == '' ||
             recipient_phone.length < 13 ||
             recipient_phone.length > 15 ||
-            post_code == null ||
-            address1 == null ||
-            address2 == null ||
-            address3 == null
+            post_code == '' ||
+            address1 == '' ||
+            address2 == '' ||
+            address3 == ''
           "
           @click="exeAddrRegister"
           v-close-popup
