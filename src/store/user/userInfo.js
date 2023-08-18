@@ -61,7 +61,7 @@ const mutations = {
     // store.state.cart.cart = null;
     // store.state.order.order = null;
 
-    alert('로그아웃 되었습니다.');
+    // alert('로그아웃 되었습니다.');
   },
   login(state, data) {
     // console.log('userInfo에서 ' + typeof data);

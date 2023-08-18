@@ -43,6 +43,14 @@
               :label="selected_local.changepassword"
               @click="this.changePasswordDialog = true"
             />
+            <q-fab-action
+              color="white"
+              text-color="red"
+              padding="none"
+              label="로그아웃"
+              @click="confirm_logout()"
+            />
+            <!-- :label="selected_local.changepassword" -->
           </q-fab>
         </div>
       </q-card>
@@ -432,6 +440,7 @@
   // import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
+  import {Dialog} from 'quasar';
   import configs from 'src/configs/';
   import {date} from 'quasar';
   const {addToDate} = date;
@@ -535,6 +544,7 @@
             this.selected_local.coupon_use_condition,
         );
       },
+
       read_coupon() {
         if (this.coupon_status === '' && this.user.USER_ID != '') {
           axios({
@@ -579,6 +589,24 @@
             day: 'numeric',
           },
         );
+      },
+      confirm_logout() {
+        Dialog.create({
+          title: this.selected_local.notice,
+          message: this.selected_local.confirm_logout,
+          // cancel: true,
+          persistent: false,
+        })
+          .onOk(data => {
+            // console.log('>>>> OK, received', data)
+            this.$store.dispatch('user/logoutAction');
+          })
+          .onCancel(() => {
+            // console.log('>>>> Cancel')
+          })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
       },
     },
   });
