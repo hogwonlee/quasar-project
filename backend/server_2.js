@@ -34,6 +34,7 @@ const auth = require('./router/auth');
 const authRouter = require('./router/index');
 const noAuthRouter = require('./router/noauth');
 const crypto = require('crypto');
+const fs = require('fs')
 const security = require('./utils/security');
 // const salt = crypto.randomBytes(32).toString('hex');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
@@ -56,7 +57,8 @@ const httpsoptions = {
   cert: fs.readFileSync(certfile),
 };
 
-const appServer = https.createServer(httpsoptions, app);
+// const appServer = https.createServer(httpsoptions, app);
+const appServer = http.createServer(app);
 // 세션세팅
 let maxAge = 1000 * 60 * 10;
 const sessionObj = {
