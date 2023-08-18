@@ -66,8 +66,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization:
-              'Basic dGVzdF9za19PNkJZcTdHV1BWdk12a0piTHB3M05FNXZibzFkOg==',
+            authorization: `Basic ${configs.secretKey}`,
             // 'Basic base64(test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R:)', //test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R / test_sk_O6BYq7GWPVvMvkJbLpw3NE5vbo1d
           },
 
