@@ -25,6 +25,10 @@
             />
           </template>
         </q-input>
+        <q-checkbox
+          v-model="auto_login"
+          :label="selected_local.auto_login"
+        ></q-checkbox>
 
         <div class="q-gutter-xs q-py-xs">
           <q-btn
@@ -158,6 +162,7 @@
         accept,
         isPwd: ref(true),
         signUpWindow: ref(false),
+        auto_login: ref(true),
       };
     },
   });

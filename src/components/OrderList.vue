@@ -279,7 +279,7 @@
   import {date} from 'quasar';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
-  const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
+  // const clientKey = 'test_ck_Lex6BJGQOVD5xn945RarW4w2zNbg';
   import configs from 'src/configs/';
   // import https from 'https';
   import security from 'src/util/modules/security';
@@ -407,7 +407,7 @@
         }
         var amountOfPayment = total + shipment - discount;
         var random_id = 'test' + this.user.USER_ID + Date.now();
-        loadTossPayments(clientKey).then(tossPayments =>
+        loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
             orderId: random_id,
