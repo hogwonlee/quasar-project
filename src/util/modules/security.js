@@ -3,7 +3,7 @@
  */
 'use strict'
 
-import crypto from 'crypto';
+const crypto = window.crypto;
 
 const SHA512 = 'sha512'
 

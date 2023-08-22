@@ -35,7 +35,7 @@ const authRouter = require('./router/index');
 const noAuthRouter = require('./router/noauth');
 const crypto = require('crypto');
 const fs = require('fs')
-const security = require('./utils/security');
+// const security = require('./utils/security');
 // const salt = crypto.randomBytes(32).toString('hex');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
 
@@ -107,7 +107,8 @@ app.post('/checkpw', (req, res) => {
   const body = req.body;
   const param = {
     user_id: body.user_id,
-    user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
+    user_pw: hashpw(body.user_pw),
+    // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
   };
   console.log(user_pw);
   db.query(
@@ -153,7 +154,8 @@ app.post('/changepw', (req, res) => {
   const body = req.body;
   const param_select = {
     user_id: body.user_id,
-    user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
+    user_pw: hashpw(body.user_pw),
+    // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
   };
   db.query(
     sqlCommend_select,
@@ -167,7 +169,8 @@ app.post('/changepw', (req, res) => {
           'UPDATE userinfo SET user_pw = ? WHERE id = ? ';
         const param_update = {
           user_id: body.user_id,
-          user_pw: hashpw(security.decryptRsaContent(body.newPw)),
+          user_pw: hashpw(body.newPw),
+          // user_pw: hashpw(security.decryptRsaContent(body.newPw)),
         };
         db.query(
           sqlCommend_update,

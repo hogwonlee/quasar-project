@@ -435,7 +435,7 @@
   import configs from 'src/configs/';
   import {date} from 'quasar';
   const {addToDate} = date;
-  import security from 'src/util/modules/security';
+  // import security from 'src/util/modules/security';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -493,7 +493,8 @@
       checkpw() {
         const userData = {
           user_id: this.user.USER_ID,
-          user_pw: security.encryptRsaContent(this.userPw),
+          user_pw: this.userPw,
+          // user_pw: security.encryptRsaContent(this.userPw),
         };
 
         axios({

@@ -108,7 +108,7 @@
   import alert from 'src/util/modules/alert';
   import configs from '/src/configs';
   // import https from 'https';
-  import secuirity from 'src/util/modules/security';
+  // import security from 'src/util/modules/security';
 
   export default defineComponent({
     data() {
@@ -134,8 +134,10 @@
       onSubmit() {
         const userData = {
           user_id: this.userId,
-          user_pw: security.encryptRsaContent(this.userPw),
-          newPw: security.encryptRsaContent(this.newPw),
+          user_pw: this.userPw,
+          newPw: this.newPw,
+          // user_pw: security.encryptRsaContent(this.userPw),
+          // newPw: security.encryptRsaContent(this.newPw),
         };
 
         //회원가입 등록 요청 보내기
