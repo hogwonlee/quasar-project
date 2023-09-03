@@ -414,8 +414,9 @@
               this.cartList[0].quantity +
               '...',
             customerName: this.user.USER_NAME,
-            successUrl: 'http://175.119.224.213:9000/#/Success',
-            failUrl: 'http://175.119.224.213:9000/#/Fail',
+            appScheme: 'chinafoodonline://',
+            successUrl: window.location.origin + '/Success',
+            failUrl: window.location.origin + '/Fail',
           }),
         );
       },

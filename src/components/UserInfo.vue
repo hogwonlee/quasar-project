@@ -47,7 +47,7 @@
               color="white"
               text-color="red"
               padding="none"
-              label="로그아웃"
+              :label="selected_local.logout"
               @click="confirm_logout()"
             />
             <!-- :label="selected_local.changepassword" -->
