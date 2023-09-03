@@ -7,7 +7,6 @@ const addressController = require('../controller/address');
 const redisController = require('../utils/redis');
 const crypto = require('crypto');
 const dbConfig = require('../configs/db');
-// const security = require('../utils/security')
 
 const mysql = require('mysql');
 
@@ -119,7 +118,6 @@ module.exports = {
     const param = {
       id: body.user_id,
       user_pw: hashpw(body.user_pw),
-      // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
       user_name: body.user_name,
       user_phone: body.user_phone,
     };

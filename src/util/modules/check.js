@@ -1,7 +1,7 @@
 import validation from '../data/validation';
 // import Cookie from 'js-cookie';
 import user from 'src/store/user/userInfo';
-import {mapActions, mapState} from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 function check_login() {
   // if (validation.isNull(Cookie.get('user'))) {

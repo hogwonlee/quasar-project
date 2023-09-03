@@ -33,9 +33,7 @@
         <div class="q-gutter-xs q-py-xs">
           <q-btn
             :label="selected_local.login"
-            type="submit"
             color="primary"
-            v-close-popup
             @click="serverLogin"
           />
           <q-btn
@@ -97,56 +95,56 @@
           this.selected_local.forget_pw_body,
         );
       },
-      serverLogin() {
-        if (!check.check_login()) {
-          const userData = {
-            user_id: this.userId,
-            user_pw: this.userPw,
-            // user_pw: security.encryptRsaContent(this.userPw),
-          };
-          // console.log(JSON.stringify(userData));
-          axios({
-            url: `${configs.server}/login`,
-            method: 'POST',
-            // httpsAgent: new https.Agent({
-            //              rejectUnauthorized: false,
-            //            }),
-            headers: {
-              'Access-Control-Allow-Headers': '*',
-              'Content-Type': 'application/json',
-            },
-            data: userData,
-          })
-            .then(response => {
-              // console.log(JSON.stringify(response));
-              if (response.status == 200) {
-                this.$store.dispatch('address/emptyAddressAction');
-                var json = response.data;
-                json.results.forEach(addr => {
-                  if (addr.address_active == 1)
-                    this.$store.dispatch('address/addAddressAction', addr);
-                });
-                this.$store.dispatch('user/loginAction', json);
-              } else {
-                console.log('what error');
-              }
-            })
-            .catch(ex => {
-              //expected error
-              if (ex.response && ex.response.status == 400) {
-                alert.confirm(
-                  this.selected_local.notice,
-                  this.user.USER_ID + this.selected_local.wrongpw,
-                );
-              } else {
-                //unexpected
-                console.log('로그인 중 예상치 못한 오류가 발생했습니다.');
-              }
-            });
-        } else {
-          var alert_msg = this.user.USER_NAME + selected_local.loginnotice;
-          alert.confirm(selected_local.notice, alert_msg);
-        }
+      async serverLogin() {
+        // debugger;
+        // if (!check.check_login()) {
+        const userData = {
+          user_id: this.userId,
+          user_pw: this.userPw,
+        };
+        console.log(JSON.stringify(userData));
+        let response = await axios({
+          url: `${configs.server}/login`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
+          data: userData,
+        });
+        // .then(response => {
+        //   console.log(JSON.stringify(response));
+        //   if (response.status == 200) {
+        var json = response.data;
+        this.$store.dispatch('user/loginAction', {
+          data: json,
+          that: this,
+        });
+        // this.$store.dispatch('address/emptyAddressAction');
+        // json.results.forEach(addr => {
+        //   if (addr.address_active == 1)
+        //     this.$store.dispatch('address/addAddressAction', addr);
+        // });
+        // } else {
+        //   console.log('what error');
+        // }
+        // })
+        // .catch(ex => {
+        //   //expected error
+        //   if (ex.response && ex.response.status == 400) {
+        //     alert.confirm(
+        //       this.selected_local.notice,
+        //       this.user.USER_ID + this.selected_local.wrongpw,
+        //     );
+        //   } else {
+        //     //unexpected
+        //     console.log('로그인 중 예상치 못한 오류가 발생했습니다.');
+        //   }
+        // });
+        // } else {
+        //   var alert_msg = this.user.USER_NAME + selected_local.loginnotice;
+        //   alert.confirm(selected_local.notice, alert_msg);
+        // }
       },
       onReset() {
         userId.value = null;

@@ -3,7 +3,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      {path: '', component: () => import('components/ProductList.vue')},
+      {path: '', component: () => import('components/HomePage.vue')},
       {
         path: 'ProductList',
         component: () => import('components/ProductList.vue'),
@@ -32,8 +32,6 @@ const routes = [
         path: 'Fail',
         component: () => import('components/checkoutpage/PayFail.vue'),
       },
-
-      //임시 테스트용
       {
         path: 'AddressRegister',
         component: () => import('components/AddressRegister.vue'),
@@ -41,6 +39,14 @@ const routes = [
       {
         path: 'AddressList',
         component: () => import('components/AddressList.vue'),
+      },
+      {
+        path: 'PrivacyPolicy',
+        component: () => import('components/policy/PrivacyPolicy.vue'),
+      },
+      {
+        path: 'ServicePolicy',
+        component: () => import('components/policy/ServicePolicy.vue'),
       },
     ],
   },

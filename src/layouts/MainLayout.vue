@@ -3,8 +3,9 @@
     <q-header elevated class="bg-primary">
       <q-toolbar>
         <q-toolbar-title>
-          {{ selected_local.chinafood }}
-
+          <q-btn flat size="lg" tag="a" to="/">
+            {{ selected_local.chinafood }}
+          </q-btn>
           <q-btn-toggle
             v-model="ui_local"
             glossy
@@ -24,6 +25,49 @@
 
     <q-page-container>
       <router-view />
+    </q-page-container>
+    <q-separator />
+    <q-page-container>
+      <div class="q-gutter-md row inline">
+        <q-btn flat outline tag="a" to="/ServicePolicy">
+          {{ selected_local.use_policy }}
+        </q-btn>
+        <q-btn flat outline tag="a" to="/PrivacyPolicy">
+          {{ selected_local.privacy_policy }}
+        </q-btn>
+      </div>
+      <q-separator />
+      <div class="q-gutter-md row inline">
+        <q-field label="상호명" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>중국식품온라인</div>
+          </template>
+        </q-field>
+        <q-field label="대표자" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>이호권</div>
+          </template>
+        </q-field>
+        <q-field label="전화번호" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>010-8492-0526</div>
+          </template>
+        </q-field>
+        <q-field
+          label="사업자등록번호"
+          stack-label
+          style="max-width: fit-content"
+        >
+          <template v-slot:control>
+            <div>306-37-32411</div>
+          </template>
+        </q-field>
+        <q-field label="사업장 주소" stack-label style="max-width: fit-content">
+          <template v-slot:control>
+            <div>서울시 구로구 천왕로 56 이펜하우스 3단지 303-1503</div>
+          </template>
+        </q-field>
+      </div>
     </q-page-container>
     <q-footer>
       <q-toolbar class="row justify-center bg-secondary">
@@ -90,6 +134,7 @@
 
   export default defineComponent({
     name: 'MainLayout',
+
     computed: {
       ...mapState({
         selected_local: state => state.ui_local.status,

@@ -280,6 +280,7 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
+  const clientKey = configs.clientKey;
 
   export default defineComponent({
     name: 'OrderList',

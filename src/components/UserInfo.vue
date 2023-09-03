@@ -296,8 +296,8 @@
     </q-dialog>
     <q-dialog v-model="privacy_policy_vue">
       <PrivacyPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        style="max-height: 500px"
       />
     </q-dialog>
     <!-- <q-dialog v-model="privacy_policy_cn_vue">
@@ -308,19 +308,20 @@
 </q-dialog> -->
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        style="max-height: 500px"
       />
     </q-dialog>
     <!-- <q-dialog v-model="service_policy_cn_vue">
   <ServicePolicy_cn
     class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+    style="margin-top: 28%; max-height: 500px"
   />
 </q-dialog> -->
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        style="max-height: 500px"
       />
     </q-dialog>
     <!-- <q-dialog v-model="delivery_policy_cn_vue">
@@ -332,8 +333,8 @@
 </q-dialog> -->
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
+        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        style="max-height: 500px"
       />
     </q-dialog>
     <!-- style="margin-top: 28%; max-height: 500px" -->
@@ -440,7 +441,6 @@
   // import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
-  import {Dialog} from 'quasar';
   import configs from 'src/configs/';
   import {date} from 'quasar';
   const {addToDate} = date;
