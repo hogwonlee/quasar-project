@@ -294,3 +294,4 @@ src-cordova/package-lock.json
 src-cordova/package.json
 src/configs/index.js
 backend/sslkey
+src/configs/index.json
