@@ -561,6 +561,6 @@
   import {defineComponent} from 'vue';
 
   export default defineComponent({
-    name: 'ServicePolicy',
+    name: 'ServicePolicyFull',
   });
 </script>

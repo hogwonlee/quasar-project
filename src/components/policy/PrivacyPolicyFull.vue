@@ -236,6 +236,6 @@
   import {defineComponent} from 'vue';
 
   export default defineComponent({
-    name: 'PrivacyPolicy',
+    name: 'PrivacyPolicyFull',
   });
 </script>
