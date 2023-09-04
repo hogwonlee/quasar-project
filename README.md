@@ -123,6 +123,7 @@ icongenie generate -m cordova -i ./public/icons/cfomarket.png -b ./public/icons/
 APK 파일을 생성된 키스토어와 같은 폴더에 위치시켜야 한다. (src-cordova 폴더에 키스토어 생성되었다. cfomarket-mobileapps.keystore)
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore [원하는네임]-mobileapps.keystore app-release-unsigned.apk [원하는네임]mobileapps
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore cfomarket-mobileapps.keystore app-release-unsigned.apk cfomarketmobileapps
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore cfomarket-mobileapps.keystore app-release.aab cfomarketmobileapps
 
 # zipalign 로 apk 최적화
 
