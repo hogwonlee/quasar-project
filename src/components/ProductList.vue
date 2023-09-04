@@ -101,10 +101,10 @@
     </div>
     <q-page-container>
       <div class="q-gutter-md row inline">
-        <q-btn flat outline tag="a" to="/ServicePolicyFull">
+        <q-btn flat outline tag="a" to="/ServicePolicy">
           {{ selected_local.use_policy }}
         </q-btn>
-        <q-btn flat outline tag="a" to="/PrivacyPolicyFull">
+        <q-btn flat outline tag="a" to="/PrivacyPolicy">
           {{ selected_local.privacy_policy }}
         </q-btn>
       </div>
