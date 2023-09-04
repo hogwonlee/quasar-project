@@ -82,9 +82,9 @@
             p =>
               p.category == c.category &&
               p.stored == 1 &&
-              (p.product_name.includes(keyword) ||
-                p.category.includes(keyword) ||
-                p.keyword.includes(keyword)),
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
           )"
           :key="product.id"
           v-bind="product"
@@ -157,6 +157,11 @@
       return {
         childbuyoption: false,
       };
+    },
+    watch: {
+      keyword: function (new_key) {
+        console.log('keyword: ' + new_key);
+      },
     },
     methods: {
       register_event_info() {
