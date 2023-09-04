@@ -137,12 +137,18 @@
 
 <script>
   import {ref} from 'vue';
+  import {mapState} from 'vuex';
 
   export default {
     setup() {
       return {
         slide: ref('style'),
       };
+    },
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
     },
   };
   // import {mapGetters, mapState, mapActions} from 'vuex';

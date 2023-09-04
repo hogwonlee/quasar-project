@@ -220,14 +220,7 @@
         text-color="teal"
         @click="service_policy_vue = true"
       />
-      <!-- <q-btn
-    class="col-6"
-    outline
-    :label="selected_local.use_policy + '(中文)'"
-    color="white"
-    text-color="teal"
-    @click="service_policy_cn_vue = true"
-  /> -->
+
       <q-btn
         class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
         outline
@@ -236,15 +229,7 @@
         text-color="teal"
         @click="privacy_policy_vue = true"
       />
-      <!-- <q-btn
-    class="col-6"
-    outline
-    :label="selected_local.privacy_policy + '(中文)'"
-    color="white"
-    text-color="teal"
-    @click="privacy_policy_cn_vue = true"
-  /> -->
-      <!-- <div class="row q-mt-sm"> -->
+
       <q-btn
         class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
         outline
@@ -253,14 +238,7 @@
         text-color="teal"
         @click="delivery_policy_vue = true"
       />
-      <!-- <q-btn
-  class="col-6"
-  outline
-  :label="selected_local.deliver_info_title + '(中文)'"
-  color="white"
-  text-color="teal"
-  @click="delivery_policy_cn_vue = true"
-/> -->
+
       <q-btn
         class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-xs-6"
         outline
@@ -269,15 +247,6 @@
         text-color="teal"
         @click="exchange_policy_vue = true"
       />
-      <!-- <q-btn
-  class="col-6"
-  outline
-  :label="selected_local.claim_info + '(中文)'"
-  color="white"
-  text-color="teal"
-  @click="exchange_policy_cn_vue = true"
-/> -->
-      <!-- </div> -->
     </div>
     <q-dialog v-model="register">
       <AddressRegister />
@@ -300,50 +269,27 @@
         style="max-height: 500px"
       />
     </q-dialog>
-    <!-- <q-dialog v-model="privacy_policy_cn_vue">
-  <PrivacyPolicy_cn
-    class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-    style="margin-top: 28%; max-height: 500px"
-  />
-</q-dialog> -->
+
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
         class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
-    <!-- <q-dialog v-model="service_policy_cn_vue">
-  <ServicePolicy_cn
-    class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-    style="margin-top: 28%; max-height: 500px"
-  />
-</q-dialog> -->
+
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
         class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
-    <!-- <q-dialog v-model="delivery_policy_cn_vue">
-<DeliveryPolicy_cn
-  class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-  style="margin-top: 28%; max-height: 500px"
-/>
-/>
-</q-dialog> -->
+
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
         class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
-    <!-- style="margin-top: 28%; max-height: 500px" -->
-    <!-- <q-dialog v-model="exchange_policy_cn_vue">
-<ExchangePolicy_cn
-  class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-  style="margin-top: 28%; max-height: 500px"
-/>
-</q-dialog> -->
     <q-dialog
       v-model="checkPasswordDialog"
       persistent

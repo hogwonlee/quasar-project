@@ -3,8 +3,7 @@
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <q-btn icon="arrow_back" tag="a" to="/ProductList" />
-        <q-space />
+        <q-btn icon="arrow_back" flat outline tag="a" to="/HomePage" />
         <div class="text-h6 text-bold">개인정보취급방침</div>
       </q-card-section>
       <q-card-section>
