@@ -101,14 +101,6 @@
     </div>
     <q-page-container>
       <div class="q-gutter-md row inline">
-        <q-btn flat outline tag="a" to="/ServicePolicy">
-          {{ selected_local.use_policy }}
-        </q-btn>
-        <q-btn flat outline tag="a" to="/PrivacyPolicy">
-          {{ selected_local.privacy_policy }}
-        </q-btn>
-      </div>
-      <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
           <template v-slot:control>
             <div>중국식품온라인</div>

@@ -45,11 +45,11 @@ const routes = [
         component: () => import('components/AddressList.vue'),
       },
       {
-        path: 'PrivacyPolicy',
+        path: 'PrivacyPolicyMax',
         component: () => import('components/policy/PrivacyPolicyFull.vue'),
       },
       {
-        path: 'ServicePolicy',
+        path: 'ServicePolicyMax',
         component: () => import('components/policy/ServicePolicyFull.vue'),
       },
     ],

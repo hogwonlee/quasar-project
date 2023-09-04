@@ -124,6 +124,14 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
+    <div class="q-gutter-md row inline">
+      <q-btn flat outline tag="a" to="/ServicePolicyMax">
+        {{ selected_local.use_policy }}
+      </q-btn>
+      <q-btn flat outline tag="a" to="/PrivacyPolicyMax">
+        {{ selected_local.privacy_policy }}
+      </q-btn>
+    </div>
   </div>
 </template>
 
