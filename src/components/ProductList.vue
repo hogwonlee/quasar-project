@@ -158,11 +158,6 @@
         childbuyoption: false,
       };
     },
-    watch: {
-      keyword: function (new_key) {
-        console.log('keyword: ' + new_key);
-      },
-    },
     methods: {
       register_event_info() {
         alert.confirm(

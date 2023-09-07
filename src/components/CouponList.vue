@@ -26,16 +26,19 @@
         :key="coupon.coupon_id"
         v-bind="coupon"
       >
-        <q-card-section class="bg-grey-3 q-pa-none">
+        <q-card-section class="row bg-grey-4 q-pa-none">
           <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
             {{ coupon.coupon_name }}
-            <q-chip
-              v-if="coupon.coupon_use_reserve == 1"
-              color="primary"
-              :label="selected_local.use_reserve"
-              icon="star"
-            ></q-chip>
           </div>
+          <q-space />
+          <q-chip
+            v-if="coupon.coupon_use_reserve == 1"
+            :label="selected_local.use_reserve"
+            icon="task_alt"
+            dense
+            text-color="primary"
+            class="q-mr-sm"
+          ></q-chip>
         </q-card-section>
         <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
           <div class="text-h3 text-bold text-white q-mx-sm">
@@ -149,9 +152,9 @@
             });
         }
       },
-      coupon_use_reserve(usecoupon) {
-        this.$store.dispatch('coupon/reserveUseCouponAction', usecoupon);
-      },
+      // coupon_use_reserve(usecoupon) {
+      //   this.$store.dispatch('coupon/reserveUseCouponAction', usecoupon);
+      // },
       limit_date(day, plus_day) {
         return addToDate(new Date(day), {day: plus_day}).toLocaleString(
           'ko-KR',
