@@ -38,7 +38,8 @@
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.0.0",
     "vuex": "^4.1.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0",

@@ -8,7 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const { configure } = require('quasar/wrappers');
+const {configure} = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -79,15 +79,45 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
+      server: {
+        type: 'https', // NECESSARY (alternative is type 'http')
+
+        options: {
+          // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+          key: '/etc/ssl/private/cfomarket.store.key',
+          cert: '/etc/ssl/certs/cfomarket.store.crt',
+        },
+      },
+      https: {
+        key: '/etc/ssl/private/cfomarket.store.key',
+        cert: '/etc/ssl/certs/cfomarket.store.crt',
+      },
       // https: true
-      proxy: {
-        // proxy all requests starting with /api to jsonplaceholder
-        '/api': {
-          target: 'http://175.119.224.213:3000/',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': '',
-          },
+      // proxy: {
+      // proxy all requests starting with /api to jsonplaceholder
+      // '/api': {
+      //   target: 'http://175.119.224.213:3000/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api': '',
+      //   },
+      // },
+      // },
+      client: {
+        webSocketURL: {
+          hostname: 'cfomarket.com',
+          pathname: '/ws',
+          port: 443,
+          protocol: 'wss',
+        },
+        reconnect: false,
+      },
+      webSocketURL: {
+        port: 443,
+      },
+      server: {
+        hmr: {
+          clientPort: 443,
         },
       },
       open: true, // opens browser window automatically

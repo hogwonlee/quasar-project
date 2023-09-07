@@ -1,13 +1,9 @@
+'use strict';
 
-'use strict'
-
-
-const userController = require('../controller/user')
-
+const userController = require('../controller/user');
 
 module.exports = {
   router: app => {
-    app.post('/login', userController.login);
-  }
-
-}
+    app.post('/api/login', userController.login);
+  },
+};
