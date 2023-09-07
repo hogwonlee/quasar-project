@@ -133,7 +133,7 @@ const _ko = {
     '쿠폰 사용 안내: 쿠폰은 조건에 맞으면 자동으로 사용하게 됩니다.',
   coupon_use_condition:
     '쿠폰 사용 조건 안내: 상품 구매 금액만 3만원 또는 5만원 초과하면 사용할 수 있습니다.',
-  use_reserve: '사용예정',
+  use_reserve: '사용 선택함',
   use_condition: '사용조건: ',
   more: '이상',
   use_limit: '사용기한: ',
@@ -293,7 +293,7 @@ const _cn = {
   coupon_info: '优惠券',
   coupon_use_info: '优惠券使用规则：满足优惠券使用条件则自动使用。',
   coupon_use_condition: '优惠券使用条件：购买金额满3万或者5万即可使用。',
-  use_reserve: '使用预定',
+  use_reserve: '已选择使用',
   use_condition: '使用条件：',
   more: '以上',
   use_limit: '使用期限：',

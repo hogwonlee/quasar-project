@@ -82,9 +82,9 @@
             p =>
               p.category == c.category &&
               p.stored == 1 &&
-              (p.product_name.includes(keyword) ||
-                p.category.includes(keyword) ||
-                p.keyword.includes(keyword)),
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
           )"
           :key="product.id"
           v-bind="product"
@@ -99,7 +99,6 @@
         />
       </div>
     </div>
-    <q-separator />
     <q-page-container>
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">

@@ -124,17 +124,31 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
+    <div class="q-gutter-md row inline">
+      <q-btn flat outline tag="a" to="/ServicePolicyMax">
+        {{ selected_local.use_policy }}
+      </q-btn>
+      <q-btn flat outline tag="a" to="/PrivacyPolicyMax">
+        {{ selected_local.privacy_policy }}
+      </q-btn>
+    </div>
   </div>
 </template>
 
 <script>
   import {ref} from 'vue';
+  import {mapState} from 'vuex';
 
   export default {
     setup() {
       return {
         slide: ref('style'),
       };
+    },
+    computed: {
+      ...mapState({
+        selected_local: state => state.ui_local.status,
+      }),
     },
   };
   // import {mapGetters, mapState, mapActions} from 'vuex';

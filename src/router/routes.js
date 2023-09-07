@@ -3,7 +3,11 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      {path: '', component: () => import('components/HomePage.vue')},
+      {
+        path: '',
+        component: () => import('components/ProductList.vue'),
+      },
+      {path: 'HomePage', component: () => import('components/HomePage.vue')},
       {
         path: 'ProductList',
         component: () => import('components/ProductList.vue'),
@@ -41,12 +45,12 @@ const routes = [
         component: () => import('components/AddressList.vue'),
       },
       {
-        path: 'PrivacyPolicy',
-        component: () => import('components/policy/PrivacyPolicy.vue'),
+        path: 'PrivacyPolicyMax',
+        component: () => import('components/policy/PrivacyPolicyFull.vue'),
       },
       {
-        path: 'ServicePolicy',
-        component: () => import('components/policy/ServicePolicy.vue'),
+        path: 'ServicePolicyMax',
+        component: () => import('components/policy/ServicePolicyFull.vue'),
       },
     ],
   },

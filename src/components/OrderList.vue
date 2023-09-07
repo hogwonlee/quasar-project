@@ -41,26 +41,32 @@
         <tbody items-center>
           <tr class="row">
             <td class="text-left bg-teal col-4">
-              {{ selected_local.foodprice }}
-              <q-btn
-                class="text-bold"
-                size="sm"
-                label="?"
-                round
-                color="primary"
-                text-color="white"
-                @click="buy_event_info()"
-              />
+              <q-field borderless dense>
+                <template v-slot:control>
+                  {{ selected_local.foodprice }}
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    name="live_help"
+                    class="text-white"
+                    @click="buy_event_info()"
+                  />
+                </template>
+              </q-field>
             </td>
-            <td class="text-right col-8">
+            <td class="text-right col-8 text-h4">
               {{ total }} {{ selected_local.won }}
             </td>
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">
-              {{ selected_local.delivercost }}
+              <q-field borderless dense>
+                <template v-slot:control>
+                  {{ selected_local.delivercost }}
+                </template>
+              </q-field>
             </td>
-            <td class="text-right col-8">
+            <td class="text-right col-8 text-h4">
               <q-chip
                 dense
                 color="teal"
@@ -73,18 +79,20 @@
           </tr>
           <tr class="row">
             <td class="text-left bg-teal col-4">
-              {{ selected_local.point }}
-              <q-btn
-                class="text-bold"
-                size="sm"
-                label="?"
-                round
-                color="primary"
-                text-color="white"
-                @click="coupon_list = true"
-              />
+              <q-field borderless dense>
+                <template v-slot:control>
+                  {{ selected_local.point }}
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    name="live_help"
+                    class="text-white"
+                    @click="coupon_list = true"
+                  />
+                </template>
+              </q-field>
             </td>
-            <td class="text-right col-8">
+            <td class="text-right col-8 text-h4">
               -
               {{
                 reservedCoupon() != undefined
@@ -95,8 +103,14 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">{{ selected_local.total }}</td>
-            <td class="text-right col-8">
+            <td class="text-left bg-teal col-4">
+              <q-field borderless dense>
+                <template v-slot:control>
+                  {{ selected_local.total }}
+                </template>
+              </q-field>
+            </td>
+            <td class="text-right col-8 text-h4">
               {{
                 reservedCoupon() != undefined
                   ? total + shipment - reservedCoupon().coupon_price
