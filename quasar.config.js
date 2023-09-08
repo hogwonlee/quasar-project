@@ -105,7 +105,7 @@ module.exports = configure(function (/* ctx */) {
       // },
       client: {
         webSocketURL: {
-          hostname: 'cfomarket.com',
+          hostname: 'cfomarket.store',
           pathname: '/ws',
           port: 443,
           protocol: 'wss',
