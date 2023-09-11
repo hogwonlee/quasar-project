@@ -325,7 +325,7 @@
           url: 'https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do',
           type: 'POST',
           data: {
-            confmKey: 'U01TX0FVVEgyMDIzMDgwOTEyNTE0NzExNDAwMTg=',
+            confmKey: 'U01TX0FVVEgyMDIzMDgwNTAwNDczNjExMzk5Mjk=',
             currentPage: 1,
             countPerPage: 5,
             keyword: text,
