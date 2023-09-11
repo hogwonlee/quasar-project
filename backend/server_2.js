@@ -515,9 +515,7 @@ app.post('/api/deleteAddress', (req, res) => {
     console.log('요청 헤더에 승인 정보가 없음.');
   }
 });
-app.post('/orderRegister', (req, res) => {
-  console.log('orderRegister api 없다.');
-});
+
 app.post('/api/orderRegister', (req, res) => {
   if (req.headers.authorization != null) {
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
