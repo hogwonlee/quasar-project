@@ -59,6 +59,7 @@
       paymentAuthorizationRequest() {
         this.readResData();
         const requestData = this.postJsonData;
+        console.log(JSON.stringify(requestData));
         axios({
           url: 'https://api.tosspayments.com/v1/payments/confirm',
           method: 'POST',
@@ -74,7 +75,7 @@
         })
           .then(async res => {
             if (res.status == 200) {
-              // console.log(JSON.stringify(res.data));
+              console.log(JSON.stringify(res.data));
               this.set_order_with_address(await this.get_address_id());
             } else {
               console.log(
@@ -95,7 +96,7 @@
           total_price: this.postJsonData.amount,
           used_coupon_id: coupon == undefined ? null : coupon.coupon_id,
         };
-        // console.log(JSON.stringify(query_data.order_data));
+        console.log(JSON.stringify(query_data.order_data));
         axios({
           url: `${configs.server}/orderRegister`,
           method: 'POST',
@@ -107,6 +108,8 @@
           data: query_data,
         })
           .then(res => {
+            console.log(JSON.stringify(res));
+
             if (res.status == 200) {
               this.$store.dispatch('cart/checkout');
               this.$store.dispatch('coupon/setStatusAction', ''); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
