@@ -322,7 +322,7 @@
         }
 
         jQuery.ajax({
-          url: 'https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do',
+          url: 'https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do',
           type: 'POST',
           data: {
             confmKey: 'U01TX0FVVEgyMDIzMDgwOTEyNTE0NzExNDAwMTg=',
