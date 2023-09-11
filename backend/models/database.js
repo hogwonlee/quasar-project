@@ -13,18 +13,7 @@ const db = mysql.createPool({
 });
 
 // db.connect();
-db.getConnection(function (err, connection) {
-  //如果有错误
-  if (connection) {
-    console.log('getConnection error :' + JSON.stringify(connection));
-
-    // resolve(connection);
-  } else {
-    console.log('getConnection error :' + JSON.stringify(err));
-    // connection.release();
-    // reject(err);
-  }
-});
+db.getConnection(function (err, connection) {});
 
 module.exports = {
   db,
