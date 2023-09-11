@@ -522,6 +522,8 @@ app.post('/api/orderRegister', (req, res) => {
       if (err) {
         console.log('orderRegister 에러 발생: ' + err);
       } else {
+        console.log('orderRegister 데이터: ' + JSON.stringify(req));
+
         if (decoded.USER_ID == req.body.user_id) {
           let satisfy_coupon = 'unsatisify';
           //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
