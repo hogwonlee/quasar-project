@@ -97,7 +97,7 @@
         };
         // console.log(JSON.stringify(query_data.order_data));
         axios({
-          url: `${configs.server}/api/orderRegister`,
+          url: `${configs.server}/orderRegister`,
           method: 'POST',
           headers: {
             'Access-Control-Allow-Headers': '*',
