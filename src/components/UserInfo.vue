@@ -379,6 +379,7 @@
   import ChangeInfo from 'components/ChangeInfo.vue';
   import ChangePassword from 'components/ChangePassword.vue';
   import axios from 'axios';
+  import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
   import CouponList from 'components/CouponList.vue';
   import PrivacyPolicy from './policy/PrivacyPolicy.vue';
@@ -389,6 +390,7 @@
   import ExchangePolicy from './policy/ExchangePolicy.vue';
   import configs from 'src/configs/';
   import {date} from 'quasar';
+  import {Dialog} from 'quasar';
   const {addToDate} = date;
   // import security from 'src/util/modules/security';
 
@@ -434,6 +436,7 @@
       ...mapState({
         user_status: state => state.user.status,
         user: state => state.user.USER,
+        address_status: state => state.address.status,
         addressList: state => state.address.items,
         couponList: state => state.coupon.items,
         selected_local: state => state.ui_local.status,
@@ -554,6 +557,50 @@
           .onDismiss(() => {
             // console.log('I am triggered on both OK and Cancel')
           });
+      },
+
+      reload_addr_info() {
+        if (
+          !validation.isNull(this.user.USER_ID) &&
+          !validation.isNull(this.address_status)
+        ) {
+          axios({
+            url: `${configs.server}/addressInfo`,
+            method: 'POST',
+            // httpsAgent: new https.Agent({
+            //   rejectUnauthorized: false,
+            // }),
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: this.user.USER_TOKEN,
+            },
+            data: {
+              user_id: this.user.USER_ID,
+              user_name: this.user.USER_NAME,
+            },
+          })
+            .then(res => {
+              if (res.status == 200) {
+                this.$store.dispatch('address/emptyAddressAction');
+                res.data.results.forEach(addr => {
+                  if (addr.address_active === 1) {
+                    this.$store.dispatch('address/addAddressAction', addr);
+                  }
+                });
+                this.is_addr_added = true;
+                this.$store.dispatch('address/setStatusAction', null);
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
+            })
+            .catch(res => {
+              console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+            });
+        }
       },
     },
   });

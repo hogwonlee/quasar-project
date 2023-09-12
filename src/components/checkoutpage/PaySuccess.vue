@@ -23,12 +23,7 @@
     mounted() {
       this.paymentAuthorizationRequest();
     },
-    computed: {
-      ...mapState({
-        selected_local: state => state.ui_local.status,
-        couponList: state => state.coupon.items,
-      }),
-    },
+
     data() {
       return {
         postJsonData: [{paymentkey: '', amount: 0, orderId: ''}],
@@ -44,6 +39,8 @@
       ...mapState({
         user: state => state.user.USER,
         addressList: state => state.address.items,
+        selected_local: state => state.ui_local.status,
+        couponList: state => state.coupon.items,
       }),
     },
     methods: {
