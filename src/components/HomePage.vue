@@ -115,7 +115,7 @@
         <div class="col-12 row justify-center">
           <q-icon name="download"></q-icon>
           <a
-            href="https://drive.google.com/file/d/1Ewu-EkTSoQ1E4zih8rOpD-Q7UBwnBcNi/view?usp=drive_link"
+            href="https://drive.google.com/file/d/1SwYJCZ_c1p-wTCQ9dpNd4dGbsMImREpJ/view?usp=sharing"
             _blank
             download
           >
