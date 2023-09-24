@@ -516,133 +516,297 @@ app.post('/api/deleteAddress', (req, res) => {
   }
 });
 
-app.post('/api/orderRegister', (req, res) => {
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+app.post('/api/orderRegister', function (req, res) {
+  if (!req.headers.authorization) {
+    console.log('요청 헤더에 승인 정보가 없음.');
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
+    return
+  }
+  return new Promise((resolve) => {
+    return jwt.verify(req.headers.authorization, jwtObj.secret, function (err, decoded) {
       if (err) {
         console.log('orderRegister 에러 발생: ' + err);
-      } else {
-        console.log('orderRegister 데이터: ' + req.body);
+        res.status(500).send({ msg: 'error', content: err });
+        return resolve(1)
+      }
 
-        if (decoded.USER_ID == req.body.user_id) {
-          let satisfy_coupon = 'unsatisify';
-          //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
-          if (req.body.total_price >= 50000) {
-            const sqlCommend_gift =
-              'INSERT INTO usercoupon SET coupon_id = 2 AND user_id = ?';
-            const param_gift = { user_id: req.body.user_id };
-            db.query(
-              sqlCommend_gift,
-              param_gift.user_id,
-              (err_gift, results_gift, fields) => {
-                if (err) {
-                  satisfy_coupon = 'error';
-                } else {
-                  satisfy_coupon = 'success';
-                }
-              },
-            );
-          }
-          //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
-          if (req.body.used_coupon_id != null) {
-            const sqlCommend_useCoupon =
-              'UPDATE usercoupon SET available = 0 WHERE user_id = ? AND coupon_id = ?';
-            const param_useCoupon = {
-              user_id: req.body.user_id,
-              coupon_id: req.body.used_coupon_id,
+      console.log('orderRegister 데이터: ' + JSON.stringify(req.body));
+      console.log('decoded.USER_ID: ' + decoded.USER_ID);
+      console.log('req.body.user_id: ' + req.body.user_id);
+
+      if (decoded.USER_ID != req.body.user_id) {
+        console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        res.status(401).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
+        return resolve(1)
+      }
+      let satisfy_coupon = 'unsatisify';
+      //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
+      if (Number(req.body.total_price) >= 50000) {
+        const sqlCommend_gift =
+          'INSERT INTO usercoupon SET coupon_id = 2 AND user_id = ?';
+        const param_gift = { user_id: req.body.user_id };
+        return db.query(
+          sqlCommend_gift,
+          param_gift.user_id,
+          function (err_gift, results_gift, fields) {
+            if (err_gift) {
+              satisfy_coupon = 'error';
+            } else {
+              satisfy_coupon = 'success';
+            }
+            const sqlCommend =
+              'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?, used_coupon_id = ?';
+            const body = req.body;
+            const param = {
+              address_id: body.address_id,
+              user_id: body.user_id,
+              food_price: body.food_price,
+              total_price: body.total_price,
+              satisfy_coupon: satisfy_coupon,
+              used_coupon_id: body.used_coupon_id,
             };
-            db.query(
-              sqlCommend_useCoupon,
-              [param_useCoupon.user_id, param_useCoupon.coupon_id],
-              (err_gift, results_gift, fields) => {
+
+            return db.query(
+              sqlCommend,
+              [
+                param.address_id,
+                param.user_id,
+                param.food_price,
+                param.total_price,
+                param.satisfy_coupon,
+                param.used_coupon_id,
+              ],
+              function (err, results, fields) {
                 if (err) {
-                  satisfy_coupon = satisfy_coupon + 'use coupon error';
+                  console.log('주문 추가 요청:' + err);
+                  res.status(500).send({ msg: 'error', content: err });
+                  return resolve(1)
+                } else {
+                  const insert_sql =
+                    'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+                  console.log(JSON.stringify(body.order_data));
+                  var order_data = body.order_data;
+                  order_data.map(element => {
+                    element.order_group = results.insertId;
+                  });
+                  console.log(JSON.stringify(order_data));
+                  var order_list = '';
+                  for (var i = 0; i < order_data.length; i++) {
+                    order_list =
+                      order_list +
+                      '(' +
+                      order_data[i].product_id +
+                      ',' +
+                      order_data[i].quantity +
+                      ',' +
+                      order_data[i].order_group +
+                      ',' +
+                      order_data[i].buyoption +
+                      ',' +
+                      order_data[i].bonus_quantity +
+                      ',' +
+                      order_data[i].cut_money +
+                      ')';
+                    if (i + 1 < order_data.length) {
+                      order_list = order_list + ',';
+                    }
+                  }
+                  const sqlCommend_insert = insert_sql + order_list;
+                  console.log('insert 쿼리문 전체: ' + sqlCommend_insert);
+
+                  return db.query(sqlCommend_insert, function (err, results, fields) {
+                    if (err) {
+                      console.log('주문 추가 요청:' + err);
+                      res.status(500).send({ msg: 'error', content: err });
+                      return resolve(1)
+                    } else {
+                      console.log(
+                        '주문 등록 성공 결과값:' + JSON.stringify(results),
+                      );
+                      res.status(200).send({ results });
+                      return resolve(1)
+                    }
+                  });
                 }
               },
             );
-          }
+          },
+        );
+      }
+      //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
+      if (req.body.used_coupon_id != null) {
+        const sqlCommend_useCoupon =
+          'UPDATE usercoupon SET available = 0 WHERE user_id = ? AND coupon_id = ?';
+        const param_useCoupon = {
+          user_id: req.body.user_id,
+          coupon_id: req.body.used_coupon_id,
+        };
+        return db.query(
+          sqlCommend_useCoupon,
+          [param_useCoupon.user_id, param_useCoupon.coupon_id],
+          function (err_gift, results_gift, fields) {
+            if (err_gift) {
+              satisfy_coupon = satisfy_coupon + 'use coupon error';
+              // return resolve(1)
+            }
+            const sqlCommend =
+              'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?, used_coupon_id = ?';
+            const body = req.body;
+            const param = {
+              address_id: body.address_id,
+              user_id: body.user_id,
+              food_price: body.food_price,
+              total_price: body.total_price,
+              satisfy_coupon: satisfy_coupon,
+              used_coupon_id: body.used_coupon_id,
+            };
 
-          const sqlCommend =
-            'INSERT INTO ordergroup SET address_id = ?, user_id = ?, total_price = ?, satisfy_coupon = ?';
-          const body = req.body;
-          const param = {
-            address_id: body.address_id,
-            user_id: body.user_id,
-            food_price: body.food_price,
-            total_price: body.total_price,
-            satisfy_coupon: satisfy_coupon,
-            used_coupon_id: body.used_coupon_id,
-          };
+            return db.query(
+              sqlCommend,
+              [
+                param.address_id,
+                param.user_id,
+                param.food_price,
+                param.total_price,
+                param.satisfy_coupon,
+                param.used_coupon_id,
+              ],
+              function (err, results, fields) {
+                if (err) {
+                  console.log('주문 추가 요청:' + err);
+                  res.status(500).send({ msg: 'error', content: err });
+                  return resolve(1)
+                } else {
+                  const insert_sql =
+                    'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+                  console.log(JSON.stringify(body.order_data));
+                  var order_data = body.order_data;
+                  order_data.map(element => {
+                    element.order_group = results.insertId;
+                  });
+                  console.log(JSON.stringify(order_data));
+                  var order_list = '';
+                  for (var i = 0; i < order_data.length; i++) {
+                    order_list =
+                      order_list +
+                      '(' +
+                      order_data[i].product_id +
+                      ',' +
+                      order_data[i].quantity +
+                      ',' +
+                      order_data[i].order_group +
+                      ',' +
+                      order_data[i].buyoption +
+                      ',' +
+                      order_data[i].bonus_quantity +
+                      ',' +
+                      order_data[i].cut_money +
+                      ')';
+                    if (i + 1 < order_data.length) {
+                      order_list = order_list + ',';
+                    }
+                  }
+                  const sqlCommend_insert = insert_sql + order_list;
+                  console.log('insert 쿼리문 전체: ' + sqlCommend_insert);
 
-          db.query(
-            sqlCommend,
-            [
-              param.address_id,
-              param.user_id,
-              param.food_price,
-              param.total_price,
-              param.satisfy_coupon,
-              param.used_coupon_id,
-            ],
-            (err, results, fields) => {
+                  return db.query(sqlCommend_insert, function (err, results, fields) {
+                    if (err) {
+                      console.log('주문 추가 요청:' + err);
+                      res.status(500).send({ msg: 'error', content: err });
+                      return resolve(1)
+                    } else {
+                      console.log(
+                        '주문 등록 성공 결과값:' + JSON.stringify(results),
+                      );
+                      res.status(500).send({ results });
+                      return resolve(1)
+                    }
+                  });
+                }
+              },
+            );
+          },
+        );
+      }
+
+      let sqlCommend = 'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+      const body = req.body;
+      const param = {
+        address_id: body.address_id,
+        user_id: body.user_id,
+        food_price: body.food_price,
+        satisfy_coupon: satisfy_coupon,
+        total_price: body.total_price,
+      };
+
+      return db.query(
+        sqlCommend,
+        [
+          param.address_id,
+          param.user_id,
+          param.food_price,
+          param.total_price,
+          param.satisfy_coupon,
+        ],
+        function (err, results, fields) {
+          if (err) {
+            console.log('주문 추가 요청:' + err);
+            res.status(500).send({ msg: 'error', content: err });
+            return resolve(1)
+          } else {
+            const insert_sql =
+              'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+            console.log(JSON.stringify(body.order_data));
+            var order_data = body.order_data;
+            order_data.map(element => {
+              element.order_group = results.insertId;
+            });
+            console.log(JSON.stringify(order_data));
+            var order_list = '';
+            for (var i = 0; i < order_data.length; i++) {
+              order_list =
+                order_list +
+                '(' +
+                order_data[i].product_id +
+                ',' +
+                order_data[i].quantity +
+                ',' +
+                order_data[i].order_group +
+                ',' +
+                order_data[i].buyoption +
+                ',' +
+                order_data[i].bonus_quantity +
+                ',' +
+                order_data[i].cut_money +
+                ')';
+              if (i + 1 < order_data.length) {
+                order_list = order_list + ',';
+              }
+            }
+            const sqlCommend_insert = insert_sql + order_list;
+            console.log('insert 쿼리문 전체: ' + sqlCommend_insert);
+
+            return db.query(sqlCommend_insert, function (err, results, fields) {
               if (err) {
                 console.log('주문 추가 요청:' + err);
-                res.status(400).send({ msg: 'error', content: err });
+                res.status(500).send({ msg: 'error', content: err });
+                return resolve(1)
               } else {
-                const insert_sql =
-                  'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-                console.log(JSON.stringify(body.order_data));
-                var order_data = body.order_data;
-                order_data.map(element => {
-                  element.order_group = results.insertId;
-                });
-                console.log(JSON.stringify(order_data));
-                var order_list = '';
-                for (var i = 0; i < order_data.length; i++) {
-                  order_list =
-                    order_list +
-                    '(' +
-                    order_data[i].product_id +
-                    ',' +
-                    order_data[i].quantity +
-                    ',' +
-                    order_data[i].order_group +
-                    ',' +
-                    order_data[i].buyoption +
-                    ',' +
-                    order_data[i].bonus_quantity +
-                    ',' +
-                    order_data[i].cut_money +
-                    ')';
-                  if (i + 1 < order_data.length) {
-                    order_list = order_list + ',';
-                  }
-                }
-                const sqlCommend_insert = insert_sql + order_list;
-                console.log('insert 쿼리문 전체: ' + sqlCommend_insert);
-
-                db.query(sqlCommend_insert, (err, results, fields) => {
-                  if (err) {
-                    console.log('주문 추가 요청:' + err);
-                    res.status(400).send({ msg: 'error', content: err });
-                  } else {
-                    console.log(
-                      '주문 등록 성공 결과값:' + JSON.stringify(results),
-                    );
-                    res.status(200).send({ results });
-                  }
-                });
+                console.log(
+                  '주문 등록 성공 결과값:' + JSON.stringify(results),
+                );
+                res.status(200).send({ results });
+                return resolve(1)
               }
-            },
-          );
-        } else {
-          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+            });
+          }
+
         }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
-  }
+      )
+
+    })
+  })
+
 });
 
 app.post('/api/orderList', (req, res) => {
