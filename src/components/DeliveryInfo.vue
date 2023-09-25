@@ -144,7 +144,7 @@
     },
     mounted() {
       if (
-        !validation.isNull(this.addressList.address_id) &&
+        !validation.isNull(this.user.USER_ID) &&
         !validation.isNull(this.order_status)
       ) {
         this.load_order_info();
