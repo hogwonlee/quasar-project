@@ -442,13 +442,12 @@
         selected_local: state => state.ui_local.status,
       }),
     },
-    mounted() {
-      this.read_coupon();
-    },
+    mounted() {},
     watch: {
       user_status: function (user_status_new) {
         if (user_status_new) {
           this.reload_addr_info();
+          this.read_coupon();
         }
       },
     },
