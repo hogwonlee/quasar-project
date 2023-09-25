@@ -65,7 +65,7 @@
             {{ selected_local.coupon_name_none }}
           </div>
         </q-card-section>
-        <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
+        <q-card-section class="bg-grey-4 q-px-none q-pt-xs q-pb-none">
           <div class="text-h3 text-bold text-white q-mx-sm">
             <q-icon name="img:icons\kr_won.png" />
             {{ selected_local.coupon_value_none }}

@@ -193,7 +193,7 @@
                 {{ selected_local.coupon_name_none }}
               </div>
             </q-card-section>
-            <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-grey_4 q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
                 <q-icon name="img:icons\kr_won.png" />
                 {{ selected_local.coupon_value_none }}
@@ -450,6 +450,12 @@
           this.read_coupon();
         }
       },
+      address_status: function (addr_status_new) {
+        if (this.user_status) {
+          console.log('주소 불러오기 로그 ' + addr_status_new);
+          this.reload_addr_info();
+        }
+      },
     },
 
     methods: {
@@ -501,7 +507,7 @@
       },
 
       read_coupon() {
-        if (this.coupon_status === '' && this.user.USER_ID != '') {
+        if (!validation.isNull(this.coupon_status)) {
           axios({
             url: `${configs.server}/mycoupon`,
             method: 'POST',
@@ -523,6 +529,7 @@
                     this.$store.dispatch('coupon/addCouponAction', coupon);
                   }
                 });
+                this.$store.dispatch('coupon/setStatusAction', null);
               } else {
                 alert.confirm(
                   this.selected_local.err,
@@ -565,10 +572,7 @@
       },
 
       reload_addr_info() {
-        if (
-          !validation.isNull(this.user.USER_ID) &&
-          !validation.isNull(this.address_status)
-        ) {
+        if (!validation.isNull(this.address_status)) {
           axios({
             url: `${configs.server}/addressInfo`,
             method: 'POST',
