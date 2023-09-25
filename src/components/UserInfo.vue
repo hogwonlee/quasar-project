@@ -444,9 +444,14 @@
     },
     mounted() {
       this.read_coupon();
-      this.reload_addr_info();
     },
-    watch: {},
+    watch: {
+      user_status: function (user_status_new) {
+        if (user_status_new) {
+          this.reload_addr_info();
+        }
+      },
+    },
 
     methods: {
       checkpw() {

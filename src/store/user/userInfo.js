@@ -15,12 +15,12 @@ const state = {
 const getters = {};
 
 const actions = {
-  loginAction({ commit }, obj) {
+  loginAction({commit}, obj) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
     // console.log('login return 값: ' + commit('login', user));
-    let { data, that } = obj
+    let {data, that} = obj;
     commit('login', data);
     // this.$store.dispatch('address/emptyAddressAction');
     data.results.forEach(addr => {
@@ -30,7 +30,7 @@ const actions = {
       }
     });
   },
-  logoutAction({ commit }) {
+  logoutAction({commit}) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
@@ -38,7 +38,7 @@ const actions = {
     commit('logout');
     // console.log('user status: ' + state.status);
   },
-  updateAction({ commit }, changeuserinfo) {
+  updateAction({commit}, changeuserinfo) {
     // console.log('userInfo액션에서 ' + typeof user);
     // console.log('userInfo액션에서 출력' + user);
     // console.log('userInfo액션에서 접근' + user.user_id);
@@ -91,7 +91,7 @@ const mutations = {
     state.USER.USER_PHONE = data.results[0].user_phone;
     state.USER.USER_TOKEN = Cookie.get('token');
     state.status = true;
-    console.log(JSON.stringify(data) + ':::' + state.USER.USER_ID);
+    // console.log(JSON.stringify(data) + ':::' + state.USER.USER_ID);
     // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);
     // return data.token;
     state.status;
