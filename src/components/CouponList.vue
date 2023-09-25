@@ -114,7 +114,7 @@
     },
     methods: {
       read_coupon() {
-        if (this.coupon_status === '') {
+        if (this.coupon_status != '') {
           console.log('쿠폰데이터 불러오기');
           axios({
             url: `${configs.server}/mycoupon`,
