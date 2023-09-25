@@ -1,5 +1,6 @@
 <template>
   <q-page class="q-pa-md bg-teal-2">
+    <q-btn label="주문 불러오기" @click="load_order_info"></q-btn>
     <div v-if="order_count > 0">
       <q-card
         class="my-card"
@@ -9,9 +10,6 @@
       >
         <div class="q-gutter-sm q-ma-xs">
           <q-card-section>
-            <!-- <div class="text-h6">주문 번호: {{ order.id }}</div> -->
-            <!-- <div class="text-h6">주문 위치: {{ order.address_tag }}</div>
-          <div class="text-h6">수령인: {{ order.recipient }}</div> -->
             <div class="row">
               <q-input
                 class="col-md-6 col-sm-12 col-xs-12"
@@ -32,19 +30,6 @@
                 :label="selected_local.orderdate"
                 readonly
               ></q-input>
-              <!-- <q-input
-                class="col-md-3 col-sm-6 col-xs-6"
-                :model-value="order.order_time"
-                readonly
-                :label="selected_local.ordertime"
-              ></q-input> -->
-
-              <!-- <q-input
-                class="col-3"
-                :model-value="order.delivery_code"
-                readonly
-                :label="selected_local.delivercompany"
-              ></q-input> -->
             </div>
 
             <div class="absolute-top-right q-pa-sm q-gutter-sm">
@@ -80,65 +65,6 @@
     </div>
     <q-separator />
 
-    <!-- <div class="row q-mt-sm">
-      <q-btn
-        class="col-6"
-        outline
-        :label="selected_local.deliver_info_title + '(한국어)'"
-        color="white"
-        text-color="teal"
-        @click="delivery_policy_vue = true"
-      />
-      <q-btn
-        class="col-6"
-        outline
-        :label="selected_local.deliver_info_title + '(中文)'"
-        color="white"
-        text-color="teal"
-        @click="delivery_policy_cn_vue = true"
-      />
-      <q-btn
-        class="col-6"
-        outline
-        :label="selected_local.claim_info + '(한국어)'"
-        color="white"
-        text-color="teal"
-        @click="exchange_policy_vue = true"
-      />
-      <q-btn
-        class="col-6"
-        outline
-        :label="selected_local.claim_info + '(中文)'"
-        color="white"
-        text-color="teal"
-        @click="exchange_policy_cn_vue = true"
-      />
-    </div> -->
-    <!-- <q-dialog v-model="delivery_policy_vue">
-      <DeliveryPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
-      />
-    </q-dialog>
-    <q-dialog v-model="delivery_policy_cn_vue">
-      <DeliveryPolicy_cn
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
-      />
-      />
-    </q-dialog>
-    <q-dialog v-model="exchange_policy_vue">
-      <ExchangePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
-      />
-    </q-dialog>
-    <q-dialog v-model="exchange_policy_cn_vue">
-      <ExchangePolicy_cn
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
-        style="margin-top: 28%; max-height: 500px"
-      />
-    </q-dialog> -->
     <q-dialog v-model="search_order">
       <q-table
         :title="
@@ -152,13 +78,6 @@
       />
     </q-dialog>
     <q-dialog v-model="tracker">
-      <!-- <q-input
-                class="col-9"
-                :model-value="order.delivery_invoice"
-                :label="selected_local.shippingnum"
-                readonly
-                mask="###/####/###/####"
-              ></q-input> -->
       <SweetTrackerInfo
         v-bind:delivery_code="this.child_code"
         v-bind:delivery_invoice="this.child_invoice"
@@ -228,6 +147,11 @@
         !validation.isNull(this.addressList.address_id) &&
         !validation.isNull(this.order_status)
       ) {
+        this.load_order_info();
+      }
+    },
+    methods: {
+      load_order_info() {
         // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&
         axios({
           url: `${configs.server}/deliveryInfo`,
@@ -259,9 +183,7 @@
           .catch(res => {
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
           });
-      }
-    },
-    methods: {
+      },
       tracker_info(code, invoice) {
         if (validation.isNull(invoice)) {
           alert.confirm(
