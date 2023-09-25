@@ -214,7 +214,7 @@
         // this.t_key = 'XPrmI9vGFcc8x97uZrpEPg';
         // this.t_code = '04'; // cj대한통운
         // this.t_invoice = '655123092251';
-        this.t_key = 'ZTd4BLKNCA7s32TsH4ntPw';
+        this.t_key = 'I2uFSQI8NBXDY8caOUnh5A';
         this.t_code = this.delivery_code; // cj대한통운
         this.t_invoice = this.delivery_invoice;
 
@@ -224,7 +224,7 @@
           t_invoice: this.t_invoice,
         };
         axios({
-          url: 'http://info.sweettracker.co.kr/api/v1/trackingInfo',
+          url: 'https://info.sweettracker.co.kr/api/v1/trackingInfo',
           method: 'GET',
           // httpsAgent: new https.Agent({
           //            rejectUnauthorized: false,
