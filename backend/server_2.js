@@ -9,7 +9,7 @@
 const jwt = require('jsonwebtoken');
 
 let jwtObj = {
-  secret: 'mysecrettoken', // 원하는 시크릿 키
+  secret: 'cfomarketHogwon032^secret', // 원하는 시크릿 키
   option: {
     algorithm: 'HS256', // 해싱 알고리즘
     expiresIn: '300m', // 토큰 유효 기간 (테스트 기간 5시간으로 변경)
@@ -111,7 +111,7 @@ app.post('/api/checkpw', (req, res) => {
     user_pw: hashpw(body.user_pw),
     // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
   };
-  console.log(user_pw);
+  // console.log(user_pw);
   db.query(
     sqlCommend,
     [param.user_id, param.user_pw],
