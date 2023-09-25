@@ -36,7 +36,7 @@
 
             <div class="absolute-top-right q-pa-sm q-gutter-sm">
               <q-btn
-                color="warning"
+                color="primary"
                 :label="selected_local.tracedeliver"
                 @click="
                   this.tracker_info(order.delivery_code, order.delivery_invoice)

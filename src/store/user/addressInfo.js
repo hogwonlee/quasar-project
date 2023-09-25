@@ -1,6 +1,6 @@
 const state = {
   items: [],
-  status: '',
+  status: 'up data',
 };
 const getters = {
   getDefaultAddr(state) {
