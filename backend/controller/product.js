@@ -25,7 +25,7 @@ const getProductList = async (req, res) => {
       let store_version = results[0].version;
       console.log(store_version + '///' + local_version);
       if (store_version > local_version) {
-        const sqlCommend = 'SELECT * FROM productinfo ORDER BY category';
+        const sqlCommend = 'SELECT * FROM productinfo ORDER BY list_index';
         db.query(sqlCommend, (err, results, fields) => {
           if (results.length <= 0) {
             res.status(400).send({msg: 'error', content: err});
