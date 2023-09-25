@@ -189,10 +189,7 @@
             address_tag == '' ||
             recipient == '' ||
             recipient_phone == '' ||
-            recipient_phone.length < 10 ||
             post_code == '' ||
-            address1 == '' ||
-            address2 == '' ||
             address3 == ''
           "
           @click="exeAddrRegister"
