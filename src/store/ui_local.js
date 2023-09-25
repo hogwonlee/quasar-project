@@ -121,7 +121,7 @@ const _ko = {
   won000: '천원',
   needselectedaddr: '배송지 정보가 필요합니다.',
   claim_title: '교환/환불 요청',
-  claim_boy:
+  claim_body:
     '(010)8492-0526 저에게 문자 또는 전화주세요. 반드시 확인하겠습니다. 서비스 개선을 위해서 제가 어떤 문제가 발생했는지 알아야 하기 때문에 꼭 저에게 전화주세요!',
   forget_pw_title: '비밀번호 찾기',
   forget_pw_body:
@@ -284,7 +284,7 @@ const _cn = {
   won000: '千韩元',
   needselectedaddr: '请先登录地址。',
   claim_title: '申请退换',
-  claim_boy:
+  claim_body:
     '(010)8492-0526 为了改善服务，我必需知晓发生的问题，请一定联系或者发信息给我！',
   forget_pw_title: '申请找回密码',
   forget_pw_body: '(010)8492-0526 联系我，将尽快为您初始化新密码并通知你。',

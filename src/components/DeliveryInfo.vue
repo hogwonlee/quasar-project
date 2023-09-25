@@ -1,6 +1,6 @@
 <template>
+  <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
   <q-page class="q-pa-md bg-teal-2">
-    <q-btn label="주문 불러오기" @click="load_order_info"></q-btn>
     <div v-if="order_count > 0">
       <q-card
         class="my-card"
@@ -93,20 +93,12 @@
   import {mapState, mapActions, mapGetters} from 'vuex';
   import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
-  // import DeliveryPolicy from './policy/DeliveryPolicy.vue';
-  // import ExchangePolicy from './policy/ExchangePolicy.vue';
-  // import DeliveryPolicy_cn from './policy/DeliveryPolicy_cn.vue';
-  // import ExchangePolicy_cn from './policy/ExchangePolicy_cn.vue';
   import configs from '/src/configs';
 
   export default defineComponent({
     name: 'DeliveryInfo',
     components: {
       SweetTrackerInfo,
-      // DeliveryPolicy,
-      // ExchangePolicy,
-      // DeliveryPolicy_cn,
-      // ExchangePolicy_cn,
     },
     data() {
       return {

@@ -444,6 +444,7 @@
     },
     mounted() {
       this.read_coupon();
+      this.reload_addr_info();
     },
     watch: {},
 
