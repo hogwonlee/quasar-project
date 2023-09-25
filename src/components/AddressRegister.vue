@@ -189,8 +189,8 @@
             address_tag == '' ||
             recipient == '' ||
             recipient_phone == '' ||
-            post_code == '' ||
-            address3 == ''
+            recipient_phone.length < 13 ||
+            selected == ''
           "
           @click="exeAddrRegister"
           v-close-popup
