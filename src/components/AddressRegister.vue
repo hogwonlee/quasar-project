@@ -186,19 +186,17 @@
           style="width: 200px"
           :label="selected_local.addrresister"
           :disable="
-            address_tag == '' ||
-            recipient == '' ||
-            recipient_phone == '' ||
-            recipient_phone.length < 13 ||
-            recipient_phone.length > 15 ||
-            post_code == '' ||
-            address1 == '' ||
-            address2 == '' ||
-            address3 == ''
+            address_tag == '' || recipient == '' || recipient_phone == ''
           "
           @click="exeAddrRegister"
           v-close-popup
         />
+        <!-- recipient_phone.length < 13 ||
+          recipient_phone.length > 15 ||
+          post_code == '' ||
+          address1 == '' ||
+          address2 == '' ||
+          address3 == '' -->
       </div>
     </q-card>
   </div>
