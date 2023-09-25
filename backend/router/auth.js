@@ -114,7 +114,6 @@ module.exports = {
   register: async (req, res) => {
     const sqlCommend = 'INSERT INTO userinfo SET ?';
     const body = req.body;
-    console.log(body);
     const param = {
       id: body.user_id,
       user_pw: hashpw(body.user_pw),

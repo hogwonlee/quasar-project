@@ -176,7 +176,7 @@ app.post('/changepw', (req, res) => {
 app.post('/register', (req, res) => {
   const sqlCommend = 'INSERT INTO userinfo SET ?';
   const body = req.body;
-  console.log(body);
+  // console.log(body);
   const param = {
     user_id: body.user_id,
     user_pw: body.user_pw,
