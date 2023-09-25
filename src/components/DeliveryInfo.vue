@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
+  <div class="col-12 text-h6 text-bold">{{ selected_local.detailorder }}</div>
   <q-page class="q-pa-md bg-teal-2">
     <div v-if="order_count > 0">
       <q-card
