@@ -131,6 +131,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
           },
           data: query_coupon,
         })
