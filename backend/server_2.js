@@ -181,229 +181,258 @@ app.post('/api/changepw', (req, res) => {
   );
 });
 
-app.post('/api/addressRegister', (req, res) => {
-  console.log(`token: ${req.headers.authorization}`);
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
-      if (err) {
-        console.log('addressRegister 에러 발생: ' + err);
-      } else {
-        console.log('디코디드: ' + JSON.stringify(decoded));
-        console.log('디코디드: ' + decoded.USER_ID);
-        if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend = 'INSERT INTO addressinfo SET ?';
-          const body = req.body;
-          const param = {
-            address_tag: body.address_tag,
-            recipient: body.recipient,
-            recipient_phone: body.recipient_phone,
-            post_code: body.post_code,
-            address1: body.address1,
-            address2: body.address2,
-            address3: body.address3,
-            is_default: body.is_default,
-            user_id: body.user_id,
-          };
-
-          db.query(sqlCommend, param, (err, results, fields) => {
-            if (err) {
-              console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
-            } else {
-              if ((body.is_default = 1)) {
-                // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
-                const sqlCommend_reset =
-                  'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
-                db.query(
-                  sqlCommend_reset,
-                  param.user_id,
-                  (err, results, fields) => {
-                    if (err) {
-                      console.log('배송 주소 기본 설정 초기화:' + err);
-                      res.status(400).send({msg: 'error', content: err});
-                    } else {
-                      console.log(
-                        '배송 주소 기본 설정 초기화 성공:' +
-                          JSON.stringify(results),
-                      );
-                    }
-                  },
-                );
-                const sqlCommend_default =
-                  'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
-                const param_2 = {
-                  user_id: body.user_id,
-                  address_id: results.insertId,
-                };
-                db.query(
-                  sqlCommend_default,
-                  [param_2.user_id, param_2.address_id],
-                  (err, results, fields) => {
-                    if (err) {
-                      console.log('기본 배송지 변경 요청:' + err);
-                      res.status(400).send({msg: 'error', content: err});
-                    } else {
-                      console.log(
-                        '기본 배송지 설정 성공:' + JSON.stringify(results),
-                      );
-                    }
-                  },
-                );
-              }
-              res.status(200).send({msg: 'success', results});
-            }
-          });
-        } else {
-          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
-        }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
+app.post('/api/addressRegister', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
   }
-});
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        } else {
+          if (decoded.USER_ID == req.body.user_id) {
+            const sqlCommend = 'INSERT INTO addressinfo SET ?';
+            const body = req.body;
+            const param = {
+              address_tag: body.address_tag,
+              recipient: body.recipient,
+              recipient_phone: body.recipient_phone,
+              post_code: body.post_code,
+              address1: body.address1,
+              address2: body.address2,
+              address3: body.address3,
+              is_default: body.is_default,
+              user_id: body.user_id,
+            };
 
-app.post('/api/addressChangeDefaultAddress', (req, res) => {
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
-      if (err) {
-        console.log('addressChangeDefaultAddress 에러 발생: ' + err);
-      } else {
-        // console.log('디코디드: ' + decoded.USER_ID);
-        if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend_reset =
-            'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
-          const body = req.body;
-          const param = body.user_id;
-          db.query(sqlCommend_reset, param, (err, results, fields) => {
-            if (err) {
-              console.log('배송 주소 기본 설정 초기화:' + err);
-              res.status(400).send({msg: 'error', content: err});
-            } else {
-              console.log(
-                '배송 주소 기본 설정 초기화 성공:' + JSON.stringify(results),
-              );
-            }
-          });
-          const sqlCommend_default =
-            'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
-          const param_2 = {
-            user_id: body.user_id,
-            address_id: body.address_id,
-          };
-          db.query(
-            sqlCommend_default,
-            [param_2.user_id, param_2.address_id],
-            (err, results, fields) => {
+            return db.query(sqlCommend, param, function (err, results, fields) {
               if (err) {
-                console.log('기본 배송지 변경 요청:' + err);
+                console.log('배송 주소 추가 요청:' + err);
                 res.status(400).send({msg: 'error', content: err});
+                return resolve(1);
               } else {
-                console.log('기본 배송지 설정 성공:' + JSON.stringify(results));
+                if ((body.is_default = 1)) {
+                  // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
+                  const sqlCommend_reset =
+                    'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
+                  return db.query(
+                    sqlCommend_reset,
+                    param.user_id,
+                    function (err, results, fields) {
+                      if (err) {
+                        console.log('배송 주소 기본 설정 초기화:' + err);
+                        res.status(400).send({msg: 'error', content: err});
+                        return resolve(1);
+                      } else {
+                        const sqlCommend_default =
+                          'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+                        const param_2 = {
+                          user_id: body.user_id,
+                          address_id: results.insertId,
+                        };
+                        return db.query(
+                          sqlCommend_default,
+                          [param_2.user_id, param_2.address_id],
+                          function (err, results, fields) {
+                            if (err) {
+                              res
+                                .status(400)
+                                .send({msg: 'error', content: err});
+                              return resolve(1);
+                            } else {
+                              res.status(200).send({msg: 'success', results});
+                              return resolve(1);
+                            }
+                          },
+                        );
+                      }
+                    },
+                  );
+                }
               }
-            },
-          );
-
-          const sqlCommend_select =
-            'SELECT * FROM addressinfo WHERE user_id = ?';
-
-          db.query(sqlCommend_select, param, (err, results, fields) => {
-            if (err) {
-              // console.log('배송 주소 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
-            } else {
-              // console.log('userInfo 로그인 유저 조회 답변:' + results);
-              res.status(200).send({results});
-            }
-          });
-        } else {
-          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+            });
+          }
         }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
-  }
+      },
+    );
+  });
 });
 
-app.post('/api/addressInfoChange', (req, res) => {
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
-      if (err) {
-        console.log('addressChangeDefaultAddress 에러 발생: ' + err);
-      } else {
-        // console.log('디코디드: ' + decoded.USER_ID);
-        if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend_update =
-            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
-          const body = req.body;
-          const param_update = {
-            address_tag: body.address_tag,
-            recipient: body.recipient,
-            recipient_phone: body.recipient_phone,
-            post_code: body.post_code,
-            address1: body.address1,
-            address2: body.address2,
-            address3: body.address3,
-            address_id: body.address_id,
-          };
-          db.query(
-            sqlCommend_update,
-            [
-              param_update.address_tag,
-              param_update.recipient,
-              param_update.recipient_phone,
-              param_update.post_code,
-              param_update.address1,
-              param_update.address2,
-              param_update.address3,
-              param_update.address_id,
-            ],
-            (err, results, fields) => {
-              if (results.length <= 0) {
-                console.log('주소 정보 변경:' + err);
-                res.status(400).send({msg: 'error', content: err});
-              } else {
-                res.status(200).send({results});
-              }
-            },
-          );
-        } else {
-          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
-        }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
+app.post('/api/addressChangeDefaultAddress', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
   }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        } else {
+          if (decoded.USER_ID == req.body.user_id) {
+            const sqlCommend_reset =
+              'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
+            const body = req.body;
+            const param = body.user_id;
+            return db.query(
+              sqlCommend_reset,
+              param,
+              function (err, results, fields) {
+                if (err) {
+                  res.status(400).send({msg: 'error', content: err});
+                  return resolve(1);
+                } else {
+                  const sqlCommend_default =
+                    'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+                  const param_2 = {
+                    user_id: body.user_id,
+                    address_id: body.address_id,
+                  };
+                  return db.query(
+                    sqlCommend_default,
+                    [param_2.user_id, param_2.address_id],
+                    function (err, results, fields) {
+                      if (err) {
+                        res.status(400).send({msg: 'error', content: err});
+                        return resolve(1);
+                      } else {
+                        const sqlCommend_select =
+                          'SELECT * FROM addressinfo WHERE user_id = ?';
+
+                        return db.query(
+                          sqlCommend_select,
+                          param,
+                          function (err, results, fields) {
+                            if (err) {
+                              // console.log('배송 주소 조회 요청:' + err);
+                              res
+                                .status(400)
+                                .send({msg: 'error', content: err});
+                              return resolve(1);
+                            } else {
+                              // console.log('userInfo 로그인 유저 조회 답변:' + results);
+                              res.status(200).send({results});
+                              return resolve(1);
+                            }
+                          },
+                        );
+                      }
+                    },
+                  );
+                }
+              },
+            );
+          }
+        }
+      },
+    );
+  });
 });
 
-app.post('/api/deleteAddress', (req, res) => {
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
-      if (err) {
-        console.log('deleteAddress 에러 발생: ' + err);
-      } else {
-        // console.log('디코디드: ' + decoded.USER_ID);
-        if (decoded.USER_ID == req.body.user_id) {
-          const sqlCommend_delete =
-            'UPDATE addressinfo SET address_active = 0 WHERE address_id = ?';
-          const body = req.body;
-          const param = body.address_id;
-          db.query(sqlCommend_delete, param, (err, results, fields) => {
-            if (err) {
-              console.log('배송 주소 기본 설정 초기화:' + err);
-              res.status(400).send({msg: 'error', content: err});
-            } else {
-              res.status(200).send({msg: 'success'});
-            }
-          });
-        }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
+app.post('/api/addressInfoChange', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
   }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        } else {
+          if (decoded.USER_ID == req.body.user_id) {
+            const sqlCommend_update =
+              'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
+            const body = req.body;
+            const param_update = {
+              address_tag: body.address_tag,
+              recipient: body.recipient,
+              recipient_phone: body.recipient_phone,
+              post_code: body.post_code,
+              address1: body.address1,
+              address2: body.address2,
+              address3: body.address3,
+              address_id: body.address_id,
+            };
+            return db.query(
+              sqlCommend_update,
+              [
+                param_update.address_tag,
+                param_update.recipient,
+                param_update.recipient_phone,
+                param_update.post_code,
+                param_update.address1,
+                param_update.address2,
+                param_update.address3,
+                param_update.address_id,
+              ],
+              function (err, results, fields) {
+                if (results.length <= 0) {
+                  res.status(400).send({msg: 'error', content: err});
+                  return resolve(1);
+                } else {
+                  res.status(200).send({results});
+                  return resolve(1);
+                }
+              },
+            );
+          } else {
+            console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+          }
+        }
+      },
+    );
+  });
+});
+
+app.post('/api/deleteAddress', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
+  }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        } else {
+          if (decoded.USER_ID == req.body.user_id) {
+            const sqlCommend_delete =
+              'UPDATE addressinfo SET address_active = 0 WHERE address_id = ?';
+            const body = req.body;
+            const param = body.address_id;
+            return db.query(
+              sqlCommend_delete,
+              param,
+              function (err, results, fields) {
+                if (err) {
+                  res.status(400).send({msg: 'error', content: err});
+                  return resolve(1);
+                } else {
+                  res.status(200).send({msg: 'success'});
+                  return resolve(1);
+                }
+              },
+            );
+          }
+        }
+      },
+    );
+  });
 });
 
 app.post('/api/giveCoupon', function (req, res) {
@@ -411,7 +440,6 @@ app.post('/api/giveCoupon', function (req, res) {
     res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
     return;
   }
-  console.log(JSON.stringify(req.body));
   return new Promise(resolve => {
     return jwt.verify(
       req.headers.authorization,
