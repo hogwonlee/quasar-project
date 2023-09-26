@@ -94,91 +94,147 @@ app.use(noAuthRouter);
 
 app.use(auth.checkAuth);
 
-app.post('/api/checkpw', (req, res) => {
-  const sqlCommend = 'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
-  const body = req.body;
-  const param = {
-    user_id: body.user_id,
-    user_pw: hashpw(body.user_pw),
-    // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
-  };
-  // console.log(user_pw);
-  db.query(
-    sqlCommend,
-    [param.user_id, param.user_pw],
-    (err, results, fields) => {
-      if (results.length <= 0) {
-        console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
-      } else {
-        res.status(200).send({msg: 'success'});
-      }
-    },
-  );
-});
-
-app.post('/api/changeuserinfo', (req, res) => {
-  const sqlCommend =
-    'UPDATE userinfo SET user_name = ? , user_phone = ? WHERE id = ? ';
-  const body = req.body;
-  const param = {
-    user_id: body.user_id,
-    user_name: body.user_name,
-    user_phone: body.user_phone,
-  };
-  db.query(
-    sqlCommend,
-    [param.user_name, param.user_phone, param.user_id],
-    (err, results, fields) => {
-      if (results.length <= 0) {
-        console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
-      } else {
-        res.status(200).send({results});
-      }
-    },
-  );
-});
-
-app.post('/api/changepw', (req, res) => {
-  const sqlCommend_select =
-    'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
-  const body = req.body;
-  const param_select = {
-    user_id: body.user_id,
-    user_pw: hashpw(body.user_pw),
-    // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
-  };
-  db.query(
-    sqlCommend_select,
-    [param_select.user_id, param_select.user_pw],
-    (err, results, fields) => {
-      if (results.length <= 0) {
-        console.log('비밀번호 확인:' + err);
-        res.status(400).send({msg: 'error', content: err});
-      } else {
-        const sqlCommend_update =
-          'UPDATE userinfo SET user_pw = ? WHERE id = ? ';
-        const param_update = {
+app.post('/api/checkpw', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
+  }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        }
+        const sqlCommend =
+          'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
+        const body = req.body;
+        const param = {
           user_id: body.user_id,
-          user_pw: hashpw(body.newPw),
-          // user_pw: hashpw(security.decryptRsaContent(body.newPw)),
+          user_pw: hashpw(body.user_pw),
+          // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
         };
-        db.query(
-          sqlCommend_update,
-          [param_update.user_pw, param_update.user_id],
-          (err, results, fields) => {
+        // console.log(user_pw);
+        return db.query(
+          sqlCommend,
+          [param.user_id, param.user_pw],
+          function (err, results, fields) {
             if (results.length <= 0) {
-              console.log('비밀번호 변경 오류:' + err);
+              console.log('비밀번호 확인:' + err);
               res.status(400).send({msg: 'error', content: err});
+              return resolve(1);
             } else {
               res.status(200).send({msg: 'success'});
+              return resolve(1);
             }
           },
         );
-      }
-    },
-  );
+      },
+    );
+  });
+});
+
+app.post('/api/changeuserinfo', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
+  }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        }
+        const sqlCommend =
+          'UPDATE userinfo SET user_name = ? , user_phone = ? WHERE id = ? ';
+        const body = req.body;
+        const param = {
+          user_id: body.user_id,
+          user_name: body.user_name,
+          user_phone: body.user_phone,
+        };
+        return db.query(
+          sqlCommend,
+          [param.user_name, param.user_phone, param.user_id],
+          function (err, results, fields) {
+            if (results.length <= 0) {
+              console.log('비밀번호 확인:' + err);
+              res.status(400).send({msg: 'error', content: err});
+              return resolve(1);
+            } else {
+              res.status(200).send({results});
+              return resolve(1);
+            }
+          },
+        );
+      },
+    );
+  });
+});
+
+app.post('/api/changepw', function (req, res) {
+  if (!req.headers.authorization) {
+    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    return;
+  }
+  return new Promise(resolve => {
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        }
+        const sqlCommend_select =
+          'SELECT * FROM userinfo WHERE id = ? AND user_pw = ? ';
+        const body = req.body;
+        const param_select = {
+          user_id: body.user_id,
+          user_pw: hashpw(body.user_pw),
+          // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
+        };
+        return db.query(
+          sqlCommend_select,
+          [param_select.user_id, param_select.user_pw],
+          function (err, results, fields) {
+            if (results.length <= 0) {
+              console.log('비밀번호 확인:' + err);
+              res.status(400).send({msg: 'error', content: err});
+              return resolve(1);
+            } else {
+              const sqlCommend_update =
+                'UPDATE userinfo SET user_pw = ? WHERE id = ? ';
+              const param_update = {
+                user_id: body.user_id,
+                user_pw: hashpw(body.newPw),
+                // user_pw: hashpw(security.decryptRsaContent(body.newPw)),
+              };
+              return db.query(
+                sqlCommend_update,
+                [param_update.user_pw, param_update.user_id],
+                function (err, results, fields) {
+                  if (results.length <= 0) {
+                    console.log('비밀번호 변경 오류:' + err);
+                    res.status(400).send({msg: 'error', content: err});
+                    return resolve(1);
+                  } else {
+                    res.status(200).send({msg: 'success'});
+                    return resolve(1);
+                  }
+                },
+              );
+            }
+          },
+        );
+      },
+    );
+  });
 });
 
 app.post('/api/addressRegister', function (req, res) {
@@ -194,69 +250,66 @@ app.post('/api/addressRegister', function (req, res) {
         if (err) {
           res.status(500).send({msg: 'error', content: err});
           return resolve(1);
-        } else {
-          if (decoded.USER_ID == req.body.user_id) {
-            const sqlCommend = 'INSERT INTO addressinfo SET ?';
-            const body = req.body;
-            const param = {
-              address_tag: body.address_tag,
-              recipient: body.recipient,
-              recipient_phone: body.recipient_phone,
-              post_code: body.post_code,
-              address1: body.address1,
-              address2: body.address2,
-              address3: body.address3,
-              is_default: body.is_default,
-              user_id: body.user_id,
-            };
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend = 'INSERT INTO addressinfo SET ?';
+          const body = req.body;
+          const param = {
+            address_tag: body.address_tag,
+            recipient: body.recipient,
+            recipient_phone: body.recipient_phone,
+            post_code: body.post_code,
+            address1: body.address1,
+            address2: body.address2,
+            address3: body.address3,
+            is_default: body.is_default,
+            user_id: body.user_id,
+          };
 
-            return db.query(sqlCommend, param, function (err, results, fields) {
-              if (err) {
-                console.log('배송 주소 추가 요청:' + err);
-                res.status(400).send({msg: 'error', content: err});
-                return resolve(1);
-              } else {
-                if ((body.is_default = 1)) {
-                  // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
-                  const sqlCommend_reset =
-                    'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
-                  return db.query(
-                    sqlCommend_reset,
-                    param.user_id,
-                    function (err, results, fields) {
-                      if (err) {
-                        console.log('배송 주소 기본 설정 초기화:' + err);
-                        res.status(400).send({msg: 'error', content: err});
-                        return resolve(1);
-                      } else {
-                        const sqlCommend_default =
-                          'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
-                        const param_2 = {
-                          user_id: body.user_id,
-                          address_id: results.insertId,
-                        };
-                        return db.query(
-                          sqlCommend_default,
-                          [param_2.user_id, param_2.address_id],
-                          function (err, results, fields) {
-                            if (err) {
-                              res
-                                .status(400)
-                                .send({msg: 'error', content: err});
-                              return resolve(1);
-                            } else {
-                              res.status(200).send({msg: 'success', results});
-                              return resolve(1);
-                            }
-                          },
-                        );
-                      }
-                    },
-                  );
-                }
+          return db.query(sqlCommend, param, function (err, results, fields) {
+            if (err) {
+              console.log('배송 주소 추가 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+              return resolve(1);
+            } else {
+              if ((body.is_default = 1)) {
+                // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
+                const sqlCommend_reset =
+                  'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
+                return db.query(
+                  sqlCommend_reset,
+                  param.user_id,
+                  function (err, results, fields) {
+                    if (err) {
+                      console.log('배송 주소 기본 설정 초기화:' + err);
+                      res.status(400).send({msg: 'error', content: err});
+                      return resolve(1);
+                    } else {
+                      const sqlCommend_default =
+                        'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+                      const param_2 = {
+                        user_id: body.user_id,
+                        address_id: results.insertId,
+                      };
+                      return db.query(
+                        sqlCommend_default,
+                        [param_2.user_id, param_2.address_id],
+                        function (err, results, fields) {
+                          if (err) {
+                            res.status(400).send({msg: 'error', content: err});
+                            return resolve(1);
+                          } else {
+                            res.status(200).send({msg: 'success', results});
+                            return resolve(1);
+                          }
+                        },
+                      );
+                    }
+                  },
+                );
               }
-            });
-          }
+            }
+          });
         }
       },
     );
@@ -276,61 +329,58 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
         if (err) {
           res.status(500).send({msg: 'error', content: err});
           return resolve(1);
-        } else {
-          if (decoded.USER_ID == req.body.user_id) {
-            const sqlCommend_reset =
-              'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
-            const body = req.body;
-            const param = body.user_id;
-            return db.query(
-              sqlCommend_reset,
-              param,
-              function (err, results, fields) {
-                if (err) {
-                  res.status(400).send({msg: 'error', content: err});
-                  return resolve(1);
-                } else {
-                  const sqlCommend_default =
-                    'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
-                  const param_2 = {
-                    user_id: body.user_id,
-                    address_id: body.address_id,
-                  };
-                  return db.query(
-                    sqlCommend_default,
-                    [param_2.user_id, param_2.address_id],
-                    function (err, results, fields) {
-                      if (err) {
-                        res.status(400).send({msg: 'error', content: err});
-                        return resolve(1);
-                      } else {
-                        const sqlCommend_select =
-                          'SELECT * FROM addressinfo WHERE user_id = ?';
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend_reset =
+            'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
+          const body = req.body;
+          const param = body.user_id;
+          return db.query(
+            sqlCommend_reset,
+            param,
+            function (err, results, fields) {
+              if (err) {
+                res.status(400).send({msg: 'error', content: err});
+                return resolve(1);
+              } else {
+                const sqlCommend_default =
+                  'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
+                const param_2 = {
+                  user_id: body.user_id,
+                  address_id: body.address_id,
+                };
+                return db.query(
+                  sqlCommend_default,
+                  [param_2.user_id, param_2.address_id],
+                  function (err, results, fields) {
+                    if (err) {
+                      res.status(400).send({msg: 'error', content: err});
+                      return resolve(1);
+                    } else {
+                      const sqlCommend_select =
+                        'SELECT * FROM addressinfo WHERE user_id = ?';
 
-                        return db.query(
-                          sqlCommend_select,
-                          param,
-                          function (err, results, fields) {
-                            if (err) {
-                              // console.log('배송 주소 조회 요청:' + err);
-                              res
-                                .status(400)
-                                .send({msg: 'error', content: err});
-                              return resolve(1);
-                            } else {
-                              // console.log('userInfo 로그인 유저 조회 답변:' + results);
-                              res.status(200).send({results});
-                              return resolve(1);
-                            }
-                          },
-                        );
-                      }
-                    },
-                  );
-                }
-              },
-            );
-          }
+                      return db.query(
+                        sqlCommend_select,
+                        param,
+                        function (err, results, fields) {
+                          if (err) {
+                            // console.log('배송 주소 조회 요청:' + err);
+                            res.status(400).send({msg: 'error', content: err});
+                            return resolve(1);
+                          } else {
+                            // console.log('userInfo 로그인 유저 조회 답변:' + results);
+                            res.status(200).send({results});
+                            return resolve(1);
+                          }
+                        },
+                      );
+                    }
+                  },
+                );
+              }
+            },
+          );
         }
       },
     );
@@ -350,46 +400,43 @@ app.post('/api/addressInfoChange', function (req, res) {
         if (err) {
           res.status(500).send({msg: 'error', content: err});
           return resolve(1);
-        } else {
-          if (decoded.USER_ID == req.body.user_id) {
-            const sqlCommend_update =
-              'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
-            const body = req.body;
-            const param_update = {
-              address_tag: body.address_tag,
-              recipient: body.recipient,
-              recipient_phone: body.recipient_phone,
-              post_code: body.post_code,
-              address1: body.address1,
-              address2: body.address2,
-              address3: body.address3,
-              address_id: body.address_id,
-            };
-            return db.query(
-              sqlCommend_update,
-              [
-                param_update.address_tag,
-                param_update.recipient,
-                param_update.recipient_phone,
-                param_update.post_code,
-                param_update.address1,
-                param_update.address2,
-                param_update.address3,
-                param_update.address_id,
-              ],
-              function (err, results, fields) {
-                if (err) {
-                  res.status(400).send({msg: 'error', content: err});
-                  return resolve(1);
-                } else {
-                  res.status(200).send({results});
-                  return resolve(1);
-                }
-              },
-            );
-          } else {
-            console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
-          }
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend_update =
+            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
+          const body = req.body;
+          const param_update = {
+            address_tag: body.address_tag,
+            recipient: body.recipient,
+            recipient_phone: body.recipient_phone,
+            post_code: body.post_code,
+            address1: body.address1,
+            address2: body.address2,
+            address3: body.address3,
+            address_id: body.address_id,
+          };
+          return db.query(
+            sqlCommend_update,
+            [
+              param_update.address_tag,
+              param_update.recipient,
+              param_update.recipient_phone,
+              param_update.post_code,
+              param_update.address1,
+              param_update.address2,
+              param_update.address3,
+              param_update.address_id,
+            ],
+            function (err, results, fields) {
+              if (err) {
+                res.status(400).send({msg: 'error', content: err});
+                return resolve(1);
+              } else {
+                res.status(200).send({results});
+                return resolve(1);
+              }
+            },
+          );
         }
       },
     );
@@ -409,26 +456,25 @@ app.post('/api/deleteAddress', function (req, res) {
         if (err) {
           res.status(500).send({msg: 'error', content: err});
           return resolve(1);
-        } else {
-          if (decoded.USER_ID == req.body.user_id) {
-            const sqlCommend_delete =
-              'UPDATE addressinfo SET address_active = 0 WHERE address_id = ?';
-            const body = req.body;
-            const param = body.address_id;
-            return db.query(
-              sqlCommend_delete,
-              param,
-              function (err, results, fields) {
-                if (err) {
-                  res.status(400).send({msg: 'error', content: err});
-                  return resolve(1);
-                } else {
-                  res.status(200).send({msg: 'success'});
-                  return resolve(1);
-                }
-              },
-            );
-          }
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend_delete =
+            'UPDATE addressinfo SET address_active = 0 WHERE address_id = ?';
+          const body = req.body;
+          const param = body.address_id;
+          return db.query(
+            sqlCommend_delete,
+            param,
+            function (err, results, fields) {
+              if (err) {
+                res.status(400).send({msg: 'error', content: err});
+                return resolve(1);
+              } else {
+                res.status(200).send({msg: 'success'});
+                return resolve(1);
+              }
+            },
+          );
         }
       },
     );
@@ -705,25 +751,24 @@ app.post('/api/addressInfo', function (req, res) {
         if (err) {
           res.status(500).send({msg: 'error', content: err});
           return resolve(1);
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend = 'SELECT * FROM addressinfo WHERE user_id = ?';
+          const body = req.body;
+          const param = body.user_id;
+          return db.query(sqlCommend, param, function (err, results, fields) {
+            if (err) {
+              // console.log('배송 주소 추가 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+              return resolve(1);
+            } else {
+              // console.log('userInfo 로그인 유저 조회 답변:' + results);
+              res.status(200).send({results});
+              return resolve(1);
+            }
+          });
         } else {
-          if (decoded.USER_ID == req.body.user_id) {
-            const sqlCommend = 'SELECT * FROM addressinfo WHERE user_id = ?';
-            const body = req.body;
-            const param = body.user_id;
-            return db.query(sqlCommend, param, function (err, results, fields) {
-              if (err) {
-                // console.log('배송 주소 추가 요청:' + err);
-                res.status(400).send({msg: 'error', content: err});
-                return resolve(1);
-              } else {
-                // console.log('userInfo 로그인 유저 조회 답변:' + results);
-                res.status(200).send({results});
-                return resolve(1);
-              }
-            });
-          } else {
-            console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
-          }
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
         }
       },
     );
