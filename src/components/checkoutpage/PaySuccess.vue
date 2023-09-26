@@ -121,7 +121,7 @@
       },
 
       get_eventCoupon() {
-        const query_data = {
+        const query_coupon = {
           user_id: this.user.USER_ID,
           food_price: this.cartTotalPrice,
         };
@@ -133,7 +133,7 @@
             'Content-Type': 'application/json',
             authorization: this.user.USER_TOKEN,
           },
-          data: query_data,
+          data: query_coupon,
         })
           .then(res => {
             if (res.status == 200) {
