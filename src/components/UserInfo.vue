@@ -530,11 +530,13 @@
             .then(res => {
               if (res.status == 200) {
                 this.$store.dispatch('coupon/emptyCouponAction');
-                res.data.results.forEach(coupon => {
-                  if (coupon.available === 1) {
-                    this.$store.dispatch('coupon/addCouponAction', coupon);
-                  }
-                });
+                if (res.data.results.length > 0) {
+                  res.data.results.forEach(coupon => {
+                    if (coupon.available === 1) {
+                      this.$store.dispatch('coupon/addCouponAction', coupon);
+                    }
+                  });
+                }
                 this.$store.dispatch('coupon/setStatusAction', null);
               } else {
                 alert.confirm(

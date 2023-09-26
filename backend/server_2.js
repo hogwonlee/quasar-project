@@ -652,10 +652,6 @@ app.post('/api/mycoupon', (req, res) => {
   const param = {user_id: body.user_id};
   console.log(sqlCommend, param.user_id);
   db.query(sqlCommend, param.user_id, (err, results, fields) => {
-    if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
-    } else {
-      res.status(200).send({results});
-    }
+    res.status(200).send({results});
   });
 });
