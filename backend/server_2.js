@@ -538,6 +538,76 @@ app.post('/api/orderRegister', function (req, res) {
               }
             },
           );
+        } else {
+          let sqlCommend =
+            'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+          const body = req.body;
+          const param = {
+            address_id: body.address_id,
+            user_id: body.user_id,
+            food_price: body.food_price,
+            satisfy_coupon: 'no coupon',
+            total_price: body.total_price,
+          };
+
+          return db.query(
+            sqlCommend,
+            [
+              param.address_id,
+              param.user_id,
+              param.food_price,
+              param.total_price,
+              param.satisfy_coupon,
+            ],
+            function (err, results, fields) {
+              if (err) {
+                res.status(500).send({msg: 'error', content: err});
+                return resolve(1);
+              } else {
+                const insert_sql =
+                  'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+                var order_data = body.order_data;
+                order_data.map(element => {
+                  element.order_group = results.insertId;
+                });
+                var order_list = '';
+                for (var i = 0; i < order_data.length; i++) {
+                  order_list =
+                    order_list +
+                    '(' +
+                    order_data[i].product_id +
+                    ',' +
+                    order_data[i].quantity +
+                    ',' +
+                    order_data[i].order_group +
+                    ',' +
+                    order_data[i].buyoption +
+                    ',' +
+                    order_data[i].bonus_quantity +
+                    ',' +
+                    order_data[i].cut_money +
+                    ')';
+                  if (i + 1 < order_data.length) {
+                    order_list = order_list + ',';
+                  }
+                }
+                const sqlCommend_insert = insert_sql + order_list;
+
+                return db.query(
+                  sqlCommend_insert,
+                  function (err, results, fields) {
+                    if (err) {
+                      res.status(500).send({msg: 'error', content: err});
+                      return resolve(1);
+                    } else {
+                      res.status(200).send({results});
+                      return resolve(1);
+                    }
+                  },
+                );
+              }
+            },
+          );
         }
       },
     );
