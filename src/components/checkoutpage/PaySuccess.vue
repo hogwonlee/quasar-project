@@ -17,6 +17,7 @@
   import axios from 'axios';
   import {mapGetters, mapState, mapActions} from 'vuex';
   import configs from 'src/configs/';
+  import alert from 'src/util/modules/alert';
 
   export default defineComponent({
     name: 'PaySuccess',
@@ -56,7 +57,7 @@
       paymentAuthorizationRequest() {
         this.readResData();
         const requestData = this.postJsonData;
-        console.log(JSON.stringify(requestData));
+        // console.log(JSON.stringify(requestData));
         axios({
           url: 'https://api.tosspayments.com/v1/payments/confirm',
           method: 'POST',
@@ -72,7 +73,10 @@
         })
           .then(async res => {
             if (res.status == 200) {
-              console.log(JSON.stringify(res.data));
+              // console.log(JSON.stringify(res.data));
+              if (this.cartTotalPrice >= 50000) {
+                this.get_eventCoupon();
+              }
               this.set_order_with_address(await this.get_address_id());
             } else {
               console.log(
@@ -105,12 +109,38 @@
           data: query_data,
         })
           .then(res => {
-            console.log(JSON.stringify(res));
+            // console.log(JSON.stringify(res));
 
             if (res.status == 200) {
               this.$store.dispatch('cart/checkout');
               this.$store.dispatch('coupon/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
               this.$store.dispatch('order/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+
+      get_eventCoupon() {
+        const query_data = {
+          user_id: this.user.USER_ID,
+          food_price: this.cartTotalPrice,
+        };
+        axios({
+          url: `${configs.server}/giveCoupon`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: query_data,
+        })
+          .then(res => {
+            if (res.status == 200) {
+              alert.confirm(
+                '50000원 구매 감사 이벤트',
+                '50000원 이상 구매하셔서 3000원 쿠폰이 지급되었습니다. 사용기한은 3개월입니다. 3개월 이내에 꼭 사용해 주세요! 감사합니다!',
+              );
             }
           })
           .catch(res => console.log('에러: ' + res));

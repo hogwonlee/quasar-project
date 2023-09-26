@@ -405,6 +405,38 @@ app.post('/api/deleteAddress', (req, res) => {
   }
 });
 
+app.post('/api/giveCoupon', function (req, res) {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('giveCoupon 웹토큰 에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
+          if (Number(req.body.food_price) >= 50000) {
+            const sqlCommend_gift =
+              'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
+            const param_gift = {user_id: req.body.user_id};
+            return db.query(
+              sqlCommend_gift,
+              param_gift.user_id,
+              function (err_gift, results_gift, fields) {
+                if (err_gift) {
+                  res.status(400).send({msg: 'error', content: err});
+                } else {
+                  res.status(200).send({results_gift});
+                }
+              },
+            );
+          }
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
 app.post('/api/orderRegister', function (req, res) {
   if (!req.headers.authorization) {
     res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
@@ -426,98 +458,7 @@ app.post('/api/orderRegister', function (req, res) {
             .send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
           return resolve(1);
         }
-        let satisfy_coupon = 'unsatisify';
-        //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
-        if (Number(req.body.total_price) >= 50000) {
-          const sqlCommend_gift =
-            'INSERT INTO usercoupon SET coupon_id = 2 AND user_id = ?';
-          const param_gift = {user_id: req.body.user_id};
-          return db.query(
-            sqlCommend_gift,
-            param_gift.user_id,
-            function (err_gift, results_gift, fields) {
-              if (err_gift) {
-                satisfy_coupon = 'error';
-              } else {
-                satisfy_coupon = 'success';
-              }
-              const sqlCommend =
-                'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?, used_coupon_id = ?';
-              const body = req.body;
-              const param = {
-                address_id: body.address_id,
-                user_id: body.user_id,
-                food_price: body.food_price,
-                total_price: body.total_price,
-                satisfy_coupon: satisfy_coupon,
-                used_coupon_id: body.used_coupon_id,
-              };
 
-              return db.query(
-                sqlCommend,
-                [
-                  param.address_id,
-                  param.user_id,
-                  param.food_price,
-                  param.total_price,
-                  param.satisfy_coupon,
-                  param.used_coupon_id,
-                ],
-                function (err, results, fields) {
-                  if (err) {
-                    console.log('주문 추가 요청:' + err);
-                    res.status(500).send({msg: 'error', content: err});
-                    return resolve(1);
-                  } else {
-                    const insert_sql =
-                      'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-                    console.log(JSON.stringify(body.order_data));
-                    var order_data = body.order_data;
-                    order_data.map(element => {
-                      element.order_group = results.insertId;
-                    });
-                    console.log(JSON.stringify(order_data));
-                    var order_list = '';
-                    for (var i = 0; i < order_data.length; i++) {
-                      order_list =
-                        order_list +
-                        '(' +
-                        order_data[i].product_id +
-                        ',' +
-                        order_data[i].quantity +
-                        ',' +
-                        order_data[i].order_group +
-                        ',' +
-                        order_data[i].buyoption +
-                        ',' +
-                        order_data[i].bonus_quantity +
-                        ',' +
-                        order_data[i].cut_money +
-                        ')';
-                      if (i + 1 < order_data.length) {
-                        order_list = order_list + ',';
-                      }
-                    }
-                    const sqlCommend_insert = insert_sql + order_list;
-
-                    return db.query(
-                      sqlCommend_insert,
-                      function (err, results, fields) {
-                        if (err) {
-                          res.status(500).send({msg: 'error', content: err});
-                          return resolve(1);
-                        } else {
-                          res.status(200).send({results});
-                          return resolve(1);
-                        }
-                      },
-                    );
-                  }
-                },
-              );
-            },
-          );
-        }
         //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
         if (req.body.used_coupon_id != null) {
           const sqlCommend_useCoupon =
@@ -531,153 +472,83 @@ app.post('/api/orderRegister', function (req, res) {
             [param_useCoupon.user_id, param_useCoupon.coupon_id],
             function (err_gift, results_gift, fields) {
               if (err_gift) {
-                satisfy_coupon = satisfy_coupon + 'use coupon error';
-                // return resolve(1)
-              }
-              const sqlCommend =
-                'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?, used_coupon_id = ?';
-              const body = req.body;
-              const param = {
-                address_id: body.address_id,
-                user_id: body.user_id,
-                food_price: body.food_price,
-                total_price: body.total_price,
-                satisfy_coupon: satisfy_coupon,
-                used_coupon_id: body.used_coupon_id,
-              };
+                res.status(400).send({msg: 'use coupon error', content: err});
+                return resolve(1);
+              } else {
+                let sqlCommend =
+                  'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+                const body = req.body;
+                const param = {
+                  address_id: body.address_id,
+                  user_id: body.user_id,
+                  food_price: body.food_price,
+                  satisfy_coupon:
+                    'used coupon ID :' + param_useCoupon.coupon_id,
+                  total_price: body.total_price,
+                };
 
-              return db.query(
-                sqlCommend,
-                [
-                  param.address_id,
-                  param.user_id,
-                  param.food_price,
-                  param.total_price,
-                  param.satisfy_coupon,
-                  param.used_coupon_id,
-                ],
-                function (err, results, fields) {
-                  if (err) {
-                    res.status(500).send({msg: 'error', content: err});
-                    return resolve(1);
-                  } else {
-                    const insert_sql =
-                      'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-                    var order_data = body.order_data;
-                    order_data.map(element => {
-                      element.order_group = results.insertId;
-                    });
-                    var order_list = '';
-                    for (var i = 0; i < order_data.length; i++) {
-                      order_list =
-                        order_list +
-                        '(' +
-                        order_data[i].product_id +
-                        ',' +
-                        order_data[i].quantity +
-                        ',' +
-                        order_data[i].order_group +
-                        ',' +
-                        order_data[i].buyoption +
-                        ',' +
-                        order_data[i].bonus_quantity +
-                        ',' +
-                        order_data[i].cut_money +
-                        ')';
-                      if (i + 1 < order_data.length) {
-                        order_list = order_list + ',';
-                      }
-                    }
-                    const sqlCommend_insert = insert_sql + order_list;
-
-                    return db.query(
-                      sqlCommend_insert,
-                      function (err, results, fields) {
-                        if (err) {
-                          res.status(500).send({msg: 'error', content: err});
-                          return resolve(1);
-                        } else {
-                          res.status(500).send({results});
-                          return resolve(1);
+                return db.query(
+                  sqlCommend,
+                  [
+                    param.address_id,
+                    param.user_id,
+                    param.food_price,
+                    param.total_price,
+                    param.satisfy_coupon,
+                  ],
+                  function (err, results, fields) {
+                    if (err) {
+                      res.status(500).send({msg: 'error', content: err});
+                      return resolve(1);
+                    } else {
+                      const insert_sql =
+                        'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
+                      var order_data = body.order_data;
+                      order_data.map(element => {
+                        element.order_group = results.insertId;
+                      });
+                      var order_list = '';
+                      for (var i = 0; i < order_data.length; i++) {
+                        order_list =
+                          order_list +
+                          '(' +
+                          order_data[i].product_id +
+                          ',' +
+                          order_data[i].quantity +
+                          ',' +
+                          order_data[i].order_group +
+                          ',' +
+                          order_data[i].buyoption +
+                          ',' +
+                          order_data[i].bonus_quantity +
+                          ',' +
+                          order_data[i].cut_money +
+                          ')';
+                        if (i + 1 < order_data.length) {
+                          order_list = order_list + ',';
                         }
-                      },
-                    );
-                  }
-                },
-              );
+                      }
+                      const sqlCommend_insert = insert_sql + order_list;
+
+                      return db.query(
+                        sqlCommend_insert,
+                        function (err, results, fields) {
+                          if (err) {
+                            res.status(500).send({msg: 'error', content: err});
+                            return resolve(1);
+                          } else {
+                            res.status(200).send({results});
+                            return resolve(1);
+                          }
+                        },
+                      );
+                    }
+                  },
+                );
+              }
             },
           );
         }
-
-        let sqlCommend =
-          'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
-        const body = req.body;
-        const param = {
-          address_id: body.address_id,
-          user_id: body.user_id,
-          food_price: body.food_price,
-          satisfy_coupon: satisfy_coupon,
-          total_price: body.total_price,
-        };
-
-        return db.query(
-          sqlCommend,
-          [
-            param.address_id,
-            param.user_id,
-            param.food_price,
-            param.total_price,
-            param.satisfy_coupon,
-          ],
-          function (err, results, fields) {
-            if (err) {
-              res.status(500).send({msg: 'error', content: err});
-              return resolve(1);
-            } else {
-              const insert_sql =
-                'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-              var order_data = body.order_data;
-              order_data.map(element => {
-                element.order_group = results.insertId;
-              });
-              var order_list = '';
-              for (var i = 0; i < order_data.length; i++) {
-                order_list =
-                  order_list +
-                  '(' +
-                  order_data[i].product_id +
-                  ',' +
-                  order_data[i].quantity +
-                  ',' +
-                  order_data[i].order_group +
-                  ',' +
-                  order_data[i].buyoption +
-                  ',' +
-                  order_data[i].bonus_quantity +
-                  ',' +
-                  order_data[i].cut_money +
-                  ')';
-                if (i + 1 < order_data.length) {
-                  order_list = order_list + ',';
-                }
-              }
-              const sqlCommend_insert = insert_sql + order_list;
-
-              return db.query(
-                sqlCommend_insert,
-                function (err, results, fields) {
-                  if (err) {
-                    res.status(500).send({msg: 'error', content: err});
-                    return resolve(1);
-                  } else {
-                    res.status(200).send({results});
-                    return resolve(1);
-                  }
-                },
-              );
-            }
-          },
-        );
       },
     );
   });
@@ -782,51 +653,6 @@ app.get('/api/orderGroupInfo', (req, res) => {
     }
   });
 });
-
-// app.get('/productList', (req, res) => {
-//   console.log(req.query);
-//   const sqlCommend_v = 'SELECT * FROM storeversion';
-//   db.query(sqlCommend_v, (err, results, fields) => {
-//     if (err) {
-//       console.error(err);
-//       res.status(500).send({msg: 'error', content: err});
-//     }
-//     if (results.length <= 0) {
-//       res.status(400).send({msg: 'error', content: err});
-//     } else {
-//       // return;
-//       let local_version = parseInt(req.query.version, 10);
-//       if (isNaN(local_version)) {
-//         local_version = 0;
-//       }
-//       let store_version = results[0].version;
-//       console.log(store_version + '///' + local_version);
-//       if (store_version > local_version) {
-//         const sqlCommend = 'SELECT * FROM productinfo ORDER BY category';
-//         db.query(sqlCommend, (err, results, fields) => {
-//           if (results.length <= 0) {
-//             res.status(400).send({msg: 'error', content: err});
-//           } else {
-//             const sqlCommendCate = 'SELECT DISTINCT category FROM productinfo';
-//             db.query(sqlCommendCate, (err, results_category, fields) => {
-//               if (results.length <= 0) {
-//                 res.status(400).send({msg: 'error', content: err});
-//               } else {
-//                 res.status(200).send({
-//                   results: results,
-//                   category: results_category,
-//                   version: store_version,
-//                 });
-//               }
-//             });
-//           }
-//         });
-//       } else {
-//         res.status(200).send({msg: 'no update'});
-//       }
-//     }
-//   });
-// });
 
 app.post('/api/mycoupon', (req, res) => {
   const sqlCommend =
