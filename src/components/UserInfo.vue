@@ -442,10 +442,13 @@
         address_status: state => state.address.status,
         addressList: state => state.address.items,
         couponList: state => state.coupon.items,
+        coupon_status: state => state.coupon.status,
         selected_local: state => state.ui_local.status,
       }),
     },
-    mounted() {},
+    mounted() {
+      this.read_coupon();
+    },
     watch: {
       user_status: function (user_status_new) {
         if (user_status_new) {

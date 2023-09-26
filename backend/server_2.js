@@ -406,34 +406,24 @@ app.post('/api/deleteAddress', (req, res) => {
 });
 
 app.post('/api/giveCoupon', function (req, res) {
-  if (req.headers.authorization != null) {
-    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
-      if (err) {
-        console.log('giveCoupon 웹토큰 에러 발생: ' + err);
-      } else {
-        if (decoded.USER_ID == req.body.user_id) {
-          //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
-          if (Number(req.body.food_price) >= 50000) {
-            const sqlCommend_gift =
-              'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
-            const param_gift = {user_id: req.body.user_id};
-            return db.query(
-              sqlCommend_gift,
-              param_gift.user_id,
-              function (err_gift, results_gift, fields) {
-                if (err_gift) {
-                  res.status(400).send({msg: 'error', content: err});
-                } else {
-                  res.status(200).send({results_gift});
-                }
-              },
-            );
+  if (decoded.USER_ID == req.body.user_id) {
+    //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
+    if (Number(req.body.food_price) >= 50000) {
+      const sqlCommend_gift =
+        'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
+      const param_gift = {user_id: req.body.user_id};
+      return db.query(
+        sqlCommend_gift,
+        param_gift.user_id,
+        function (err_gift, results_gift, fields) {
+          if (err_gift) {
+            res.status(400).send({msg: 'error', content: err});
+          } else {
+            res.status(200).send({results_gift});
           }
-        }
-      }
-    });
-  } else {
-    console.log('요청 헤더에 승인 정보가 없음.');
+        },
+      );
+    }
   }
 });
 
@@ -656,7 +646,7 @@ app.get('/api/orderGroupInfo', (req, res) => {
 
 app.post('/api/mycoupon', (req, res) => {
   const sqlCommend =
-    'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE user_id = ? AND available = TRUE';
+    'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE usercoupon.user_id = ? AND usercoupon.available = 1';
 
   const body = req.body;
   const param = {user_id: body.user_id};
