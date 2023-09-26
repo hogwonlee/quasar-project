@@ -411,29 +411,39 @@ app.post('/api/giveCoupon', function (req, res) {
     res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
     return;
   }
+  console.log(JSON.stringify(req.body));
   return new Promise(resolve => {
-    console.log(JSON.stringify(req.body));
-    if (decoded.USER_ID == req.body.user_id) {
-      //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
-      if (Number(req.body.food_price) >= 50000) {
-        const sqlCommend_gift =
-          'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
-        const param_gift = {user_id: req.body.user_id};
-        return db.query(
-          sqlCommend_gift,
-          param_gift.user_id,
-          function (err_gift, results_gift, fields) {
-            if (err_gift) {
-              res.status(400).send({msg: 'error', content: err});
-              return resolve(1);
-            } else {
-              res.status(200).send({results_gift});
-              return resolve(1);
-            }
-          },
-        );
-      }
-    }
+    return jwt.verify(
+      req.headers.authorization,
+      jwtObj.secret,
+      function (err, decoded) {
+        if (err) {
+          res.status(500).send({msg: 'error', content: err});
+          return resolve(1);
+        }
+        if (decoded.USER_ID == req.body.user_id) {
+          //5만원 이상 구매 시, 쿠폰 지급 (결제 금액이 아닌 구매 금액만 초과하면 선물)
+          if (Number(req.body.food_price) >= 50000) {
+            const sqlCommend_gift =
+              'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
+            const param_gift = {user_id: req.body.user_id};
+            return db.query(
+              sqlCommend_gift,
+              param_gift.user_id,
+              function (err_gift, results_gift, fields) {
+                if (err_gift) {
+                  res.status(400).send({msg: 'error', content: err});
+                  return resolve(1);
+                } else {
+                  res.status(200).send({results_gift});
+                  return resolve(1);
+                }
+              },
+            );
+          }
+        }
+      },
+    );
   });
 });
 
