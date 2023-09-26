@@ -19,7 +19,7 @@ const actions = {
   deleteAddressAction({commit}, index) {
     commit('deleteAddressFromState', index);
   },
-  async updateAddressAction({state, commit}, address) {
+  updateAddressAction({state, commit}, address) {
     var updateAddr = state.items.map(
       item => item.address_id == address.address_id,
     );

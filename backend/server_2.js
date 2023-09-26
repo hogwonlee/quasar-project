@@ -378,7 +378,7 @@ app.post('/api/addressInfoChange', function (req, res) {
                 param_update.address_id,
               ],
               function (err, results, fields) {
-                if (results.length <= 0) {
+                if (err) {
                   res.status(400).send({msg: 'error', content: err});
                   return resolve(1);
                 } else {
