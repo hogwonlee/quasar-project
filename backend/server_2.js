@@ -646,7 +646,7 @@ app.get('/api/orderGroupInfo', (req, res) => {
 
 app.post('/api/mycoupon', (req, res) => {
   const sqlCommend =
-    'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE usercoupon.user_id = ? AND usercoupon.available = 1';
+    'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE usercoupon.available = 1 AND usercoupon.user_id = ?';
 
   const body = req.body;
   const param = {user_id: body.user_id};
