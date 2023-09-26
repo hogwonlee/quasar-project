@@ -7,7 +7,7 @@
       <q-card
         class="my-card"
         v-for="order in orderGroupList.slice().reverse()"
-        :key="order.id"
+        :key="order.orderGroup_id"
         v-bind="order"
       >
         <div class="q-gutter-sm q-ma-xs">

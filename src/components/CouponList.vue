@@ -114,8 +114,8 @@
     },
     methods: {
       read_coupon() {
-        if (this.coupon_status != '') {
-          console.log('쿠폰데이터 불러오기');
+        if (this.coupon_status != null) {
+          // console.log('쿠폰데이터 불러오기');
           axios({
             url: `${configs.server}/mycoupon`,
             // httpsAgent: new https.Agent({
@@ -140,6 +140,7 @@
                     this.$store.dispatch('coupon/addCouponAction', coupon);
                   }
                 });
+                this.$store.dispatch('coupon/setStatusAction', null);
               } else {
                 alert.confirm(
                   this.selected_local.err,

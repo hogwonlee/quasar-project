@@ -109,7 +109,8 @@
 
             if (res.status == 200) {
               this.$store.dispatch('cart/checkout');
-              this.$store.dispatch('coupon/setStatusAction', ''); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+              this.$store.dispatch('coupon/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+              this.$store.dispatch('order/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
             }
           })
           .catch(res => console.log('에러: ' + res));
