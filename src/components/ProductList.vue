@@ -77,7 +77,7 @@
           <q-space />
         </q-bar>
         <ProductInfo
-          class="col-xs-3 col-sm-3 col-md-1 q-pa-xs"
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in products.filter(
             p =>
               p.category == c.category &&
