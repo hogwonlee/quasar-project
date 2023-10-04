@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img :src="img" class="rounded-borders">
+      <q-img :src="img" class="rounded-borders" :ratio="1">
         <div class="absolute-top-right q-mt-sm transparent">
           <q-badge v-if="buyoption == true" color="teal" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}

@@ -3,9 +3,9 @@
     <q-header elevated class="bg-primary">
       <q-toolbar>
         <q-toolbar-title>
-          <q-btn flat size="lg" tag="a" to="/HomePage">
-            {{ selected_local.chinafood }}
-          </q-btn>
+          <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
+          {{ selected_local.chinafood }}
+          <!-- </q-btn> -->
           <q-btn-toggle
             v-model="ui_local"
             glossy
