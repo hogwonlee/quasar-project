@@ -248,7 +248,9 @@
               disable
               borderless
               :label="selected_local.shelf_life"
-              :model-value="shelf_life + selected_local.month_count"
+              :model-value="
+                shelf_life <= 0 ? '-' : shelf_life + selected_local.month_count
+              "
             />
             <q-input
               class="col-6"
@@ -256,7 +258,7 @@
               disable
               borderless
               :label="selected_local.production_date"
-              :model-value="production_date + selected_local.after"
+              :model-value="selected_local.after"
             />
           </q-card-section>
         </q-card>
