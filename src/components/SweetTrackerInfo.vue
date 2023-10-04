@@ -217,35 +217,48 @@
         this.t_key = 'I2uFSQI8NBXDY8caOUnh5A';
         this.t_code = this.delivery_code; // cj대한통운
         this.t_invoice = this.delivery_invoice;
-
-        const data = {
-          t_key: this.t_key,
-          t_code: this.t_code,
-          t_invoice: this.t_invoice,
-        };
-        axios({
-          url: 'https://info.sweettracker.co.kr/api/v1/trackingInfo',
-          method: 'GET',
-          // httpsAgent: new https.Agent({
-          //            rejectUnauthorized: false,
-          //          }),
-          params: data, //GET 사용할 때는 params, POST 사용할 때는 data
-        })
-          .then(res => {
-            if (res.status == 200) {
-              this.step = res.data.lastDetail.level;
-              this.delivery_info = res.data.trackingDetails;
-            } else {
-              alert.confirm(
-                this.selected_local.err,
-                this.selected_local.err +
-                  ': ' +
-                  res.data.e_code +
-                  res.data.e_message,
-              );
-            }
+        if (this.t_invoice == '0') {
+          this.step = 1;
+        } else if (this.t_invoice == '99') {
+          this.step = 6;
+          this.delivery_info[0] = {
+            time: '9999-99-99',
+            level: 6,
+            where: '집 문앞',
+            kind: '배송완료',
+            timeString: '전화번호',
+            telno2: '010-8492-0526',
+          };
+        } else {
+          const data = {
+            t_key: this.t_key,
+            t_code: this.t_code,
+            t_invoice: this.t_invoice,
+          };
+          axios({
+            url: 'https://info.sweettracker.co.kr/api/v1/trackingInfo',
+            method: 'GET',
+            // httpsAgent: new https.Agent({
+            //            rejectUnauthorized: false,
+            //          }),
+            params: data, //GET 사용할 때는 params, POST 사용할 때는 data
           })
-          .catch(e => console.log(e));
+            .then(res => {
+              if (res.status == 200) {
+                this.step = res.data.lastDetail.level;
+                this.delivery_info = res.data.trackingDetails;
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err +
+                    ': ' +
+                    res.data.e_code +
+                    res.data.e_message,
+                );
+              }
+            })
+            .catch(e => console.log(e));
+        }
       },
     },
   });
