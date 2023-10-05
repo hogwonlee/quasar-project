@@ -1,16 +1,17 @@
 <template>
   <q-page class="q-pa-xs">
     <div class="bg-primary">
-      <q-chip outline color="grey-1" class="text-body3 text-grey-1">
-        {{ selected_local.shippingnum }}
-      </q-chip>
-      <q-space />
-      <q-btn icon="close" flat round dense v-close-popup />
-      <div class="q-pl-md text-h3 text-grey-1">{{ t_invoice }}</div>
+      <div class="q-pl-md text-h3 text-grey-1">
+        <q-btn icon="arrow_back" flat round dense v-close-popup />
+        <q-chip outline color="grey-1" class="text-body3 text-grey-1">
+          {{ selected_local.shippingnum }}
+        </q-chip>
+        {{ t_invoice }}
+      </div>
       <div class="q-pl-md text-body3 text-grey-1">{{ code_name[t_code] }}</div>
     </div>
     <q-stepper
-      class="bg-secondary q-pa-none q-gutter-xs"
+      class="bg-secondary q-pa-none q-ma-xs"
       v-model="step"
       ref="stepper1"
       alternative-labels
@@ -19,7 +20,7 @@
     >
       <q-step
         :name="1"
-        :title="selected_local.prepareproduct"
+        :caption="selected_local.prepareproduct"
         icon="shelves"
         active-icon="shelves"
         done-icon="shelves"
@@ -29,7 +30,7 @@
       </q-step>
       <q-step
         :name="2"
-        :title="selected_local.moving"
+        :caption="selected_local.moving"
         icon="zoom_in_map"
         active-icon="zoom_in_map"
         done-icon="zoom_in_map"
@@ -40,7 +41,7 @@
 
       <q-step
         :name="3"
-        :title="selected_local.arrivalresion"
+        :caption="selected_local.arrivalresion"
         icon="warehouse"
         active-icon="warehouse"
         done-icon="warehouse"
@@ -50,7 +51,7 @@
       </q-step>
       <q-step
         :name="5"
-        :title="selected_local.deliverstart"
+        :caption="selected_local.deliverstart"
         icon="local_shipping"
         active-icon="local_shipping"
         done-icon="local_shipping"
@@ -60,7 +61,7 @@
       </q-step>
       <q-step
         :name="6"
-        :title="selected_local.delivercomplete"
+        :caption="selected_local.delivercomplete"
         icon="how_to_reg"
         active-icon="how_to_reg"
         done-icon="how_to_reg"
