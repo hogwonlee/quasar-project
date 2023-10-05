@@ -11,6 +11,7 @@
       class="bg-secondary"
       v-model="step"
       ref="stepper1"
+      alternative-labels
       color="primary"
       animated
     >

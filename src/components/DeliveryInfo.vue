@@ -134,10 +134,7 @@
       }),
     },
     mounted() {
-      if (
-        !validation.isNull(this.user.USER_ID) &&
-        !validation.isNull(this.order_status)
-      ) {
+      if (!validation.isNull(this.user.USER_ID)) {
         this.load_order_info();
       }
     },
