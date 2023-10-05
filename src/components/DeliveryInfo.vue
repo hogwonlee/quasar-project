@@ -78,7 +78,7 @@
     </q-dialog>
     <q-dialog v-model="tracker">
       <SweetTrackerInfo
-        class="q-pa-xs"
+        style="width: 95%"
         v-bind:delivery_code="this.child_code"
         v-bind:delivery_invoice="this.child_invoice"
       />
