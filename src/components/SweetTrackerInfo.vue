@@ -1,14 +1,16 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-xs">
     <div class="bg-primary">
       <q-chip outline color="grey-1" class="text-body3 text-grey-1">
         {{ selected_local.shippingnum }}
       </q-chip>
-      <div class="text-h3 text-grey-1">{{ t_invoice }}</div>
-      <div class="text-body3 text-grey-1">{{ code_name[t_code] }}</div>
+      <q-space />
+      <q-btn icon="close" flat round dense v-close-popup />
+      <div class="q-pl-md text-h3 text-grey-1">{{ t_invoice }}</div>
+      <div class="q-pl-md text-body3 text-grey-1">{{ code_name[t_code] }}</div>
     </div>
     <q-stepper
-      class="bg-secondary"
+      class="bg-secondary q-pa-none q-gutter-xs"
       v-model="step"
       ref="stepper1"
       alternative-labels
