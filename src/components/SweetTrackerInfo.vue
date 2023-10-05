@@ -11,16 +11,17 @@
       <div class="q-pl-md text-body3 text-grey-1">{{ code_name[t_code] }}</div>
     </div>
     <q-stepper
-      class="bg-secondary q-pa-none q-ma-xs"
+      class="bg-secondary"
       v-model="step"
       ref="stepper1"
       alternative-labels
       color="primary"
       animated
+      contracted
     >
       <q-step
         :name="1"
-        :caption="selected_local.prepareproduct"
+        :title="selected_local.prepareproduct"
         icon="shelves"
         active-icon="shelves"
         done-icon="shelves"
@@ -30,7 +31,7 @@
       </q-step>
       <q-step
         :name="2"
-        :caption="selected_local.moving"
+        :title="selected_local.moving"
         icon="zoom_in_map"
         active-icon="zoom_in_map"
         done-icon="zoom_in_map"
@@ -41,7 +42,7 @@
 
       <q-step
         :name="3"
-        :caption="selected_local.arrivalresion"
+        :title="selected_local.arrivalresion"
         icon="warehouse"
         active-icon="warehouse"
         done-icon="warehouse"
@@ -51,7 +52,7 @@
       </q-step>
       <q-step
         :name="5"
-        :caption="selected_local.deliverstart"
+        :title="selected_local.deliverstart"
         icon="local_shipping"
         active-icon="local_shipping"
         done-icon="local_shipping"
@@ -61,7 +62,7 @@
       </q-step>
       <q-step
         :name="6"
-        :caption="selected_local.delivercomplete"
+        :title="selected_local.delivercomplete"
         icon="how_to_reg"
         active-icon="how_to_reg"
         done-icon="how_to_reg"
