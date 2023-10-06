@@ -63,6 +63,7 @@ const mutations = {
     state.USER.USER_VERIFY = '';
     state.USER.USER_TOKEN = '';
     state.USER.USER_PHONE = '';
+    state.USER.USER_PW = '';
     Cookie.remove('token');
     Cookie.remove('user');
     Cookie.remove('verify');
@@ -107,7 +108,7 @@ const mutations = {
   },
   update(state, data) {
     // console.log('user info Update 이전' + JSON.stringify(state.USER));
-    state.USER.USER_NAME = data.user_name;
+    // state.USER.USER_NAME = data.user_name;
     state.USER.USER_PHONE = data.user_phone;
     // console.log('user info Update 이후' + JSON.stringify(state));
   },

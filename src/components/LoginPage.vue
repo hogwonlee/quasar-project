@@ -116,6 +116,8 @@
         //   console.log(JSON.stringify(response));
         //   if (response.status == 200) {
         var json = response.data;
+        console.log(JSON.stringify(response));
+
         if (response.status == 400) {
           alert.confirm(
             this.selected_local.notice,
