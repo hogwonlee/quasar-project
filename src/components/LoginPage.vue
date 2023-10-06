@@ -111,29 +111,28 @@
             'Content-Type': 'application/json',
           },
           data: userData,
-        });
-        // .then(response => {
-        //   console.log(JSON.stringify(response));
-        //   if (response.status == 200) {
-        var json = response.data;
-        console.log(JSON.stringify(response));
-
-        if (response.status == 400) {
+        }).catch(response => {
+          console.log(JSON.stringify(response));
           alert.confirm(
             this.selected_local.notice,
             this.user.USER_ID + this.selected_local.wrongpw,
           );
+        });
+
+        // .then(response => {
+        //   console.log(JSON.stringify(response));
+        //   if (response.status == 200) {
+        var json = response.data;
+
+        if (this.auto_login) {
+          json.user_pw = userData.user_pw;
         } else {
-          if (this.auto_login) {
-            json.user_pw = userData.user_pw;
-          } else {
-            json.user_pw = '';
-          }
-          this.$store.dispatch('user/loginAction', {
-            data: json,
-            that: this,
-          });
+          json.user_pw = '';
         }
+        this.$store.dispatch('user/loginAction', {
+          data: json,
+          that: this,
+        });
         // this.$store.dispatch('address/emptyAddressAction');
         // json.results.forEach(addr => {
         //   if (addr.address_active == 1)
