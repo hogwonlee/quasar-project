@@ -8,6 +8,7 @@ const state = {
     USER_VERIFY: '',
     USER_TOKEN: '',
     USER_PHONE: '',
+    USER_PW: '',
   },
   status: false,
 };
@@ -90,6 +91,7 @@ const mutations = {
     state.USER.USER_VERIFY = data.results[0].user_name;
     state.USER.USER_PHONE = data.results[0].user_phone;
     state.USER.USER_TOKEN = Cookie.get('token');
+    state.USER.USER_PW = data.user_pw;
     state.status = true;
     // console.log(JSON.stringify(data) + ':::' + state.USER.USER_ID);
     // console.log('userInfo Cookie 생겼나?' + state.USER_TOKEN);

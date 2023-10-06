@@ -102,7 +102,7 @@
           user_id: this.userId,
           user_pw: this.userPw,
         };
-        console.log(JSON.stringify(userData));
+        // console.log(JSON.stringify(userData));
         let response = await axios({
           url: `${configs.server}/login`,
           method: 'POST',
@@ -116,10 +116,22 @@
         //   console.log(JSON.stringify(response));
         //   if (response.status == 200) {
         var json = response.data;
-        this.$store.dispatch('user/loginAction', {
-          data: json,
-          that: this,
-        });
+        if (json.length <= 0) {
+          alert.confirm(
+            this.selected_local.notice,
+            this.user.USER_ID + this.selected_local.wrongpw,
+          );
+        } else {
+          if (this.auto_login) {
+            json.user_pw = userData.user_pw;
+          } else {
+            json.user_pw = '';
+          }
+          this.$store.dispatch('user/loginAction', {
+            data: json,
+            that: this,
+          });
+        }
         // this.$store.dispatch('address/emptyAddressAction');
         // json.results.forEach(addr => {
         //   if (addr.address_active == 1)

@@ -95,6 +95,7 @@
     computed: {
       ...mapState({
         selected_local: state => state.ui_local.status,
+        user: state => state.user.USER,
       }),
     },
     data: function () {
@@ -103,12 +104,16 @@
       };
     },
     watch: {
-      ui_local: function (newValues, prevValues) {
-        console.log(newValues, prevValues);
+      ui_local: function (newValues) {
+        // console.log(newValues, prevValues);
         this.change_local(newValues);
       },
     },
     mounted() {
+      if (this.user.USER_PW != '') {
+        console.log('앱 실행 시 로그인 진행');
+        this.serverLogin();
+      }
       this.change_local(this.ui_local);
     },
     methods: {
@@ -118,6 +123,27 @@
         } else {
           this.$store.dispatch('ui_local/setkoAction');
         }
+      },
+      async serverLogin() {
+        const userData = {
+          user_id: this.user.USER_ID,
+          user_pw: this.user.USER_PW,
+        };
+        let response = await axios({
+          url: `${configs.server}/login`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
+          data: userData,
+        });
+        var json = response.data;
+        json.user_pw = userData.user_pw;
+        this.$store.dispatch('user/loginAction', {
+          data: json,
+          that: this,
+        });
       },
     },
     setup() {

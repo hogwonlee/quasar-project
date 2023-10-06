@@ -16,11 +16,10 @@
 
         <q-input
           filled
+          readonly
+          disable
           v-model="userNickname"
           :label="selected_local.name"
-          label-color="black"
-          lazy-rules
-          :rules="[val => (val && val.length > 0) || '']"
         />
 
         <q-input
