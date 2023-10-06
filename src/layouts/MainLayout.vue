@@ -113,7 +113,6 @@
     },
     mounted() {
       if (this.user.USER_PW != '') {
-        console.log('앱 실행 시 로그인 진행');
         this.serverLogin();
       }
       this.change_local(this.ui_local);
