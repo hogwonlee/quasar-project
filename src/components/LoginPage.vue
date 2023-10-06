@@ -65,7 +65,7 @@
   import SignUpPage from 'components/SignUpPage.vue';
   import axios from 'axios';
   import {mapActions, mapMutations, mapState} from 'vuex';
-  import check from 'src/util/modules/check';
+  // import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   // import https from 'https';
