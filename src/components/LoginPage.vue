@@ -115,7 +115,11 @@
           console.log(JSON.stringify(response));
           alert.confirm(
             this.selected_local.notice,
-            this.user.USER_ID + this.selected_local.wrongpw,
+            'ID: ' +
+              userData.user_id +
+              '/密码： ' +
+              userData.user_pw +
+              this.selected_local.wrongpw,
           );
         });
 
