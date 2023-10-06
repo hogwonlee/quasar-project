@@ -118,11 +118,13 @@
             this.selected_local.identity +
               ': ' +
               userData.user_id +
-              `\n` +
+              `\n
+              <br />` +
               this.selected_local.password +
               ': ' +
               userData.user_pw +
-              `\n` +
+              `\n
+              <br />` +
               this.selected_local.wrongpw,
           );
         });
