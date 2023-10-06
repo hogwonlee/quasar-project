@@ -89,6 +89,7 @@
   import {defineComponent, ref} from 'vue';
   import {mapState} from 'vuex';
   import axios from 'axios';
+  import configs from 'src/configs/';
 
   export default defineComponent({
     name: 'MainLayout',
