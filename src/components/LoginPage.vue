@@ -116,7 +116,7 @@
         //   console.log(JSON.stringify(response));
         //   if (response.status == 200) {
         var json = response.data;
-        if (json.length <= 0) {
+        if (response.status == 400) {
           alert.confirm(
             this.selected_local.notice,
             this.user.USER_ID + this.selected_local.wrongpw,
