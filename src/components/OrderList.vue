@@ -302,9 +302,10 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
+  import bcrypt from 'bcryptjs';
   // const clientKey = `${configs.clientKey}`; // 결제위젯 클라이언트 키
   const clientKey = 'live_ck_0RnYX2w532BY6YKdRKR3NeyqApQE'; // 결제위젯 클라이언트 키
-  const customerKey = 'sdfsdlkmwelfnaldjkfljewlkfjl_l23kj';
+  // const customerKey = 'sdfsdlkmwelfnaldjkfljewlkfjl_l23kj';
 
   export default defineComponent({
     name: 'OrderList',
@@ -522,7 +523,10 @@
         //   this.user.USER_ID +
         //   '_' +
         //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
-
+        var customerKey =
+          this.user.USER_ID +
+          '_' +
+          bcrypt.hashSync(this.user.USER_ID, 'customerKey');
         // 2. 브랜드페이 객체 생성
         var brandpay = BrandPay(clientKey, customerKey, {
           redirectUrl: window.location.origin + '/auth',
