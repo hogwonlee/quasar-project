@@ -517,13 +517,13 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        const customerKey =
+        var customerKey =
           this.user.USER_ID +
           '_' +
           +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
-        const brandpay = BrandPay(clientKey, customerKey, {
+        var brandpay = BrandPay(clientKey, customerKey, {
           redirectUrl: window.location.origin + '/auth',
         });
         console.log('커스터머키: ' + customerKey);
