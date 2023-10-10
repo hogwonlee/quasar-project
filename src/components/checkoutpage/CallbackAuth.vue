@@ -69,7 +69,7 @@
           data: JSON.stringify(requestData),
         })
           .then(res => {
-            window.location.href = window.location.origin + '/Success';
+            window.location.href = window.location.origin + '/BrandpaySuccess';
             res.status(200).send('OK');
           })
           .catch(e => console.error(e));

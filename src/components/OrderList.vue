@@ -284,7 +284,6 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
-    <div id="payment-method"></div>
   </div>
 </template>
 
@@ -538,10 +537,10 @@
             this.cartList[0].product_name +
             this.cartList[0].quantity +
             '...',
-          customerName: this.user.USER_NAME,
-          appScheme: 'chinafoodonline://',
-          successUrl: window.location.origin + '/BrandpaySuccess',
-          failUrl: window.location.origin + '/Fail',
+          // customerName: this.user.USER_NAME,
+          // appScheme: 'chinafoodonline://',
+          // successUrl: window.location.origin + '/BrandpaySuccess',
+          // failUrl: window.location.origin + '/Fail',
         });
       },
     },
