@@ -64,7 +64,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: `Basic ${configs.secretKey}`,
+            authorization: `Basic ${configs.brandpaySecretKey}`,
           },
           data: JSON.stringify(requestData),
         })
