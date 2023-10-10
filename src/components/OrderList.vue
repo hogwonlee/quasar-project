@@ -304,15 +304,6 @@
   import {loadTossPayments} from '@tosspayments/payment-sdk';
   // const clientKey = `${configs.clientKey}`; // 결제위젯 클라이언트 키
   const clientKey = 'live_ck_0RnYX2w532BY6YKdRKR3NeyqApQE'; // 결제위젯 클라이언트 키
-  // const customerKey =
-  //   // this.user.USER_ID +
-  //   // '_' +
-  //   'user_' + CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
-
-  // 2. 브랜드페이 객체 생성
-  const brandpay = BrandPay(clientKey, customerKey, {
-    redirectUrl: window.location.origin + '/auth',
-  });
 
   export default defineComponent({
     name: 'OrderList',
@@ -515,7 +506,6 @@
         }
       },
       brandpayRequest(total, shipment, coupon) {
-        console.log('커스터머키: ' + customerKey);
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -527,6 +517,16 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
+        const customerKey =
+          this.user.USER_ID +
+          '_' +
+          +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+
+        // 2. 브랜드페이 객체 생성
+        const brandpay = BrandPay(clientKey, customerKey, {
+          redirectUrl: window.location.origin + '/auth',
+        });
+        console.log('커스터머키: ' + customerKey);
         brandpay.renderPaymentMethods(
           '#payment-method',
           {value: amountOfPayment},
