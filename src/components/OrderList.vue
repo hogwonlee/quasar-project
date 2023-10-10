@@ -302,9 +302,6 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // const clientKey = `${configs.clientKey}`; // 결제위젯 클라이언트 키
-  const clientKey = 'live_ck_0RnYX2w532BY6YKdRKR3NeyqApQE'; // 결제위젯 클라이언트 키
-  const customerKey = 'sdfsdlkmwelfnaldjkfljewlkfjl_l23kj';
 
   export default defineComponent({
     name: 'OrderList',
@@ -432,8 +429,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
-        loadTossPayments(clientKey).then(tossPayments =>
+        loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
             orderId: random_id,
@@ -518,14 +514,14 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        // var customerKey =
+        var customerKey = 'sdlkfsldkjfweoifja_2fdkfeGG';
         //   this.user.USER_ID +
         //   '_' +
         //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
-        var brandpay = BrandPay(clientKey, customerKey, {
-          redirectUrl: window.location.origin + '/auth',
+        var brandpay = BrandPay(`${configs.brandpayClientKey}`, customerKey, {
+          redirectUrl: 'https://cfomarket.store/auth',
         });
         console.log('커스터머키: ' + customerKey);
         brandpay.renderPaymentMethods(
@@ -544,7 +540,7 @@
             '...',
           customerName: this.user.USER_NAME,
           appScheme: 'chinafoodonline://',
-          successUrl: window.location.origin + '/Success',
+          successUrl: window.location.origin + '/BrandpaySuccess',
           failUrl: window.location.origin + '/Fail',
         });
       },

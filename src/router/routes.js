@@ -33,6 +33,10 @@ const routes = [
         component: () => import('components/checkoutpage/CallbackAuth.vue'),
       },
       {
+        path: 'BrandpaySuccess',
+        component: () => import('components/checkoutpage/BrandpaySuccess.vue'),
+      },
+      {
         path: 'Success',
         component: () => import('components/checkoutpage/PaySuccess.vue'),
       },
