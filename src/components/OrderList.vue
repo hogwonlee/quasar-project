@@ -305,9 +305,9 @@
   // const clientKey = `${configs.clientKey}`; // 결제위젯 클라이언트 키
   const clientKey = 'live_ck_0RnYX2w532BY6YKdRKR3NeyqApQE'; // 결제위젯 클라이언트 키
   const customerKey =
-    this.user.USER_ID +
-    '_' +
-    CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+    // this.user.USER_ID +
+    // '_' +
+    'user_' + CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
   // 2. 브랜드페이 객체 생성
   const brandpay = BrandPay(clientKey, customerKey, {
