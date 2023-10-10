@@ -236,7 +236,14 @@
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
-        <!-- @click="set_order_with_address(this.address_selected.address_id)" -->
+      </q-btn>
+      <q-btn
+        color="primary"
+        class="text-bold q-py-none q-px-xl q-ma-sm"
+        :disabled="!cartList.length || no_selected_addr || no_login"
+        label="간편결제"
+        @click="brandpayRequest(total, shipment, reservedCoupon())"
+      >
       </q-btn>
     </div>
 
@@ -277,6 +284,7 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
+    <div id="payment-method"></div>
   </div>
 </template>
 
@@ -286,7 +294,6 @@
   import CouponList from 'components/CouponList.vue';
   import LoginPage from 'components/LoginPage.vue';
   import {defineComponent, ref} from 'vue';
-  import {loadTossPayments} from '@tosspayments/payment-sdk';
   import validation from 'src/util/data/validation';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
@@ -294,7 +301,20 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  const clientKey = configs.clientKey;
+  import CryptoJS from 'crypto-js';
+  import {loadTossPayments} from '@tosspayments/payment-sdk';
+  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  // const clientKey = `${configs.clientKey}`; // 결제위젯 클라이언트 키
+  const clientKey = 'live_ck_0RnYX2w532BY6YKdRKR3NeyqApQE'; // 결제위젯 클라이언트 키
+  const customerKey =
+    this.user.USER_ID +
+    '_' +
+    CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+
+  // 2. 브랜드페이 객체 생성
+  const brandpay = loadBrandPay(clientKey, customerKey, {
+    redirectUrl: window.location.origin + '/auth',
+  });
 
   export default defineComponent({
     name: 'OrderList',
@@ -418,8 +438,12 @@
           discount = 0;
         }
         var amountOfPayment = total + shipment - discount;
-        var random_id = 'test' + this.user.USER_ID + Date.now();
-        loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
+        var random_id =
+          this.user.USER_ID +
+          '_orderid_' +
+          Math.random().toString(16).substr(2, 12);
+        // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
+        loadTossPayments(clientKey).then(tossPayments =>
           tossPayments.requestPayment('카드', {
             amount: amountOfPayment,
             orderId: random_id,
@@ -491,6 +515,39 @@
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
             });
         }
+      },
+      brandpayRequest(total, shipment, coupon) {
+        console.log('커스터머키: ' + customerKey);
+        var discount;
+        if (coupon != undefined) {
+          discount = coupon.coupon_price;
+        } else {
+          discount = 0;
+        }
+        var amountOfPayment = total + shipment - discount;
+        var random_id =
+          this.user.USER_ID +
+          '_orderid_' +
+          Math.random().toString(16).substr(2, 12);
+        brandpay.renderPaymentMethods(
+          '#payment-method',
+          {value: amountOfPayment},
+          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        );
+
+        brandpay.requestPayment({
+          amount: amountOfPayment,
+          orderId: random_id,
+          orderName:
+            this.cartList[0].product_id +
+            this.cartList[0].product_name +
+            this.cartList[0].quantity +
+            '...',
+          customerName: this.user.USER_NAME,
+          appScheme: 'chinafoodonline://',
+          successUrl: window.location.origin + '/Success',
+          failUrl: window.location.origin + '/Fail',
+        });
       },
     },
     mounted() {
