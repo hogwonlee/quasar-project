@@ -29,6 +29,10 @@ const routes = [
         component: () => import('components/LoginPage.vue'),
       },
       {
+        path: 'auth',
+        component: () => import('components/checkoutpage/CallbackAuth.vue'),
+      },
+      {
         path: 'Success',
         component: () => import('components/checkoutpage/PaySuccess.vue'),
       },
