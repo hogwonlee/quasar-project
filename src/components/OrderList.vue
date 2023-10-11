@@ -273,6 +273,7 @@
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
   import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  import CryptoJS from 'crypto-js';
 
   export default defineComponent({
     name: 'OrderList',
@@ -473,7 +474,7 @@
             });
         }
       },
-      brandpayRequest(total, shipment, coupon) {
+      async brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -485,10 +486,10 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        var customerKey = 'sdlkfsldkjfweoifja_2fdkfeGG';
-        //   this.user.USER_ID +
-        //   '_' +
-        //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+        var customerKey =
+          this.user.USER_ID +
+          '_' +
+          +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
         // const brandpay = await loadBrandPay(
@@ -504,22 +505,22 @@
         //   {value: amountOfPayment},
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
-        loadBrandPay(`${configs.brandpayClientKey}`, customerKey, {
+        const brandpay = await loadBrandPay(clientKey, customerKey, {
           redirectUrl: window.location.origin + '/auth',
-        }).then(brandpay => {
-          brandpay.requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            // customerName: this.user.USER_NAME,
-            // appScheme: 'chinafoodonline://',
-            // successUrl: window.location.origin + '/BrandpaySuccess',
-            // failUrl: window.location.origin + '/Fail',
-          });
+        });
+
+        brandpay.requestPayment({
+          amount: amountOfPayment,
+          orderId: random_id,
+          orderName:
+            this.cartList[0].product_id +
+            this.cartList[0].product_name +
+            this.cartList[0].quantity +
+            '...',
+          // customerName: this.user.USER_NAME,
+          // appScheme: 'chinafoodonline://',
+          // successUrl: window.location.origin + '/BrandpaySuccess',
+          // failUrl: window.location.origin + '/Fail',
         });
       },
     },
