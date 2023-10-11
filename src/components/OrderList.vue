@@ -473,7 +473,7 @@
             });
         }
       },
-      brandpayRequest(total, shipment, coupon) {
+      async brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -491,20 +491,15 @@
         //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
-        var brandpay = loadBrandPay(
-          `${configs.brandpayClientKey}`,
-          customerKey,
-          {
-            redirectUrl: 'https://cfomarket.store/auth',
-          },
-        );
+        const brandpay = await loadBrandPay(clientKey, customerKey, {
+          redirectUrl: window.location.origin + '/auth',
+        });
         console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
-        brandpay.renderPaymentMethods(
-          '#payment-method',
-          {value: amountOfPayment},
-          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
-
+        // brandpay.renderPaymentMethods(
+        //   '#payment-method',
+        //   {value: amountOfPayment},
+        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        // );
         brandpay.requestPayment({
           amount: amountOfPayment,
           orderId: random_id,
