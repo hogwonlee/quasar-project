@@ -500,17 +500,18 @@
         // },
         // );
         // console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
-        // brandpay.renderPaymentMethods(
-        //   '#payment-method',
-        //   {value: amountOfPayment},
-        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        // );
+
         const brandpay = await loadBrandPay(
           `${configs.brandpayClientKey}`,
           customerKey,
           {
             redirectUrl: window.location.origin + '/auth',
           },
+        );
+        brandpay.renderPaymentMethods(
+          '#payment-method',
+          {value: amountOfPayment},
+          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         );
 
         brandpay.requestPayment({
