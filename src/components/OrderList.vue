@@ -294,6 +294,7 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        customerKey: '',
       };
     },
     watch: {
@@ -488,11 +489,6 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        var customerKey =
-          this.user.USER_ID +
-          '_' +
-          +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
-
         // 2. 브랜드페이 객체 생성
         // const brandpay = await loadBrandPay(
         //   `${configs.brandpayClientKey}`,
@@ -504,7 +500,7 @@
 
         var brandpay = await loadBrandPay(
           `${configs.brandpayClientKey}`,
-          customerKey,
+          this.customerKey,
           {
             redirectUrl: window.location.origin + '/auth',
             ui: {
@@ -524,7 +520,7 @@
         );
         console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
-        console.log('커스텀 키: ' + customerKey);
+        console.log('커스텀 키: ' + this.customerKey);
         brandpay
           .requestPayment({
             amount: amountOfPayment,
@@ -567,10 +563,11 @@
       };
     },
     mounted() {
-      console.log(
-        '변수: ' + CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey'),
-      );
-      this.read_coupon();
+      (this.customerKey =
+        this.user.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey')),
+        this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
         // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
