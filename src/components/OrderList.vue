@@ -475,8 +475,31 @@
             });
         }
       },
+      createBrandpayObject() {
+        this.brandpay = loadBrandPay(
+          `${configs.brandpayClientKey}`,
+          this.customerKey,
+          {
+            redirectUrl: window.location.origin + '/auth',
+            ui: {
+              highlightColor: '#26C2E3',
+              buttonStyle: 'full',
+              labels: {
+                oneTouchPay: '내 상점 원터치결제',
+              },
+            },
+            windowTarget: 'iframe',
+          },
+        );
+        this.brandpay.renderPaymentMethods(
+          '#payment-method',
+          {value: amountOfPayment},
+          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        );
+      },
     },
     setup() {
+      var brandpay;
       async function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
@@ -498,30 +521,10 @@
         // },
         // );
 
-        var brandpay = await loadBrandPay(
-          `${configs.brandpayClientKey}`,
-          this.customerKey,
-          {
-            redirectUrl: window.location.origin + '/auth',
-            ui: {
-              highlightColor: '#26C2E3',
-              buttonStyle: 'full',
-              labels: {
-                oneTouchPay: '내 상점 원터치결제',
-              },
-            },
-            windowTarget: 'iframe',
-          },
-        );
-        brandpay.renderPaymentMethods(
-          '#payment-method',
-          {value: amountOfPayment},
-          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
-        console.log('브랜드페이 객체: ' + brandpay);
+        console.log('브랜드페이 객체: ' + this.brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + this.customerKey);
-        brandpay
+        this.brandpay
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -530,8 +533,6 @@
               this.cartList[0].product_name +
               this.cartList[0].quantity +
               '...',
-            customerName: '박토스',
-            customerEmail: 'customer@example.com',
           })
           .then(function (data) {
             // 결제 요청 성공 처리
@@ -560,15 +561,17 @@
       }
       return {
         brandpayRequest,
+        brandpay,
       };
     },
     mounted() {
-      (this.customerKey =
+      this.customerKey =
         this.user.USER_ID +
         '_' +
-        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey')),
-        this.read_coupon();
+        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+      this.read_coupon();
       this.address_selected = this.default_addr[0];
+      this.createBrandpayObject();
       if (this.total >= 50000) {
         // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
         console.log('50000 구매 쿠폰 적용');
