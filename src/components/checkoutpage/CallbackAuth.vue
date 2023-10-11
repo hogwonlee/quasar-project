@@ -46,6 +46,7 @@
     methods: {
       readResData() {
         let url = new URL(window.location.href);
+        console.log('return url: ' + url);
         this.postJsonData = {
           grantType: 'AuthorizationCode',
           code: url.searchParams.get('code'),
