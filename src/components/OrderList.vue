@@ -567,6 +567,7 @@
       };
     },
     mounted() {
+      console.log('변수: ' + CryptoJS.HmacMD5('abcd', 'aaaa'));
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
