@@ -121,6 +121,9 @@
           </tr>
         </tbody>
       </q-markup-table>
+      <q-card-section style="max-height: 50vh" class="scroll">
+        <p id="payment-method"></p>
+      </q-card-section>
     </q-card>
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-teal-2" v-bind:food_price="total" />
@@ -248,18 +251,15 @@
     </div>
 
     <!-- <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p> -->
-    <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
+    <!-- <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
       <q-card>
         <q-card-section>
           <div class="text-h6">{{ selected_local.checkout }}</div>
         </q-card-section>
 
-        <q-separator />
+        <q-separator /> -->
 
-        <q-card-section style="max-height: 50vh" class="scroll">
-          <p id="payment-method"></p>
-        </q-card-section>
-
+    <!--
         <q-separator />
         <q-card-actions align="right">
           <q-btn
@@ -276,7 +276,7 @@
           />
         </q-card-actions>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
     <q-dialog
       v-model="persistent"
       persistent
