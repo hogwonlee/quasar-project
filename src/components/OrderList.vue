@@ -568,7 +568,7 @@
       this.customerKey =
         this.user.USER_ID +
         '_' +
-        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
+        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_new');
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
