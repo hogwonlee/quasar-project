@@ -272,6 +272,7 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
+  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
 
   export default defineComponent({
     name: 'OrderList',
@@ -490,9 +491,13 @@
         //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
-        var brandpay = BrandPay(`${configs.brandpayClientKey}`, customerKey, {
-          redirectUrl: 'https://cfomarket.store/auth',
-        });
+        var brandpay = loadBrandPay(
+          `${configs.brandpayClientKey}`,
+          customerKey,
+          {
+            redirectUrl: 'https://cfomarket.store/auth',
+          },
+        );
         console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         brandpay.renderPaymentMethods(
           '#payment-method',
