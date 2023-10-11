@@ -512,25 +512,37 @@
         console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
-        brandpay.renderPaymentMethods(
-          '#payment-method',
-          {value: amountOfPayment},
-          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
+        brandpay
+          .getPaymentMethods()
+          .then(function (methods) {
+            // 성공 처리
+            console.log('메소드: ' + methods);
+          })
+          .catch(function (error) {
+            if (error.code === 'USER_CANCEL') {
+              // 사용자가 결제창을 닫은 경우 에러 처리
+              console.log('유저 캔슬에러: ' + error);
+            }
+          });
+        // brandpay.renderPaymentMethods(
+        //   '#payment-method',
+        //   {value: amountOfPayment},
+        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        // );
 
-        brandpay.requestPayment({
-          amount: amountOfPayment,
-          orderId: random_id,
-          orderName:
-            this.cartList[0].product_id +
-            this.cartList[0].product_name +
-            this.cartList[0].quantity +
-            '...',
-          // customerName: this.user.USER_NAME,
-          // appScheme: 'chinafoodonline://',
-          // successUrl: window.location.origin + '/BrandpaySuccess',
-          // failUrl: window.location.origin + '/Fail',
-        });
+        // brandpay.requestPayment({
+        //   amount: amountOfPayment,
+        //   orderId: random_id,
+        //   orderName:
+        //     this.cartList[0].product_id +
+        //     this.cartList[0].product_name +
+        //     this.cartList[0].quantity +
+        //     '...',
+        //   // customerName: this.user.USER_NAME,
+        //   // appScheme: 'chinafoodonline://',
+        //   // successUrl: window.location.origin + '/BrandpaySuccess',
+        //   // failUrl: window.location.origin + '/Fail',
+        // });
       }
       return {
         brandpayRequest,
