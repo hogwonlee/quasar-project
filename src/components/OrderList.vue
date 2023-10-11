@@ -474,7 +474,9 @@
             });
         }
       },
-      async brandpayRequest(total, shipment, coupon) {
+    },
+    setup() {
+      async function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -528,7 +530,10 @@
           // successUrl: window.location.origin + '/BrandpaySuccess',
           // failUrl: window.location.origin + '/Fail',
         });
-      },
+      }
+      return {
+        brandpayRequest,
+      };
     },
     mounted() {
       this.read_coupon();
