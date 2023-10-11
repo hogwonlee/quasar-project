@@ -530,8 +530,10 @@
               this.cartList[0].product_name +
               this.cartList[0].quantity +
               '...',
-            customerName: '박토스',
-            customerEmail: 'customer@example.com',
+            customerName: this.user.USER_NAME,
+            appScheme: 'chinafoodonline://',
+            successUrl: window.location.origin + '/BrandpaySuccess',
+            failUrl: window.location.origin + '/Fail',
           })
           .then(function (data) {
             // 결제 요청 성공 처리
