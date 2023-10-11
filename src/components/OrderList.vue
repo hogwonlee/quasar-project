@@ -121,10 +121,8 @@
           </tr>
         </tbody>
       </q-markup-table>
-      <q-card-section style="max-height: 50vh" class="scroll">
-        <p id="payment-method"></p>
-      </q-card-section>
     </q-card>
+    <div id="payment-method"></div>
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-teal-2" v-bind:food_price="total" />
     </q-dialog>
@@ -250,33 +248,6 @@
       </q-btn>
     </div>
 
-    <!-- <p v-show="checkoutStatus">checkout {{ checkoutStatus }}.</p> -->
-    <!-- <q-dialog v-model="basic" @show="selectPaymentmethod(total)">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">{{ selected_local.checkout }}</div>
-        </q-card-section>
-
-        <q-separator /> -->
-
-    <!--
-        <q-separator />
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            :label="selected_local.cancel"
-            color="primary"
-            v-close-popup
-          />
-          <q-btn
-            flat
-            :label="selected_local.checkout"
-            color="primary"
-            v-close-popup
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog> -->
     <q-dialog
       v-model="persistent"
       persistent
@@ -522,7 +493,7 @@
         var brandpay = BrandPay(`${configs.brandpayClientKey}`, customerKey, {
           redirectUrl: 'https://cfomarket.store/auth',
         });
-        console.log('커스터머키: ' + customerKey);
+        console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         brandpay.renderPaymentMethods(
           '#payment-method',
           {value: amountOfPayment},
