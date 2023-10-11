@@ -473,7 +473,7 @@
             });
         }
       },
-      async brandpayRequest(total, shipment, coupon) {
+      brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -491,27 +491,33 @@
         //   +CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey');
 
         // 2. 브랜드페이 객체 생성
-        const brandpay = await loadBrandPay(clientKey, customerKey, {
-          redirectUrl: window.location.origin + '/auth',
-        });
-        console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
+        // const brandpay = await loadBrandPay(
+        //   `${configs.brandpayClientKey}`,
+        //   customerKey,
+        //   {
+        //     redirectUrl: window.location.origin + '/auth',
+        //   },
+        // );
+        // console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         // brandpay.renderPaymentMethods(
         //   '#payment-method',
         //   {value: amountOfPayment},
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
-        brandpay.requestPayment({
-          amount: amountOfPayment,
-          orderId: random_id,
-          orderName:
-            this.cartList[0].product_id +
-            this.cartList[0].product_name +
-            this.cartList[0].quantity +
-            '...',
-          // customerName: this.user.USER_NAME,
-          // appScheme: 'chinafoodonline://',
-          // successUrl: window.location.origin + '/BrandpaySuccess',
-          // failUrl: window.location.origin + '/Fail',
+        loadBrandPay(`${configs.brandpayClientKey}`).then(brandpay => {
+          brandpay.requestPayment({
+            amount: amountOfPayment,
+            orderId: random_id,
+            orderName:
+              this.cartList[0].product_id +
+              this.cartList[0].product_name +
+              this.cartList[0].quantity +
+              '...',
+            // customerName: this.user.USER_NAME,
+            // appScheme: 'chinafoodonline://',
+            // successUrl: window.location.origin + '/BrandpaySuccess',
+            // failUrl: window.location.origin + '/Fail',
+          });
         });
       },
     },
