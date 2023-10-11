@@ -499,7 +499,6 @@
         //   redirectUrl: window.location.origin + '/auth',
         // },
         // );
-        // console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
 
         const brandpay = await loadBrandPay(
           `${configs.brandpayClientKey}`,
@@ -508,6 +507,8 @@
             redirectUrl: window.location.origin + '/auth',
           },
         );
+        console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
+        console.log('커스텀 키: ' + customerKey);
         brandpay.renderPaymentMethods(
           '#payment-method',
           {value: amountOfPayment},
