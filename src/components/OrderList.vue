@@ -510,6 +510,7 @@
           },
         );
         console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
+        console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
         brandpay.renderPaymentMethods(
           '#payment-method',
