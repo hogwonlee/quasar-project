@@ -502,7 +502,7 @@
         // },
         // );
 
-        const brandpay = await loadBrandPay(
+        var brandpay = await loadBrandPay(
           `${configs.brandpayClientKey}`,
           customerKey,
           {
