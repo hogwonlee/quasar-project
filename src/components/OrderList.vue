@@ -494,9 +494,9 @@
         // const brandpay = await loadBrandPay(
         //   `${configs.brandpayClientKey}`,
         //   customerKey,
-        //   {
-        //     redirectUrl: window.location.origin + '/auth',
-        //   },
+        // {
+        //   redirectUrl: window.location.origin + '/auth',
+        // },
         // );
         // console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         // brandpay.renderPaymentMethods(
@@ -504,7 +504,9 @@
         //   {value: amountOfPayment},
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
-        loadBrandPay(`${configs.brandpayClientKey}`).then(brandpay => {
+        loadBrandPay(`${configs.brandpayClientKey}`, customerKey, {
+          redirectUrl: window.location.origin + '/auth',
+        }).then(brandpay => {
           brandpay.requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
