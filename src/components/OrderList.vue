@@ -498,17 +498,30 @@
         //   `${configs.brandpayClientKey}`,
         //   customerKey,
         // {
-        //   redirectUrl: window.location.origin + '/auth',
-        // },
-        // );
+          //   redirectUrl: window.location.origin + '/auth',
+          // },
+          // );
 
-        var brandpay = await loadBrandPay(
-          `${configs.brandpayClientKey}`,
-          customerKey,
-          {
-            redirectUrl: window.location.origin + '/auth',
-          },
-        );
+          var brandpay = await loadBrandPay(
+            `${configs.brandpayClientKey}`,
+            customerKey,
+            {
+              redirectUrl: window.location.origin + '/auth',
+              ui: {
+      highlightColor: '#26C2E3',
+      buttonStyle: 'full',
+      labels: {
+        oneTouchPay: '내 상점 원터치결제',
+      },
+    },
+    windowTarget: 'iframe',
+            },
+            );
+            brandpay.renderPaymentMethods(
+              '#payment-method',
+              {value: amountOfPayment},
+              {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+            );
         console.log('브랜드페이 객체: ' + JSON.stringify(brandpay));
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
@@ -534,11 +547,6 @@
             }
             console.log('requestPayment 에러: ' + error);
           });
-        // brandpay.renderPaymentMethods(
-        //   '#payment-method',
-        //   {value: amountOfPayment},
-        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        // );
 
         // brandpay.requestPayment({
         //   amount: amountOfPayment,
