@@ -491,11 +491,11 @@
             windowTarget: 'iframe',
           },
         );
-        this.brandpay.renderPaymentMethods(
-          '#payment-method',
-          {value: 900},
-          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
+        // this.brandpay.renderPaymentMethods(
+        //   '#payment-method',
+        //   {value: 900},
+        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        // );
       },
     },
     setup() {
