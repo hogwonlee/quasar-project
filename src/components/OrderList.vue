@@ -513,16 +513,26 @@
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
         brandpay
-          .getPaymentMethods()
-          .then(function (methods) {
-            // 성공 처리
-            console.log('메소드: ' + methods);
+          .requestPayment({
+            amount: amountOfPayment,
+            orderId: random_id,
+            orderName:
+              this.cartList[0].product_id +
+              this.cartList[0].product_name +
+              this.cartList[0].quantity +
+              '...',
+            customerName: '박토스',
+            customerEmail: 'customer@example.com',
+          })
+          .then(function (data) {
+            // 결제 요청 성공 처리
+            console.log('requestPayment 데이터: ' + data);
           })
           .catch(function (error) {
             if (error.code === 'USER_CANCEL') {
-              // 사용자가 결제창을 닫은 경우 에러 처리
-              console.log('유저 캔슬에러: ' + error);
+              // 사용자가 창을 닫아 취소한 경우에 대한 처리
             }
+            console.log('requestPayment 에러: ' + error);
           });
         // brandpay.renderPaymentMethods(
         //   '#payment-method',
