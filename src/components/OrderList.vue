@@ -541,6 +541,10 @@
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
+      this.widget.payments.updateAmount(
+        999,
+        this.widget.payments.UPDATE_REASON.COUPON,
+      );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
