@@ -527,27 +527,19 @@
       },
     },
 
-    mounted() {
+    async mounted() {
       const userinfo = useStore().state.user.USER;
       const customerKey =
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = loadPaymentWidget(
+      const brandpay = await loadPaymentWidget(
         // `${configs.brandpayClientKey}`,
         `${configs.clientKey}`,
         customerKey,
         {
           redirectUrl: 'https://cfomarket.store/auth',
           // redirectUrl: `${configs.server}` + '/auth',
-          // ui: {
-          //   highlightColor: '#26C2E3',
-          //   buttonStyle: 'full',
-          //   labels: {
-          //     oneTouchPay: '내 상점 원터치결제',
-          //   },
-          // },
-          // windowTarget: 'iframe',
         },
       );
 
