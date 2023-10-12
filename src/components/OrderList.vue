@@ -122,7 +122,7 @@
         </tbody>
       </q-markup-table>
     </q-card>
-    <div id="payment-method"></div>
+    <div for="payment-method"></div>
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-teal-2" v-bind:food_price="total" />
     </q-dialog>
