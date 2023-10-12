@@ -511,7 +511,7 @@
           `${configs.brandpayClientKey}`,
           customerKey,
           {
-            redirectUrl: `${configs.server}` + '/auth',
+            redirectUrl: 'https://cfomarket.store/auth',
             // redirectUrl: `${configs.server}` + '/auth',
             ui: {
               highlightColor: '#26C2E3',
@@ -524,7 +524,7 @@
           },
         );
 
-        console.log('브랜드페이 객체: ' + brandpay);
+        // console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
         brandpay
