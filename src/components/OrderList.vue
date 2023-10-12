@@ -274,7 +274,7 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
@@ -484,7 +484,7 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = await loadPaymentWidget(
+      const brandpay = await loadBrandPay(
         // `${configs.brandpayClientKey}`,
         `${configs.clientKey}`,
         customerKey,
@@ -494,12 +494,7 @@
         },
       );
 
-      const paymentMethodsWidget = brandpay.renderPaymentMethods(
-        '#payment',
-        {value: 10000},
-        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-      );
-      async function brandpayRequest(total, shipment, coupon, widget) {
+      async function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -511,7 +506,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        paymentMethodsWidget
+        brandpay
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
