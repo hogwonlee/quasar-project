@@ -274,8 +274,8 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
-  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
   export default defineComponent({
@@ -478,22 +478,7 @@
         }
       },
     },
-    async setup() {
-      const userinfo = useStore().state.user.USER;
-      const customerKey =
-        userinfo.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = await loadBrandPay(
-        // `${configs.brandpayClientKey}`,
-        `${configs.clientKey}`,
-        customerKey,
-        {
-          redirectUrl: 'https://cfomarket.store/auth',
-          // redirectUrl: `${configs.server}` + '/auth',
-        },
-      );
-
+    setup() {
       function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
@@ -506,7 +491,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        brandpay
+        paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -535,7 +520,26 @@
         brandpayRequest,
       };
     },
-    mounted() {
+    async mounted() {
+      const userinfo = useStore().state.user.USER;
+      const customerKey =
+        userinfo.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
+      const brandpaywidget = await loadPaymentWidget(
+        // `${configs.brandpayClientKey}`,
+        `${configs.clientKey}`,
+        customerKey,
+        {
+          redirectUrl: 'https://cfomarket.store/auth',
+          // redirectUrl: `${configs.server}` + '/auth',
+        },
+      );
+      const paymentMethodsWidget = brandpaywidget.renderPaymentMethods(
+        '#payment-widget',
+        {value: price},
+        {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
