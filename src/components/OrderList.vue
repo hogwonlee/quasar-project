@@ -259,7 +259,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapState, mapActions} from 'vuex';
+  import {mapGetters, mapState, mapActions, useStore} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
   import CouponList from 'components/CouponList.vue';
   import LoginPage from 'components/LoginPage.vue';
@@ -476,7 +476,7 @@
       },
     },
     setup() {
-      const userinfo = this.$store.user.USER;
+      const userinfo = useStore().user.USER;
       const customerKey =
         userinfo.USER_ID +
         '_' +
