@@ -494,7 +494,7 @@
         },
       );
 
-      async function brandpayRequest(total, shipment, coupon) {
+      function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
