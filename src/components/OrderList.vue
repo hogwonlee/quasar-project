@@ -1,5 +1,5 @@
 <template>
-  <div class="payment"></div>
+  <div id="payment"></div>
   <div id="agreement"></div>
   <div>
     <q-dialog v-model="register_popup">
