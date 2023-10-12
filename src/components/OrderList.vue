@@ -272,7 +272,7 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
@@ -507,27 +507,33 @@
         //   {value: amountOfPayment},
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
-        var brandpay = await loadBrandPay(
-          `${configs.brandpayClientKey}`,
+        var brandpay = loadPaymentWidget(
+          // `${configs.brandpayClientKey}`,
+          `${configs.clientKey}`,
           customerKey,
           {
             redirectUrl: 'https://cfomarket.store/auth',
             // redirectUrl: `${configs.server}` + '/auth',
-            ui: {
-              highlightColor: '#26C2E3',
-              buttonStyle: 'full',
-              labels: {
-                oneTouchPay: '내 상점 원터치결제',
-              },
-            },
-            windowTarget: 'iframe',
+            // ui: {
+            //   highlightColor: '#26C2E3',
+            //   buttonStyle: 'full',
+            //   labels: {
+            //     oneTouchPay: '내 상점 원터치결제',
+            //   },
+            // },
+            // windowTarget: 'iframe',
           },
         );
 
+        (await brandpay).renderPaymentMethods(
+          '#payment-method',
+          {value: 10000},
+          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        );
         // console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
-        brandpay
+        (await brandpay)
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
