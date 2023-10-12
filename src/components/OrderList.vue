@@ -478,7 +478,7 @@
             });
         }
       },
-      brandpayRequest(total, shipment, coupon) {
+      async brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -491,7 +491,7 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
 
-        this.paymentMethodsWidget
+        await this.paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
