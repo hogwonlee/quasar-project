@@ -477,11 +477,7 @@
             });
         }
       },
-    },
-    setup() {
-      let widget = {};
-
-      function brandpayRequest(total, shipment, coupon) {
+      brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -493,7 +489,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        widget.payments
+        this.widget.payments
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -517,9 +513,11 @@
             }
             console.log('requestPayment 에러: ' + error);
           });
-      }
+      },
+    },
+    setup() {
+      let widget = {};
       return {
-        brandpayRequest,
         widget,
       };
     },
