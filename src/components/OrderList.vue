@@ -476,10 +476,11 @@
       },
     },
     setup() {
+      const userinfo = this.$store.user.USER;
       const customerKey =
-        this.user.USER_ID +
+        userinfo.USER_ID +
         '_' +
-        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_1');
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
       const brandpay = loadBrandPay(
         `${configs.brandpayClientKey}`,
         customerKey,
@@ -504,7 +505,7 @@
         }
         var amountOfPayment = total + shipment - discount;
         var random_id =
-          this.user.USER_ID +
+          userinfo.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
         // 2. 브랜드페이 객체 생성
@@ -534,7 +535,7 @@
               this.cartList[0].product_name +
               this.cartList[0].quantity +
               '...',
-            customerName: this.user.USER_NAME,
+            customerName: userinfo.USER_NAME,
             appScheme: 'chinafoodonline://',
             successUrl: window.location.origin + '/BrandpaySuccess',
             failUrl: window.location.origin + '/Fail',
@@ -565,8 +566,6 @@
         // });
       }
       return {
-        brandpay,
-        customerKey,
         brandpayRequest,
       };
     },
