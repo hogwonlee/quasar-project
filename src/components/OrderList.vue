@@ -511,7 +511,8 @@
           `${configs.brandpayClientKey}`,
           customerKey,
           {
-            redirectUrl: `${configs.server}` + '/auth',
+            redirectUrl: window.location.origin + '/auth',
+            // redirectUrl: `${configs.server}` + '/auth',
             ui: {
               highlightColor: '#26C2E3',
               buttonStyle: 'full',
