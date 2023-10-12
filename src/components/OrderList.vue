@@ -538,6 +538,8 @@
           // redirectUrl: `${configs.server}` + '/auth',
         },
       );
+      console.log('위젯: ' + Object.entries(brandpaywidget));
+
       widget.payments = brandpaywidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
