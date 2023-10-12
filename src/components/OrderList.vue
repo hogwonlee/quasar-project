@@ -516,12 +516,11 @@
         //   redirectUrl: window.location.origin + '/auth',
         // },
         // );
-
-        brandpay.renderPaymentMethods(
-          '#payment-method',
-          {value: amountOfPayment},
-          {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
+        // brandpay.renderPaymentMethods(
+        //   '#payment-method',
+        //   {value: amountOfPayment},
+        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+        // );
 
         console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
