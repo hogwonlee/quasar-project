@@ -571,6 +571,7 @@
       };
     },
     mounted() {
+      console.log('서버주소: ' + `${configs.server}`);
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
