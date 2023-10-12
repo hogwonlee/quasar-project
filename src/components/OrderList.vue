@@ -493,7 +493,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        this.widget
+        widget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
