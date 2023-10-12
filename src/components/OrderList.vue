@@ -245,7 +245,14 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         label="간편결제"
-        @click="brandpayRequest(total, shipment, reservedCoupon())"
+        @click="
+          brandpayRequest(
+            total,
+            shipment,
+            reservedCoupon(),
+            paymentMethodsWidget,
+          )
+        "
       >
       </q-btn>
     </div>
@@ -297,6 +304,7 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        paymentMethodsWidget: {},
       };
     },
     watch: {
@@ -477,36 +485,7 @@
             });
         }
       },
-    },
-    async setup() {
-      const userinfo = useStore().state.user.USER;
-      const customerKey =
-        userinfo.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = await loadPaymentWidget(
-        // `${configs.brandpayClientKey}`,
-        `${configs.clientKey}`,
-        customerKey,
-        {
-          redirectUrl: 'https://cfomarket.store/auth',
-          // redirectUrl: `${configs.server}` + '/auth',
-          // ui: {
-          //   highlightColor: '#26C2E3',
-          //   buttonStyle: 'full',
-          //   labels: {
-          //     oneTouchPay: '내 상점 원터치결제',
-          //   },
-          // },
-          // windowTarget: 'iframe',
-        },
-      );
-      const paymentMethodsWidget = brandpay.renderPaymentMethods(
-        '.payment',
-        {value: 10000},
-        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-      );
-      function brandpayRequest(total, shipment, coupon) {
+      brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -521,7 +500,7 @@
 
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
-        paymentMethodsWidget
+        this.paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -545,12 +524,39 @@
             }
             console.log('requestPayment 에러: ' + error);
           });
-      }
-      return {
-        brandpayRequest,
-      };
+      },
     },
+
     mounted() {
+      const userinfo = useStore().state.user.USER;
+      const customerKey =
+        userinfo.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
+      const brandpay = loadPaymentWidget(
+        // `${configs.brandpayClientKey}`,
+        `${configs.clientKey}`,
+        customerKey,
+        {
+          redirectUrl: 'https://cfomarket.store/auth',
+          // redirectUrl: `${configs.server}` + '/auth',
+          // ui: {
+          //   highlightColor: '#26C2E3',
+          //   buttonStyle: 'full',
+          //   labels: {
+          //     oneTouchPay: '내 상점 원터치결제',
+          //   },
+          // },
+          // windowTarget: 'iframe',
+        },
+      );
+
+      this.paymentMethodsWidget = brandpay.renderPaymentMethods(
+        '#payment',
+        {value: 10000},
+        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+      );
+
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
