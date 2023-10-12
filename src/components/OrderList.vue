@@ -278,6 +278,8 @@
   // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
+  let widget = {};
+
   export default defineComponent({
     name: 'OrderList',
     components: {
@@ -297,13 +299,9 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
-        widget: {},
       };
     },
     watch: {
-      widget: function (val) {
-        console.log('위젯 변경: ' + val);
-      },
       total: function (val, old) {
         // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
         if (old < 50000 && val >= 50000) {
@@ -493,11 +491,12 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        this.widget.payments.updateAmount(
+        console.log('dnl젯: ' + widget.payments);
+        widget.payments.updateAmount(
           amountOfPayment,
-          this.widget.payments.UPDATE_REASON.COUPON,
+          widget.payments.UPDATE_REASON.COUPON,
         );
-        this.widget.payments
+        widget.payments
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -538,12 +537,12 @@
           // redirectUrl: `${configs.server}` + '/auth',
         },
       );
-      this.widget.payments = brandpaywidget.renderPaymentMethods(
+      widget.payments = brandpaywidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
-
+      console.log('위젯 객체: ' + widget.payments);
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
