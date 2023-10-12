@@ -294,7 +294,6 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
-        customerKey: '',
       };
     },
     watch: {
@@ -477,9 +476,13 @@
       },
     },
     setup() {
+      const customerKey =
+        this.user.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_1');
       const brandpay = loadBrandPay(
         `${configs.brandpayClientKey}`,
-        this.customerKey,
+        customerKey,
         {
           redirectUrl: `${configs.server}` + '/auth',
           ui: {
@@ -521,7 +524,7 @@
 
         console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
-        console.log('커스텀 키: ' + this.customerKey);
+        console.log('커스텀 키: ' + customerKey);
         brandpay
           .requestPayment({
             amount: amountOfPayment,
@@ -563,15 +566,11 @@
       }
       return {
         brandpay,
+        customerKey,
         brandpayRequest,
       };
     },
     mounted() {
-      this.customerKey =
-        this.user.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_1');
-      this.createBrandpay();
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
