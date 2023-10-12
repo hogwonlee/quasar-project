@@ -122,7 +122,8 @@
         </tbody>
       </q-markup-table>
     </q-card>
-    <div for="payment-method"></div>
+    <div id="payment" />
+    <div id="agreement" />
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-teal-2" v-bind:food_price="total" />
     </q-dialog>
@@ -500,7 +501,7 @@
         },
       );
       const paymentMethodsWidget = brandpay.renderPaymentMethods(
-        '#payment-method',
+        '#payment',
         {value: 10000},
         // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
       );
