@@ -245,14 +245,7 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         label="간편결제"
-        @click="
-          brandpayRequest(
-            total,
-            shipment,
-            reservedCoupon(),
-            paymentMethodsWidget,
-          )
-        "
+        @click="brandpayRequest(total, shipment, reservedCoupon())"
       >
       </q-btn>
     </div>
