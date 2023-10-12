@@ -297,9 +297,13 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        widget: {},
       };
     },
     watch: {
+      widget: function (val) {
+        console.log('위젯 변경: ' + val);
+      },
       total: function (val, old) {
         // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
         if (old < 50000 && val >= 50000) {
@@ -518,12 +522,6 @@
             console.log('requestPayment 에러: ' + error);
           });
       },
-    },
-    setup() {
-      let widget = {};
-      return {
-        widget,
-      };
     },
     async mounted() {
       const userinfo = useStore().state.user.USER;
