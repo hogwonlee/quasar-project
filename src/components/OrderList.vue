@@ -476,7 +476,7 @@
       },
     },
     setup() {
-      const userinfo = useStore().user.USER;
+      const userinfo = useStore().state.user.USER;
       const customerKey =
         userinfo.USER_ID +
         '_' +
