@@ -792,6 +792,19 @@ app.post('/api/deliveryInfo', (req, res) => {
   });
 });
 
+app.get('/api/auth', (req, res) => {
+  // var grantType= 'AuthorizationCode';
+  // var code= req.params.code;
+  // var  customerKey= req.params.customerKey;
+
+  console.log(
+    '브랜드페이 응답코드 확인: ' +
+      req.params.code +
+      '커스텀키: ' +
+      req.params.customerKey,
+  );
+});
+
 app.get('/api/orderGroupInfo', (req, res) => {
   const sqlCommend = 'SELECT * FROM ordergroup WHERE ordergroup.id = ?';
 

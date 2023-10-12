@@ -477,7 +477,22 @@
       },
     },
     setup() {
-      async function brandpayRequest(total, shipment, coupon) {
+      const brandpay = loadBrandPay(
+        `${configs.brandpayClientKey}`,
+        this.customerKey,
+        {
+          redirectUrl: `${configs.server}` + '/auth',
+          ui: {
+            highlightColor: '#26C2E3',
+            buttonStyle: 'full',
+            labels: {
+              oneTouchPay: '내 상점 원터치결제',
+            },
+          },
+          windowTarget: 'iframe',
+        },
+      );
+      function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -497,21 +512,7 @@
         //   redirectUrl: window.location.origin + '/auth',
         // },
         // );
-        var brandpay = await loadBrandPay(
-          `${configs.brandpayClientKey}`,
-          this.customerKey,
-          {
-            redirectUrl: window.location.origin + '/auth',
-            ui: {
-              highlightColor: '#26C2E3',
-              buttonStyle: 'full',
-              labels: {
-                oneTouchPay: '내 상점 원터치결제',
-              },
-            },
-            windowTarget: 'iframe',
-          },
-        );
+
         brandpay.renderPaymentMethods(
           '#payment-method',
           {value: amountOfPayment},
@@ -561,6 +562,7 @@
         // });
       }
       return {
+        brandpay,
         brandpayRequest,
       };
     },
@@ -569,6 +571,7 @@
         this.user.USER_ID +
         '_' +
         CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_1');
+      this.createBrandpay();
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
