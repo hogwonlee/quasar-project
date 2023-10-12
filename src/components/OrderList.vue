@@ -272,7 +272,8 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
   export default defineComponent({
@@ -481,19 +482,11 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = loadBrandPay(
+      const brandpay = loadPaymentWidget(
         `${configs.brandpayClientKey}`,
         customerKey,
         {
           redirectUrl: `${configs.server}` + '/auth',
-          ui: {
-            highlightColor: '#26C2E3',
-            buttonStyle: 'full',
-            labels: {
-              oneTouchPay: '내 상점 원터치결제',
-            },
-          },
-          windowTarget: 'iframe',
         },
       );
       function brandpayRequest(total, shipment, coupon) {
