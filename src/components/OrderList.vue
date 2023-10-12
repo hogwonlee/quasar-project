@@ -482,22 +482,7 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = loadBrandPay(
-        `${configs.brandpayClientKey}`,
-        customerKey,
-        {
-          redirectUrl: `${configs.server}` + '/auth',
-          ui: {
-            highlightColor: '#26C2E3',
-            buttonStyle: 'full',
-            labels: {
-              oneTouchPay: '내 상점 원터치결제',
-            },
-          },
-          windowTarget: 'iframe',
-        },
-      );
-      function brandpayRequest(total, shipment, coupon) {
+      async function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -522,6 +507,21 @@
         //   {value: amountOfPayment},
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
+        var brandpay = await loadBrandPay(
+          `${configs.brandpayClientKey}`,
+          customerKey,
+          {
+            redirectUrl: `${configs.server}` + '/auth',
+            ui: {
+              highlightColor: '#26C2E3',
+              buttonStyle: 'full',
+              labels: {
+                oneTouchPay: '내 상점 원터치결제',
+              },
+            },
+            windowTarget: 'iframe',
+          },
+        );
 
         console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
