@@ -511,7 +511,7 @@
           `${configs.brandpayClientKey}`,
           customerKey,
           {
-            redirectUrl: window.location.origin + '/auth',
+            redirectUrl: `${configs.server}` + '/auth',
             // redirectUrl: `${configs.server}` + '/auth',
             ui: {
               highlightColor: '#26C2E3',
@@ -571,7 +571,6 @@
       };
     },
     mounted() {
-      console.log('서버주소: ' + `${configs.server}`);
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
