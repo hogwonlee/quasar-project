@@ -478,7 +478,7 @@
             });
         }
       },
-      async brandpayRequest(total, shipment, coupon) {
+      async brandpayRequest(total, shipment, coupon, widget) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -490,8 +490,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-
-        await this.paymentMethodsWidget
+        this.paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -534,12 +533,13 @@
         },
       );
 
-      this.paymentMethodsWidget = brandpay.renderPaymentMethods(
+      const paymentMethodsWidget = brandpay.renderPaymentMethods(
         '#payment',
         {value: 10000},
         // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
       );
 
+      this.paymentMethodsWidget === paymentMethodsWidget;
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
