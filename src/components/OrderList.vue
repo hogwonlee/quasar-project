@@ -508,8 +508,8 @@
         //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
         // );
         var brandpay = loadPaymentWidget(
-          // `${configs.brandpayClientKey}`,
-          `${configs.clientKey}`,
+          `${configs.brandpayClientKey}`,
+          // `${configs.clientKey}`,
           customerKey,
           {
             redirectUrl: 'https://cfomarket.store/auth',
