@@ -476,13 +476,13 @@
         }
       },
     },
-    setup() {
+    async setup() {
       const userinfo = useStore().state.user.USER;
       const customerKey =
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = loadPaymentWidget(
+      const brandpay = await loadPaymentWidget(
         // `${configs.brandpayClientKey}`,
         `${configs.clientKey}`,
         customerKey,
@@ -499,7 +499,7 @@
           // windowTarget: 'iframe',
         },
       );
-      brandpay.renderPaymentMethods(
+      const paymentMethodsWidget = brandpay.renderPaymentMethods(
         '#payment-method',
         {value: 10000},
         // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
@@ -519,7 +519,7 @@
 
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
-        brandpay
+        paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
