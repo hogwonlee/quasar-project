@@ -59,7 +59,7 @@
         const requestData = this.postJsonData;
         // console.log(JSON.stringify(requestData));
         axios({
-          url: 'https://api.tosspayments.com/v1/brandpay/authorizations',
+          url: 'https://api.tosspayments.com/v1/brandpay/authorizations/access-token',
           method: 'POST',
 
           headers: {
