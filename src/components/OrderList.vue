@@ -277,6 +277,7 @@
   import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
+  let widget;
 
   export default defineComponent({
     name: 'OrderList',
@@ -491,7 +492,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        paymentMethodsWidget
+        widget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -535,7 +536,7 @@
           // redirectUrl: `${configs.server}` + '/auth',
         },
       );
-      const paymentMethodsWidget = brandpaywidget.renderPaymentMethods(
+      widget = brandpaywidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
