@@ -492,6 +492,7 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
         console.log('dnl젯: ' + widget.payments);
+        console.log(Object.entries(widget.payments));
         widget.payments.updateAmount(
           amountOfPayment,
           widget.payments.UPDATE_REASON.COUPON,
