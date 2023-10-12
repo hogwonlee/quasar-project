@@ -498,8 +498,6 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
 
-        console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
-        console.log('커스텀 키: ' + customerKey);
         this.paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
