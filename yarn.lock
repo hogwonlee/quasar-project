@@ -247,7 +247,7 @@
   resolved "https://registry.npmjs.org/@tosspayments/brandpay-types/-/brandpay-types-0.2.6.tgz"
   integrity sha512-FY8aOm/2rqtXjYux9ZdNTL6GC5+VNIw8eOQ7TP01dS2uGWSzAtR6uuw9HVsgkmJtSyJgmo97tjmbio5oyeyFlg==
 
-"@tosspayments/payment__types@^1.60.0":
+"@tosspayments/payment__types@^1.60.0", "@tosspayments/payment__types@^1.66.2":
   version "1.66.2"
   resolved "https://registry.npmjs.org/@tosspayments/payment__types/-/payment__types-1.66.2.tgz"
   integrity sha512-DE3nzEptEj8f3UHrUllNZANRetho6lRnhIPMhDkpm4/u7EW/WS3IeS+gwvNj5vUThTX8i7giAsdd80ZuWcQ6jg==
@@ -260,6 +260,27 @@
   integrity sha512-LPMo3VkAxUz6UiW0owSF7swqHDlHQ4KW0QIrn78cAwNq6mSj76FdcVX9HpnAggDk8GA42erLXlqpxWt3Jy/gSQ==
   dependencies:
     "@tosspayments/payment__types" "^1.60.0"
+
+"@tosspayments/payment-widget__types@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.npmjs.org/@tosspayments/payment-widget__types/-/payment-widget__types-0.2.4.tgz"
+  integrity sha512-qRUhQLdD6zozBbnJoCYzF6Col25TweubbM40oGi7ocwK5wfokhpn0BNZiSyNAQdwn2NaW+fwqD5tX7TzPo9Erw==
+  dependencies:
+    "@tosspayments/brandpay-types" "^0.2.5"
+    "@tosspayments/payment__types" "^1.66.2"
+    "@tosspayments/payment-widget-types" "^0.0.5"
+
+"@tosspayments/payment-widget-sdk@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.npmjs.org/@tosspayments/payment-widget-sdk/-/payment-widget-sdk-0.9.3.tgz"
+  integrity sha512-pdaP/8Atzsl9LC6kMpFUCCWQO7Sw9DNFejKvSA1d8GIsXfulA7+rVYYTQMP3z91eAbdEEu9zUZt5fTJbkfwPoA==
+  dependencies:
+    "@tosspayments/payment-widget__types" "^0.2.4"
+
+"@tosspayments/payment-widget-types@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@tosspayments/payment-widget-types/-/payment-widget-types-0.0.5.tgz"
+  integrity sha512-Daaui9u7aRPzJhw4omJIUAbYBSmNAFNjWWkuUnX9uHxzE3gtjcJHIpGrjlzmCFm+j3ZH4rgyrgv4pkazVYH3OQ==
 
 "@tosspayments/sdk-constants@^0.2.2":
   version "0.2.2"
