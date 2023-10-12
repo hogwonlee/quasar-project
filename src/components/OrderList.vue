@@ -297,7 +297,6 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
-        paymentMethodsWidget: {},
       };
     },
     watch: {
@@ -478,7 +477,29 @@
             });
         }
       },
-      async brandpayRequest(total, shipment, coupon, widget) {
+    },
+    async setup() {
+      const userinfo = useStore().state.user.USER;
+      const customerKey =
+        userinfo.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
+      const brandpay = await loadPaymentWidget(
+        // `${configs.brandpayClientKey}`,
+        `${configs.clientKey}`,
+        customerKey,
+        {
+          redirectUrl: 'https://cfomarket.store/auth',
+          // redirectUrl: `${configs.server}` + '/auth',
+        },
+      );
+
+      const paymentMethodsWidget = brandpay.renderPaymentMethods(
+        '#payment',
+        {value: 10000},
+        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+      );
+      async function brandpayRequest(total, shipment, coupon, widget) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -490,7 +511,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        this.paymentMethodsWidget
+        paymentMethodsWidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -514,32 +535,12 @@
             }
             console.log('requestPayment 에러: ' + error);
           });
-      },
+      }
+      return {
+        brandpayRequest,
+      };
     },
-
-    async mounted() {
-      const userinfo = useStore().state.user.USER;
-      const customerKey =
-        userinfo.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpay = await loadPaymentWidget(
-        // `${configs.brandpayClientKey}`,
-        `${configs.clientKey}`,
-        customerKey,
-        {
-          redirectUrl: 'https://cfomarket.store/auth',
-          // redirectUrl: `${configs.server}` + '/auth',
-        },
-      );
-
-      const paymentMethodsWidget = brandpay.renderPaymentMethods(
-        '#payment',
-        {value: 10000},
-        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-      );
-
-      this.paymentMethodsWidget === paymentMethodsWidget;
+    mounted() {
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
