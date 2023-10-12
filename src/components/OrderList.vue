@@ -494,7 +494,7 @@
         }
         var amountOfPayment = total + shipment - discount;
         var random_id =
-          userinfo.USER_ID +
+          this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
 
@@ -509,7 +509,7 @@
               this.cartList[0].product_name +
               this.cartList[0].quantity +
               '...',
-            customerName: userinfo.USER_NAME,
+            customerName: this.user.USER_NAME,
             appScheme: 'chinafoodonline://',
             successUrl: window.location.origin + '/BrandpaySuccess',
             failUrl: window.location.origin + '/Fail',
