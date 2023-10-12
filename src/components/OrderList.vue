@@ -482,7 +482,29 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      async function brandpayRequest(total, shipment, coupon) {
+      const brandpay = loadPaymentWidget(
+        // `${configs.brandpayClientKey}`,
+        `${configs.clientKey}`,
+        customerKey,
+        {
+          redirectUrl: 'https://cfomarket.store/auth',
+          // redirectUrl: `${configs.server}` + '/auth',
+          // ui: {
+          //   highlightColor: '#26C2E3',
+          //   buttonStyle: 'full',
+          //   labels: {
+          //     oneTouchPay: '내 상점 원터치결제',
+          //   },
+          // },
+          // windowTarget: 'iframe',
+        },
+      );
+      brandpay.renderPaymentMethods(
+        '#payment-method',
+        {value: 10000},
+        // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
+      );
+      function brandpayRequest(total, shipment, coupon) {
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -494,46 +516,10 @@
           userinfo.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        // 2. 브랜드페이 객체 생성
-        // const brandpay = await loadBrandPay(
-        //   `${configs.brandpayClientKey}`,
-        //   customerKey,
-        // {
-        //   redirectUrl: window.location.origin + '/auth',
-        // },
-        // );
-        // brandpay.renderPaymentMethods(
-        //   '#payment-method',
-        //   {value: amountOfPayment},
-        //   {variantKey: 'BRANDPAY'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        // );
-        var brandpay = loadPaymentWidget(
-          // `${configs.brandpayClientKey}`,
-          `${configs.clientKey}`,
-          customerKey,
-          {
-            redirectUrl: 'https://cfomarket.store/auth',
-            // redirectUrl: `${configs.server}` + '/auth',
-            // ui: {
-            //   highlightColor: '#26C2E3',
-            //   buttonStyle: 'full',
-            //   labels: {
-            //     oneTouchPay: '내 상점 원터치결제',
-            //   },
-            // },
-            // windowTarget: 'iframe',
-          },
-        );
 
-        (await brandpay).renderPaymentMethods(
-          '#payment-method',
-          {value: 10000},
-          // {variantKey: 'DEFAULT'}, // 브랜드페이가 추가된 결제 UI의 variantKey
-        );
-        // console.log('브랜드페이 객체: ' + brandpay);
         console.log('클라이언트 키: ' + `${configs.brandpayClientKey}`);
         console.log('커스텀 키: ' + customerKey);
-        (await brandpay)
+        brandpay
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -557,20 +543,6 @@
             }
             console.log('requestPayment 에러: ' + error);
           });
-
-        // brandpay.requestPayment({
-        //   amount: amountOfPayment,
-        //   orderId: random_id,
-        //   orderName:
-        //     this.cartList[0].product_id +
-        //     this.cartList[0].product_name +
-        //     this.cartList[0].quantity +
-        //     '...',
-        //   // customerName: this.user.USER_NAME,
-        //   // appScheme: 'chinafoodonline://',
-        //   // successUrl: window.location.origin + '/BrandpaySuccess',
-        //   // failUrl: window.location.origin + '/Fail',
-        // });
       }
       return {
         brandpayRequest,
