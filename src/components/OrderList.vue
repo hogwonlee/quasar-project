@@ -536,7 +536,7 @@
         },
       );
       const paymentMethodsWidget = brandpaywidget.renderPaymentMethods(
-        '#payment-widget',
+        '#payment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
