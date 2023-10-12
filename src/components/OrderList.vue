@@ -493,7 +493,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        widget
+        widget.payments
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -538,7 +538,7 @@
           // redirectUrl: `${configs.server}` + '/auth',
         },
       );
-      this.widget = brandpaywidget.renderPaymentMethods(
+      this.widget.payments = brandpaywidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
