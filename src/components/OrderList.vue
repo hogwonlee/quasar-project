@@ -275,9 +275,9 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  // import {loadTossPayments} from '@tosspayments/payment-sdk';
-  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
-  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  import {loadTossPayments} from '@tosspayments/payment-sdk';
+  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
   let widget = {};
@@ -412,24 +412,29 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
+        const customerKey =
+          this.user.USER_ID +
+          '_' +
+          CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_2');
         // widget.normal.updateAmount(amountOfPayment);
-        console.log('랜더: ' + Object.entries(widget.normal));
+        // console.log('랜더: ' + Object.entries(widget.normal));
 
-        // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
-        paymentWidget.requestPayment('계좌', {
-          amount: amountOfPayment,
-          orderId: random_id,
-          orderName:
-            this.cartList[0].product_id +
-            this.cartList[0].product_name +
-            this.cartList[0].quantity +
-            '...',
-          customerName: this.user.USER_NAME,
-          appScheme: 'chinafoodonline://',
-          successUrl: window.location.origin + '/Success',
-          failUrl: window.location.origin + '/Fail',
-        });
-        // );
+        loadTossPayments(`${configs.clientKey}`, customerKey).then(
+          tossPayments =>
+            tossPayments.requestPayment({
+              amount: amountOfPayment,
+              orderId: random_id,
+              orderName:
+                this.cartList[0].product_id +
+                this.cartList[0].product_name +
+                this.cartList[0].quantity +
+                '...',
+              customerName: this.user.USER_NAME,
+              appScheme: 'chinafoodonline://',
+              successUrl: window.location.origin + '/Success',
+              failUrl: window.location.origin + '/Fail',
+            }),
+        );
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
@@ -561,43 +566,43 @@
       },
     },
     async mounted() {
-      const userinfo = useStore().state.user.USER;
-      const customerKey =
-        userinfo.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-      brandpaywidget = await loadPaymentWidget(
-        `${configs.brandpayClientKey}`,
-        customerKey,
-        {
-          // redirectUrl: 'https://cfomarket.store/auth',
-          redirectUrl: `${configs.server}` + '/auth',
-          ui: {
-            buttonStyle: 'full',
-            highlightColor: '#26C2E3',
-            labels: {
-              oneTouchPay: '내 상점 원터치결제',
-            },
-          },
-        },
-      );
+      // const userinfo = useStore().state.user.USER;
+      // const customerKey =
+      //   userinfo.USER_ID +
+      //   '_' +
+      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
+      // brandpaywidget = await loadPaymentWidget(
+      //   `${configs.brandpayClientKey}`,
+      //   customerKey,
+      //   {
+      //     // redirectUrl: 'https://cfomarket.store/auth',
+      //     redirectUrl: `${configs.server}` + '/auth',
+      //     ui: {
+      //       buttonStyle: 'full',
+      //       highlightColor: '#26C2E3',
+      //       labels: {
+      //         oneTouchPay: '내 상점 원터치결제',
+      //       },
+      //     },
+      //   },
+      // );
 
-      paymentWidget = await loadBrandPay(`${configs.clientKey}`, customerKey, {
-        // redirectUrl: 'https://cfomarket.store/auth',
-        redirectUrl: `${configs.server}` + '/auth',
-      });
+      // paymentWidget = await loadBrandPay(`${configs.clientKey}`, customerKey, {
+      //   // redirectUrl: 'https://cfomarket.store/auth',
+      //   redirectUrl: `${configs.server}` + '/auth',
+      // });
 
-      widget.payments = brandpaywidget.renderPaymentMethods(
-        '#brandpayment',
-        {value: 10000},
-        {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      );
+      // widget.payments = brandpaywidget.renderPaymentMethods(
+      //   '#brandpayment',
+      //   {value: 10000},
+      //   {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      // );
 
-      widget.normal = paymentWidget.renderPaymentMethods(
-        '#payment',
-        {value: 10000},
-        {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      );
+      // widget.normal = paymentWidget.renderPaymentMethods(
+      //   '#payment',
+      //   {value: 10000},
+      //   {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      // );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
