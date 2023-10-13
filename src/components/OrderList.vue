@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="widget_window">
+  <q-dialog v-show="widget_window">
     <div id="payment"></div>
   </q-dialog>
   <div id="agreement"></div>
