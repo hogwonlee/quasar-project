@@ -412,7 +412,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        widget.normal.updateAmount(amountOfPayment);
+        // widget.normal.updateAmount(amountOfPayment);
         // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
         paymentWidget.requestPayment('계좌', {
           amount: amountOfPayment,
