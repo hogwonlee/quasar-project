@@ -511,31 +511,44 @@
           });
         // console.log('응답: ' + Object.entries(BrandpayMethodResponse));
         console.log('응답: ' + JSON.stringify(BrandpayMethodResponse));
-
-        // brandpaywidget
-        //   .requestPayment({
-        //     amount: amountOfPayment,
-        //     orderId: random_id,
-        //     orderName:
-        //       this.cartList[0].product_id +
-        //       this.cartList[0].product_name +
-        //       this.cartList[0].quantity +
-        //       '...',
-        //     customerName: this.user.USER_NAME,
-        //     // appScheme: 'chinafoodonline://',
-        //     successUrl: window.location.origin + '/BrandpaySuccess',
-        //     failUrl: window.location.origin + '/Fail',
-        //   })
-        //   .then(function (data) {
-        //     // 결제 요청 성공 처리
-        //     console.log('requestPayment 데이터: ' + data);
-        //   })
-        //   .catch(function (error) {
-        //     if (error.code === 'USER_CANCEL') {
-        //       // 사용자가 창을 닫아 취소한 경우에 대한 처리
-        //     }
-        //     console.log('requestPayment 에러: ' + error);
-        //   });
+        if (BrandpayMethodResponse == undefined) {
+          brandpaywidget
+            .addPaymentMethod('계좌')
+            .then(function (method) {
+              console.log('계좌등록 성공: ' + method);
+            })
+            .catch(function (error) {
+              if (error.code === 'USER_CANCEL') {
+                console.log('계좌등록을 취소하였습니다.');
+              }
+            });
+        } else {
+          console.log('결제 요청 ');
+          brandpaywidget
+            .requestPayment({
+              amount: amountOfPayment,
+              orderId: random_id,
+              orderName:
+                this.cartList[0].product_id +
+                this.cartList[0].product_name +
+                this.cartList[0].quantity +
+                '...',
+              customerName: this.user.USER_NAME,
+              // appScheme: 'chinafoodonline://',
+              successUrl: window.location.origin + '/BrandpaySuccess',
+              failUrl: window.location.origin + '/Fail',
+            })
+            .then(function (data) {
+              // 결제 요청 성공 처리
+              console.log('requestPayment 데이터: ' + data);
+            })
+            .catch(function (error) {
+              if (error.code === 'USER_CANCEL') {
+                // 사용자가 창을 닫아 취소한 경우에 대한 처리
+              }
+              console.log('requestPayment 에러: ' + error);
+            });
+        }
       },
     },
     async mounted() {
