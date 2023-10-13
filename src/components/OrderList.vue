@@ -497,11 +497,12 @@
         //   widget.payments.UPDATE_REASON.COUPON,
         // );
         // console.log('랜더: ' + Object.entries(widget.payments));
-        console.log('위젯: ' + Object.entries(brandpaywidget));
+        // console.log('위젯: ' + Object.entries(brandpaywidget));
         brandpaywidget
           .getPaymentMethods()
           .then(function (methods) {
-            console.log(methods);
+            console.log('메서드: ' + Object.entries(methods));
+            console.log('응답: ' + Object.entries(BrandpayMethodResponse));
           })
           .catch(function (error) {
             if (error.code === 'USER_CANCEL') {
