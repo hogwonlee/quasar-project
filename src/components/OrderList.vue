@@ -274,8 +274,8 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {loadTossPayments} from '@tosspayments/payment-sdk';
-  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
-  // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
+  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
   let widget = {};
@@ -492,36 +492,46 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        widget.payments.updateAmount(
-          amountOfPayment,
-          widget.payments.UPDATE_REASON.COUPON,
-        );
-        console.log('랜더: ' + Object.entries(widget.payments));
+        // widget.payments.updateAmount(
+        //   amountOfPayment,
+        //   widget.payments.UPDATE_REASON.COUPON,
+        // );
+        // console.log('랜더: ' + Object.entries(widget.payments));
         console.log('위젯: ' + Object.entries(brandpaywidget));
         brandpaywidget
-          .requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            customerName: this.user.USER_NAME,
-            appScheme: 'chinafoodonline://',
-            successUrl: window.location.origin + '/BrandpaySuccess',
-            failUrl: window.location.origin + '/Fail',
-          })
-          .then(function (data) {
-            // 결제 요청 성공 처리
-            console.log('requestPayment 데이터: ' + data);
+          .getPaymentMethods()
+          .then(function (methods) {
+            console.log(methods);
           })
           .catch(function (error) {
             if (error.code === 'USER_CANCEL') {
-              // 사용자가 창을 닫아 취소한 경우에 대한 처리
+              // 사용자가 결제창을 닫은 경우 에러 처리
             }
-            console.log('requestPayment 에러: ' + error);
           });
+        // brandpaywidget
+        //   .requestPayment({
+        //     amount: amountOfPayment,
+        //     orderId: random_id,
+        //     orderName:
+        //       this.cartList[0].product_id +
+        //       this.cartList[0].product_name +
+        //       this.cartList[0].quantity +
+        //       '...',
+        //     customerName: this.user.USER_NAME,
+        //     // appScheme: 'chinafoodonline://',
+        //     successUrl: window.location.origin + '/BrandpaySuccess',
+        //     failUrl: window.location.origin + '/Fail',
+        //   })
+        //   .then(function (data) {
+        //     // 결제 요청 성공 처리
+        //     console.log('requestPayment 데이터: ' + data);
+        //   })
+        //   .catch(function (error) {
+        //     if (error.code === 'USER_CANCEL') {
+        //       // 사용자가 창을 닫아 취소한 경우에 대한 처리
+        //     }
+        //     console.log('requestPayment 에러: ' + error);
+        //   });
       },
     },
     async mounted() {
@@ -530,9 +540,10 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      brandpaywidget = await loadPaymentWidget(
-        // `${configs.brandpayClientKey}`,
-        `${configs.clientKey}`,
+      // brandpaywidget = await loadPaymentWidget(
+      brandpaywidget = await loadBrandPay(
+        `${configs.brandpayClientKey}`,
+        // `${configs.clientKey}`,
         customerKey,
         {
           redirectUrl: 'https://cfomarket.store/auth',
@@ -540,11 +551,11 @@
         },
       );
 
-      widget.payments = brandpaywidget.renderPaymentMethods(
-        '#payment',
-        {value: 10000},
-        {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      );
+      // widget.payments = brandpaywidget.renderPaymentMethods(
+      //   '#payment',
+      //   {value: 10000},
+      //   {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      // );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
