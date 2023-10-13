@@ -535,8 +535,8 @@
         `${configs.clientKey}`,
         customerKey,
         {
-          // redirectUrl: 'https://cfomarket.store/auth',
-          redirectUrl: `${configs.server}` + '/auth',
+          redirectUrl: 'https://cfomarket.store/auth',
+          // redirectUrl: `${configs.server}` + '/auth',
         },
       );
 

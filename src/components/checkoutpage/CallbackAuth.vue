@@ -70,10 +70,10 @@
           data: JSON.stringify(requestData),
         })
           .then(res => {
-            console.log('return url: ' + JSON.stringify(requestData));
-            res.status(200).send('OK:' + JSON.stringify(requestData));
-            // window.location.href = window.location.origin + '/BrandpaySuccess';
-            // res.status(200).send('OK');
+            // console.log('return url: ' + JSON.stringify(requestData));
+            // res.status(200).send('OK:' + JSON.stringify(requestData));
+            window.location.href = window.location.origin + '/BrandpaySuccess';
+            res.status(200).send('OK');
           })
           .catch(e => console.error(e));
       },
