@@ -8,7 +8,7 @@ let jwtObj = {
     issuer: 'issuer', // 발행자
   },
 };
-
+const axios = require('axios');
 const express = require('express');
 const serveStatic = require('serve-static');
 const http = require('http');
@@ -793,23 +793,42 @@ app.post('/api/deliveryInfo', (req, res) => {
 });
 
 app.get('/api/auth', (req, res) => {
-  // var grantType= 'AuthorizationCode';
-  // var code= req.params.code;
-  // var  customerKey= req.params.customerKey;
+  var grantType = 'AuthorizationCode';
+  var code = req.params.code;
+  var customerKey = req.params.customerKey;
+  var requestData = {grantType, code, customerKey};
 
+  axios({
+    url: 'https://api.tosspayments.com/v1/brandpay/authorizations/access-token',
+    method: 'POST',
+
+    headers: {
+      'Access-Control-Allow-Headers': '*',
+      'Content-Type': 'application/json',
+      authorization: `Basic ${configs.brandpaySecretKey}`,
+    },
+    data: JSON.stringify(requestData),
+  })
+    .then(res => {
+      console.log('return url: ' + JSON.stringify(requestData));
+      res.status(200).send('OK:' + JSON.stringify(requestData));
+      // window.location.href = window.location.origin + '/BrandpaySuccess';
+      // res.status(200).send('OK');
+    })
+    .catch(e => console.error(e));
   console.log(
     '브랜드페이 응답코드 확인: ' +
       req.params.code +
       '커스텀키: ' +
       req.params.customerKey,
   );
-  res
-    .status(200)
-    .send({
-      grantType: 'AuthorizationCode',
-      code: req.params.code,
-      customerKey: req.params.customerKey,
-    });
+  // res
+  //   .status(200)
+  //   .send({
+  //     grantType: 'AuthorizationCode',
+  //     code: req.params.code,
+  //     customerKey: req.params.customerKey,
+  //   });
 });
 
 app.get('/api/orderGroupInfo', (req, res) => {
