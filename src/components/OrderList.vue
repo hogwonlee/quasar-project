@@ -273,8 +273,8 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadTossPayments} from '@tosspayments/payment-sdk';
+  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
@@ -561,10 +561,10 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-      // brandpaywidget = await loadPaymentWidget(
-      brandpaywidget = await loadBrandPay(
-        `${configs.brandpayClientKey}`,
-        // `${configs.clientKey}`,
+      brandpaywidget = await loadPaymentWidget(
+        // brandpaywidget = await loadBrandPay(
+        // `${configs.brandpayClientKey}`,
+        `${configs.clientKey}`,
         customerKey,
         {
           // redirectUrl: 'https://cfomarket.store/auth',
