@@ -511,7 +511,7 @@
           });
         // console.log('응답: ' + Object.entries(BrandpayMethodResponse));
         console.log('응답: ' + JSON.stringify(BrandpayMethodResponse));
-        if (BrandpayMethodResponse == null) {
+        if (BrandpayMethodResponse.length <= 0) {
           brandpaywidget
             .addPaymentMethod('계좌')
             .then(function (method) {
