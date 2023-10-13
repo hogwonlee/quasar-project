@@ -509,7 +509,8 @@
               // 사용자가 결제창을 닫은 경우 에러 처리
             }
           });
-        console.log('응답: ' + Object.entries(BrandpayMethodResponse));
+        // console.log('응답: ' + Object.entries(BrandpayMethodResponse));
+        console.log('응답: ' + JSON.stringify(BrandpayMethodResponse));
 
         // brandpaywidget
         //   .requestPayment({
