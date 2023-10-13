@@ -1,5 +1,7 @@
 <template>
-  <div id="payment"></div>
+  <q-dialog v-model="widget_window">
+    <div id="payment"></div>
+  </q-dialog>
   <div id="agreement"></div>
   <div>
     <q-dialog v-model="register_popup">
@@ -300,6 +302,7 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        widget_window: ref(false),
       };
     },
     watch: {
@@ -396,6 +399,7 @@
         );
       },
       selectPaymentmethod(total, shipment, coupon) {
+        widget_window = true;
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -579,11 +583,11 @@
         },
       );
 
-      // widget.payments = brandpaywidget.renderPaymentMethods(
-      //   '#payment',
-      //   {value: 10000},
-      //   {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      // );
+      brandpaywidget.renderPaymentMethods(
+        '#payment',
+        {value: 10000},
+        {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
