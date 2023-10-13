@@ -560,7 +560,7 @@
       const customerKey =
         userinfo.USER_ID +
         '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
       // brandpaywidget = await loadPaymentWidget(
       brandpaywidget = await loadBrandPay(
         `${configs.brandpayClientKey}`,
