@@ -498,7 +498,7 @@
         // );
         // console.log('랜더: ' + Object.entries(widget.payments));
         // console.log('위젯: ' + Object.entries(brandpaywidget));
-        brandpaywidget
+        var BrandpayMethodResponse = brandpaywidget
           .getPaymentMethods()
           .then(function (methods) {
             console.log('메서드: ' + Object.entries(methods));
@@ -509,6 +509,8 @@
               // 사용자가 결제창을 닫은 경우 에러 처리
             }
           });
+        console.log('응답: ' + Object.entries(BrandpayMethodResponse));
+
         // brandpaywidget
         //   .requestPayment({
         //     amount: amountOfPayment,
