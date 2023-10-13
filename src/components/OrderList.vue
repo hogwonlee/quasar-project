@@ -407,21 +407,21 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
-          tossPayments.requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            customerName: this.user.USER_NAME,
-            appScheme: 'chinafoodonline://',
-            successUrl: window.location.origin + '/Success',
-            failUrl: window.location.origin + '/Fail',
-          }),
-        );
+        // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
+        brandpaywidget.requestPayment({
+          amount: amountOfPayment,
+          orderId: random_id,
+          orderName:
+            this.cartList[0].product_id +
+            this.cartList[0].product_name +
+            this.cartList[0].quantity +
+            '...',
+          customerName: this.user.USER_NAME,
+          appScheme: 'chinafoodonline://',
+          successUrl: window.location.origin + '/Success',
+          failUrl: window.location.origin + '/Fail',
+        });
+        // );
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
