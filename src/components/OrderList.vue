@@ -399,7 +399,7 @@
         );
       },
       selectPaymentmethod(total, shipment, coupon) {
-        widget_window = true;
+        this.widget_window = true;
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
