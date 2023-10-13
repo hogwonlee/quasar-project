@@ -1,8 +1,8 @@
 <template>
-  <q-dialog v-show="widget_window">
-    <div id="payment"></div>
-  </q-dialog>
-  <div id="agreement"></div>
+  <!-- <q-dialog v-show="widget_window">
+  </q-dialog> -->
+  <div id="payment"></div>
+  <div id="brandpayment"></div>
   <div>
     <q-dialog v-model="register_popup">
       <AddressRegister />
@@ -586,7 +586,7 @@
       });
 
       widget.payments = brandpaywidget.renderPaymentMethods(
-        '#payment',
+        '#brandpayment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
