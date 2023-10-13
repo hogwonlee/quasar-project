@@ -569,6 +569,13 @@
         {
           redirectUrl: 'https://cfomarket.store/auth',
           // redirectUrl: `${configs.server}` + '/auth',
+          ui: {
+            buttonStyle: 'full',
+            highlightColor: '#26C2E3',
+            labels: {
+              oneTouchPay: '내 상점 원터치결제',
+            },
+          },
         },
       );
 
