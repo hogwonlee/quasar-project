@@ -279,6 +279,7 @@
   import CryptoJS from 'crypto-js';
 
   let widget = {};
+  let brandpaywidget = {};
 
   export default defineComponent({
     name: 'OrderList',
@@ -491,13 +492,11 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        console.log('dnl젯: ' + widget.payments);
-        console.log(Object.entries(widget.payments));
         widget.payments.updateAmount(
           amountOfPayment,
           widget.payments.UPDATE_REASON.COUPON,
         );
-        widget.payments
+        brandpaywidget
           .requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
@@ -529,7 +528,7 @@
         userinfo.USER_ID +
         '_' +
         CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_1');
-      const brandpaywidget = await loadPaymentWidget(
+      brandpaywidget = await loadPaymentWidget(
         // `${configs.brandpayClientKey}`,
         `${configs.clientKey}`,
         customerKey,
@@ -538,14 +537,12 @@
           // redirectUrl: `${configs.server}` + '/auth',
         },
       );
-      console.log('위젯: ' + Object.entries(brandpaywidget));
 
       widget.payments = brandpaywidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
-      console.log('위젯 객체: ' + widget.payments);
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
