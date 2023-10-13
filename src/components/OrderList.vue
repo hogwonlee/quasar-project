@@ -408,7 +408,7 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
         loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
-          tossPayments.requestPayment('카드', {
+          tossPayments.requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
             orderName:
@@ -537,7 +537,7 @@
         //         this.cartList[0].product_name +
         //         this.cartList[0].quantity +
         //         '...',
-        //       customerName: this.user.USER_NAME,
+        // customerName: this.user.USER_NAME,
         //       // appScheme: 'chinafoodonline://',
         //       successUrl: window.location.origin + '/BrandpaySuccess',
         //       failUrl: window.location.origin + '/Fail',
