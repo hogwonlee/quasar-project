@@ -496,6 +496,8 @@
           amountOfPayment,
           widget.payments.UPDATE_REASON.COUPON,
         );
+        console.log('랜더: ' + Object.entries(widget.payments));
+        console.log('위젯: ' + Object.entries(brandpaywidget));
         brandpaywidget
           .requestPayment({
             amount: amountOfPayment,
