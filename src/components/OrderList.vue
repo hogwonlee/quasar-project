@@ -412,7 +412,7 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
         // loadTossPayments(`${configs.clientKey}`).then(tossPayments =>
-        brandpaywidget.requestPayment({
+        brandpaywidget.requestPayment('계좌', {
           amount: amountOfPayment,
           orderId: random_id,
           orderName:
