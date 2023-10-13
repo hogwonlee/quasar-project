@@ -803,6 +803,13 @@ app.get('/api/auth', (req, res) => {
       '커스텀키: ' +
       req.params.customerKey,
   );
+  res
+    .status(200)
+    .send({
+      grantType: 'AuthorizationCode',
+      code: req.params.code,
+      customerKey: req.params.customerKey,
+    });
 });
 
 app.get('/api/orderGroupInfo', (req, res) => {
