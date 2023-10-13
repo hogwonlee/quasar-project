@@ -588,13 +588,13 @@
       widget.payments = brandpaywidget.renderPaymentMethods(
         '#brandpayment',
         {value: 10000},
-        // {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+        {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
 
       widget.normal = paymentWidget.renderPaymentMethods(
         '#payment',
         {value: 10000},
-        // {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+        {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
       this.read_coupon();
       this.address_selected = this.default_addr[0];
