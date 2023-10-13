@@ -500,10 +500,14 @@
         // console.log('위젯: ' + Object.entries(brandpaywidget));
         var BrandpayMethodResponse = brandpaywidget
           .getPaymentMethods()
-          .then(function (methods) {
-            console.log('메서드: ' + Object.entries(methods));
-            console.log('응답: ' + Object.entries(BrandpayMethodResponse));
-          })
+          .then(
+            res =>
+              function (methods) {
+                console.log('메서드: ' + Object.entries(res));
+                console.log('메서드: ' + Object.entries(methods));
+                console.log('응답: ' + Object.entries(BrandpayMethodResponse));
+              },
+          )
           .catch(function (error) {
             if (error.code === 'USER_CANCEL') {
               // 사용자가 결제창을 닫은 경우 에러 처리
