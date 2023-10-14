@@ -32,19 +32,17 @@
           </q-badge>
         </div>
       </q-img>
-      <div>
-        <q-chip class="absolute-bottom" dense text-color="white">
-          <div class="absolute-bottom q-pl-sm">
-            <q-icon name="img:icons\currency-krw-white.png"></q-icon>
-            {{ price }}
-          </div>
-          <div v-if="flavor_refer != null" class="absolute-right">
-            <q-badge floating rounded>
-              {{ flavor_refer }}
-            </q-badge>
-          </div>
-        </q-chip>
-      </div>
+      <q-chip class="bg-grey" dense text-color="white">
+        <div class="absolute-bottom q-pl-sm">
+          <q-icon name="img:icons\currency-krw-white.png"></q-icon>
+          {{ price }}
+        </div>
+        <div v-if="flavor_refer != null" class="absolute-right">
+          <q-badge floating rounded>
+            {{ flavor_refer }}
+          </q-badge>
+        </div>
+      </q-chip>
     </div>
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
