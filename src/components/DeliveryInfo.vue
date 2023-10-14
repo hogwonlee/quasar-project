@@ -73,7 +73,7 @@
           '   ' +
           selected_local.total +
           ': ' +
-          res_order[search_order_id][0].total_price
+          orderGroupList[search_order_id].total_price
         "
         :rows="res_order[search_order_id]"
         :columns="columns"
@@ -140,6 +140,7 @@
     mounted() {
       if (!validation.isNull(this.user.USER_ID)) {
         this.load_order_info();
+        console.log('오더리스트: ' + JSON.stringify(this.orderGroupList));
       }
     },
     methods: {
