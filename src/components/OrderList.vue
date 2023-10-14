@@ -487,16 +487,16 @@
     },
     async mounted() {
       const userinfo = useStore().state.user.USER;
-      const customerKey =
-        userinfo.USER_ID +
-        '_' +
-        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
+      // const customerKey =
+      //   userinfo.USER_ID +
+      //   '_' +
+      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
 
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
       paymentWidget = await loadPaymentWidget(
         `${configs.clientKey}`,
-        customerKey,
+        // customerKey,
       ); // 회원 결제
 
       // ------  결제위젯 렌더링 ------
