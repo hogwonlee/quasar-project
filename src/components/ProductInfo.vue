@@ -32,7 +32,7 @@
           </q-badge>
         </div>
       </q-img>
-      <q-chip class="bg-grey" dense text-color="white">
+      <q-chip class="bg-grey" style="width: 100%" dense text-color="white">
         <div class="absolute-bottom q-pl-sm">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
