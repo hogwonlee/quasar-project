@@ -162,6 +162,7 @@ const _ko = {
   duplicate_id_warning: '중복 아이디가 있어서 다른 아이디로 생성 바랍니다.',
   use_policy: '이용약관',
   privacy_policy: '개인정보취급방침',
+  check_agreement: '결제 관련 모든 약관을 동의해주셔야 결제하실 수 있습니다.',
 };
 const _cn = {
   chinafood: '中国食品',
@@ -322,6 +323,7 @@ const _cn = {
   duplicate_id_warning: '重复账号。请使用其他账号。',
   use_policy: '使用条款',
   privacy_policy: '个人信息使用方针',
+  check_agreement: '须勾选完全接受相关条约，才能支付。',
 };
 
 const state = {
