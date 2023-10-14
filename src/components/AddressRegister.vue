@@ -175,7 +175,7 @@
         <q-checkbox
           class="q-ma-sm col"
           left-label
-          v-model="cheked"
+          v-model="checked"
           :label="selected_local.defaultaddr"
         />
         <q-btn
@@ -221,7 +221,7 @@
         address2: '',
         address3: '',
         keyword: '',
-        cheked: ref(true),
+        checked: ref(true),
         addr_search_api_card: ref(false),
       };
     },
@@ -262,6 +262,9 @@
               // console.log('>>>> Cancel')
             });
         }
+      },
+      checked: function (val) {
+        console.log('기본 주소 선택 변경: ' + val);
       },
     },
     methods: {
@@ -363,7 +366,7 @@
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
             user_id: this.user.USER_ID,
-            is_default: this.cheked == true ? 1 : 0,
+            is_default: this.checked == true ? 1 : 0,
           };
 
           // 배송지 등록 요청 보내기
