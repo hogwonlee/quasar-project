@@ -494,8 +494,10 @@
 
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
-      paymentWidget = await loadPaymentWidget(clientKey, customerKey); // 회원 결제
-      // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+      paymentWidget = await loadPaymentWidget(
+        `${configs.clientKey}`,
+        customerKey,
+      ); // 회원 결제
 
       // ------  결제위젯 렌더링 ------
       // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
