@@ -496,6 +496,7 @@
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
       paymentWidget = await loadPaymentWidget(
         `${configs.clientKey}`,
+        ANONYMOUS,
         // customerKey,
       ); // 회원 결제
 
