@@ -265,7 +265,7 @@
             field: 'bulk_buy',
             format: val =>
               val == 1
-                ? 'a' + field['boxcapacity'].val
+                ? 'a' + this.columns.field['boxcapacity'].val
                 : 'b' + field['quantity'].val,
           },
           {
