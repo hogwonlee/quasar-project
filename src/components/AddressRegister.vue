@@ -12,16 +12,6 @@
 
       <q-input
         outlined
-        class="q-ma-sm"
-        v-model="address_tag"
-        :label="selected_local.addrtagandhint"
-        lazy-rules
-        :rules="[
-          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
-        ]"
-      ></q-input>
-      <q-input
-        outlined
         v-model="recipient"
         class="q-ma-sm"
         :label="selected_local.recipient"
@@ -171,7 +161,16 @@
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
-
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag"
+        :label="selected_local.addrtagandhint"
+        lazy-rules
+        :rules="[
+          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
+        ]"
+      ></q-input>
       <div class="row">
         <q-checkbox
           class="q-ma-sm col"

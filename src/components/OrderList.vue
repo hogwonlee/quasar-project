@@ -271,6 +271,7 @@
   // import CryptoJS from 'crypto-js';
 
   let paymentWidget = {};
+  let paymentMethod = {};
 
   export default defineComponent({
     name: 'OrderList',
@@ -400,7 +401,7 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-
+        console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
         paymentWidget.requestPayment({
           amount: amountOfPayment,
           orderId: random_id,
@@ -491,7 +492,7 @@
       // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
       // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-      paymentWidget.renderPaymentMethods(
+      paymentMethod = paymentWidget.renderPaymentMethods(
         '#payment-method',
         {value: 15000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
