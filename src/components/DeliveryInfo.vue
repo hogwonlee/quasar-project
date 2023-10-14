@@ -263,7 +263,8 @@
             align: 'center',
             label: this.selected_local.product_bundle,
             field: 'bulk_buy',
-            // format: val => (val == 1 ? 'a' + val : 'b' + val),
+            format: val =>
+              val == 1 ? 'a' + field['boxcapacity'].val : 'b' + val,
           },
           {
             name: 'boxcapacity',
