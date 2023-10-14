@@ -69,7 +69,11 @@
         :title="
           selected_local.ordergroup +
           ': ' +
-          res_order[search_order_id][0].order_group
+          res_order[search_order_id][0].order_group +
+          '   ' +
+          selected_local.total +
+          ': ' +
+          res_order[search_order_id][0].total_price
         "
         :rows="res_order[search_order_id]"
         :columns="columns"
@@ -263,7 +267,7 @@
             align: 'center',
             label: this.selected_local.product_bundle,
             field: 'bulk_buy',
-            format: val => (val == 1 ? 'a' : 'b'),
+            format: val => (val == 1 ? 'a' + val : 'b' + val),
           },
           {
             name: 'boxcapacity',
