@@ -366,44 +366,42 @@
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
             user_id: this.user.USER_ID,
-            is_default: this.checked == true ? 1 : 0,
+            is_default: this.checked,
           };
-          console.log('주소 기본세팅: ' + addressData.is_default);
           // 배송지 등록 요청 보내기
-          //   axios({
-          //     url: `${configs.server}/addressRegister`,
-          //     method: 'POST',
-          //     // httpsAgent: new https.Agent({
-          //     //              rejectUnauthorized: false,
-          //     //            }),
-          //     headers: {
-          //       'Access-Control-Allow-Headers': '*',
-          //       'Content-Type': 'application/json',
-          //       authorization: this.user.USER_TOKEN,
-          //     },
-          //     data: addressData,
-          //   })
-          //     .then(res => {
-          //       if (res.status == 200) {
-          //         this.reload_addr_info();
-          //         alert.confirm(
-          //           this.selected_local.notice,
-          //           this.selected_local.addrresistersuccess,
-          //         );
-          //       } else {
-          //         alert.confirm(
-          //           this.selected_local.err,
-          //           this.selected_local.err + ': ' + res.data.content,
-          //         );
-          //       }
-          //     })
-          //     .catch(res => console.log('에러: ' + res));
-          // } else {
-          //   alert.confirm(
-          //     this.selected_local.notice,
-          //     this.selected_local.needloginfirst,
-          //   );
-          // }
+          axios({
+            url: `${configs.server}/addressRegister`,
+            method: 'POST',
+            // httpsAgent: new https.Agent({
+            //              rejectUnauthorized: false,
+            //            }),
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: this.user.USER_TOKEN,
+            },
+            data: addressData,
+          })
+            .then(res => {
+              if (res.status == 200) {
+                this.reload_addr_info();
+                alert.confirm(
+                  this.selected_local.notice,
+                  this.selected_local.addrresistersuccess,
+                );
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
+            })
+            .catch(res => console.log('에러: ' + res));
+        } else {
+          alert.confirm(
+            this.selected_local.notice,
+            this.selected_local.needloginfirst,
+          );
         }
       },
       reload_addr_info() {

@@ -272,7 +272,7 @@ app.post('/api/addressRegister', function (req, res) {
               res.status(400).send({msg: 'error', content: err});
               return resolve(1);
             } else {
-              if ((body.is_default = 1)) {
+              if (body.is_default) {
                 // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
                 const sqlCommend_reset =
                   'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
