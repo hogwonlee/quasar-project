@@ -34,6 +34,7 @@ const mutations = {
       delivery_invoice: orderGroup.delivery_invoice,
       order_date: orderGroup.order_date,
       order_time: orderGroup.order_time,
+      total_price: orderGroup.total_price,
       user_id: orderGroup.user_id,
     });
     state.status = 'push';
