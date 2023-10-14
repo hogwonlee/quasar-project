@@ -262,7 +262,7 @@
             name: 'bulk_buy',
             align: 'center',
             label: this.selected_local.product_bundle,
-            field: 'bulk_buy' * 'boxcapacity',
+            field: 'bulk_buy' + 'boxcapacity',
             sortable: true,
           },
           // {
