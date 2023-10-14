@@ -224,6 +224,8 @@
         ></q-btn>
       </div>
     </q-card>
+    <div id="payment-method"></div>
+    <div id="agreement"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -239,8 +241,7 @@
       >
       </q-btn>
     </div>
-    <div id="payment-method"></div>
-    <div id="agreement"></div>
+
     <q-dialog
       v-model="persistent"
       persistent
