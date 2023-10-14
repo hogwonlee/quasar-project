@@ -276,7 +276,7 @@
   // import {loadTossPayments} from '@tosspayments/payment-sdk';
   import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
-  import CryptoJS from 'crypto-js';
+  // import CryptoJS from 'crypto-js';
 
   let paymentWidget = {};
   let paymentMethod = {};
@@ -409,22 +409,20 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-
-        paymentMethod.updateAmount(amountOfPayment);
-        // console.log('랜더: ' + Object.entries(widget.normal));
-
-        paymentWidget.requestPayment({
-          amount: amountOfPayment,
-          orderId: random_id,
-          orderName:
-            this.cartList[0].product_id +
-            this.cartList[0].product_name +
-            this.cartList[0].quantity +
-            '...',
-          customerName: this.user.USER_NAME,
-          appScheme: 'chinafoodonline://',
-          successUrl: window.location.origin + '/Success',
-          failUrl: window.location.origin + '/Fail',
+        loadPaymentWidget(`${configs.clientKey}`).then(tossPament => {
+          tossPament.requestPayment({
+            amount: amountOfPayment,
+            orderId: random_id,
+            orderName:
+              this.cartList[0].product_id +
+              this.cartList[0].product_name +
+              this.cartList[0].quantity +
+              '...',
+            customerName: this.user.USER_NAME,
+            appScheme: 'chinafoodonline://',
+            successUrl: window.location.origin + '/Success',
+            failUrl: window.location.origin + '/Fail',
+          });
         });
       },
       find_coupon(val) {
@@ -494,26 +492,26 @@
 
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
-      paymentWidget = await loadPaymentWidget(
-        `${configs.clientKey}`,
-        ANONYMOUS,
-        // customerKey,
-      ); // 회원 결제
+      // paymentWidget = await loadPaymentWidget(
+      //   `${configs.clientKey}`,
+      //   ANONYMOUS,
+      //   // customerKey,
+      // ); // 회원 결제
 
-      // ------  결제위젯 렌더링 ------
-      // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
-      // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
-      // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-      paymentMethod = paymentWidget.renderPaymentMethods(
-        '#payment-method',
-        {value: 15000},
-        {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      );
+      // // ------  결제위젯 렌더링 ------
+      // // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
+      // // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
+      // // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+      // paymentMethod = paymentWidget.renderPaymentMethods(
+      //   '#payment-method',
+      //   {value: 15000},
+      //   {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      // );
 
-      // ------  이용약관 렌더링 ------
-      // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
-      // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
-      paymentWidget.renderAgreement('#agreement');
+      // // ------  이용약관 렌더링 ------
+      // // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
+      // // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
+      // paymentWidget.renderAgreement('#agreement');
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
