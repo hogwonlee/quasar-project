@@ -368,7 +368,7 @@
             user_id: this.user.USER_ID,
             is_default: this.checked == true ? 1 : 0,
           };
-          console.log('주소 기본세팅: ' + is_default);
+          console.log('주소 기본세팅: ' + addressData.is_default);
           // 배송지 등록 요청 보내기
           //   axios({
           //     url: `${configs.server}/addressRegister`,
