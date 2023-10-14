@@ -486,7 +486,7 @@
       },
     },
     async mounted() {
-      const userinfo = useStore().state.user.USER;
+      // const userinfo = useStore().state.user.USER;
       // const customerKey =
       //   userinfo.USER_ID +
       //   '_' +
