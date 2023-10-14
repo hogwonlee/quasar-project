@@ -402,19 +402,20 @@
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
         console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
-        paymentWidget.requestPayment({
-          amount: amountOfPayment,
-          orderId: random_id,
-          orderName:
-            this.cartList[0].product_id +
-            this.cartList[0].product_name +
-            this.cartList[0].quantity +
-            '...',
-          customerName: this.user.USER_NAME,
-          appScheme: 'chinafoodonline://',
-          successUrl: window.location.origin + '/Success',
-          failUrl: window.location.origin + '/Fail',
-        });
+        paymentMethod.updateAmount(amountOfPayment);
+        // paymentWidget.requestPayment({
+        //   amount: amountOfPayment,
+        //   orderId: random_id,
+        //   orderName:
+        //     this.cartList[0].product_id +
+        //     this.cartList[0].product_name +
+        //     this.cartList[0].quantity +
+        //     '...',
+        //   customerName: this.user.USER_NAME,
+        //   appScheme: 'chinafoodonline://',
+        //   successUrl: window.location.origin + '/Success',
+        //   failUrl: window.location.origin + '/Fail',
+        // });
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
