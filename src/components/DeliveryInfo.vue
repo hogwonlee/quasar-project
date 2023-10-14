@@ -262,16 +262,16 @@
             name: 'bulk_buy',
             align: 'center',
             label: this.selected_local.product_bundle,
-            field: 'bulk_buy' + 'boxcapacity',
-            sortable: true,
+            field: 'bulk_buy',
+            format: val => (val == 1 ? 'a' : 'b'),
           },
-          // {
-          //   name: 'boxcapacity',
-          //   align: 'center',
-          //   label: this.selected_local.quantity,
-          //   field: 'boxcapacity',
-          //   sortable: true,
-          // },
+          {
+            name: 'boxcapacity',
+            align: 'center',
+            label:
+              this.selected_local.product_bundle + this.selected_local.quantity,
+            field: 'boxcapacity',
+          },
         ];
       },
     },
