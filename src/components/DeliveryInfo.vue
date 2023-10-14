@@ -264,7 +264,9 @@
             label: this.selected_local.product_bundle,
             field: 'bulk_buy',
             format: val =>
-              val == 1 ? 'a' + field['boxcapacity'].val : 'b' + val,
+              val == 1
+                ? 'a' + field['boxcapacity'].val
+                : 'b' + field['quantity'].val,
           },
           {
             name: 'boxcapacity',
