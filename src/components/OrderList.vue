@@ -224,8 +224,8 @@
         ></q-btn>
       </div>
     </q-card>
-    <div id="payment-method" class="q-px-none"></div>
-    <div id="agreement" class="q-px-none"></div>
+    <div id="payment-method" class="q-py-none"></div>
+    <div id="agreement" class="q-py-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -511,6 +511,7 @@
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
       agreementWidget = paymentWidget.renderAgreement('#agreement');
+
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {

@@ -363,7 +363,7 @@
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
             user_id: this.user.USER_ID,
-            is_default: this.cheked,
+            is_default: this.cheked == true ? 1 : 0,
           };
 
           // 배송지 등록 요청 보내기
