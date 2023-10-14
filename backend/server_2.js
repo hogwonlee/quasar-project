@@ -265,21 +265,17 @@ app.post('/api/addressRegister', function (req, res) {
             is_default: body.is_default,
             user_id: body.user_id,
           };
-          console.log('기본 주소 전송값:' + param.is_default);
-
           return db.query(sqlCommend, param, function (err, results, fields) {
             if (err) {
               console.log('배송 주소 추가 요청:' + err);
               res.status(400).send({msg: 'error', content: err});
               return resolve(1);
             } else {
-              console.log('삽입 주소 ID 확인: ' + results.insertId);
               const new_address_id = results.insertId;
               if (body.is_default) {
                 // 기본 배송지로 선택하여 보낼 경우, 기존 주소의 is_default를 모두 0으로 하고 다시 설정해줌.
                 const sqlCommend_reset =
                   'UPDATE addressinfo SET is_default = 0 WHERE user_id = ?';
-                console.log('기본 주소 리셋 실행');
 
                 return db.query(
                   sqlCommend_reset,
@@ -292,8 +288,6 @@ app.post('/api/addressRegister', function (req, res) {
                     } else {
                       const sqlCommend_default =
                         'UPDATE addressinfo SET is_default = 1 WHERE user_id = ? AND address_id = ?';
-                      console.log('기본 주소 1로 세팅 실행: ' + new_address_id);
-
                       const param_2 = {
                         user_id: body.user_id,
                         address_id: new_address_id,
