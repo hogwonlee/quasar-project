@@ -224,8 +224,8 @@
         ></q-btn>
       </div>
     </q-card>
-    <div id="payment-method"></div>
-    <div id="agreement"></div>
+    <div id="payment-method" class="q-px-none"></div>
+    <div id="agreement" class="q-px-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
