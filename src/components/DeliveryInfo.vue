@@ -259,10 +259,17 @@
             sortable: true,
           },
           {
-            name: 'price',
+            name: 'bulk_buy',
             align: 'center',
-            label: this.selected_local.unitprice,
-            field: 'price',
+            label: this.selected_local.product_bundle,
+            field: 'bulk_buy',
+            sortable: true,
+          },
+          {
+            name: 'boxcapacity',
+            align: 'center',
+            label: this.selected_local.quantity,
+            field: 'boxcapacity',
             sortable: true,
           },
         ];

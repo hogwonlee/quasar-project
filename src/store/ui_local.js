@@ -237,7 +237,7 @@ const _cn = {
   delivercostnotice: '满3万，免运费',
   point: '积分',
   total: '总计',
-  checkout: '结算',
+  checkout: '支付',
   loginnotice: ' 成功登录',
   logincomplete: '已登录',
   forgetpw: '找回密码',
