@@ -31,6 +31,8 @@
             <q-icon name="warning" color="white" />
           </q-badge>
         </div>
+      </q-img>
+      <div>
         <q-chip class="absolute-bottom" dense text-color="white">
           <div class="absolute-bottom q-pl-sm">
             <q-icon name="img:icons\currency-krw-white.png"></q-icon>
@@ -42,7 +44,7 @@
             </q-badge>
           </div>
         </q-chip>
-      </q-img>
+      </div>
     </div>
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
