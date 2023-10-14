@@ -1,8 +1,4 @@
 <template>
-  <!-- <q-dialog v-show="widget_window">
-  </q-dialog> -->
-  <div id="payment"></div>
-  <div id="brandpayment"></div>
   <div>
     <q-dialog v-model="register_popup">
       <AddressRegister />
@@ -259,6 +255,8 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
+    <div id="payment-method"></div>
+    <div id="agreement"></div>
   </div>
 </template>
 
@@ -275,14 +273,13 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
+  // import {loadTossPayments} from '@tosspayments/payment-sdk';
+  import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
   // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
   import CryptoJS from 'crypto-js';
 
-  let widget = {};
-  let brandpaywidget = {};
   let paymentWidget = {};
+  let paymentMethod = {};
 
   export default defineComponent({
     name: 'OrderList',
@@ -412,29 +409,23 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        const customerKey =
-          this.user.USER_ID +
-          '_' +
-          CryptoJS.HmacMD5(this.user.USER_ID, 'customerKey_2');
-        // widget.normal.updateAmount(amountOfPayment);
+
+        paymentMethod.updateAmount(amountOfPayment);
         // console.log('랜더: ' + Object.entries(widget.normal));
 
-        loadTossPayments(`${configs.clientKey}`, customerKey).then(
-          tossPayments =>
-            tossPayments.requestPayment({
-              amount: amountOfPayment,
-              orderId: random_id,
-              orderName:
-                this.cartList[0].product_id +
-                this.cartList[0].product_name +
-                this.cartList[0].quantity +
-                '...',
-              customerName: this.user.USER_NAME,
-              appScheme: 'chinafoodonline://',
-              successUrl: window.location.origin + '/Success',
-              failUrl: window.location.origin + '/Fail',
-            }),
-        );
+        paymentWidget.requestPayment({
+          amount: amountOfPayment,
+          orderId: random_id,
+          orderName:
+            this.cartList[0].product_id +
+            this.cartList[0].product_name +
+            this.cartList[0].quantity +
+            '...',
+          customerName: this.user.USER_NAME,
+          appScheme: 'chinafoodonline://',
+          successUrl: window.location.origin + '/Success',
+          failUrl: window.location.origin + '/Fail',
+        });
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
@@ -493,116 +484,33 @@
             });
         }
       },
-      brandpayRequest(total, shipment, coupon) {
-        var discount;
-        if (coupon != undefined) {
-          discount = coupon.coupon_price;
-        } else {
-          discount = 0;
-        }
-        var amountOfPayment = total + shipment - discount;
-        var random_id =
-          this.user.USER_ID +
-          '_orderid_' +
-          Math.random().toString(16).substr(2, 12);
-        widget.payments.updateAmount(amountOfPayment);
-        // console.log('랜더: ' + Object.entries(widget.payments));
-        // console.log('위젯: ' + Object.entries(brandpaywidget));
-        // var BrandpayMethodResponse = brandpaywidget
-        //   .getPaymentMethods()
-        //   .then(
-        //     res =>
-        //       function (methods) {
-        //         console.log('메서드: ' + Object.entries(res));
-        //         console.log('메서드: ' + Object.entries(methods));
-        //         console.log('응답: ' + Object.entries(BrandpayMethodResponse));
-        //       },
-        //   )
-        //   .catch(function (error) {
-        //     if (error.code === 'USER_CANCEL') {
-        //       // 사용자가 결제창을 닫은 경우 에러 처리
-        //     }
-        //   });
-        // // console.log('응답: ' + Object.entries(BrandpayMethodResponse));
-        // console.log('응답: ' + JSON.stringify(BrandpayMethodResponse));
-        // if (BrandpayMethodResponse.length <= 0) {
-        // brandpaywidget
-        //   .addPaymentMethod('계좌')
-        //   .then(function (method) {
-        //     console.log('계좌등록 성공: ' + method);
-        //   })
-        //   .catch(function (error) {
-        //     if (error.code === 'USER_CANCEL') {
-        //       console.log('계좌등록을 취소하였습니다.');
-        //     }
-        //   });
-        // } else {
-        //   console.log('결제 요청 ');
-        brandpaywidget
-          .requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            // customerName: this.user.USER_NAME,
-            // appScheme: 'chinafoodonline://',
-            successUrl: window.location.origin + '/BrandpaySuccess',
-            failUrl: window.location.origin + '/Fail',
-          })
-          .then(function (data) {
-            // 결제 요청 성공 처리
-            console.log('requestPayment 데이터: ' + data);
-          })
-          .catch(function (error) {
-            if (error.code === 'USER_CANCEL') {
-              // 사용자가 창을 닫아 취소한 경우에 대한 처리
-            }
-            console.log('requestPayment 에러: ' + error);
-          });
-        // }
-      },
     },
     async mounted() {
-      // const userinfo = useStore().state.user.USER;
-      // const customerKey =
-      //   userinfo.USER_ID +
-      //   '_' +
-      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-      // brandpaywidget = await loadPaymentWidget(
-      //   `${configs.brandpayClientKey}`,
-      //   customerKey,
-      //   {
-      //     // redirectUrl: 'https://cfomarket.store/auth',
-      //     redirectUrl: `${configs.server}` + '/auth',
-      //     ui: {
-      //       buttonStyle: 'full',
-      //       highlightColor: '#26C2E3',
-      //       labels: {
-      //         oneTouchPay: '내 상점 원터치결제',
-      //       },
-      //     },
-      //   },
-      // );
+      const userinfo = useStore().state.user.USER;
+      const customerKey =
+        userinfo.USER_ID +
+        '_' +
+        CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
 
-      // paymentWidget = await loadBrandPay(`${configs.clientKey}`, customerKey, {
-      //   // redirectUrl: 'https://cfomarket.store/auth',
-      //   redirectUrl: `${configs.server}` + '/auth',
-      // });
+      // ------  결제위젯 초기화 ------
+      // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
+      paymentWidget = await loadPaymentWidget(clientKey, customerKey); // 회원 결제
+      // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
 
-      // widget.payments = brandpaywidget.renderPaymentMethods(
-      //   '#brandpayment',
-      //   {value: 10000},
-      //   {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      // );
+      // ------  결제위젯 렌더링 ------
+      // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
+      // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
+      // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+      paymentMethod = paymentWidget.renderPaymentMethods(
+        '#payment-method',
+        {value: 15000},
+        {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
+      );
 
-      // widget.normal = paymentWidget.renderPaymentMethods(
-      //   '#payment',
-      //   {value: 10000},
-      //   {variantKey: 'CardAndAccount'}, // 렌더링하고 싶은 결제 UI의 variantKey
-      // );
+      // ------  이용약관 렌더링 ------
+      // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
+      // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
+      paymentWidget.renderAgreement('#agreement');
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
