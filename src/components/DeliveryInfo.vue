@@ -69,11 +69,7 @@
         :title="
           selected_local.ordergroup +
           ': ' +
-          res_order[search_order_id][0].order_group +
-          '   ' +
-          selected_local.total +
-          ': ' +
-          orderGroupList[search_order_id].total_price
+          res_order[search_order_id][0].order_group
         "
         :rows="res_order[search_order_id]"
         :columns="columns"
@@ -140,7 +136,6 @@
     mounted() {
       if (!validation.isNull(this.user.USER_ID)) {
         this.load_order_info();
-        console.log('오더리스트: ' + JSON.stringify(this.orderGroupList));
       }
     },
     methods: {
@@ -268,7 +263,7 @@
             align: 'center',
             label: this.selected_local.product_bundle,
             field: 'bulk_buy',
-            format: val => (val == 1 ? 'a' + val : 'b' + val),
+            // format: val => (val == 1 ? 'a' + val : 'b' + val),
           },
           {
             name: 'boxcapacity',
