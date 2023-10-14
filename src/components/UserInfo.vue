@@ -208,15 +208,14 @@
           </q-card>
         </q-card-section>
       </q-card>
-      <q-separator class="q-my-sm" />
+      <!-- <q-separator class="q-my-sm" />
       <q-card class="transparent" flat>
         <q-card-section class="row items-center q-px-none q-py-sm">
           <div class="text-h6 text-bold">
             历史购买
-            <!-- {{ selected_local.coupon_info }} -->
           </div>
         </q-card-section>
-      </q-card>
+      </q-card> -->
     </section>
     <section v-else class="row justify-center vertical-center">
       <LoginPage />
