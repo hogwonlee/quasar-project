@@ -121,8 +121,6 @@
           </tr>
         </tbody>
       </q-markup-table>
-      <div id="payment-method"></div>
-      <div id="agreement"></div>
     </q-card>
 
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
@@ -241,7 +239,8 @@
       >
       </q-btn>
     </div>
-
+    <div id="payment-method"></div>
+    <div id="agreement"></div>
     <q-dialog
       v-model="persistent"
       persistent
@@ -401,21 +400,21 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
+        // console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
         paymentMethod.updateAmount(amountOfPayment);
-        // paymentWidget.requestPayment({
-        //   amount: amountOfPayment,
-        //   orderId: random_id,
-        //   orderName:
-        //     this.cartList[0].product_id +
-        //     this.cartList[0].product_name +
-        //     this.cartList[0].quantity +
-        //     '...',
-        //   customerName: this.user.USER_NAME,
-        //   appScheme: 'chinafoodonline://',
-        //   successUrl: window.location.origin + '/Success',
-        //   failUrl: window.location.origin + '/Fail',
-        // });
+        paymentWidget.requestPayment({
+          amount: amountOfPayment,
+          orderId: random_id,
+          orderName:
+            this.cartList[0].product_id +
+            this.cartList[0].product_name +
+            this.cartList[0].quantity +
+            '...',
+          customerName: this.user.USER_NAME,
+          appScheme: 'chinafoodonline://',
+          successUrl: window.location.origin + '/Success',
+          failUrl: window.location.origin + '/Fail',
+        });
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
