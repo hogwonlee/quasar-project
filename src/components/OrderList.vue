@@ -238,14 +238,6 @@
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
       </q-btn>
-      <q-btn
-        color="primary"
-        class="text-bold q-py-none q-px-xl q-ma-sm"
-        :disabled="!cartList.length || no_selected_addr || no_login"
-        label="간편결제"
-        @click="brandpayRequest(total, shipment, reservedCoupon())"
-      >
-      </q-btn>
     </div>
 
     <q-dialog
@@ -409,21 +401,23 @@
           this.user.USER_ID +
           '_orderid_' +
           Math.random().toString(16).substr(2, 12);
-        loadPaymentWidget(`${configs.clientKey}`).then(tossPament => {
-          tossPament.requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            customerName: this.user.USER_NAME,
-            appScheme: 'chinafoodonline://',
-            successUrl: window.location.origin + '/Success',
-            failUrl: window.location.origin + '/Fail',
-          });
-        });
+        loadPaymentWidget(`${configs.clientKey}`, ANONYMOUS).then(
+          tossPament => {
+            tossPament.requestPayment({
+              amount: amountOfPayment,
+              orderId: random_id,
+              orderName:
+                this.cartList[0].product_id +
+                this.cartList[0].product_name +
+                this.cartList[0].quantity +
+                '...',
+              customerName: this.user.USER_NAME,
+              appScheme: 'chinafoodonline://',
+              successUrl: window.location.origin + '/Success',
+              failUrl: window.location.origin + '/Fail',
+            });
+          },
+        );
       },
       find_coupon(val) {
         var coupon = this.couponList.find(item => item.use_condition === val);
