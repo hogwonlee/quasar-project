@@ -478,11 +478,14 @@
             });
         }
       },
-      getPayMethod() {
+      async getPayMethod() {
         console.log(
-          '버튼에서 호출: ' + paymentMethod.getSelectedPaymentMethod().method,
+          '버튼에서 호출: ' +
+            (await paymentMethod.getSelectedPaymentMethod().method),
         );
-        return paymentMethod.getSelectedPaymentMethod().method == '계좌이체';
+        return (
+          (await paymentMethod.getSelectedPaymentMethod().method) == '계좌이체'
+        );
       },
     },
     async created() {
@@ -497,7 +500,7 @@
       // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
       // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-      paymentMethod = paymentWidget.renderPaymentMethods(
+      paymentMethod = await paymentWidget.renderPaymentMethods(
         '#payment-method',
         {value: 15000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
