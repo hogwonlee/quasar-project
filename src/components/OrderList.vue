@@ -293,8 +293,6 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
-        widget_window: ref(false),
-        pay_method_isAccount: ref(false),
       };
     },
     watch: {
@@ -392,7 +390,6 @@
         );
       },
       selectPaymentmethod(total, shipment, coupon) {
-        this.widget_window = true;
         var discount;
         if (coupon != undefined) {
           discount = coupon.coupon_price;
@@ -406,10 +403,7 @@
           Math.random().toString(16).substr(2, 12);
         // console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
         paymentMethod.updateAmount(amountOfPayment);
-        console.log(
-          '로딩체크 어떻게 해? ' +
-            paymentMethod.getSelectedPaymentMethod().method,
-        );
+
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           paymentWidget.requestPayment({
             amount: amountOfPayment,
@@ -506,10 +500,6 @@
         {value: 15000},
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
-      console.log(
-        '생성 다음에 어떻게 되?  ' +
-          paymentMethod.getSelectedPaymentMethod().method,
-      );
 
       // ------  이용약관 렌더링 ------
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
@@ -522,10 +512,6 @@
       //   userinfo.USER_ID +
       //   '_' +
       //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-
-      this.pay_method_isAccount =
-        paymentMethod.getSelectedPaymentMethod().method;
-      console.log('mounted에서 변경되나?  ' + this.pay_method_isAccount);
 
       this.read_coupon();
       this.address_selected = this.default_addr[0];
