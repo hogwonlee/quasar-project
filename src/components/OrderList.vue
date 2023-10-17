@@ -405,7 +405,8 @@
         // console.log('업데이트 하려는데: ' + Object.entries(paymentMethod));
         paymentMethod.updateAmount(amountOfPayment);
         console.log(
-          '로딩체크 어떻게 해? ' + paymentMethod.getSelectedPaymentMethod(),
+          '로딩체크 어떻게 해? ' +
+            paymentMethod.getSelectedPaymentMethod().type,
         );
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           paymentWidget.requestPayment({
@@ -510,7 +511,8 @@
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
       console.log(
-        '마운드 다음에 어떻게 되?  ' + paymentMethod.getSelectedPaymentMethod(),
+        '마운드 다음에 어떻게 되?  ' +
+          paymentMethod.getSelectedPaymentMethod().type,
       );
       // ------  이용약관 렌더링 ------
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
