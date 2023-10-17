@@ -409,7 +409,7 @@
             paymentMethod.getSelectedPaymentMethod().method,
         );
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
-          paymentWidget.requestPayment('계좌이체', {
+          paymentWidget.requestPayment({
             amount: amountOfPayment,
             orderId: random_id,
             orderName:
