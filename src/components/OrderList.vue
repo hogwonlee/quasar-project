@@ -235,7 +235,9 @@
         color="primary"
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
-        :disabled="!cartList.length || no_selected_addr || no_login"
+        :disabled="
+          !cartList.length || no_selected_addr() || no_login() || getPayMethod()
+        "
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
@@ -253,7 +255,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapState, mapActions, useStore} from 'vuex';
+  import {mapGetters, mapState} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
   import CouponList from 'components/CouponList.vue';
   import LoginPage from 'components/LoginPage.vue';
@@ -265,10 +267,7 @@
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  // import {loadTossPayments} from '@tosspayments/payment-sdk';
   import {loadPaymentWidget, ANONYMOUS} from '@tosspayments/payment-widget-sdk';
-  // import {loadBrandPay} from '@tosspayments/brandpay-sdk';
-  // import CryptoJS from 'crypto-js';
 
   let paymentWidget = {};
   let paymentMethod = {};
@@ -449,9 +448,6 @@
           axios({
             url: `${configs.server}/mycoupon`,
             method: 'POST',
-            // httpsAgent: new https.Agent({
-            //              rejectUnauthorized: false,
-            //            }),
             headers: {
               'Access-Control-Allow-Headers': '*',
               'Content-Type': 'application/json',
@@ -482,6 +478,12 @@
             });
         }
       },
+      getPayMethod() {
+        console.log(
+          '버튼에서 호출: ' + paymentMethod.getSelectedPaymentMethod().method,
+        );
+        return paymentMethod.getSelectedPaymentMethod().method == '계좌이체';
+      },
     },
     async created() {
       // ------  결제위젯 초기화 ------
@@ -507,12 +509,6 @@
       agreementWidget = paymentWidget.renderAgreement('#agreement');
     },
     mounted() {
-      // const userinfo = useStore().state.user.USER;
-      // const customerKey =
-      //   userinfo.USER_ID +
-      //   '_' +
-      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
@@ -555,10 +551,5 @@
         }
       }
     },
-    // updated() {
-    //   console.log(
-    //     '업데이트에서 : ' + paymentMethod.getSelectedPaymentMethod().method,
-    //   );
-    // },
   });
 </script>
