@@ -163,6 +163,7 @@ const _ko = {
   use_policy: '이용약관',
   privacy_policy: '개인정보취급방침',
   check_agreement: '결제 관련 모든 약관을 동의해주셔야 결제하실 수 있습니다.',
+  payment_policy: '약관 로딩될때까지 조금 더 기다려주세요. (1초 정도)',
 };
 const _cn = {
   chinafood: '中国食品',
@@ -324,6 +325,7 @@ const _cn = {
   use_policy: '使用条款',
   privacy_policy: '个人信息使用方针',
   check_agreement: '须勾选完全接受相关条约，才能支付。',
+  payment_policy: '须载入支付条约，请稍等。(约1秒)',
 };
 
 const state = {

@@ -402,19 +402,26 @@
         paymentMethod.updateAmount(amountOfPayment);
 
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
-          paymentWidget.requestPayment({
-            amount: amountOfPayment,
-            orderId: random_id,
-            orderName:
-              this.cartList[0].product_id +
-              this.cartList[0].product_name +
-              this.cartList[0].quantity +
-              '...',
-            customerName: this.user.USER_NAME,
-            appScheme: 'chinafoodonline://',
-            successUrl: window.location.origin + '/Success',
-            failUrl: window.location.origin + '/Fail',
-          });
+          if (paymentMethod.getSelectedPaymentMethod().method == '계좌이체') {
+            paymentWidget.requestPayment({
+              amount: amountOfPayment,
+              orderId: random_id,
+              orderName:
+                this.cartList[0].product_id +
+                this.cartList[0].product_name +
+                this.cartList[0].quantity +
+                '...',
+              customerName: this.user.USER_NAME,
+              appScheme: 'chinafoodonline://',
+              successUrl: window.location.origin + '/Success',
+              failUrl: window.location.origin + '/Fail',
+            });
+          } else {
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.payment_policy,
+            );
+          }
         } else {
           alert.confirm(
             this.selected_local.notice,
