@@ -406,7 +406,7 @@
         paymentMethod.updateAmount(amountOfPayment);
         console.log(
           '로딩체크 어떻게 해? ' +
-            paymentMethod.getSelectedPaymentMethod().type,
+            paymentMethod.getSelectedPaymentMethod().method,
         );
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           paymentWidget.requestPayment({
@@ -512,7 +512,7 @@
       );
       console.log(
         '마운드 다음에 어떻게 되?  ' +
-          paymentMethod.getSelectedPaymentMethod().type,
+          paymentMethod.getSelectedPaymentMethod().method,
       );
       // ------  이용약관 렌더링 ------
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
