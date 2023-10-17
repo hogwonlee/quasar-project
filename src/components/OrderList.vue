@@ -506,7 +506,7 @@
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
       agreementWidget = paymentWidget.renderAgreement('#agreement');
     },
-    async mounted() {
+    mounted() {
       // const userinfo = useStore().state.user.USER;
       // const customerKey =
       //   userinfo.USER_ID +
@@ -554,6 +554,11 @@
           }
         }
       }
+    },
+    updated() {
+      console.log(
+        '업데이트에서 : ' + paymentMethod.getSelectedPaymentMethod().method,
+      );
     },
   });
 </script>
