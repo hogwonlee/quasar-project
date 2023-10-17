@@ -294,9 +294,11 @@
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
         widget_window: ref(false),
+        pay_method_isAccount: ref(false),
       };
     },
     watch: {
+      pay_method_isAccount: function (val, old) {},
       total: function (val, old) {
         // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
         if (old < 50000 && val >= 50000) {
@@ -514,6 +516,7 @@
         '마운드 다음에 어떻게 되?  ' +
           paymentMethod.getSelectedPaymentMethod().method,
       );
+
       // ------  이용약관 렌더링 ------
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
@@ -560,6 +563,14 @@
           }
         }
       }
+    },
+    updated() {
+      this.pay_method_isAccount =
+        paymentMethod.getSelectedPaymentMethod().method;
+      console.log(
+        'updated에서는 변경되나?  ' +
+          paymentMethod.getSelectedPaymentMethod().method,
+      );
     },
   });
 </script>
