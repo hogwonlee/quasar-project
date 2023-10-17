@@ -489,13 +489,7 @@
         }
       },
     },
-    async mounted() {
-      // const userinfo = useStore().state.user.USER;
-      // const customerKey =
-      //   userinfo.USER_ID +
-      //   '_' +
-      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
-
+    async created() {
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
       paymentWidget = await loadPaymentWidget(
@@ -513,7 +507,7 @@
         {variantKey: 'DEFAULT'}, // 렌더링하고 싶은 결제 UI의 variantKey
       );
       console.log(
-        '마운드 다음에 어떻게 되?  ' +
+        '생성 다음에 어떻게 되?  ' +
           paymentMethod.getSelectedPaymentMethod().method,
       );
 
@@ -521,6 +515,17 @@
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
       agreementWidget = paymentWidget.renderAgreement('#agreement');
+    },
+    async mounted() {
+      // const userinfo = useStore().state.user.USER;
+      // const customerKey =
+      //   userinfo.USER_ID +
+      //   '_' +
+      //   CryptoJS.HmacMD5(userinfo.USER_ID, 'customerKey_2');
+
+      this.pay_method_isAccount =
+        paymentMethod.getSelectedPaymentMethod().method;
+      console.log('mounted에서 변경되나?  ' + this.pay_method_isAccount);
 
       this.read_coupon();
       this.address_selected = this.default_addr[0];
@@ -563,11 +568,6 @@
           }
         }
       }
-    },
-    beforeUnmount() {
-      this.pay_method_isAccount =
-        paymentMethod.getSelectedPaymentMethod().method;
-      console.log('updated에서는 변경되나?  ' + this.pay_method_isAccount);
     },
   });
 </script>
