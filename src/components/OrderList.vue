@@ -555,10 +555,10 @@
         }
       }
     },
-    updated() {
-      console.log(
-        '업데이트에서 : ' + paymentMethod.getSelectedPaymentMethod().method,
-      );
-    },
+    // updated() {
+    //   console.log(
+    //     '업데이트에서 : ' + paymentMethod.getSelectedPaymentMethod().method,
+    //   );
+    // },
   });
 </script>
