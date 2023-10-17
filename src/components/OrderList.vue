@@ -235,12 +235,7 @@
         color="primary"
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
-        :disabled="
-          !cartList.length ||
-          no_selected_addr ||
-          no_login ||
-          paymentMethod.getSelectedPaymentMethod().method != '계좌이체'
-        "
+        :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
