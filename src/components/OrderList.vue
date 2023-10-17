@@ -236,7 +236,7 @@
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="
-          !cartList.length || no_selected_addr() || no_login() || getPayMethod()
+          !cartList.length || no_selected_addr || no_login || getPayMethod()
         "
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
