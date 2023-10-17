@@ -235,9 +235,7 @@
         color="primary"
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
-        :disabled="
-          !cartList.length || no_selected_addr || no_login || getPayMethod()
-        "
+        :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
         @click="selectPaymentmethod(total, shipment, reservedCoupon())"
       >
@@ -478,15 +476,15 @@
             });
         }
       },
-      async getPayMethod() {
-        console.log(
-          '버튼에서 호출: ' +
-            (await paymentMethod.getSelectedPaymentMethod().method),
-        );
-        return (
-          (await paymentMethod.getSelectedPaymentMethod().method) == '계좌이체'
-        );
-      },
+      // async getPayMethod() {
+      //   console.log(
+      //     '버튼에서 호출: ' +
+      //       (await paymentMethod.getSelectedPaymentMethod().method),
+      //   );
+      //   return (
+      //     (await paymentMethod.getSelectedPaymentMethod().method) == '계좌이체'
+      //   );
+      // },
     },
     async created() {
       // ------  결제위젯 초기화 ------
