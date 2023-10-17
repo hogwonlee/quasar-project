@@ -564,13 +564,10 @@
         }
       }
     },
-    // updated() {
-    //   this.pay_method_isAccount =
-    //     paymentMethod.getSelectedPaymentMethod().method;
-    //   console.log(
-    //     'updated에서는 변경되나?  ' +
-    //       paymentMethod.getSelectedPaymentMethod().method,
-    //   );
-    // },
+    updated() {
+      this.pay_method_isAccount =
+        paymentMethod.getSelectedPaymentMethod().method;
+      console.log('updated에서는 변경되나?  ' + this.pay_method_isAccount);
+    },
   });
 </script>
