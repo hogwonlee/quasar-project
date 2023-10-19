@@ -536,8 +536,7 @@
       // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
       agreementWidget = paymentWidget.renderAgreement('#agreement');
-    },
-    mounted() {
+
       this.read_coupon();
       this.address_selected = this.default_addr[0];
       if (this.total >= 50000) {
@@ -596,5 +595,6 @@
         }
       }
     },
+    mounted() {},
   });
 </script>
