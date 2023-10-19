@@ -293,7 +293,6 @@
       };
     },
     watch: {
-      pay_method_isAccount: function (val, old) {},
       total: function (val, old) {
         // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
         if (old < 50000 && val >= 50000) {
@@ -431,11 +430,12 @@
       },
       find_coupon(val) {
         var coupon = this.couponList.find(
-          item => (item.use_condition === val) & (item.available === 1),
+          item => (item.use_condition === val) & (item.available == 1),
         );
         if (coupon == undefined) {
           return null;
         } else {
+          console.log('쿠폰 사용가능여부 확인: ' + coupon.available);
           return coupon.coupon_id;
         }
       },
@@ -451,7 +451,7 @@
         );
       },
       read_coupon() {
-        if (this.coupon_status === '' && this.no_login == false) {
+        if (this.coupon_status != null && this.no_login == false) {
           axios({
             url: `${configs.server}/mycoupon`,
             method: 'POST',
@@ -473,6 +473,7 @@
                     this.$store.dispatch('coupon/addCouponAction', coupon);
                   }
                 });
+                this.$store.dispatch('coupon/setStatusAction', null);
               } else {
                 alert.confirm(
                   this.selected_local.err,
@@ -485,15 +486,6 @@
             });
         }
       },
-      // async getPayMethod() {
-      //   console.log(
-      //     '버튼에서 호출: ' +
-      //       (await paymentMethod.getSelectedPaymentMethod().method),
-      //   );
-      //   return (
-      //     (await paymentMethod.getSelectedPaymentMethod().method) == '계좌이체'
-      //   );
-      // },
     },
     async created() {
       // ------  결제위젯 초기화 ------
