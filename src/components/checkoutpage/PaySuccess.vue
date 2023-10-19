@@ -34,7 +34,11 @@
       ...mapGetters('cart', {
         cartItems: 'getCartItems',
         cartTotalPrice: 'cartTotalPrice',
+        cartProducts: 'cartProducts',
+        total: 'cartTotalPrice',
+        shipment: 'shipmentPrice',
       }),
+
       ...mapActions('cart', ['checkout']),
       ...mapActions('coupon', ['setStatusAction', '']),
       ...mapState({
@@ -42,6 +46,7 @@
         addressList: state => state.address.items,
         selected_local: state => state.ui_local.status,
         couponList: state => state.coupon.items,
+        coupon_status: state => state.coupon.status,
       }),
     },
     methods: {
@@ -57,7 +62,13 @@
       paymentAuthorizationRequest() {
         this.readResData();
         const requestData = this.postJsonData;
-        // console.log(JSON.stringify(requestData));
+        var amountOfPayment = total + shipment - discount;
+        console.log(
+          '가격 비교: ' +
+            amountOfPayment +
+            '불러온 가격: ' +
+            requestData.amount,
+        );
         axios({
           url: 'https://api.tosspayments.com/v1/payments/confirm',
           method: 'POST',
@@ -114,12 +125,54 @@
             if (res.status == 200) {
               this.$store.dispatch('cart/checkout');
               this.$store.dispatch('coupon/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
-              this.$store.dispatch('order/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+              this.$store.dispatch('order/setStatusAction', 'buy complete');
+              this.read_coupon();
             }
           })
           .catch(res => console.log('에러: ' + res));
       },
-
+      read_coupon() {
+        if (this.coupon_status != null) {
+          // console.log('쿠폰데이터 불러오기');
+          axios({
+            url: `${configs.server}/mycoupon`,
+            // httpsAgent: new https.Agent({
+            //              rejectUnauthorized: false,
+            //            }),
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Headers': '*',
+              'Content-Type': 'application/json',
+              authorization: this.user.USER_TOKEN,
+            },
+            data: {
+              user_id: this.user.USER_ID,
+              user_name: this.user.USER_NAME,
+            },
+          })
+            .then(res => {
+              if (res.status == 200) {
+                this.$store.dispatch('coupon/emptyCouponAction');
+                if (res.data.results.length > 0) {
+                  res.data.results.forEach(coupon => {
+                    if (coupon.available === 1) {
+                      this.$store.dispatch('coupon/addCouponAction', coupon);
+                    }
+                  });
+                }
+                this.$store.dispatch('coupon/setStatusAction', null);
+              } else {
+                alert.confirm(
+                  this.selected_local.err,
+                  this.selected_local.err + ': ' + res.data.content,
+                );
+              }
+            })
+            .catch(res => {
+              console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+            });
+        }
+      },
       get_eventCoupon() {
         const query_coupon = {
           user_id: this.user.USER_ID,

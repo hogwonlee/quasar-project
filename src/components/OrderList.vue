@@ -430,7 +430,9 @@
         }
       },
       find_coupon(val) {
-        var coupon = this.couponList.find(item => item.use_condition === val);
+        var coupon = this.couponList.find(
+          item => (item.use_condition === val) & (item.available === 1),
+        );
         if (coupon == undefined) {
           return null;
         } else {
