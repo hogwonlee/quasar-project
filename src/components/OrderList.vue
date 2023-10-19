@@ -361,7 +361,7 @@
         } else if (old >= 30000 && val < 30000) {
           //기존에 예약한 쿠폰 모두 취소.
           if (this.reservedCoupon() != undefined) {
-            this.reserve_cancle_coupon();
+            this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
           }
         }
       },
@@ -464,8 +464,8 @@
       reserve_use_coupon(coupon_id) {
         this.$store.dispatch('coupon/reserveUseCouponAction', coupon_id);
       },
-      reserve_cancle_coupon() {
-        this.$store.dispatch('coupon/reserveCancleAction');
+      reserve_cancle_coupon(coupon_id) {
+        this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
       },
       reservedCoupon() {
         return this.couponList.find(
@@ -541,22 +541,33 @@
         if (this.couponList.length > 0) {
           var coupon_id = this.find_coupon(50000);
           if (coupon_id == null) {
-            console.log('no 50000 condition coupon');
-            if (this.reservedCoupon() != undefined) {
-              console.log(
-                'use condition = 30000 coupon :' +
-                  this.reservedCoupon.coupon_name,
-              );
+            console.log('no 50000 condition coupon, then 30000 구매 쿠폰 적용');
+            coupon_id = this.find_coupon(30000);
+            if (coupon_id == null) {
+              return;
             } else {
-              console.log('30000 구매 쿠폰 적용');
-              coupon_id = this.find_coupon(30000);
-              this.reserve_use_coupon(coupon_id);
+              if (this.reservedCoupon() != undefined) {
+                if (this.reservedCoupon().coupon_id != coupon_id) {
+                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+                  this.reserve_use_coupon(coupon_id);
+                } else {
+                  return;
+                }
+              } else {
+                this.reserve_use_coupon(coupon_id);
+              }
             }
           } else {
             if (this.reservedCoupon() != undefined) {
-              this.reserve_cancle_coupon();
+              if (this.reservedCoupon().coupon_id != coupon_id) {
+                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+                this.reserve_use_coupon(coupon_id);
+              } else {
+                return;
+              }
+            } else {
+              this.reserve_use_coupon(coupon_id);
             }
-            this.reserve_use_coupon(coupon_id);
           }
         }
       } else if (this.total >= 30000) {
@@ -564,13 +575,22 @@
         // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
         if (this.couponList.length > 0) {
           var coupon_id = this.find_coupon(30000);
-          if (this.reservedCoupon() != undefined) {
-            this.reserve_cancle_coupon();
-          }
+
           if (coupon_id == null) {
-            console.log('no 30000 coupon');
+            if (this.reservedCoupon() != undefined) {
+              this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+            }
           } else {
-            this.reserve_use_coupon(coupon_id);
+            if (this.reservedCoupon() != undefined) {
+              if (this.reservedCoupon().coupon_id != coupon_id) {
+                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+                this.reserve_use_coupon(coupon_id);
+              } else {
+                return;
+              }
+            } else {
+              this.reserve_use_coupon(coupon_id);
+            }
           }
         }
       }
