@@ -62,7 +62,7 @@
       paymentAuthorizationRequest() {
         this.readResData();
         const requestData = this.postJsonData;
-        var amountOfPayment = total + shipment - discount;
+        var amountOfPayment = this.total + this.shipment - 3000;
         console.log(
           '가격 비교: ' +
             amountOfPayment +
