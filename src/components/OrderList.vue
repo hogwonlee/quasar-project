@@ -87,8 +87,9 @@
                   <q-icon
                     name="live_help"
                     class="text-white"
-                    @click="coupon_list = true"
+                    @Click="coupon_info_dialog()"
                   />
+                  <!-- @click="coupon_list = true" -->
                 </template>
               </q-field>
             </td>
@@ -503,6 +504,14 @@
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
             });
         }
+      },
+      coupon_info_dialog() {
+        alert.confirm(
+          this.selected_local.coupon_info + this.selected_local.notice,
+          this.selected_local.coupon_use_info +
+            '\n ' +
+            this.selected_local.coupon_use_condition,
+        );
       },
     },
     async created() {
