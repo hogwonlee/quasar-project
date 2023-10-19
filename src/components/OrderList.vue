@@ -451,7 +451,7 @@
         );
       },
       read_coupon() {
-        if (this.coupon_status != null && this.no_login == false) {
+        if (this.no_login == false) {
           axios({
             url: `${configs.server}/mycoupon`,
             method: 'POST',
