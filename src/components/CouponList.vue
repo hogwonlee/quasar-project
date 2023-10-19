@@ -105,7 +105,6 @@
     props: {
       food_price: {
         type: Number,
-        default: 0,
       },
     },
     watch: {},
