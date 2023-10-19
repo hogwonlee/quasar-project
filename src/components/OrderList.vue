@@ -529,7 +529,7 @@
       agreementWidget = paymentWidget.renderAgreement('#agreement');
     },
     mounted() {
-      this.read_coupon();
+      // this.read_coupon();
       this.address_selected = this.default_addr[0];
       //   if (this.total >= 50000) {
       //     // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
