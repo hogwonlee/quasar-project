@@ -305,18 +305,18 @@
                 'no 50000 condition coupon, then 30000 구매 쿠폰 적용',
               );
               coupon_id = this.find_coupon(30000);
-              if (coupon_id == null) {
-                return;
-              } else {
+              if (coupon_id != null) {
                 if (this.reservedCoupon() != undefined) {
                   if (this.reservedCoupon().coupon_id != coupon_id) {
                     this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                     this.reserve_use_coupon(coupon_id);
-                  } else {
-                    return;
                   }
                 } else {
                   this.reserve_use_coupon(coupon_id);
+                }
+              } else {
+                if (this.reservedCoupon() != undefined) {
+                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                 }
               }
             } else {
@@ -324,8 +324,6 @@
                 if (this.reservedCoupon().coupon_id != coupon_id) {
                   this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                   this.reserve_use_coupon(coupon_id);
-                } else {
-                  return;
                 }
               } else {
                 this.reserve_use_coupon(coupon_id);
@@ -350,8 +348,6 @@
                 if (this.reservedCoupon().coupon_id != coupon_id) {
                   this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                   this.reserve_use_coupon(coupon_id);
-                } else {
-                  return;
                 }
               } else {
                 this.reserve_use_coupon(coupon_id);
@@ -543,18 +539,18 @@
           if (coupon_id == null) {
             console.log('no 50000 condition coupon, then 30000 구매 쿠폰 적용');
             coupon_id = this.find_coupon(30000);
-            if (coupon_id == null) {
-              return;
-            } else {
+            if (coupon_id != null) {
               if (this.reservedCoupon() != undefined) {
                 if (this.reservedCoupon().coupon_id != coupon_id) {
                   this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                   this.reserve_use_coupon(coupon_id);
-                } else {
-                  return;
                 }
               } else {
                 this.reserve_use_coupon(coupon_id);
+              }
+            } else {
+              if (this.reservedCoupon() != undefined) {
+                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
               }
             }
           } else {
@@ -562,8 +558,6 @@
               if (this.reservedCoupon().coupon_id != coupon_id) {
                 this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                 this.reserve_use_coupon(coupon_id);
-              } else {
-                return;
               }
             } else {
               this.reserve_use_coupon(coupon_id);
@@ -585,8 +579,6 @@
               if (this.reservedCoupon().coupon_id != coupon_id) {
                 this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
                 this.reserve_use_coupon(coupon_id);
-              } else {
-                return;
               }
             } else {
               this.reserve_use_coupon(coupon_id);
