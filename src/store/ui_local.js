@@ -1,5 +1,5 @@
 const _ko = {
-  chinafood: '중국식품',
+  chinafood: '중국식품X한',
   food: '식품',
   couter: '계산대',
   deliver: '배송',
@@ -166,7 +166,7 @@ const _ko = {
   payment_policy: '약관 로딩될때까지 조금 더 기다려주세요. (1초 정도)',
 };
 const _cn = {
-  chinafood: '中国食品',
+  chinafood: '中国食品X韩',
   food: '食品',
   couter: '收银台',
   deliver: '运送',
