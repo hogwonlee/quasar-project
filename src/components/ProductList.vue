@@ -227,7 +227,7 @@
         selected_local: state => state.ui_local.status,
       }),
     },
-    mounted() {
+    created() {
       this.products_update();
     },
     setup() {
