@@ -72,7 +72,7 @@
     </q-page-sticky>
     <div>
       <div
-        :v-if="load_time > 1"
+        :v-if="load_time > 5"
         class="row"
         v-for="c in [category[4]]"
         :key="c.category"
