@@ -288,7 +288,7 @@
     data() {
       return {
         childbuyoption: false,
-        load_time: [0],
+        load_time: 0,
       };
     },
     methods: {
