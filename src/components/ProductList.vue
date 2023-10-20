@@ -98,7 +98,7 @@
           "
         />
       </div>
-      <div
+      <!-- <div
         v-show="load_time > 1"
         class="row"
         v-for="c in [category[1], category[2], category[3]]"
@@ -229,7 +229,7 @@
             this.$store.dispatch('cart/removeProductFromCart', product)
           "
         />
-      </div>
+      </div> -->
     </div>
     <q-page-container>
       <div class="q-gutter-md row inline">
