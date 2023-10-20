@@ -71,7 +71,139 @@
       />
     </q-page-sticky>
     <div>
-      <div class="row" v-for="c in category" :key="c.category" v-bind="c">
+      <div class="row" v-for="c in category[4]" :key="c.category" v-bind="c">
+        <q-bar dense class="col-12 bg-teal text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        v-show="load_time > 1"
+        class="row"
+        v-for="c in [category[1], category[2], category[3]]"
+        :key="c.category"
+        v-bind="c"
+      >
+        <q-bar dense class="col-12 bg-teal text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        v-show="load_time > 2"
+        class="row"
+        v-for="c in [category[5], category[6], category[7]]"
+        :key="c.category"
+        v-bind="c"
+      >
+        <q-bar dense class="col-12 bg-teal text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        v-show="load_time > 3"
+        class="row"
+        v-for="c in [category[8], category[9], category[11]]"
+        :key="c.category"
+        v-bind="c"
+      >
+        <q-bar dense class="col-12 bg-teal text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        v-show="load_time > 3"
+        class="row"
+        v-for="c in category[10]"
+        :key="c.category"
+        v-bind="c"
+      >
         <q-bar dense class="col-12 bg-teal text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
@@ -156,6 +288,7 @@
     data() {
       return {
         childbuyoption: false,
+        load_time: [0],
       };
     },
     methods: {
@@ -230,6 +363,15 @@
     },
     created() {
       this.products_update();
+
+      // 1초 간격으로 타임추가
+      let timerId = setInterval(() => this.load_time++, 1000);
+
+      // 5초 후에 정지
+      setTimeout(() => {
+        clearInterval(timerId);
+        console.log(this.load_time);
+      }, 5000);
     },
     setup() {
       return {
