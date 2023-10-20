@@ -103,10 +103,10 @@
           "
         />
       </div>
-      <!-- <div
+      <div
         v-show="load_time > 1"
         class="row"
-        v-for="c in [category[1], category[2], category[3]]"
+        v-for="c in [category[2], category[3]]"
         :key="c.category"
         v-bind="c"
       >
@@ -205,7 +205,7 @@
       <div
         v-show="load_time > 3"
         class="row"
-        v-for="c in category[10]"
+        v-for="c in [category[10]]"
         :key="c.category"
         v-bind="c"
       >
@@ -234,7 +234,7 @@
             this.$store.dispatch('cart/removeProductFromCart', product)
           "
         />
-      </div> -->
+      </div>
     </div>
     <q-page-container>
       <div class="q-gutter-md row inline">
