@@ -99,7 +99,7 @@
         />
       </div>
       <div
-        v-show="load_time > 3"
+        :v-if="load_time > 3"
         class="row"
         v-for="c in [category[2], category[3]]"
         :key="c.category"
@@ -132,7 +132,7 @@
         />
       </div>
       <div
-        v-show="load_time > 4"
+        :v-if="load_time > 4"
         class="row"
         v-for="c in [category[1], category[5], category[6], category[7]]"
         :key="c.category"
@@ -165,7 +165,7 @@
         />
       </div>
       <div
-        v-show="load_time > 5"
+        :v-if="load_time > 5"
         class="row"
         v-for="c in [category[8], category[9], category[11]]"
         :key="c.category"
@@ -198,7 +198,7 @@
         />
       </div>
       <div
-        v-show="load_time > 6"
+        :v-if="load_time > 6"
         class="row"
         v-for="c in [category[10]]"
         :key="c.category"
@@ -371,7 +371,7 @@
       setTimeout(() => {
         clearInterval(timerId);
         console.log(this.load_time);
-      }, 7000);
+      }, 8000);
     },
     setup() {
       return {
