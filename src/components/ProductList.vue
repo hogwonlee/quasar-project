@@ -71,12 +71,7 @@
       />
     </q-page-sticky>
     <div>
-      <div
-        class="row"
-        v-for="c in [category[4], category[5], category[2]]"
-        :key="c.category"
-        v-bind="c"
-      >
+      <div class="row" v-for="c in category" :key="c.category" v-bind="c">
         <q-bar dense class="col-12 bg-teal text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
