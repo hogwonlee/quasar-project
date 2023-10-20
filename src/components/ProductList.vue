@@ -71,12 +71,7 @@
       />
     </q-page-sticky>
     <div>
-      <div
-        class="row"
-        v-for="c in [category[4], category[1]]"
-        :key="c.category"
-        v-bind="c"
-      >
+      <div class="row" v-for="c in [category[4]]" :key="c.category" v-bind="c">
         <q-bar dense class="col-12 bg-teal text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
@@ -104,7 +99,7 @@
         />
       </div>
       <div
-        v-show="load_time > 1"
+        v-show="load_time > 3"
         class="row"
         v-for="c in [category[2], category[3]]"
         :key="c.category"
@@ -137,9 +132,9 @@
         />
       </div>
       <div
-        v-show="load_time > 2"
+        v-show="load_time > 4"
         class="row"
-        v-for="c in [category[5], category[6], category[7]]"
+        v-for="c in [category[1], category[5], category[6], category[7]]"
         :key="c.category"
         v-bind="c"
       >
@@ -170,7 +165,7 @@
         />
       </div>
       <div
-        v-show="load_time > 3"
+        v-show="load_time > 5"
         class="row"
         v-for="c in [category[8], category[9], category[11]]"
         :key="c.category"
@@ -203,7 +198,7 @@
         />
       </div>
       <div
-        v-show="load_time > 3"
+        v-show="load_time > 6"
         class="row"
         v-for="c in [category[10]]"
         :key="c.category"
@@ -376,7 +371,7 @@
       setTimeout(() => {
         clearInterval(timerId);
         console.log(this.load_time);
-      }, 5000);
+      }, 7000);
     },
     setup() {
       return {
