@@ -35,7 +35,7 @@ export default createStore({
         'products',
         'address',
         'order',
-        'ui_local',
+        // 'ui_local',
         'category',
         'coupon',
       ],
