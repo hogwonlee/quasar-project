@@ -290,15 +290,28 @@
           <div class="text-body1 text-bold">쿠폰 사용 확인</div>
           <q-radio
             v-model="coupon"
-            v-for="c in couponList"
+            v-for="c in couponList.filter(c => c.available == 1)"
             :Key="c.coupon_id"
             :bind="c"
             checked-icon="task_alt"
             unchecked-icon="panorama_fish_eye"
             :val="c.coupon_id"
-            :label="c.coupon_name + ': ' + c.coupon_price"
+            :label="
+              c.coupon_name +
+              ': ' +
+              c.coupon_price +
+              ui_local.won +
+              ' (' +
+              c.use_condition +
+              ui_local.won +
+              ')'
+            "
             :disable="c.use_condition < total ? true : false"
           />
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">최종 결제 금액액</div>
+          {{ total }} {{ ui_local.won }}
         </q-card-section>
         <q-btn
           color="positive"
