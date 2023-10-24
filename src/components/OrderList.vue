@@ -77,7 +77,7 @@
               {{ shipment }} {{ selected_local.won }}
             </td>
           </tr>
-          <tr class="row">
+          <!-- <tr class="row">
             <td class="text-left col-4">
               <q-field borderless dense>
                 <template v-slot:control>
@@ -89,7 +89,6 @@
                     class="text-white"
                     @Click="coupon_info_dialog()"
                   />
-                  <!-- @click="coupon_list = true" -->
                 </template>
               </q-field>
             </td>
@@ -102,7 +101,7 @@
               }}
               P
             </td>
-          </tr>
+          </tr> -->
           <tr class="row">
             <td class="text-left col-4">
               <q-field borderless dense>
@@ -226,6 +225,7 @@
       </div>
     </q-card>
     <div id="payment-method" class="q-py-none"></div>
+    <text-body2>퀵계좌결제 - 최초 결제만 등록 필요.</text-body2>
     <div id="agreement" class="q-py-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
@@ -238,11 +238,78 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
-        @click="selectPaymentmethod(total, shipment, reservedCoupon())"
+        @click="finalCheck = true"
       >
       </q-btn>
     </div>
 
+    <q-dialog v-model="finalCheck" persistent>
+      <q-card>
+        <q-card-section class="row items-center q-pa-none">
+          <div class="text-h6 text-bold">결제 확인</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">주소 확인</div>
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.recipient"
+            :model-value="this.address_selected.recipient"
+          >
+            <template v-slot:prepend>
+              <q-icon name="person" />
+            </template>
+          </q-input>
+
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            autogrow
+            :label="selected_local.receiveaddr"
+            :model-value="
+              '(' +
+              this.address_selected.address_tag +
+              ') ' +
+              this.address_selected.address1 +
+              ' ' +
+              this.address_selected.address2 +
+              ' ' +
+              this.address_selected.address3
+            "
+          >
+            <template v-slot:prepend>
+              <q-icon name="place" />
+            </template>
+          </q-input>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">쿠폰 사용 확인</div>
+          <q-radio
+            v-model="coupon"
+            v-for="c in couponList"
+            :Key="c.coupon_id"
+            :bind="c"
+            checked-icon="task_alt"
+            unchecked-icon="panorama_fish_eye"
+            :val="c.coupon_id"
+            :label="c.coupon_name + ': ' + c.coupon_price"
+            :disable="c.use_condition < total ? true : false"
+          />
+        </q-card-section>
+        <q-btn
+          color="positive"
+          size="22px"
+          class="text-bold q-py-none q-px-xl q-ma-sm"
+          :label="selected_local.checkout"
+          @click="selectPaymentmethod(total, shipment, reservedCoupon())"
+        >
+        </q-btn>
+      </q-card>
+    </q-dialog>
     <q-dialog
       v-model="persistent"
       persistent
@@ -291,6 +358,8 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        finalCheck: ref(false),
+        coupon: ref(''),
       };
     },
     watch: {
