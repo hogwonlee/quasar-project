@@ -50,9 +50,9 @@
       <q-fab
         v-model="list_show"
         :label="selected_local.category"
-        direction="up"
+        direction="down"
         class="q-gutter-none"
-        color="secondary"
+        color="primary"
         vertical-actions-align="right"
       >
         <q-fab-action
@@ -60,6 +60,7 @@
           v-for="c in category"
           :key="c.category"
           v-bind="c"
+          color="primary"
           @click="handleScroll(c.category)"
         />
       </q-fab>

@@ -162,10 +162,12 @@
         :rules="[val => !!val || '请输入附加信息']"
       />
       <div class="row">
-        <q-toggle class="col-2" v-model="isDoorScretKey" />
-        <text-caption class="col-4">{{
-          isDoorScretKey ? '비밀번호 입력' : '자유출입'
-        }}</text-caption>
+        <q-toggle
+          class="col-5"
+          v-model="isDoorScretKey"
+          :label="isDoorScretKey ? '비밀번호 입력' : '자유출입'"
+        />
+
         <q-input
           outlined
           :disable="isDoorScretKey ? false : true"
