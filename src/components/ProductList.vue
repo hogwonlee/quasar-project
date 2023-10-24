@@ -50,14 +50,27 @@
       <q-fab
         v-model="list_show"
         :label="selected_local.category"
-        direction="down"
+        direction="up"
         class="q-gutter-none"
         color="primary"
         vertical-actions-align="right"
       >
         <q-fab-action
           :label="c.category"
-          v-for="c in category"
+          v-for="c in [
+            category[10],
+            category[11],
+            category[9],
+            category[8],
+            category[7],
+            category[6],
+            category[5],
+            category[3],
+            category[2],
+            category[1],
+            category[0],
+            category[4],
+          ]"
           :key="c.category"
           v-bind="c"
           color="primary"
