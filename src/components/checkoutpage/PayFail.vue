@@ -2,7 +2,7 @@
   <q-page class="q-pa-xl">
     <section>
       <div class="text-h3">결제 실패 ...</div>
-      <q-btn label="돌아가기" tag="a" to="/OrderList" color="primary"></q-btn>
+      <q-btn label="돌아가기" tag="a" to="/OrderList" color="positive"></q-btn>
     </section>
   </q-page>
 </template>

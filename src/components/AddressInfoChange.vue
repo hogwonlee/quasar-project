@@ -47,7 +47,7 @@
       <div class="row">
         <q-btn
           class="q-ma-sm col"
-          color="primary"
+          color="positive"
           :label="selected_local.postcoderegister"
           @click="addr_search_api_card = !addr_search_api_card"
         />
@@ -158,7 +158,7 @@
       <div align="right">
         <q-btn
           class="q-ma-sm"
-          color="primary"
+          color="positive"
           size="md"
           style="width: 200px"
           :label="selected_local.changeaddrinfo"

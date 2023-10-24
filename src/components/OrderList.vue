@@ -9,7 +9,7 @@
       <AddressList class="bg-red-3" />
     </q-dialog>
 
-    <div class="q-pa-md bg-red-3">
+    <div class="q-pa-md">
       <q-chip outline color="grey-1" class="bg-red-3 text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <q-card class="q-py-sm bg-red-3">
+    <q-card class="q-py-sm">
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
@@ -59,7 +59,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-red-3 col-4">
+            <td class="text-left col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.delivercost }}
@@ -78,7 +78,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-red-3 col-4">
+            <td class="text-left col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.point }}
@@ -104,7 +104,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-red-3 col-4">
+            <td class="text-left col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.total }}
@@ -127,7 +127,7 @@
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-red-3" v-bind:food_price="total" />
     </q-dialog>
-    <q-card class="bg-red-3">
+    <q-card>
       <div v-if="user_status">
         <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
       <div>수령인: {{ this.address_selected.recipient }}</div>
@@ -163,7 +163,7 @@
           </q-input>
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
-            color="primary"
+            color="positive"
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
@@ -182,7 +182,7 @@
           </q-input>
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
-            color="primary"
+            color="positive"
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
@@ -233,7 +233,7 @@
         <div v-if="no_login">{{ selected_local.needloginfirst }}</div>
       </div>
       <q-btn
-        color="primary"
+        color="positive"
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"

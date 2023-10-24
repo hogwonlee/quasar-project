@@ -6,7 +6,7 @@
         label="주문 현황 확인하기"
         tag="a"
         to="/DeliveryInfo"
-        color="primary"
+        color="positive"
       ></q-btn>
     </section>
   </q-page>
