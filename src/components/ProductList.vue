@@ -46,23 +46,19 @@
         />
       </q-fab>
     </q-page-sticky> -->
-    <q-page-sticky
-      class="z-top q-gutter-none"
-      position="bottom-right"
-      :offset="[-15, 10]"
-    >
+    <q-page-sticky class="z-top" position="bottom-right" :offset="[-15, 10]">
       <q-fab
-        v-model="event_fab"
-        label="selected_local.category"
-        v-for="c in category"
-        :key="c.category"
-        v-bind="c"
-        direction="down"
+        v-model="list_show"
+        :label="selected_local.category"
+        direction="left"
         class="q-gutter-none"
       >
         <q-fab-action
           color="secondary"
-          label="c.category"
+          :label="c.category"
+          v-for="c in category"
+          :key="c.category"
+          v-bind="c"
           @click="handleScroll(c.category)"
         />
       </q-fab>

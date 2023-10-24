@@ -162,12 +162,16 @@
         :rules="[val => !!val || '请输入附加信息']"
       />
       <div class="row">
-        <q-toggle class="col-6" v-model="isDoorScretKey" />
+        <q-toggle class="col-2" v-model="isDoorScretKey" />
+        <q-body2
+          class="col-4"
+          :value="isDoorScretKey ? '비밀번호 입력' : '자유출입'"
+        ></q-body2>
         <q-input
           outlined
           :disable="isDoorScretKey ? false : true"
-          :v-model="isDoorScretKey ? doorScretKey : '자유출입'"
-          class="q-ma-sm col-6"
+          v-model="doorScretKey"
+          class="q-ma-sm col-5"
           :label="selected_local.addrextraandhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
