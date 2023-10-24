@@ -74,6 +74,7 @@
           :key="c.category"
           v-bind="c"
           color="primary"
+        class="q-gutter-none q-py-none"
           @click="handleScroll(c.category)"
         />
       </q-fab>
