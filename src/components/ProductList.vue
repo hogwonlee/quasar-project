@@ -46,15 +46,16 @@
         />
       </q-fab>
     </q-page-sticky> -->
-    <q-page-sticky class="z-top" position="bottom-right" :offset="[-15, 10]">
+    <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
       <q-fab
         v-model="list_show"
         :label="selected_local.category"
         direction="up"
         class="q-gutter-none"
+        color="secondary"
+        vertical-actions-align="right"
       >
         <q-fab-action
-          color="secondary"
           :label="c.category"
           v-for="c in category"
           :key="c.category"
