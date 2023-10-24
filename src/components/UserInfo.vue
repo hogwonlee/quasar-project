@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
-      <q-card class="row bg-red-2" flat>
+      <q-card class="row" flat>
         <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
         <q-input
           :model-value="user.USER_NAME"
@@ -23,7 +23,7 @@
           <q-fab
             v-model="user_option"
             icon="settings"
-            text-color="primary"
+            text-color="positive"
             color="white"
             padding="sm"
             direction="left"
@@ -31,21 +31,21 @@
           >
             <q-fab-action
               color="white"
-              text-color="primary"
+              text-color="positive"
               padding="none"
               :label="selected_local.changemyinfo"
               @click="this.checkPasswordDialog = true"
             />
             <q-fab-action
               color="white"
-              text-color="primary"
+              text-color="positive"
               padding="none"
               :label="selected_local.changepassword"
               @click="this.changePasswordDialog = true"
             />
             <q-fab-action
               color="white"
-              text-color="red"
+              text-color="negative"
               padding="none"
               :label="selected_local.logout"
               @click="confirm_logout()"
@@ -69,7 +69,7 @@
             <q-fab
               v-model="addr_option"
               icon="settings"
-              text-color="primary"
+              text-color="positive"
               color="white"
               padding="sm"
               direction="left"
@@ -77,14 +77,14 @@
             >
               <q-fab-action
                 color="white"
-                text-color="primary"
+                text-color="positive"
                 padding="none"
                 :label="selected_local.registernewaddr"
                 @click="this.register = true"
               />
               <q-fab-action
                 color="white"
-                text-color="primary"
+                text-color="positive"
                 padding="none"
                 :label="selected_local.addr"
                 @click="this.address_vue = true"
@@ -97,7 +97,7 @@
         </q-card-section>
         <q-card-section
           v-else
-          class="row items-center q-ma-none q-pa-none bg-white"
+          class="row items-center q-ma-none q-pa-none bg-amber-5"
           style="width: 100%"
           v-for="addr in addressList"
           :key="addr.address_id"
@@ -110,7 +110,7 @@
                 class="q-py-none q-my-none"
                 v-if="addr.is_default"
                 dense
-                text-color="primary"
+                text-color="positive"
               >
                 {{ selected_local.defaultaddr }}
               </q-chip>
@@ -143,7 +143,7 @@
             label="?"
             round
             color="white"
-            text-color="primary"
+            text-color="positive"
             @click="coupon_info_dialog()"
           />
         </q-card-section>
@@ -167,7 +167,7 @@
                 :label="selected_local.use_reserve"
                 icon="task_alt"
                 dense
-                text-color="primary"
+                text-color="positive"
                 class="q-mr-sm"
               ></q-chip>
             </q-card-section>
@@ -351,12 +351,12 @@
             <q-btn
               :label="selected_local.confirm"
               type="submit"
-              color="primary"
+              color="positive"
               v-close-popup
             />
             <q-btn
               :label="selected_local.cancel"
-              color="primary"
+              color="negative"
               v-close-popup
             />
           </div>
