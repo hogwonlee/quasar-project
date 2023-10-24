@@ -78,7 +78,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-amber-5 text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -111,7 +111,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-amber-5 text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -144,7 +144,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-red-12 text-white">
+        <q-bar dense class="col-12 bg-amber-5 text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -177,7 +177,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-amber-5 text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -210,7 +210,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-amber-5 text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
