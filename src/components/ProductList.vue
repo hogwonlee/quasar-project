@@ -51,7 +51,7 @@
         v-model="list_show"
         :label="selected_local.category"
         direction="up"
-        class="q-gutter-none"
+        class="q-gutter-none q-pa-none"
         color="primary"
         vertical-actions-align="right"
       >
@@ -74,7 +74,7 @@
           :key="c.category"
           v-bind="c"
           color="primary"
-        class="q-gutter-none q-py-none"
+          class="q-gutter-none q-py-none"
           @click="handleScroll(c.category)"
         />
       </q-fab>
