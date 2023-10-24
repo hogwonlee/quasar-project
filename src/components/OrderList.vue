@@ -306,7 +306,7 @@
               selected_local.won +
               ')'
             "
-            :disable="c.use_condition < total ? true : false"
+            :disable="c.use_condition < total ? false : true"
           />
         </q-card-section>
         <q-card-section>
