@@ -50,7 +50,7 @@
       <q-fab
         v-model="list_show"
         :label="selected_local.category"
-        direction="left"
+        direction="up"
         class="q-gutter-none"
       >
         <q-fab-action

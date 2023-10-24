@@ -163,10 +163,10 @@
       />
       <div class="row">
         <q-toggle class="col-2" v-model="isDoorScretKey" />
-        <q-body2
+        <text-caption
           class="col-4"
           :value="isDoorScretKey ? '비밀번호 입력' : '자유출입'"
-        ></q-body2>
+        ></text-caption>
         <q-input
           outlined
           :disable="isDoorScretKey ? false : true"
