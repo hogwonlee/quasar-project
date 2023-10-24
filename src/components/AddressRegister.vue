@@ -161,7 +161,7 @@
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
-      <div class="row">
+      <div class="row q-py-xs">
         <q-toggle
           class="col-5"
           v-model="isDoorScretKey"
@@ -189,7 +189,7 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row">
+      <div class="row q-py-xs">
         <q-checkbox
           class="q-ma-sm col"
           left-label
