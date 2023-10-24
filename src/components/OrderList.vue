@@ -300,10 +300,10 @@
               c.coupon_name +
               ': ' +
               c.coupon_price +
-              ui_local.won +
+              selected_local.won +
               ' (' +
               c.use_condition +
-              ui_local.won +
+              selected_local.won +
               ')'
             "
             :disable="c.use_condition < total ? true : false"
@@ -311,7 +311,7 @@
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">최종 결제 금액액</div>
-          {{ total }} {{ ui_local.won }}
+          {{ total }} {{ selected_local.won }}
         </q-card-section>
         <q-btn
           color="positive"
