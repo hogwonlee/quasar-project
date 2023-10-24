@@ -20,7 +20,7 @@
         <q-icon name="search" color="white" />
       </template>
     </q-input>
-    <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
+    <!-- <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
       <q-fab
         v-model="event_fab"
         label="이벤트안내(~23.12.31)"
@@ -45,9 +45,28 @@
           @click="coupon_5353_event()"
         />
       </q-fab>
-    </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-right" :offset="[-15, 10]">
-      <q-list v-if="list_show" bordered separator class="bg-primary">
+    </q-page-sticky> -->
+    <q-page-sticky
+      class="z-top q-gutter-none"
+      position="bottom-right"
+      :offset="[-15, 10]"
+    >
+      <q-fab
+        v-model="event_fab"
+        label="selected_local.category"
+        v-for="c in category"
+        :key="c.category"
+        v-bind="c"
+        direction="down"
+        class="q-gutter-none"
+      >
+        <q-fab-action
+          color="secondary"
+          label="c.category"
+          @click="handleScroll(c.category)"
+        />
+      </q-fab>
+      <!-- <q-list v-if="list_show" bordered separator class="bg-primary">
         <q-item
           clickable
           v-ripple
@@ -62,17 +81,17 @@
           </q-item-section>
         </q-item>
       </q-list>
-      <!-- :label="selected_local.category" -->
+      :label="selected_local.category"
       <q-btn
         fab
         :label="selected_local.category"
         color="primary"
         @click="list_show = !list_show"
-      />
+      /> -->
     </q-page-sticky>
     <div>
       <div
-        :v-if="load_time > 3"
+        :v-if="load_time > 1"
         class="row"
         v-for="c in [category[4]]"
         :key="c.category"
@@ -105,7 +124,7 @@
         />
       </div>
       <div
-        :v-if="load_time > 4"
+        :v-if="load_time > 2"
         class="row"
         v-for="c in [category[0], category[1], category[2]]"
         :key="c.category"
@@ -138,7 +157,7 @@
         />
       </div>
       <div
-        :v-if="load_time > 5"
+        :v-if="load_time > 3"
         class="row"
         v-for="c in [category[3], category[5], category[6]]"
         :key="c.category"
@@ -171,7 +190,7 @@
         />
       </div>
       <div
-        :v-if="load_time > 6"
+        :v-if="load_time > 4"
         class="row"
         v-for="c in [category[7], category[8], category[9]]"
         :key="c.category"
@@ -204,7 +223,7 @@
         />
       </div>
       <div
-        :v-if="load_time > 7"
+        :v-if="load_time > 5"
         class="row"
         v-for="c in [category[11], category[10]]"
         :key="c.category"
@@ -315,7 +334,7 @@
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
         let offset = ele.offsetTop - 50;
-        console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
+        // console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
       },
@@ -369,7 +388,7 @@
     },
     created() {
       this.products_update();
-      console.log(this.load_time);
+      // console.log(this.load_time);
       // 1초 간격으로 타임추가
       let timerId = setInterval(() => this.load_time++, 1000);
 
@@ -377,7 +396,7 @@
       setTimeout(() => {
         clearInterval(timerId);
         console.log(this.load_time);
-      }, 11000);
+      }, 7000);
     },
     setup() {
       return {

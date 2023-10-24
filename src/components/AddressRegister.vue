@@ -161,6 +161,19 @@
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
+      <div class="row">
+        <q-toggle class="col-6" v-model="isDoorScretKey" />
+        <q-input
+          outlined
+          :disable="isDoorScretKey ? false : true"
+          :v-model="isDoorScretKey ? doorScretKey : '자유출입'"
+          class="q-ma-sm col-6"
+          :label="selected_local.addrextraandhint"
+          lazy-rules
+          :rules="[val => !!val || '请输入附加信息']"
+        />
+      </div>
+
       <q-input
         outlined
         class="q-ma-sm"
@@ -223,6 +236,8 @@
         keyword: '',
         checked: ref(true),
         addr_search_api_card: ref(false),
+        isDoorScretKey: ref(false),
+        doorScretKey: '',
       };
     },
     setup() {
@@ -364,6 +379,7 @@
             post_code: document.getElementById('daum_postCode').value,
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
+            address3: this.address3,
             address3: this.address3,
             user_id: this.user.USER_ID,
             is_default: this.checked,
