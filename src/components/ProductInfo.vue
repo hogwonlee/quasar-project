@@ -101,7 +101,7 @@
             >
               {{ price }}
               <q-badge
-                color="teal"
+                color="red"
                 floating
                 rounded
                 transparent
@@ -163,7 +163,7 @@
               disable
               square
               outlined
-              bg-color="teal-2"
+              bg-color="red-2"
               input-class="text-right"
               :model-value="(price - cutprice) * this.localQuantity"
             >
@@ -177,7 +177,7 @@
               square
               outlined
               disable
-              bg-color="teal-2"
+              bg-color="red-2"
               input-class="text-right"
               :model-value="boxprice * this.localQuantity"
             >
@@ -194,7 +194,7 @@
               readonly
               disable
               outlined
-              bg-color="teal-2"
+              bg-color="red-2"
               v-model="this.localQuantity"
               input-class="text-right"
             >
@@ -230,7 +230,7 @@
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-teal text-white"> 基本信息 </q-bar>
+            <q-bar dense class="col-12 bg-red text-white"> 基本信息 </q-bar>
             <q-input
               class="col-6"
               readonly

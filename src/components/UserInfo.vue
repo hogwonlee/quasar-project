@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md bg-red-2">
+  <q-page class="q-pa-md">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
       <q-card class="row bg-red-2" flat>

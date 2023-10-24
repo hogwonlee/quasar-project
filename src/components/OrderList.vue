@@ -69,7 +69,7 @@
             <td class="text-right col-8 text-h4">
               <q-chip
                 dense
-                color="teal"
+                color="red"
                 icon="new_releases"
                 :label="selected_local.delivercostnotice"
                 text-color="white"

@@ -61,8 +61,8 @@
           disable
         />
       </div>
-      <q-card-section class="bg-teal-2" v-show="addr_search_api_card">
-        <q-toolbar class="bg-teal text-white rounded-borders">
+      <q-card-section class="bg-red-2" v-show="addr_search_api_card">
+        <q-toolbar class="bg-red text-white rounded-borders">
           <q-btn
             round
             dense
