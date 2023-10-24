@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md bg-teal-2">
+  <q-page class="q-pa-md bg-red-2">
     <div class="col-12 text-h6 text-bold">
       {{ selected_local.deliver_info_title }}
     </div>

@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-md bg-teal-2">
+  <q-page class="q-pa-md bg-red-2">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
-      <q-card class="row bg-teal-2" flat>
+      <q-card class="row bg-red-2" flat>
         <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
         <q-input
           :model-value="user.USER_NAME"
@@ -264,40 +264,40 @@
     </q-dialog>
     <q-dialog v-model="coupon_vue">
       <CouponList
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="privacy_policy_vue">
       <PrivacyPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>

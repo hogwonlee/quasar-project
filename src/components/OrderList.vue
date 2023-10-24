@@ -6,11 +6,11 @@
     <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
 
     <q-dialog v-model="address_popup">
-      <AddressList class="bg-teal-2" />
+      <AddressList class="bg-red-3" />
     </q-dialog>
 
-    <div class="q-pa-md bg-teal">
-      <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1">{{
+    <div class="q-pa-md bg-red-3">
+      <q-chip outline color="grey-1" class="bg-red-3 text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
       <p v-show="!cartList.length">
@@ -36,11 +36,11 @@
       </div>
     </div>
 
-    <q-card class="q-py-sm bg-teal-2">
+    <q-card class="q-py-sm bg-red-3">
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-red-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.foodprice }}
@@ -59,7 +59,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-red-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.delivercost }}
@@ -78,7 +78,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-red-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.point }}
@@ -104,7 +104,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-red-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.total }}
@@ -125,9 +125,9 @@
     </q-card>
 
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
-      <CouponList class="bg-teal-2" v-bind:food_price="total" />
+      <CouponList class="bg-red-3" v-bind:food_price="total" />
     </q-dialog>
-    <q-card class="bg-teal-2">
+    <q-card class="bg-red-3">
       <div v-if="user_status">
         <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
       <div>수령인: {{ this.address_selected.recipient }}</div>
