@@ -178,12 +178,14 @@
       <div class="row q-py-none">
         <q-radio
           class="col-12"
+          color="positive"
           v-model="doorScretKey"
           val="free"
           :label="selected_local.gate_free"
         />
         <q-radio
           class="col-5"
+          color="positive"
           v-model="doorScretKey"
           val="password"
           :label="selected_local.gate_password"
@@ -253,7 +255,7 @@
         checked: ref(true),
         addr_search_api_card: ref(false),
         outdoorpassword: '',
-        doorScretKey: '',
+        doorScretKey: 'free',
       };
     },
     setup() {
