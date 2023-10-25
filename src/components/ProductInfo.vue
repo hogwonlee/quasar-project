@@ -75,8 +75,8 @@
             <q-btn-toggle
               v-if="boxprice > 0"
               v-model="bulkbuy"
-              toggle-color="primary"
-              toggle-text-color="white"
+              toggle-color="secondary"
+              toggle-text-color="primary"
               color="grey"
               text-color="black"
               unelevated
