@@ -186,6 +186,7 @@
               :disable="localQuantity <= 0"
               class="col-3"
               icon="remove"
+              color="negative"
               @click="handle(-1)"
             ></q-btn>
             <q-input
@@ -208,14 +209,20 @@
                 </q-badge>
               </div>
             </q-input>
-            <q-btn class="col-3" icon="add" @click="handle(1)"></q-btn>
+            <q-btn
+              class="col-3"
+              icon="add"
+              color="positive"
+              @click="handle(1)"
+            ></q-btn>
 
             <q-btn
               class="col-12 q-my-xs"
-              color="white"
+              color="positive"
               text-color="primary"
               glossy
               icon="add_shopping_cart"
+              :label="selected_local.add_to_cart"
               @click="sendToCart(this.product_name, quantity)"
               :disable="this.localQuantity <= 0"
             />
@@ -258,7 +265,7 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+        <q-page-sticky class="z-top" position="bottom-right" :offset="[30, 30]">
           <q-btn
             class="q-my-xs"
             glossy
