@@ -269,7 +269,6 @@
         <q-page-sticky class="z-top" position="bottom-right" :offset="[80, 80]">
           <q-btn
             class="q-my-xs"
-            style="width: 20%"
             glossy
             round
             padding="lg"
