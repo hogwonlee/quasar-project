@@ -271,6 +271,7 @@
             class="q-my-xs"
             glossy
             round
+            padding="xl"
             icon="shopping_cart_checkout"
             color="primary"
             tag="a"
