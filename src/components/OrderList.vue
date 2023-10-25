@@ -306,6 +306,7 @@
             "
             :disable="c.use_condition < total ? false : true"
           />
+          <q-radio v-model="coupon" val="" label="사용안함" />
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">최종 결제 금액액</div>
