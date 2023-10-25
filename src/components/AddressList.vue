@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card class="transparent" flat>
+    <q-card class="bg-white" flat>
       <q-card-section class="row items-center q-pa-none">
         <div class="text-h6 text-bold">{{ selected_local.addr }}</div>
         <q-space />

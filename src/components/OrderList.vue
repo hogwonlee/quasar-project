@@ -6,7 +6,7 @@
     <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
 
     <q-dialog v-model="address_popup">
-      <AddressList class="bg-red-3" />
+      <AddressList />
     </q-dialog>
 
     <div class="q-pa-md">

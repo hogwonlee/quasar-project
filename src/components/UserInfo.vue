@@ -277,7 +277,7 @@
     </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
-        class="bg-dark absolute-top q-mx-lg q-pa-sm"
+        class="absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
