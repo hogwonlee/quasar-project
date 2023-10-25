@@ -1,10 +1,10 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header elevated class="bg-primary" style="height: 100px">
+    <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
         <q-toolbar-title>
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
-          {{ selected_local.chinafood }}
+          <q-input readonly :model-value="selected_local.chinafood"> </q-input>
           <!-- </q-btn> -->
           <q-btn-toggle
             v-model="ui_local"
