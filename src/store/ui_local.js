@@ -106,8 +106,10 @@ const _ko = {
   postcoderegister: '우편번호 찾기',
   addrandhint: '주소 (자동)',
   addrdetailandhint: '상세주소 (자동)',
-  addrextraandhint: '추가 (동,호,공동현관비밀번호 등)',
-  addrtagandhint: '주소별칭 (집,회사,친정집 등)',
+  addrextraand: '추가주소',
+  addrextraandhint: '동,호',
+  addrtagand: '주소별칭',
+  addrtagandhint: '집,회사,친정집 등등',
   recipientphone: '받는 분의 전화번호',
   defaultaddr: '기본배송지',
   addrresistersuccess: '배송지 등록이 완료되었습니다.',
@@ -177,6 +179,8 @@ const _ko = {
   default_info: '기본정보',
   recipienthint: '배송 받을 분의 성함',
   outdoorpasswordhint: '공동현관 출입번호를 입력해주세요',
+  gate_free: '공동현관 자유출입',
+  gate_password: '공동현관 출입번호',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -284,8 +288,10 @@ const _cn = {
   postcoderegister: '查询邮政编码',
   addrandhint: '地址 (自动填充)',
   addrdetailandhint: '详细地址 (自动填充)',
-  addrextraandhint: '其他信息 (如，几栋几号公用大门密码)',
-  addrtagandhint: '地址名称 (如，家，公司，儿子家...)',
+  addrextraandhint: '附加信息',
+  addrextraandhint: '如，几栋几号',
+  addrtagand: '地址名称',
+  addrtagandhint: '如，家，公司，儿子家...',
   recipientphone: '收件人手机号',
   defaultaddr: '默认收件地址',
   addrresistersuccess: '地址登录完毕！',
@@ -352,6 +358,8 @@ const _cn = {
   default_info: '基本信息',
   recipienthint: '收件人姓名',
   outdoorpasswordhint: '请输入共用大门出入密码',
+  gate_free: '楼栋大门自由出入',
+  gate_password: '楼栋大门出入密码',
 };
 
 const state = {

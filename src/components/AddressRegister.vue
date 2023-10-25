@@ -139,7 +139,6 @@
         readonly
         disable
         :placeholder="selected_local.addrdetailandhint"
-        :hint="selected_local.addrdetailandhint"
       />
 
       <q-input
@@ -147,7 +146,7 @@
         v-model="address3"
         class="q-ma-sm"
         for="daum_detailAddress"
-        :hint="selected_local.addrextraandhint"
+        :hint="selected_local.addrextra"
         :label="selected_local.addrextraandhint"
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
@@ -168,7 +167,7 @@
         outlined
         class="q-ma-sm"
         v-model="address_tag"
-        :label="selected_local.addrtagandhint"
+        :label="selected_local.addrtag"
         :hint="selected_local.addrtagandhint"
         lazy-rules
         :rules="[
@@ -180,13 +179,13 @@
           class="col-12"
           v-model="doorScretKey"
           val="free"
-          label="공동현관 자유출입"
+          :label="selected_local.gate_free"
         />
         <q-radio
           class="col-5"
           v-model="doorScretKey"
           val="password"
-          label="공동현관 비번필요"
+          :label="selected_local.gate_password"
         />
 
         <q-input
@@ -194,7 +193,7 @@
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword"
-          :label="selected_local.outdoorpasswordhint"
+          :label="selected_local.gate_password"
           :hint="selected_local.outdoorpasswordhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
