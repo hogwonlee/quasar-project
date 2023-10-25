@@ -9,7 +9,7 @@
       <AddressList class="bg-red-3" />
     </q-dialog>
 
-    <div class="q-pa-md bg-dark">
+    <div class="q-pa-md bg-blue-grey">
       <q-chip outline color="grey-1" class="bg-red-3 text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
@@ -49,6 +49,7 @@
                   <q-icon
                     name="live_help"
                     class="text-white"
+                    color="positive"
                     @click="buy_event_info()"
                   />
                 </template>
