@@ -1,7 +1,8 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top bg-dark q-ma-sm"
+      class="fixed-top-right z-top bg-dark q-ma-none"
+      rounded
       input-class=" text-right text-white"
       style="width: 40%"
       outlined
