@@ -11,6 +11,8 @@
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
 
       <q-input
+        standout
+        dense
         outlined
         v-model="recipient"
         class="q-ma-sm"
@@ -24,6 +26,8 @@
       ></q-input>
 
       <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="recipient_phone"
@@ -48,6 +52,8 @@
         />
 
         <q-input
+          standout
+          dense
           v-model="post_code"
           filled
           class="q-ma-sm col"
@@ -68,6 +74,7 @@
             @click="addr_search_api_card = !addr_search_api_card"
           />
           <q-input
+            standout
             dense
             :label="selected_local.search_addr"
             style="width: 100%"
@@ -123,6 +130,8 @@
         </q-card-section>
       </q-card-section>
       <q-input
+        standout
+        dense
         :v-model="address1"
         filled
         class="q-ma-sm"
@@ -133,6 +142,8 @@
       />
 
       <q-input
+        standout
+        dense
         v-model="address2"
         filled
         class="q-ma-sm"
@@ -143,6 +154,8 @@
       />
 
       <q-input
+        standout
+        dense
         outlined
         v-model="address3"
         class="q-ma-sm"
@@ -165,6 +178,8 @@
       </q-card> -->
 
       <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="address_tag"
@@ -192,6 +207,8 @@
         />
 
         <q-input
+          standout
+          dense
           class="col-6"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
