@@ -266,20 +266,13 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky
-          class="z-top"
-          position="bottom-right"
-          :offset="[100, 10]"
-        >
+        <q-page-sticky class="z-top" position="bottom">
           <q-btn
             class="z-top"
             stack
-            glossy
-            round
             fab
-            padding="xl"
             icon="shopping_cart_checkout"
-            color="primary"
+            color="positive"
             tag="a"
             to="/OrderList"
             :label="selected_local.gocounter"
