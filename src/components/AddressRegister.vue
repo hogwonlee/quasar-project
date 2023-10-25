@@ -41,6 +41,7 @@
       <div class="row">
         <q-btn
           class="q-ma-sm col"
+          outline
           color="positive"
           :label="selected_local.postcoderegister"
           @click="addr_search_api_card = !addr_search_api_card"
@@ -57,7 +58,7 @@
         />
       </div>
       <q-card-section v-show="addr_search_api_card">
-        <q-toolbar class="bg-positive text-white rounded-borders">
+        <q-toolbar class="text-white rounded-borders">
           <q-btn
             round
             dense
@@ -207,6 +208,7 @@
         />
         <q-btn
           class="q-ma-sm col-6"
+          outline
           color="positive"
           size="md"
           style="width: 200px"
