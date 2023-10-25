@@ -175,14 +175,21 @@
       ></q-input>
 
       <div class="row q-py-none">
-        <q-radio v-model="doorScretKey" val="free" label="공동현관 자유출입" />
         <q-radio
+          class="col-12"
+          v-model="doorScretKey"
+          val="free"
+          label="공동현관 자유출입"
+        />
+        <q-radio
+          class="col-5"
           v-model="doorScretKey"
           val="password"
           label="공동현관 비번필요"
         />
 
         <q-input
+          class="col-6"
           v-if="doorScretKey == 'password'"
           outlined
           v-model="doorScretKey"
