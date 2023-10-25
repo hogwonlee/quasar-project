@@ -175,6 +175,8 @@ const _ko = {
   payment_event: '*첫 결제 시 3000원 쿠폰 지급!',
   add_to_cart: '장바구니 담기',
   default_info: '기본정보',
+  recipienthint: '배송 받을 분의 성함',
+  outdoorpasswordhint: '공동현관 출입번호를 입력해주세요',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -348,6 +350,8 @@ const _cn = {
   payment_event: '*首次支付赠3000韩元优惠券！',
   add_to_cart: '加入购物车',
   default_info: '基本信息',
+  recipienthint: '收件人姓名',
+  outdoorpasswordhint: '请输入共用大门出入密码',
 };
 
 const state = {

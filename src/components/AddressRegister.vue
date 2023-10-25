@@ -9,6 +9,35 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
+
+      <q-input
+        outlined
+        v-model="recipient"
+        class="q-ma-sm"
+        :label="selected_local.recipient"
+        :hint="selected_local.recipienthint"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length <= 20) || '请输入收件人姓名（小于20字节）',
+        ]"
+      ></q-input>
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="recipient_phone"
+        :label="selected_local.recipientphone"
+        :hint="selected_local.telhint"
+        type="tel"
+        mask="(###)####-####"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length >= 13 && val.length <= 15) ||
+            selected_local.telhint,
+        ]"
+      ></q-input>
       <div class="row">
         <q-btn
           class="q-ma-sm col"
@@ -110,6 +139,7 @@
         readonly
         disable
         :placeholder="selected_local.addrdetailandhint"
+        :hint="selected_local.addrdetailandhint"
       />
 
       <q-input
@@ -117,38 +147,11 @@
         v-model="address3"
         class="q-ma-sm"
         for="daum_detailAddress"
+        :hint="selected_local.addrextraandhint"
         :label="selected_local.addrextraandhint"
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
-      <q-input
-        outlined
-        v-model="recipient"
-        class="q-ma-sm"
-        :label="selected_local.recipient"
-        lazy-rules
-        :rules="[
-          val =>
-            (!!val && val.length <= 20) || '请输入收件人姓名（小于20字节）',
-        ]"
-      ></q-input>
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="recipient_phone"
-        :label="selected_local.recipientphone"
-        :hint="selected_local.telhint"
-        type="tel"
-        mask="(###)####-####"
-        lazy-rules
-        :rules="[
-          val =>
-            (!!val && val.length >= 13 && val.length <= 15) ||
-            selected_local.telhint,
-        ]"
-      ></q-input>
-
       <!-- <q-card
         id="wrap"
         v-show="addr_search"
@@ -166,6 +169,7 @@
         class="q-ma-sm"
         v-model="address_tag"
         :label="selected_local.addrtagandhint"
+        :hint="selected_local.addrtagandhint"
         lazy-rules
         :rules="[
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
@@ -189,8 +193,9 @@
           class="col-6"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
-          v-model="doorScretKey"
-          :label="selected_local.addrextraandhint"
+          v-model="outdoorpassword"
+          :label="selected_local.outdoorpasswordhint"
+          :hint="selected_local.outdoorpasswordhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
@@ -246,7 +251,7 @@
         keyword: '',
         checked: ref(true),
         addr_search_api_card: ref(false),
-        isDoorScretKey: ref(false),
+        outdoorpassword: '',
         doorScretKey: '',
       };
     },
