@@ -14,6 +14,7 @@
           <q-btn-toggle
             v-model="ui_local"
             glossy
+            rounded
             class="text-bold col-2"
             toggle-color="secondary"
             color="grey-8"

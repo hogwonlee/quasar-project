@@ -3,9 +3,9 @@
     <q-input
       class="fixed-top-right z-top bg-dark q-ma-none"
       rounded
+      standout
       input-class=" text-right text-white"
       style="width: 40%"
-      outlined
       v-model="keyword"
       label-color="white"
       :label="selected_local.search"
