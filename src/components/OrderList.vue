@@ -242,12 +242,16 @@
     <q-dialog v-model="finalCheck" persistent>
       <q-card>
         <q-card-section class="row items-center q-pa-none">
-          <div class="text-h6 text-bold">결제 확인</div>
+          <div class="text-h6 text-bold">
+            {{ selected_local.final_pay_confirm }}
+          </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <div class="text-body1 text-bold">주소 확인</div>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_recipent_confirm }}
+          </div>
           <div class="row">
             <q-input
               class="col-6"
@@ -274,6 +278,7 @@
               </template>
             </q-input>
             <q-input
+              class="col-12"
               color="white-1"
               standout
               readonly
@@ -297,9 +302,16 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="text-body1 text-bold">쿠폰 사용 확인</div>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_coupon_confirm }}
+          </div>
           <div class="row">
-            <q-radio class="col-12" v-model="coupon" val="" label="사용안함" />
+            <q-radio
+              class="col-12"
+              v-model="coupon"
+              val=""
+              :label="selected_local.donot_use"
+            />
             <q-radio
               v-model="coupon"
               v-for="c in couponList.filter(c => c.available == 1)"
@@ -311,17 +323,19 @@
                 ': ' +
                 c.coupon_price +
                 selected_local.won +
-                ' (구매 금액 ' +
+                selected_local.coupon_use_info_1 +
                 `${c.use_condition == null ? 0 : c.use_condition}` +
                 selected_local.won +
-                '이상 시 사용가능)'
+                selected_local.coupon_use_info_2
               "
               :disable="c.use_condition > total ? true : false"
             />
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="text-body1 text-bold">최종 결제 금액</div>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_payamount_confirm }}
+          </div>
           {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
           {{ selected_local.won }}
         </q-card-section>

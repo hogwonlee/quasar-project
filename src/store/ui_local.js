@@ -164,6 +164,13 @@ const _ko = {
   privacy_policy: '개인정보취급방침',
   check_agreement: '결제 관련 모든 약관을 동의해주셔야 결제하실 수 있습니다.',
   payment_policy: '약관 로딩될때까지 조금 더 기다려주세요. (1초 정도)',
+  final_pay_confirm: '결제 확인',
+  final_recipent_confirm: '배송지 확인',
+  final_coupon_confirm: '쿠폰 사용 확인',
+  donot_use: '사용안함',
+  coupon_use_info_1: ' (구매금액 ',
+  coupon_use_info_2: ' 이상 시 사용가능)',
+  final_payamount_confirm: '최종 금액 확인',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -326,6 +333,13 @@ const _cn = {
   privacy_policy: '个人信息使用方针',
   check_agreement: '须勾选完全接受相关条约，才能支付。',
   payment_policy: '须载入支付条约，请稍等。(约1秒)',
+  final_pay_confirm: '确认购买信息',
+  final_recipent_confirm: '确认收件地址',
+  final_coupon_confirm: '优惠券',
+  donot_use: '不使用',
+  coupon_use_info_1: ' (购买额超',
+  coupon_use_info_2: ' 以上即可使用)',
+  final_payamount_confirm: '支付金额',
 };
 
 const state = {
