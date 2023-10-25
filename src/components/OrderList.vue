@@ -339,7 +339,7 @@
           {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
           {{ selected_local.won }}
         </q-card-section>
-        <div class="row justify">
+        <div class="row justify-center">
           <q-btn
             color="positive"
             size="22px"
