@@ -48,8 +48,7 @@
                 <template v-slot:append>
                   <q-icon
                     name="live_help"
-                    class="text-white"
-                    color="positive"
+                    text-color="positive"
                     @click="buy_event_info()"
                   />
                 </template>
