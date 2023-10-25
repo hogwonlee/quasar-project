@@ -218,7 +218,6 @@
 
             <q-btn
               class="col-12 q-my-xs"
-              color="primary"
               text-color="positive"
               glossy
               icon="add_shopping_cart"
@@ -228,7 +227,9 @@
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-red text-white"> 基本信息 </q-bar>
+            <q-bar dense class="col-12 bg-red text-white">
+              {{ selected_local.default_info }}
+            </q-bar>
             <q-input
               class="col-6"
               readonly
@@ -265,7 +266,11 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky class="z-top" position="bottom-right" :offset="[30, 30]">
+        <q-page-sticky
+          class="z-top"
+          position="bottom-right"
+          :offset="[100, 100]"
+        >
           <q-btn
             class="q-my-xs"
             glossy

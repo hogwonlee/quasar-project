@@ -174,6 +174,7 @@ const _ko = {
   payment_info: '*최초 결제시 본인 계좌번호 등록 필요.',
   payment_event: '*첫 결제 시 3000원 쿠폰 지급!',
   add_to_cart: '장바구니 담기',
+  default_info: '기본정보',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -346,6 +347,7 @@ const _cn = {
   payment_info: '*首次支付需登录本人银行账号。',
   payment_event: '*首次支付赠3000韩元优惠券！',
   add_to_cart: '加入购物车',
+  default_info: '基本信息',
 };
 
 const state = {
