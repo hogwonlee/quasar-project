@@ -33,7 +33,6 @@
 
         <div class="q-gutter-sm">
           <q-btn
-            class="q-pl-sm"
             :label="selected_local.confirm"
             type="submit"
             color="positive"
