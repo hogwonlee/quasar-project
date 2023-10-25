@@ -339,10 +339,11 @@
           {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
           {{ selected_local.won }}
         </q-card-section>
+
         <q-btn
           color="positive"
           size="22px"
-          class="text-bold q-py-none q-px-xl q-ma-sm"
+          class="text-bold q-py-none q-px-xl q-ma-sm row justify"
           :label="selected_local.checkout"
           @click="selectPaymentmethod(total, shipment, coupon)"
         >
