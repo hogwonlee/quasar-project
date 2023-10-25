@@ -273,7 +273,6 @@
             glossy
             round
             padding="lg"
-            size="lg"
             icon="shopping_cart_checkout"
             color="primary"
             tag="a"
