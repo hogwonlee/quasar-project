@@ -171,6 +171,8 @@ const _ko = {
   coupon_use_info_1: ' (구매금액 ',
   coupon_use_info_2: ' 이상 시 사용가능)',
   final_payamount_confirm: '최종 금액 확인',
+  payment_info: '*최초 결제시 본인 계좌번호 등록 필요.',
+  payment_event: '*첫 결제 시 3000원 쿠폰 지급!',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -340,6 +342,8 @@ const _cn = {
   coupon_use_info_1: ' (购买额超',
   coupon_use_info_2: ' 以上即可使用)',
   final_payamount_confirm: '支付金额',
+  payment_info: '*首次支付需登录本人银行账号。',
+  payment_event: '*首次支付赠3000韩元优惠券！',
 };
 
 const state = {

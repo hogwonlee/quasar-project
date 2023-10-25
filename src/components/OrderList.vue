@@ -221,7 +221,12 @@
       </div>
     </q-card>
     <div id="payment-method" class="q-py-none"></div>
-    <text-body2>퀵계좌결제 - 최초 결제만 등록 필요.</text-body2>
+    <text-overline class="q-pa-md">{{
+      selected_local.payment_info
+    }}</text-overline>
+    <text-overline class="q-pa-md">{{
+      selected_local.payment_event
+    }}</text-overline>
     <div id="agreement" class="q-py-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
