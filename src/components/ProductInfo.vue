@@ -56,8 +56,9 @@
           style="width: 75%; height: 60%"
         >
           <q-btn
-            class="absolute-top-right bg-grey z-top q-ma-xs"
+            class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
+            text-color="white"
             v-close-popup
           >
           </q-btn>
