@@ -33,18 +33,18 @@
         <div class="q-gutter-xs q-py-xs">
           <q-btn
             :label="selected_local.login"
-            color="primary"
+            color="positive"
             @click="serverLogin"
           />
           <q-btn
             :label="selected_local.forgetpw"
-            color="primary"
+            color="positive"
             @click="show_forget_pw"
           />
           <q-btn
             :label="selected_local.signup"
             @click="this.signUpWindow = true"
-            color="primary"
+            color="positive"
           />
         </div>
       </q-form>

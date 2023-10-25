@@ -88,7 +88,7 @@
             :label="selected_local.signup"
             class="col-5"
             type="submit"
-            color="primary"
+            color="positive"
             v-close-popup
             :disable="
               userPw != userPwCheck ||
@@ -108,7 +108,7 @@
           <q-btn
             :label="selected_local.cancel"
             class="col-5"
-            color="primary"
+            color="negative"
             v-close-popup
           />
         </div>

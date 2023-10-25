@@ -31,7 +31,7 @@
       </q-card>
       <q-btn
         icon="add"
-        color="primary"
+        color="positive"
         class="col-12"
         style="width: 100%"
         :label="selected_local.registernewaddr"

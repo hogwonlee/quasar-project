@@ -35,11 +35,19 @@
           <q-btn
             :label="selected_local.confirm"
             type="submit"
-            color="primary"
+            color="positive"
             v-close-popup
           />
-          <q-btn :label="selected_local.cancel" color="primary" v-close-popup />
-          <q-btn :label="selected_local.reinput" type="reset" color="primary" />
+          <q-btn
+            :label="selected_local.cancel"
+            color="negative"
+            v-close-popup
+          />
+          <q-btn
+            :label="selected_local.reinput"
+            type="reset"
+            color="positive"
+          />
         </div>
       </q-form>
     </q-card>

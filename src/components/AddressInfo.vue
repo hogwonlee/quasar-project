@@ -8,7 +8,7 @@
             class="q-py-none q-my-none"
             v-if="is_default"
             dense
-            text-color="primary"
+            text-color="secondary"
           >
             {{ selected_local.defaultaddr }}
           </q-chip>
@@ -17,7 +17,7 @@
         <q-fab
           v-model="addr_option"
           icon="settings"
-          text-color="primary"
+          text-color="positive"
           color="white"
           padding="sm"
           class="absolute-top-right"
@@ -26,14 +26,14 @@
           <q-fab-action
             v-if="!is_default"
             color="white"
-            text-color="primary"
+            text-color="positive"
             padding="none"
             :label="selected_local.changedefaultaddr"
             @click="this.$emit('send_change_default')"
           />
           <q-fab-action
             color="white"
-            text-color="primary"
+            text-color="positive"
             padding="none"
             :label="selected_local.changeaddrinfo"
             @click="this.$emit('send_change_addr')"

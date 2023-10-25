@@ -210,13 +210,13 @@
             <q-btn
               flat
               :label="selected_local.cancel"
-              color="primary"
+              color="negative"
               v-close-popup
             />
             <q-btn
               flat
               :label="selected_local.confirm"
-              color="primary"
+              color="positive"
               v-close-popup
               @click="deleteProductFromCart(product_name)"
             />
