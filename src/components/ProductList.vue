@@ -1,9 +1,9 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top bg-white"
-      input-class="text-right text-white"
-      style="width: 150px; max-height: 50px"
+      class="fixed-top-right z-top bg-dark q-pa-xs"
+      input-class=" text-right text-white"
+      style="width: 20%"
       outlined
       v-model="keyword"
       label-color="white"
