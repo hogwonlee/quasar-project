@@ -97,13 +97,13 @@
         </q-card-section>
         <q-card-section
           v-else
-          class="row items-center q-ma-none q-pa-none bg-amber-5"
+          class="row items-center q-ma-none q-pa-none"
           style="width: 100%"
           v-for="addr in addressList"
           :key="addr.address_id"
           v-bind="addr"
         >
-          <q-card-section v-if="addr.is_default == 1">
+          <q-card-section v-if="addr.is_default == 1" style="border: 1px">
             <div class="text-h6 text-bold q-mx-sm q-pa-none q-my-none">
               {{ '(' + addr.address_tag + ') ' + addr.recipient }}
               <q-chip
