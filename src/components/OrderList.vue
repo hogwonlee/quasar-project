@@ -293,7 +293,7 @@
             v-for="c in couponList.filter(c => c.available == 1)"
             :Key="c.coupon_id"
             :bind="c"
-            :val="c.coupon_price"
+            :val="c"
             :label="
               c.coupon_name +
               ': ' +
@@ -309,7 +309,7 @@
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">최종 결제 금액액</div>
-          {{ total + shipment - coupon }} {{ selected_local.won }}
+          {{ total + shipment - coupon.coupon_price }} {{ selected_local.won }}
         </q-card-section>
         <q-btn
           color="positive"
