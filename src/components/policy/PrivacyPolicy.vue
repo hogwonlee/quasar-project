@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-none q-ma-none">
+  <div class="q-pa-none q-ma-none text-white">
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
