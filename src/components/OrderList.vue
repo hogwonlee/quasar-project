@@ -221,12 +221,12 @@
       </div>
     </q-card>
     <div id="payment-method" class="q-py-none"></div>
-    <text-overline class="q-pa-md">{{
+    <text-subtitle2 class="q-pa-md">{{
       selected_local.payment_info
-    }}</text-overline>
-    <text-overline class="q-pa-md">{{
+    }}</text-subtitle2>
+    <text-subtitle2 class="q-pa-md">{{
       selected_local.payment_event
-    }}</text-overline>
+    }}</text-subtitle2>
     <div id="agreement" class="q-py-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
