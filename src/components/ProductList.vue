@@ -1,10 +1,9 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top"
+      class="fixed-top-right z-top bg-white"
       input-class="text-right text-white"
       style="width: 150px; max-height: 50px"
-      borderless
       outlined
       v-model="keyword"
       label-color="white"
@@ -53,7 +52,7 @@
         :label="selected_local.category"
         direction="up"
         class="q-pa-none"
-        color="primary"
+        color="positive"
         vertical-actions-align="right"
         icon="keyboard_arrow_up"
         outline
