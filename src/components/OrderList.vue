@@ -310,12 +310,14 @@
           </div>
           <div class="row">
             <q-radio
+              color="positive"
               class="col-12"
               v-model="coupon"
               val=""
               :label="selected_local.donot_use"
             />
             <q-radio
+              color="positive"
               v-model="coupon"
               v-for="c in couponList.filter(c => c.available == 1)"
               :Key="c.coupon_id"

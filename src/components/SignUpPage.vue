@@ -89,6 +89,7 @@
             class="col-5"
             type="submit"
             color="positive"
+            outline
             v-close-popup
             :disable="
               userPw != userPwCheck ||
@@ -109,6 +110,7 @@
             :label="selected_local.cancel"
             class="col-5"
             color="negative"
+            outline
             v-close-popup
           />
         </div>

@@ -34,17 +34,20 @@
           <q-btn
             :label="selected_local.login"
             color="positive"
+            outline
             @click="serverLogin"
           />
           <q-btn
             :label="selected_local.forgetpw"
             color="positive"
+            outline
             @click="show_forget_pw"
           />
           <q-btn
             :label="selected_local.signup"
             @click="this.signUpWindow = true"
             color="positive"
+            outline
           />
         </div>
       </q-form>

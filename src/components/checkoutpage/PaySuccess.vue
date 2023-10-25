@@ -7,6 +7,7 @@
         tag="a"
         to="/DeliveryInfo"
         color="positive"
+        outline
       ></q-btn>
     </section>
   </q-page>

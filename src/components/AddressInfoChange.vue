@@ -39,6 +39,7 @@
         <q-btn
           class="q-ma-sm col"
           color="positive"
+          outline
           :label="selected_local.postcoderegister"
           @click="addr_search_api_card = !addr_search_api_card"
         />
@@ -53,7 +54,7 @@
         />
       </div>
       <q-card-section v-show="addr_search_api_card">
-        <q-toolbar class="bg-positive text-white rounded-borders">
+        <q-toolbar class="text-white rounded-borders">
           <q-btn
             round
             dense
@@ -64,7 +65,7 @@
           />
           <q-input
             dense
-            label="주소 검색"
+            :label="selected_local.search_addr"
             style="width: 100%"
             v-model="keyword"
           >
@@ -180,6 +181,7 @@
         <q-btn
           class="q-ma-sm"
           color="positive"
+          outline
           size="md"
           style="width: 200px"
           :label="selected_local.changeaddrinfo"

@@ -274,6 +274,7 @@
             rounded
             icon="shopping_cart_checkout"
             color="primary"
+            outline
             tag="a"
             to="/OrderList"
             :label="selected_local.gocounter"

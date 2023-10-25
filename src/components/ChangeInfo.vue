@@ -31,22 +31,25 @@
           :rules="[val => (val && val.length > 0) || '']"
         />
 
-        <div class="q-gutter-sm q-pa-sm row justify-center">
+        <div class="q-gutter-sm q-pa-sm">
           <q-btn
             :label="selected_local.confirm"
             type="submit"
             color="positive"
+            outline
             v-close-popup
           />
           <q-btn
             :label="selected_local.cancel"
             color="negative"
+            outline
             v-close-popup
           />
           <q-btn
             :label="selected_local.reinput"
             type="reset"
             color="positive"
+            outline
           />
         </div>
       </q-form>

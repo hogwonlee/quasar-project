@@ -55,6 +55,7 @@
         color="primary"
         vertical-actions-align="right"
         icon="keyboard_arrow_up"
+        outline
       >
         <q-fab-action
           :label="c.category"
@@ -76,6 +77,7 @@
           :key="c.category"
           v-bind="c"
           color="primary"
+          outline
           class="q-my-none"
           @click="handleScroll(c.category)"
         />

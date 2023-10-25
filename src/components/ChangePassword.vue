@@ -90,18 +90,21 @@
             :label="selected_local.changepw"
             type="submit"
             color="positive"
+            outline
             v-close-popup
             :disable="this.newPw != this.newPwCheck"
           />
           <q-btn
             :label="selected_local.cancel"
             color="negative"
+            outline
             v-close-popup
           />
           <q-btn
             :label="selected_local.reinput"
             type="reset"
             color="positive"
+            outline
           />
         </div>
       </q-form>

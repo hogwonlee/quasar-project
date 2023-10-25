@@ -359,11 +359,13 @@
               :label="selected_local.confirm"
               type="submit"
               color="positive"
+              outline
               v-close-popup
             />
             <q-btn
               :label="selected_local.cancel"
               color="negative"
+              outline
               v-close-popup
             />
           </div>

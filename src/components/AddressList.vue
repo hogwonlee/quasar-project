@@ -32,7 +32,8 @@
       <q-btn
         icon="add"
         color="positive"
-        class="col-12"
+        outline
+        class="col-12 q-pa-sm"
         style="width: 100%"
         :label="selected_local.registernewaddr"
         @click="register = true"

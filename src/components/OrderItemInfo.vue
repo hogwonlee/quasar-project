@@ -20,11 +20,11 @@
     <div>
       <q-dialog v-model="card" :id="category">
         <q-card
-          class="bg-red-3 row justify-center q-px-none q-mx-none"
+          class="row justify-center q-px-none q-mx-none"
           style="width: 75%; height: 60%"
         >
           <q-btn
-            class="absolute-top-right bg-grey z-top q-ma-xs"
+            class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
             v-close-popup
           >
