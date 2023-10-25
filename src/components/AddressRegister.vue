@@ -93,6 +93,35 @@
         </q-card-section>
       </q-card-section>
       <q-input
+        :v-model="address1"
+        filled
+        class="q-ma-sm"
+        for="daum_addr"
+        :placeholder="selected_local.addrandhint"
+        readonly
+        disable
+      />
+
+      <q-input
+        v-model="address2"
+        filled
+        class="q-ma-sm"
+        for="daum_extraAddr"
+        readonly
+        disable
+        :placeholder="selected_local.addrdetailandhint"
+      />
+
+      <q-input
+        outlined
+        v-model="address3"
+        class="q-ma-sm"
+        for="daum_detailAddress"
+        :label="selected_local.addrextraandhint"
+        lazy-rules
+        :rules="[val => !!val || '请输入附加信息']"
+      />
+      <q-input
         outlined
         v-model="recipient"
         class="q-ma-sm"
@@ -131,35 +160,6 @@
           <q-btn icon="close" flat round dense @click="foldDaumPostcode()" />
         </q-card-section>
       </q-card> -->
-      <q-input
-        :v-model="address1"
-        filled
-        class="q-ma-sm"
-        for="daum_addr"
-        :placeholder="selected_local.addrandhint"
-        readonly
-        disable
-      />
-
-      <q-input
-        v-model="address2"
-        filled
-        class="q-ma-sm"
-        for="daum_extraAddr"
-        readonly
-        disable
-        :placeholder="selected_local.addrdetailandhint"
-      />
-
-      <q-input
-        outlined
-        v-model="address3"
-        class="q-ma-sm"
-        for="daum_detailAddress"
-        :label="selected_local.addrextraandhint"
-        lazy-rules
-        :rules="[val => !!val || '请输入附加信息']"
-      />
 
       <q-input
         outlined
