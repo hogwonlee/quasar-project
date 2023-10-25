@@ -5,6 +5,7 @@
       color="bg-dark"
       rounded
       standout
+      outlined
       input-class=" text-right text-white"
       style="width: 40%"
       v-model="keyword"
