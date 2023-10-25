@@ -117,7 +117,7 @@
           </template>
         </q-table>
         <q-card-section v-show="api_addr.length <= 0">
-          * 검색어 예: 도로명(반포대로 (空格)58), 건물명(독립기념관),
+          * 关键词示例：도로명(반포대로 (空格)58), 건물명(독립기념관),
           지번(삼성동 (空格)25)
         </q-card-section>
       </q-card-section>
@@ -162,7 +162,19 @@
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
-      <div class="row q-py-xs">
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag"
+        :label="selected_local.addrtagandhint"
+        lazy-rules
+        :rules="[
+          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
+        ]"
+      ></q-input>
+
+      <div class="row q-py-none">
         <q-toggle
           class="col-5"
           v-model="isDoorScretKey"
@@ -178,28 +190,15 @@
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
-      </div>
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="address_tag"
-        :label="selected_local.addrtagandhint"
-        lazy-rules
-        :rules="[
-          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
-        ]"
-      ></q-input>
-      <div class="row q-py-xs">
         <q-checkbox
-          class="q-ma-sm col"
+          class="q-ma-sm col-6"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
           color="positive"
         />
         <q-btn
-          class="q-ma-sm col"
+          class="q-ma-sm col-6"
           color="positive"
           size="md"
           style="width: 200px"
