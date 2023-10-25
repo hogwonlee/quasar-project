@@ -161,7 +161,7 @@
             v-bind="coupon"
           >
             <q-card-section class="bg-grey-3 q-pa-none">
-              <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
+              <div class="text-subtitle2 text-bold text-dark q-ml-md">
                 {{ coupon.coupon_name }}
               </div>
               <q-space />
@@ -174,17 +174,17 @@
                 class="q-mr-sm"
               ></q-chip>
             </q-card-section>
-            <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-dark q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
                 <q-icon name="img:icons\kr_won.png" />
                 {{ coupon.coupon_price / 1000 }} {{ selected_local.won000 }}
               </div>
               <q-separator class="q-my-sm" />
-              <div class="text-caption text-grey-3 q-ml-md">
+              <div class="text-caption text-white q-ml-md">
                 {{ selected_local.use_condition }} {{ coupon.use_condition }}
                 {{ selected_local.more }}
               </div>
-              <div class="text-caption text-grey-3 q-ml-md">
+              <div class="text-caption text-white q-ml-md">
                 {{ selected_local.use_limit }}
                 {{ limit_date(coupon.gift_day, 90) }}
                 {{ selected_local.up_to }}
@@ -195,7 +195,7 @@
         <q-card-section v-else>
           <q-card class="my-card q-pa-none q-ma-xs">
             <q-card-section class="bg-grey-3 q-pa-none">
-              <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
+              <div class="text-subtitle2 text-bold text-dark q-ml-md">
                 {{ selected_local.coupon_name_none }}
               </div>
             </q-card-section>
@@ -205,8 +205,12 @@
                 {{ selected_local.coupon_value_none }}
               </div>
               <q-separator class="q-my-sm" />
-              <div class="text-caption text-grey-3 q-ml-md">사용조건:</div>
-              <div class="text-caption text-grey-3 q-ml-md">사용기한:</div>
+              <div class="text-caption text-grey-3 q-ml-md">
+                {{ selected_local.use_condition }} :
+              </div>
+              <div class="text-caption text-grey-3 q-ml-md">
+                {{ selected_local.use_limit }} :
+              </div>
             </q-card-section>
           </q-card>
         </q-card-section>
