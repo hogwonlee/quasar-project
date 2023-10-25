@@ -174,7 +174,7 @@
                 class="q-mr-sm"
               ></q-chip>
             </q-card-section>
-            <q-card-section class="bg-yellow-14 q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-red-13 q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
                 <q-icon name="img:icons\kr_won.png" />
                 {{ coupon.coupon_price / 1000 }} {{ selected_local.won000 }}
