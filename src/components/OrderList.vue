@@ -9,8 +9,8 @@
       <AddressList class="bg-red-3" />
     </q-dialog>
 
-    <div class="q-pa-md bg-blue-grey">
-      <q-chip outline color="grey-1" class="bg-red-3 text-body3 text-grey-1">{{
+    <div class="q-pa-md">
+      <q-chip outline color="grey-1" class="bg-dark text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
       <p v-show="!cartList.length">
@@ -35,7 +35,7 @@
         />
       </div>
     </div>
-
+    <q-separator />
     <q-card class="q-py-sm">
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
@@ -69,7 +69,7 @@
             <td class="text-right col-8 text-h4">
               <q-chip
                 dense
-                color="red"
+                color="grey"
                 icon="new_releases"
                 :label="selected_local.delivercostnotice"
                 text-color="white"

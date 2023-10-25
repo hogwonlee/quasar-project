@@ -231,7 +231,7 @@
         outline
         :label="selected_local.use_policy"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="service_policy_vue = true"
       />
 
@@ -240,7 +240,7 @@
         outline
         :label="selected_local.privacy_policy"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="privacy_policy_vue = true"
       />
 
@@ -249,7 +249,7 @@
         outline
         :label="selected_local.deliver_info_title"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="delivery_policy_vue = true"
       />
 
@@ -258,7 +258,7 @@
         outline
         :label="selected_local.claim_info"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="exchange_policy_vue = true"
       />
     </div>
@@ -267,40 +267,40 @@
     </q-dialog>
     <q-dialog v-model="coupon_vue">
       <CouponList
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm"
+        class="absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm"
+        class="absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="privacy_policy_vue">
       <PrivacyPolicy
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
-        class="bg-red-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
