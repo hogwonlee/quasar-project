@@ -103,6 +103,7 @@
                   <q-checkbox
                     v-model="props.selected"
                     :label="props.row.zipNo"
+                    color="positive"
                   />
                   <div class="text-subtitle2">
                     {{
@@ -195,6 +196,7 @@
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
+          color="positive"
         />
         <q-btn
           class="q-ma-sm col"
