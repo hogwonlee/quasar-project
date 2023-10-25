@@ -9,35 +9,6 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
-
-      <q-input
-        outlined
-        v-model="recipient"
-        class="q-ma-sm"
-        :label="selected_local.recipient"
-        lazy-rules
-        :rules="[
-          val =>
-            (!!val && val.length <= 20) || '请输入收件人姓名（小于20字节）',
-        ]"
-      ></q-input>
-
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="recipient_phone"
-        :label="selected_local.recipientphone"
-        :hint="selected_local.telhint"
-        type="tel"
-        mask="(###)####-####"
-        lazy-rules
-        :rules="[
-          val =>
-            (!!val && val.length >= 13 && val.length <= 15) ||
-            selected_local.telhint,
-        ]"
-      ></q-input>
-
       <div class="row">
         <q-btn
           class="q-ma-sm col"
@@ -121,6 +92,33 @@
           지번(삼성동 (空格)25)
         </q-card-section>
       </q-card-section>
+      <q-input
+        outlined
+        v-model="recipient"
+        class="q-ma-sm"
+        :label="selected_local.recipient"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length <= 20) || '请输入收件人姓名（小于20字节）',
+        ]"
+      ></q-input>
+
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="recipient_phone"
+        :label="selected_local.recipientphone"
+        :hint="selected_local.telhint"
+        type="tel"
+        mask="(###)####-####"
+        lazy-rules
+        :rules="[
+          val =>
+            (!!val && val.length >= 13 && val.length <= 15) ||
+            selected_local.telhint,
+        ]"
+      ></q-input>
 
       <!-- <q-card
         id="wrap"
