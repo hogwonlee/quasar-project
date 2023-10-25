@@ -5,6 +5,7 @@
       input-class="text-right text-white"
       style="width: 150px; max-height: 50px"
       borderless
+      outlined
       v-model="keyword"
       label-color="white"
       :label="selected_local.search"
