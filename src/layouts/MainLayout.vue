@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header elevated class="bg-primary">
+    <q-header elevated class="bg-primary" style="height: 100px">
       <q-toolbar>
         <q-toolbar-title>
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->

@@ -1,9 +1,9 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top bg-dark q-pa-xs"
+      class="fixed-top-right z-top bg-dark q-ma-sm"
       input-class=" text-right text-white"
-      style="width: 20%"
+      style="width: 40%"
       outlined
       v-model="keyword"
       label-color="white"
@@ -52,10 +52,9 @@
         :label="selected_local.category"
         direction="up"
         class="q-pa-none"
-        color="positive"
+        color="dark"
         vertical-actions-align="right"
         icon="keyboard_arrow_up"
-        outline
       >
         <q-fab-action
           :label="c.category"
@@ -76,8 +75,7 @@
           ]"
           :key="c.category"
           v-bind="c"
-          color="primary"
-          outline
+          color="dark"
           class="q-my-none"
           @click="handleScroll(c.category)"
         />
