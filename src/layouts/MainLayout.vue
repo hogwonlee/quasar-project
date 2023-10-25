@@ -2,20 +2,22 @@
   <q-layout view="hHh LpR fFf">
     <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
-        <q-toolbar-title class="row text-h6 text-bold text-white">
+        <q-toolbar-title>
+          {{ selected_local.chinafood }}
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
-          <q-input
-            class="col-3"
+          <!-- <q-input
+            class="col-3 text-h6 text-bold"
+            co
             readonly
-            :model-value="selected_local.chinafood"
+            :model-value=""
           >
-          </q-input>
+          </q-input> -->
           <!-- </q-btn> -->
           <q-btn-toggle
             v-model="ui_local"
             glossy
             rounded
-            class="text-bold col-2"
+            class="text-bold"
             toggle-color="secondary"
             color="grey-8"
             text-color="black"

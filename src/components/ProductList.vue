@@ -2,14 +2,15 @@
   <div>
     <q-input
       class="fixed-top-right z-top q-ma-none"
-      color="bg-dark"
+      color="bg-white"
       rounded
       standout
+      dense="false"
       outlined
-      input-class=" text-right text-white"
+      input-class=" text-right text-dark"
       style="width: 40%"
       v-model="keyword"
-      label-color="white"
+      label-color="dark"
       :label="selected_local.search"
     >
       <!-- :label="selected_local.search" -->
