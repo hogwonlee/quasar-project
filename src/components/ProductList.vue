@@ -2,7 +2,6 @@
   <div>
     <q-input
       class="fixed-top-right z-top q-ma-xs"
-      color="bg-dark"
       rounded
       standout
       dense
