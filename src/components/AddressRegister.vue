@@ -178,7 +178,7 @@
         <q-toggle
           class="col-5"
           v-model="isDoorScretKey"
-          label-left="공동현관비번"
+          left-label="공동현관비번"
         />
 
         <q-input
