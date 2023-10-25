@@ -269,10 +269,10 @@
         <q-page-sticky class="z-top" position="bottom-right" :offset="[80, 80]">
           <q-btn
             class="q-my-xs"
-            style="width: 30px"
+            style="width: 10%"
             glossy
             round
-            padding="xl"
+            padding="lg"
             icon="shopping_cart_checkout"
             color="primary"
             tag="a"
