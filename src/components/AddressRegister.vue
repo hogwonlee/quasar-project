@@ -69,7 +69,7 @@
           />
           <q-input
             dense
-            label="주소 검색"
+            :label="selected_local.search_addr"
             style="width: 100%"
             v-model="keyword"
           >
@@ -147,8 +147,8 @@
         v-model="address3"
         class="q-ma-sm"
         for="daum_detailAddress"
-        :hint="selected_local.addrextra"
-        :label="selected_local.addrextraandhint"
+        :hint="selected_local.addrextraandhint"
+        :label="selected_local.addrextra"
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
@@ -168,8 +168,8 @@
         outlined
         class="q-ma-sm"
         v-model="address_tag"
-        :label="selected_local.addrtag"
-        :hint="selected_local.addrtagandhint"
+        :label="selected_local.addrtagandhint"
+        :hint="selected_local.addrtag"
         lazy-rules
         :rules="[
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
