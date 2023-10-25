@@ -248,74 +248,77 @@
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">주소 확인</div>
-          <q-input
-            class="col-6"
-            color="white-1"
-            standout
-            readonly
-            :label="selected_local.recipient"
-            :model-value="this.address_selected.recipient"
-          >
-            <template v-slot:prepend>
-              <q-icon name="person" />
-            </template>
-          </q-input>
-          <q-input
-            class="col-6"
-            color="white-1"
-            standout
-            readonly
-            :label="selected_local.tel"
-            :model-value="this.address_selected.recipient_phone"
-          >
-            <template v-slot:prepend>
-              <q-icon name="phone" />
-            </template>
-          </q-input>
-          <q-input
-            color="white-1"
-            standout
-            readonly
-            autogrow
-            :label="selected_local.receiveaddr"
-            :model-value="
-              '(' +
-              this.address_selected.address_tag +
-              ') ' +
-              this.address_selected.address1 +
-              ' ' +
-              this.address_selected.address2 +
-              ' ' +
-              this.address_selected.address3
-            "
-          >
-            <template v-slot:prepend>
-              <q-icon name="place" />
-            </template>
-          </q-input>
+          <div class="row">
+            <q-input
+              class="col-6"
+              color="white-1"
+              standout
+              readonly
+              :label="selected_local.recipient"
+              :model-value="this.address_selected.recipient"
+            >
+              <template v-slot:prepend>
+                <q-icon name="person" />
+              </template>
+            </q-input>
+            <q-input
+              class="col-6"
+              color="white-1"
+              standout
+              readonly
+              :label="selected_local.tel"
+              :model-value="this.address_selected.recipient_phone"
+            >
+              <template v-slot:prepend>
+                <q-icon name="phone" />
+              </template>
+            </q-input>
+            <q-input
+              color="white-1"
+              standout
+              readonly
+              autogrow
+              :label="selected_local.receiveaddr"
+              :model-value="
+                '(' +
+                this.address_selected.address_tag +
+                ') ' +
+                this.address_selected.address1 +
+                ' ' +
+                this.address_selected.address2 +
+                ' ' +
+                this.address_selected.address3
+              "
+            >
+              <template v-slot:prepend>
+                <q-icon name="place" />
+              </template>
+            </q-input>
+          </div>
         </q-card-section>
-        <q-card-section class="row">
-          <div class="col-12 text-body1 text-bold">쿠폰 사용 확인</div>
-          <q-radio class="col-12" v-model="coupon" val="" label="사용안함" />
-          <q-radio
-            class="col-12"
-            v-model="coupon"
-            v-for="c in couponList.filter(c => c.available == 1)"
-            :Key="c.coupon_id"
-            :bind="c"
-            :val="c"
-            :label="
-              c.coupon_name +
-              ': ' +
-              c.coupon_price +
-              selected_local.won +
-              ' (구매 금액 ' +
-              `${c.use_condition == null ? 0 : c.use_condition}` +
-              selected_local.won +
-              '이상 시 사용가능)'
-            "
-            :disable="c.use_condition > total ? true : false"
-          />
+        <q-card-section>
+          <div class="text-body1 text-bold">쿠폰 사용 확인</div>
+          <div class="row">
+            <q-radio class="col-12" v-model="coupon" val="" label="사용안함" />
+            <q-radio
+              v-model="coupon"
+              v-for="c in couponList.filter(c => c.available == 1)"
+              :Key="c.coupon_id"
+              :bind="c"
+              :val="c"
+              :label="
+                c.coupon_name +
+                ': ' +
+                c.coupon_price +
+                selected_local.won +
+                ' (구매 금액 ' +
+                `${c.use_condition == null ? 0 : c.use_condition}` +
+                selected_local.won +
+                '이상 시 사용가능)'
+              "
+              :disable="c.use_condition > total ? true : false"
+            />
+          </div>
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">최종 결제 금액</div>
