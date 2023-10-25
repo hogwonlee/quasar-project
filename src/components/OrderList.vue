@@ -249,6 +249,7 @@
         <q-card-section>
           <div class="text-body1 text-bold">주소 확인</div>
           <q-input
+            class="col-6"
             color="white-1"
             standout
             readonly
@@ -260,6 +261,7 @@
             </template>
           </q-input>
           <q-input
+            class="col-6"
             color="white-1"
             standout
             readonly
@@ -293,9 +295,10 @@
           </q-input>
         </q-card-section>
         <q-card-section class="row">
-          <div class="text-body1 text-bold">쿠폰 사용 확인</div>
-          <q-radio v-model="coupon" val="" label="사용안함" />
+          <div class="col-12 text-body1 text-bold">쿠폰 사용 확인</div>
+          <q-radio class="col-12" v-model="coupon" val="" label="사용안함" />
           <q-radio
+            class="col-12"
             v-model="coupon"
             v-for="c in couponList.filter(c => c.available == 1)"
             :Key="c.coupon_id"
@@ -306,10 +309,10 @@
               ': ' +
               c.coupon_price +
               selected_local.won +
-              ' (사용 전제 조건: 구매 금액 ' +
+              ' (구매 금액 ' +
               `${c.use_condition == null ? 0 : c.use_condition}` +
               selected_local.won +
-              '이상 )'
+              '이상 시 사용가능)'
             "
             :disable="c.use_condition > total ? true : false"
           />
