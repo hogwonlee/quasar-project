@@ -5,7 +5,7 @@
         <q-toolbar-title class="row">
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
           <q-input
-            class="col-3 text-h6 text-bold"
+            class="col-3 text-h6 text-bold text-white"
             readonly
             :model-value="selected_local.chinafood"
           >
