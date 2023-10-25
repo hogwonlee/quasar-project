@@ -9,7 +9,7 @@
       <AddressList class="bg-red-3" />
     </q-dialog>
 
-    <div class="q-pa-md">
+    <div class="q-pa-md bg-dark">
       <q-chip outline color="grey-1" class="bg-red-3 text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
@@ -40,7 +40,7 @@
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
-            <td class="text-left bg-red-3 col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.foodprice }}
@@ -59,7 +59,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.delivercost }}
@@ -103,7 +103,7 @@
             </td>
           </tr> -->
           <tr class="row">
-            <td class="text-left col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.total }}
