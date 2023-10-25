@@ -113,7 +113,7 @@
                 class="q-py-none q-my-none"
                 v-if="addr.is_default"
                 dense
-                text-color="positive"
+                text-color="dark"
               >
                 {{ selected_local.defaultaddr }}
               </q-chip>
