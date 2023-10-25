@@ -103,7 +103,7 @@
           :key="addr.address_id"
           v-bind="addr"
         >
-          <q-card-section v-if="addr.is_default == 1" style="border: 1px">
+          <q-card-section v-if="addr.is_default == 1" bordered>
             <div class="text-h6 text-bold q-mx-sm q-pa-none q-my-none">
               {{ '(' + addr.address_tag + ') ' + addr.recipient }}
               <q-chip
