@@ -309,7 +309,8 @@
         </q-card-section>
         <q-card-section>
           <div class="text-body1 text-bold">최종 결제 금액액</div>
-          {{ total + shipment - coupon.coupon_price }} {{ selected_local.won }}
+          {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
+          {{ selected_local.won }}
         </q-card-section>
         <q-btn
           color="positive"
