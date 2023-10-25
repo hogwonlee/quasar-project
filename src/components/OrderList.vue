@@ -259,7 +259,17 @@
               <q-icon name="person" />
             </template>
           </q-input>
-
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.tel"
+            :model-value="this.address_selected.recipient_phone"
+          >
+            <template v-slot:prepend>
+              <q-icon name="phone" />
+            </template>
+          </q-input>
           <q-input
             color="white-1"
             standout
@@ -282,7 +292,7 @@
             </template>
           </q-input>
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="row">
           <div class="text-body1 text-bold">쿠폰 사용 확인</div>
           <q-radio v-model="coupon" val="" label="사용안함" />
           <q-radio
@@ -296,16 +306,16 @@
               ': ' +
               c.coupon_price +
               selected_local.won +
-              ' (' +
-              c.use_condition +
+              ' (사용 전제 조건: 구매 금액 ' +
+              `${c.use_condition == null ? 0 : c.use_condition}` +
               selected_local.won +
-              ')'
+              '이상 )'
             "
             :disable="c.use_condition > total ? true : false"
           />
         </q-card-section>
         <q-card-section>
-          <div class="text-body1 text-bold">최종 결제 금액액</div>
+          <div class="text-body1 text-bold">최종 결제 금액</div>
           {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
           {{ selected_local.won }}
         </q-card-section>
