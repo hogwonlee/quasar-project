@@ -61,8 +61,8 @@
           disable
         />
       </div>
-      <q-card-section class="bg-red-2" v-show="addr_search_api_card">
-        <q-toolbar class="bg-red text-white rounded-borders">
+      <q-card-section v-show="addr_search_api_card">
+        <q-toolbar class="bg-positive text-white rounded-borders">
           <q-btn
             round
             dense
@@ -108,6 +108,7 @@
                   <q-checkbox
                     v-model="props.selected"
                     :label="props.row.zipNo"
+                    color="positive"
                   />
                   <div class="text-subtitle2">
                     {{
