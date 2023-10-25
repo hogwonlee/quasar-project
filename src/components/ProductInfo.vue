@@ -186,7 +186,7 @@
               :disable="localQuantity <= 0"
               class="col-3"
               icon="remove"
-              color="negative"
+              text-color="negative"
               @click="handle(-1)"
             ></q-btn>
             <q-input
@@ -212,14 +212,14 @@
             <q-btn
               class="col-3"
               icon="add"
-              color="positive"
+              text-color="positive"
               @click="handle(1)"
             ></q-btn>
 
             <q-btn
               class="col-12 q-my-xs"
-              color="positive"
-              text-color="primary"
+              color="primary"
+              text-color="positive"
               glossy
               icon="add_shopping_cart"
               :label="selected_local.add_to_cart"
