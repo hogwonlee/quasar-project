@@ -2,10 +2,10 @@
   <q-layout view="hHh LpR fFf">
     <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
-        <q-toolbar-title class="row">
+        <q-toolbar-title class="row text-h6 text-bold text-white">
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
           <q-input
-            class="col-3 text-h6 text-bold text-white"
+            class="col-3"
             readonly
             :model-value="selected_local.chinafood"
           >
