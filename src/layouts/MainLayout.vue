@@ -2,7 +2,7 @@
   <q-layout view="hHh LpR fFf">
     <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
-        <q-toolbar-title>
+        <q-toolbar-title class="text-black text-bold">
           {{ selected_local.chinafood }}
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
           <!-- <q-input

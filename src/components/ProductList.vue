@@ -1,13 +1,13 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top q-ma-sm"
-      color="bg-white"
+      class="fixed-top-right z-top q-ma-xs"
+      color="bg-dark"
       rounded
       standout
       dense
       outlined
-      input-class=" text-right text-dark"
+      input-class=" text-right text-white"
       style="width: 40%"
       v-model="keyword"
       label-color="dark"
@@ -21,7 +21,7 @@
           @click="keyword = ''"
           class="cursor-pointer"
         />
-        <q-icon name="search" color="white" />
+        <q-icon name="search" color="dark" />
       </template>
     </q-input>
     <!-- <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
