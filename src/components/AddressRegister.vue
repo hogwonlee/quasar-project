@@ -175,25 +175,20 @@
       ></q-input>
 
       <div class="row q-py-none">
-        <q-toggle
-          class="col-5"
-          v-model="isDoorScretKey"
-          left-label="공동현관비번"
+        <q-radio v-model="doorScretKey" val="free" label="공동현관 자유출입" />
+        <q-radio
+          v-model="doorScretKey"
+          val="password"
+          label="공동현관 비번필요"
         />
 
         <q-input
-          v-if="isDoorScretKey"
+          v-if="doorScretKey == 'password'"
           outlined
           v-model="doorScretKey"
-          class="q-ma-sm col-5"
           :label="selected_local.addrextraandhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
-        />
-        <q-input
-          v-else
-          disable
-          :label="selected_local.addrextraandhint + '자유출입'"
         />
         <q-checkbox
           class="q-ma-sm col-6"
