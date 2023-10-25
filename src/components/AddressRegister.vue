@@ -178,17 +178,22 @@
         <q-toggle
           class="col-5"
           v-model="isDoorScretKey"
-          :label="isDoorScretKey ? '비밀번호 입력' : '자유출입'"
+          label-left="공동현관비번"
         />
 
         <q-input
+          v-if="isDoorScretKey"
           outlined
-          :disable="isDoorScretKey ? false : true"
           v-model="doorScretKey"
           class="q-ma-sm col-5"
           :label="selected_local.addrextraandhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
+        />
+        <q-input
+          v-else
+          disable
+          :label="selected_local.addrextraandhint + '자유출입'"
         />
         <q-checkbox
           class="q-ma-sm col-6"

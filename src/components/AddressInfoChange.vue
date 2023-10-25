@@ -9,16 +9,7 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
-      <q-input
-        outlined
-        class="q-ma-sm"
-        v-model="address_tag_edit"
-        :label="selected_local.addrtagandhint"
-        lazy-rules
-        :rules="[
-          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
-        ]"
-      ></q-input>
+
       <q-input
         outlined
         v-model="recipient_edit"
@@ -155,8 +146,37 @@
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
       />
+      <q-input
+        outlined
+        class="q-ma-sm"
+        v-model="address_tag_edit"
+        :label="selected_local.addrtagandhint"
+        lazy-rules
+        :rules="[
+          val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
+        ]"
+      ></q-input>
+      <q-toggle
+        class="col-5"
+        v-model="isDoorScretKey"
+        label-left="공동현관비번"
+      />
 
-      <div align="right">
+      <q-input
+        v-if="isDoorScretKey"
+        outlined
+        v-model="doorScretKey"
+        class="q-ma-sm col-5"
+        :label="selected_local.addrextraandhint"
+        lazy-rules
+        :rules="[val => !!val || '请输入附加信息']"
+      />
+      <q-input
+        v-else
+        disable
+        :label="selected_local.addrextraandhint + '자유출입'"
+      />
+      <div align="right" class="row">
         <q-btn
           class="q-ma-sm"
           color="positive"
