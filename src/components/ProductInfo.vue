@@ -211,16 +211,7 @@
             <q-btn class="col-3" icon="add" @click="handle(1)"></q-btn>
 
             <q-btn
-              class="col-9 q-my-xs"
-              glossy
-              icon="shopping_cart_checkout"
-              color="primary"
-              tag="a"
-              to="/OrderList"
-              :label="selected_local.gocounter"
-            />
-            <q-btn
-              class="col-3 q-my-xs"
+              class="col-12 q-my-xs"
               color="white"
               text-color="primary"
               glossy
@@ -267,6 +258,17 @@
             />
           </q-card-section>
         </q-card>
+        <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+          <q-btn
+            class="q-my-xs"
+            glossy
+            icon="shopping_cart_checkout"
+            color="primary"
+            tag="a"
+            to="/OrderList"
+            :label="selected_local.gocounter"
+          />
+        </q-page-sticky>
       </q-dialog>
     </div>
   </div>
