@@ -111,11 +111,7 @@
               </q-field>
             </td>
             <td class="text-right col-8 text-h4">
-              {{
-                reservedCoupon() != undefined
-                  ? total + shipment - reservedCoupon().coupon_price
-                  : total + shipment - 0
-              }}
+              {{ total + shipment }}
               {{ selected_local.won }}
             </td>
           </tr>
