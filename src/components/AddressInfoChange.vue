@@ -11,6 +11,8 @@
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
 
       <q-input
+        standout
+        dense
         outlined
         v-model="recipient_edit"
         class="q-ma-sm"
@@ -23,6 +25,8 @@
       ></q-input>
 
       <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="recipient_phone_edit"
@@ -44,6 +48,8 @@
           @click="addr_search_api_card = !addr_search_api_card"
         />
         <q-input
+          standout
+          dense
           v-model="post_code_edit"
           filled
           class="q-ma-sm col"
@@ -57,6 +63,7 @@
         <q-toolbar class="text-white rounded-borders">
           <q-btn
             round
+            standout
             dense
             flat
             icon="arrow_back"
@@ -64,6 +71,7 @@
             @click="addr_search_api_card = !addr_search_api_card"
           />
           <q-input
+            standout
             dense
             :label="selected_local.search_addr"
             style="width: 100%"
@@ -119,6 +127,8 @@
         </q-card-section>
       </q-card-section>
       <q-input
+        standout
+        dense
         v-model="address1_edit"
         filled
         class="q-ma-sm"
@@ -129,6 +139,8 @@
       />
 
       <q-input
+        standout
+        dense
         v-model="address2_edit"
         filled
         class="q-ma-sm"
@@ -139,6 +151,8 @@
       />
 
       <q-input
+        standout
+        dense
         outlined
         v-model="address3_edit"
         class="q-ma-sm"
@@ -148,6 +162,8 @@
         :rules="[val => !!val || '请输入附加信息']"
       />
       <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="address_tag_edit"
@@ -157,25 +173,32 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <q-toggle
+      <q-radio
+        class="col-12"
+        color="positive"
+        v-model="doorScretKey"
+        val="free"
+        :label="selected_local.gate_free"
+      />
+      <q-radio
         class="col-5"
-        v-model="isDoorScretKey"
-        left-label="공동현관비번"
+        color="positive"
+        v-model="doorScretKey"
+        val="password"
+        :label="selected_local.gate_password"
       />
 
       <q-input
-        v-if="isDoorScretKey"
+        standout
+        dense
+        class="col-6"
+        :disable="doorScretKey == 'password' ? false : true"
         outlined
-        v-model="doorScretKey"
-        class="q-ma-sm col-5"
-        :label="selected_local.addrextraandhint"
+        v-model="outdoorpassword"
+        :label="selected_local.gate_password"
+        :hint="selected_local.outdoorpasswordhint"
         lazy-rules
         :rules="[val => !!val || '请输入附加信息']"
-      />
-      <q-input
-        v-else
-        disable
-        :label="selected_local.addrextraandhint + '자유출입'"
       />
       <div align="right" class="row">
         <q-btn
@@ -216,6 +239,8 @@
         cheked: ref(true),
         addr_search_api_card: ref(false),
         keyword: '',
+        outdoorpassword: '',
+        doorScretKey: 'free',
       };
     },
     setup() {
