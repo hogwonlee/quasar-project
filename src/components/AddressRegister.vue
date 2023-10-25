@@ -150,7 +150,7 @@
         :hint="selected_local.addrextraandhint"
         :label="selected_local.addrextra"
         lazy-rules
-        :rules="[val => !!val || '请输入附加信息']"
+        :rules="[val => !!val || '请输入楼栋房号信息']"
       />
       <!-- <q-card
         id="wrap"
@@ -168,8 +168,8 @@
         outlined
         class="q-ma-sm"
         v-model="address_tag"
-        :label="selected_local.addrtagandhint"
-        :hint="selected_local.addrtag"
+        :label="selected_local.addrtag"
+        :hint="selected_local.addrtagandhint"
         lazy-rules
         :rules="[
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
