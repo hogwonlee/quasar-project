@@ -266,11 +266,13 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky class="z-top" position="bottom-right" :offset="[80, 60]">
+        <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
           <q-btn
+            class="z-top"
             stack
             glossy
             round
+            fab
             padding="xl"
             icon="shopping_cart_checkout"
             color="primary"
