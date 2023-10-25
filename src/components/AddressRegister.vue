@@ -173,7 +173,6 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-
       <div class="row q-py-none">
         <q-radio
           class="col-12"
@@ -190,7 +189,7 @@
 
         <q-input
           class="col-6"
-          v-if="doorScretKey == 'password'"
+          :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="doorScretKey"
           :label="selected_local.addrextraandhint"
