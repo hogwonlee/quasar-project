@@ -1,12 +1,11 @@
 <template>
   <div>
-    <q-toggle v-model="dense" />
     <q-input
-      class="fixed-top-right z-top q-ma-none"
+      class="fixed-top-right z-top q-ma-sm"
       color="bg-white"
       rounded
       standout
-      :dense="dense"
+      dense
       outlined
       input-class=" text-right text-dark"
       style="width: 40%"
@@ -333,7 +332,6 @@
       return {
         childbuyoption: false,
         load_time: 0,
-        dense: ref(false),
       };
     },
     methods: {
