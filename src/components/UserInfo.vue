@@ -267,40 +267,40 @@
     </q-dialog>
     <q-dialog v-model="coupon_vue">
       <CouponList
-        class="absolute-top q-mx-lg q-pa-sm"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
-        class="absolute-top q-mx-lg q-pa-sm"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="privacy_policy_vue">
       <PrivacyPolicy
-        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
-        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
-        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
-        class="absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
