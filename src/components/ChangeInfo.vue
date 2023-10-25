@@ -31,7 +31,7 @@
           :rules="[val => (val && val.length > 0) || '']"
         />
 
-        <div class="q-gutter-sm q-pa-sm">
+        <div class="q-gutter-sm q-ma-sm">
           <q-btn
             :label="selected_local.confirm"
             type="submit"

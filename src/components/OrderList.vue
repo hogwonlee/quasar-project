@@ -120,7 +120,7 @@
     </q-card>
 
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
-      <CouponList class="bg-red-3" v-bind:food_price="total" />
+      <CouponList class="bg-white" v-bind:food_price="total" />
     </q-dialog>
     <q-card>
       <div v-if="user_status">
@@ -141,6 +141,7 @@
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
             color="negative"
+            outline
             :label="selected_local.addrresister"
             @click="register_popup = true"
           ></q-btn>
@@ -159,6 +160,7 @@
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
             color="positive"
+            outline
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
@@ -178,6 +180,7 @@
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
             color="positive"
+            outline
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
@@ -214,6 +217,7 @@
         <q-btn
           class="text-bold absolute-top-right q-ma-sm"
           color="negative"
+          outline
           :label="selected_local.gotologinvue"
           tag="a"
           to="/UserInfo"
@@ -233,6 +237,7 @@
       </div>
       <q-btn
         color="positive"
+        outline
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
@@ -347,6 +352,7 @@
         <div class="row justify-center">
           <q-btn
             color="positive"
+            outline
             size="22px"
             class="text-bold q-py-none q-px-xl q-ma-sm"
             :label="selected_local.checkout"
