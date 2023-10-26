@@ -309,13 +309,9 @@
 
   import {dom} from 'quasar';
   const {offset} = dom;
-  const {ready} = dom;
 
   const {getScrollTarget, setVerticalScrollPosition} = scroll;
 
-  ready(function () {
-    let pos = document.querySelector('.' + this.category[4].category).offsetTop;
-  });
   export default defineComponent({
     name: 'ProductList',
     components: {
@@ -327,16 +323,7 @@
         load_time: 0,
       };
     },
-    watch: {
-      pos: function (new_val, old_val) {
-        if (new_val <= 0) {
-          pos = document.querySelector(
-            '.' + this.category[0].category,
-          ).offsetTop;
-          console.log(pos);
-        }
-      },
-    },
+
     methods: {
       show_offset() {
         // var pos_11 = document.querySelector(
@@ -378,9 +365,7 @@
         // console.log(
         //   pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
         // );
-        console.log(
-          offset(document.querySelector('.' + this.category[0].category)),
-        );
+        console.log(offset(this));
       },
       register_event_info() {
         alert.confirm(
