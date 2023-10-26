@@ -208,7 +208,7 @@
         />
         <q-space class="col-6" />
         <q-btn
-          class="col-6"
+          class="q-pa-sm col-6"
           color="positive"
           outline
           size="md"
