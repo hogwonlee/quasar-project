@@ -449,9 +449,14 @@
         console.log(this.load_time);
       }, 7000);
     },
-    // mounted() {
-    //   this.show_offset();
-    // },
+    updated() {
+      if (
+        document.querySelector('.' + this.category[0].category).offsetTop <= 0
+      ) {
+        console.log('움직임 감지');
+      }
+    },
+
     setup() {
       return {
         list_show: ref(false),
