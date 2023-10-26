@@ -135,6 +135,12 @@
       </q-card>
 
       <q-separator class="q-my-sm" />
+      <q-btn
+        :label="selected_local.buy_history"
+        @click="orderHistoryDialog = true"
+      ></q-btn>
+      <q-separator class="q-my-sm" />
+
       <q-card class="transparent" flat>
         <q-card-section class="row items-center q-px-none q-py-sm">
           <div class="text-h6 text-bold">
@@ -386,6 +392,22 @@
       transition-hide="scale"
       ><ChangePassword
     /></q-dialog>
+    <q-dialog v-model="orderHistoryDialog">
+      <ProductInfo
+        class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+        v-for="product in product_all.filter(
+          p => p.product_id == orderHistory.product_id,
+        )"
+        :key="product.product_id"
+        v-bind="product"
+        @setbuyoption="product.buyoption = $event"
+        @setquantity="product.quantity = $event"
+        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
+        @sendRemoveItem="
+          this.$store.dispatch('cart/removeProductFromCart', product)
+        "
+      />
+    </q-dialog>
   </q-page>
 </template>
 
@@ -413,6 +435,7 @@
   import {Dialog} from 'quasar';
   const {addToDate} = date;
   // import security from 'src/util/modules/security';
+  import ProductInfo from './ProductInfo.vue';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -429,6 +452,7 @@
       ExchangePolicy,
       AddressRegister,
       AddressList,
+      ProductInfo,
     },
     data: function () {
       return {
@@ -450,6 +474,8 @@
         delivery_policy_vue: ref(false),
         exchange_policy_vue: ref(false),
         isPwd: ref(true),
+        orderHistory: {},
+        orderHistoryDialog: ref(false),
       };
     },
     computed: {
@@ -461,6 +487,7 @@
         couponList: state => state.coupon.items,
         coupon_status: state => state.coupon.status,
         selected_local: state => state.ui_local.status,
+        product_all: state => state.products.all,
       }),
     },
     mounted() {
@@ -633,6 +660,36 @@
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
             });
         }
+      },
+      readOrderHistory() {
+        const userData = {
+          user_id: this.user.USER_ID,
+        };
+
+        axios({
+          url: `${configs.server}/orderHistory`,
+          method: 'POST',
+          data: userData,
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res.status));
+            if (res.status == 200) {
+              // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
+              this.orderHistory = res.data.results;
+            } else {
+              alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+            }
+          })
+
+          .catch(res => {
+            alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
       },
     },
   });

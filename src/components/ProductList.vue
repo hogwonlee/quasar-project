@@ -52,6 +52,7 @@
     <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
       <q-fab
         v-model="list_show"
+        persistent="false"
         :label="selected_local.category"
         direction="up"
         class="q-pa-none"
@@ -83,28 +84,13 @@
           @click="handleScroll(c.category)"
         />
       </q-fab>
-      <!-- <q-list v-if="list_show" bordered separator class="bg-primary">
-        <q-item
-          clickable
-          v-ripple
-          v-for="c in category"
-          :key="c.category"
-          v-bind="c"
-        >
-          <q-item-section @click="handleScroll(c.category)">
-            <q-item-label overline class="text-white">{{
-              c.category
-            }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      :label="selected_local.category"
+    </q-page-sticky>
+    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
       <q-btn
-        fab
-        :label="selected_local.category"
-        color="primary"
-        @click="list_show = !list_show"
-      /> -->
+        label="다음"
+        icon="keyboard_arrow_down"
+        @click="show_offset()"
+      ></q-btn>
     </q-page-sticky>
     <div>
       <div
@@ -319,6 +305,8 @@
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
   import configs from 'src/configs/';
+  import {dom} from 'quasar';
+  const {offset} = dom;
 
   const {getScrollTarget, setVerticalScrollPosition} = scroll;
 
@@ -334,6 +322,21 @@
       };
     },
     methods: {
+      show_offset() {
+        var pos_11 = document.querySelector('.' + this.category[10]).offsetTop;
+        var pos_10 = document.querySelector('.' + this.category[11]).offsetTop;
+        var pos_09 = document.querySelector('.' + this.category[9]).offsetTop;
+        var pos_08 = document.querySelector('.' + this.category[8]).offsetTop;
+        var pos_07 = document.querySelector('.' + this.category[7]).offsetTop;
+        var pos_06 = document.querySelector('.' + this.category[6]).offsetTop;
+        var pos_05 = document.querySelector('.' + this.category[5]).offsetTop;
+        var pos_04 = document.querySelector('.' + this.category[3]).offsetTop;
+        var pos_03 = document.querySelector('.' + this.category[2]).offsetTop;
+        var pos_02 = document.querySelector('.' + this.category[1]).offsetTop;
+        var pos_01 = document.querySelector('.' + this.category[0]).offsetTop;
+        var pos_00 = document.querySelector('.' + this.category[4]).offsetTop;
+        console.log(pos_00 + pos_10 + pos_01 + pos_02 + pos_03);
+      },
       register_event_info() {
         alert.confirm(
           '회원 가입 이벤트 안내',
@@ -414,6 +417,9 @@
         clearInterval(timerId);
         console.log(this.load_time);
       }, 7000);
+    },
+    mounted() {
+      this.show_offset();
     },
     setup() {
       return {

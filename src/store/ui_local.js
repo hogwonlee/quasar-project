@@ -182,6 +182,7 @@ const _ko = {
   outdoorpasswordhint: '공동현관 출입번호를 입력해주세요',
   gate_free: '공동현관 자유출입',
   gate_password: '공동현관 출입번호',
+  buy_history: '자주 구매 상품 정보',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -362,6 +363,7 @@ const _cn = {
   outdoorpasswordhint: '请输入共用大门出入密码',
   gate_free: '楼栋大门自由出入',
   gate_password: '楼栋大门出入密码',
+  buy_history: '查看经常购买商品',
 };
 
 const state = {
