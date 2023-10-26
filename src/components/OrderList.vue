@@ -186,6 +186,7 @@
           ></q-btn>
           <q-input
             color="white-1"
+            class="col-6"
             standout
             readonly
             :label="selected_local.tel"
@@ -197,6 +198,7 @@
           </q-input>
           <q-input
             color="white-1"
+            class="col-6"
             standout
             readonly
             :label="selected_local.gate_password"
