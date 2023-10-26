@@ -200,7 +200,11 @@
             standout
             readonly
             :label="selected_local.gate_password"
-            :model-value="this.address_selected.outdoorpassword"
+            :model-value="
+              this.address_selected.outdoorpassword == ''
+                ? selected_local.gate_free
+                : selected_local.gate_password
+            "
           >
             <template v-slot:prepend>
               <q-icon name="apartment" />
