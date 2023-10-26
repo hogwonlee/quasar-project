@@ -206,9 +206,9 @@
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
-        <q-space />
+        <q-space class="col-6" />
         <q-btn
-          class="q-ma-sm"
+          class="col-6"
           color="positive"
           outline
           size="md"
