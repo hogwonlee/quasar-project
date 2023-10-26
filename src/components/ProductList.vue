@@ -82,7 +82,7 @@
           :key="c.category"
           v-bind="c"
           color="dark"
-          class="q-my-none"
+          class="q-gutter-none"
           @click="handleScroll(c.category)"
         />
       </q-fab>
