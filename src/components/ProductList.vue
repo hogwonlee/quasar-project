@@ -55,7 +55,7 @@
         persistent="false"
         :label="selected_local.category"
         direction="up"
-        class="q-pa-none"
+        class="q-pa-none q-gutter-none"
         color="dark"
         vertical-actions-align="right"
         icon="keyboard_arrow_up"
@@ -63,8 +63,6 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          gutter="1px"
-          margin="3px"
           v-for="c in [
             category[10],
             category[11],
@@ -82,7 +80,6 @@
           :key="c.category"
           v-bind="c"
           color="dark"
-          class="q-gutter-none"
           @click="handleScroll(c.category)"
         />
       </q-fab>
@@ -333,7 +330,12 @@
         var closest_dis = 9999;
         this.category.forEach(c => {
           if (offset(document.querySelector('.' + c.category)).top > 0) {
-            dis = offset(document.querySelector('.' + c.category)).top - 50;
+            console.log(
+              c.category +
+                ': ' +
+                offset(document.querySelector('.' + c.category)).top,
+            );
+            dis = offset(document.querySelector('.' + c.category)).top;
             if (dis > 0 && dis < closest_dis) {
               closest_dis = dis;
               closest_category = c.category;
