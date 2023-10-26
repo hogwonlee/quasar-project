@@ -62,7 +62,7 @@
       >
         <q-fab-action
           :label="c.category"
-          padding="0px"
+          padding="10px"
           v-for="c in [
             category[10],
             category[11],
@@ -330,7 +330,6 @@
         var dis = 0;
         var closest_dis = 9999;
         this.category.forEach(c => {
-          closest_dis = 9999;
           if (offset(document.querySelector('.' + c.category)).top > 0) {
             dis = offset(document.querySelector('.' + c.category)).top - 50;
             if (dis > 0 && dis < closest_dis) {
