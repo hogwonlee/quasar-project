@@ -192,7 +192,7 @@
             :model-value="this.address_selected.recipient_phone"
           >
             <template v-slot:prepend>
-              <q-icon name="tel" />
+              <q-icon name="phone" />
             </template>
           </q-input>
           <q-input
@@ -203,7 +203,7 @@
             :model-value="this.address_selected.outdoorpassword"
           >
             <template v-slot:prepend>
-              <q-icon name="tel" />
+              <q-icon name="gard" />
             </template>
           </q-input>
           <q-input
