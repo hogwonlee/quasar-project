@@ -167,6 +167,7 @@
         </div>
         <div class="row" v-else>
           <q-input
+            class="col-12"
             color="white-1"
             standout
             readonly
@@ -214,6 +215,7 @@
           </q-input>
           <q-input
             color="white-1"
+            class="col-12"
             standout
             readonly
             autogrow
