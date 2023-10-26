@@ -87,9 +87,10 @@
     </q-page-sticky>
     <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
       <q-btn
+        class="next"
         label="다음"
         icon="keyboard_arrow_down"
-        @click="show_offset()"
+        @click="show_offset('next')"
       ></q-btn>
     </q-page-sticky>
     <div>
@@ -363,7 +364,7 @@
         // console.log(
         //   pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
         // );
-        console.log(offset(DomElement));
+        console.log(offset(document.querySelector('.next')));
       },
       register_event_info() {
         alert.confirm(
