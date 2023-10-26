@@ -327,15 +327,16 @@
     methods: {
       go_next_category() {
         var closest_category;
+        var dis = 0;
+        var closest_dis = 9999;
         this.category.forEach(c => {
-          var closest_dis = 9999;
-          console.log(
-            JSON.stringify(offset(document.querySelector('.' + c.category))),
-          );
-          var dis = offset(document.querySelector('.' + c.category)).top - 750;
-          if (dis > 0 && dis < closest_dis) {
-            closest_dis = dis;
-            closest_category = c.category;
+          closest_dis = 9999;
+          if (offset(document.querySelector('.' + c.category)).top > 0) {
+            dis = offset(document.querySelector('.' + c.category)).top - 50;
+            if (dis > 0 && dis < closest_dis) {
+              closest_dis = dis;
+              closest_category = c.category;
+            }
           }
         });
         let target = getScrollTarget(
@@ -361,7 +362,7 @@
         );
       },
       handleScroll(val) {
-        console.log(val);
+        // console.log(val);
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
         let offset = ele.offsetTop - 50;
