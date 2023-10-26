@@ -62,7 +62,9 @@
       >
         <q-fab-action
           :label="c.category"
-          padding="10px"
+          padding="3px"
+          gutter="1px"
+          margin="3px"
           v-for="c in [
             category[10],
             category[11],
