@@ -90,7 +90,7 @@
         class="next"
         label="다음"
         icon="keyboard_arrow_down"
-        @click="show_offset('next')"
+        @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
     <div>
@@ -325,48 +325,17 @@
     },
 
     methods: {
-      show_offset() {
-        // var pos_11 = document.querySelector(
-        //   '.' + this.category[10].category,
-        // ).offsetTop;
-        // var pos_10 = document.querySelector(
-        //   '.' + this.category[11].category,
-        // ).offsetTop;
-        // var pos_09 = document.querySelector(
-        //   '.' + this.category[9].category,
-        // ).offsetTop;
-        // var pos_08 = document.querySelector(
-        //   '.' + this.category[8].category,
-        // ).offsetTop;
-        // var pos_07 = document.querySelector(
-        //   '.' + this.category[7].category,
-        // ).offsetTop;
-        // var pos_06 = document.querySelector(
-        //   '.' + this.category[6].category,
-        // ).offsetTop;
-        // var pos_05 = document.querySelector(
-        //   '.' + this.category[5].category,
-        // ).offsetTop;
-        // var pos_04 = document.querySelector(
-        //   '.' + this.category[3].category,
-        // ).offsetTop;
-        // var pos_03 = document.querySelector(
-        //   '.' + this.category[2].category,
-        // ).offsetTop;
-        // var pos_02 = document.querySelector(
-        //   '.' + this.category[1].category,
-        // ).offsetTop;
-        // var pos_01 = document.querySelector(
-        //   '.' + this.category[0].category,
-        // ).offsetTop;
-        // var pos_00 = document.querySelector(
-        //   '.' + this.category[4].category,
-        // ).offsetTop;
-        // console.log(
-        //   pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
-        // );
-        // console.log(offset(this.document));
-        console.log(Object.entries(this));
+      go_next_category() {
+        var closest_category;
+        for (c in this.category) {
+          var closest_dis = 9999;
+          var dis = document.querySelector('.' + c.category).offsetTop - 750;
+          if (dis > 0 && dis < closest_dis) {
+            closest_dis = dis;
+            closest_category = c;
+          }
+        }
+        this.handleScroll(closest_category);
       },
       register_event_info() {
         alert.confirm(
@@ -441,20 +410,16 @@
       this.products_update();
       // console.log(this.load_time);
       // 1초 간격으로 타임추가
-      let timerId = setInterval(() => this.load_time++, 1000);
+      let timerId = setInterval(
+        () => (this.load_time = this.load_time + 1),
+        1000,
+      );
 
       // 5초 후에 정지
       setTimeout(() => {
         clearInterval(timerId);
         console.log(this.load_time);
       }, 7000);
-    },
-    updated() {
-      if (
-        document.querySelector('.' + this.category[0].category).offsetTop <= 0
-      ) {
-        console.log('움직임 감지');
-      }
     },
 
     setup() {
