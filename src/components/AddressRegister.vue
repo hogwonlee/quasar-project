@@ -70,6 +70,7 @@
             dense
             flat
             icon="arrow_back"
+            color="positive"
             class="q-mr-xs"
             @click="addr_search_api_card = !addr_search_api_card"
           />

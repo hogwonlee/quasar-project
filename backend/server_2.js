@@ -547,7 +547,7 @@ app.post('/api/orderRegister', function (req, res) {
         //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
         if (req.body.used_coupon_id != null) {
           const sqlCommend_useCoupon =
-            'UPDATE usercoupon SET available = 0 WHERE user_id = ? AND coupon_id = ?';
+            'UPDATE usercoupon SET available = 0 WHERE available = 1 AND user_id = ? AND coupon_id = ?';
           const param_useCoupon = {
             user_id: req.body.user_id,
             coupon_id: req.body.used_coupon_id,

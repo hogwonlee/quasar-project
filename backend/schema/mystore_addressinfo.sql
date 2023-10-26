@@ -34,6 +34,7 @@ CREATE TABLE `addressinfo` (
   `address_tag` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `address3` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `address_active` tinyint DEFAULT '1',
+  `gate_password` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`address_id`),
   UNIQUE KEY `id_UNIQUE` (`address_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin
