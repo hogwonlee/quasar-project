@@ -365,7 +365,7 @@
         // console.log(
         //   pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
         // );
-        console.log(offset(this));
+        console.log(offset(this.document.element));
       },
       register_event_info() {
         alert.confirm(
