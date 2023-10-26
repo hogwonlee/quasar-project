@@ -203,7 +203,7 @@
             :model-value="this.address_selected.outdoorpassword"
           >
             <template v-slot:prepend>
-              <q-icon name="gard" />
+              <q-icon name="apartment" />
             </template>
           </q-input>
           <q-input
