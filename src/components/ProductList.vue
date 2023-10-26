@@ -305,8 +305,6 @@
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
   import configs from 'src/configs/';
-  import {dom} from 'quasar';
-  const {offset} = dom;
 
   const {getScrollTarget, setVerticalScrollPosition} = scroll;
 
