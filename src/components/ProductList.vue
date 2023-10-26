@@ -353,7 +353,7 @@
         console.log(val);
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
-        let offset = ele.offsetTop - 50;
+        let offset = offset(ele)[0] - 50;
         // console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
