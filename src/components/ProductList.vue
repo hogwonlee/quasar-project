@@ -327,14 +327,14 @@
     methods: {
       go_next_category() {
         var closest_category;
-        for (c in this.category) {
+        this.category.forEach(c => {
           var closest_dis = 9999;
           var dis = document.querySelector('.' + c.category).offsetTop - 750;
           if (dis > 0 && dis < closest_dis) {
             closest_dis = dis;
             closest_category = c;
           }
-        }
+        });
         this.handleScroll(closest_category);
       },
       register_event_info() {
