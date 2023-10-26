@@ -165,7 +165,7 @@
             @click="address_popup = true"
           ></q-btn>
         </div>
-        <div v-else>
+        <div class="row" v-else>
           <q-input
             color="white-1"
             standout
