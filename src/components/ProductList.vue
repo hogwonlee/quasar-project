@@ -343,11 +343,7 @@
           document.querySelector('.' + closest_category),
         );
         const duration = 300;
-        setVerticalScrollPosition(
-          target,
-          offset(document.querySelector('.' + closest_category)).top - 50,
-          duration,
-        );
+        setVerticalScrollPosition(target, 50, duration);
       },
       register_event_info() {
         alert.confirm(
