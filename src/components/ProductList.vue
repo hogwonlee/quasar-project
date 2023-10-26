@@ -364,7 +364,9 @@
         // console.log(
         //   pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
         // );
-        console.log(offset(document.querySelector('.next')));
+        console.log(
+          offset(document.querySelector('.' + this.category[0].category)),
+        );
       },
       register_event_info() {
         alert.confirm(
