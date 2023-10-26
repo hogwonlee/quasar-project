@@ -329,6 +329,9 @@
         var closest_category;
         this.category.forEach(c => {
           var closest_dis = 9999;
+          console.log(
+            JSON.stringfy(offset(document.querySelector('.' + c.category))),
+          );
           var dis = offset(document.querySelector('.' + c.category)).top - 750;
           if (dis > 0 && dis < closest_dis) {
             closest_dis = dis;
