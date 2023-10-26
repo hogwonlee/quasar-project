@@ -321,18 +321,42 @@
     },
     methods: {
       show_offset() {
-        var pos_11 = document.querySelector('.' + this.category[10]).offsetTop;
-        var pos_10 = document.querySelector('.' + this.category[11]).offsetTop;
-        var pos_09 = document.querySelector('.' + this.category[9]).offsetTop;
-        var pos_08 = document.querySelector('.' + this.category[8]).offsetTop;
-        var pos_07 = document.querySelector('.' + this.category[7]).offsetTop;
-        var pos_06 = document.querySelector('.' + this.category[6]).offsetTop;
-        var pos_05 = document.querySelector('.' + this.category[5]).offsetTop;
-        var pos_04 = document.querySelector('.' + this.category[3]).offsetTop;
-        var pos_03 = document.querySelector('.' + this.category[2]).offsetTop;
-        var pos_02 = document.querySelector('.' + this.category[1]).offsetTop;
-        var pos_01 = document.querySelector('.' + this.category[0]).offsetTop;
-        var pos_00 = document.querySelector('.' + this.category[4]).offsetTop;
+        var pos_11 = document.querySelector(
+          '.' + this.category[10].category,
+        ).offsetTop;
+        var pos_10 = document.querySelector(
+          '.' + this.category[11].category,
+        ).offsetTop;
+        var pos_09 = document.querySelector(
+          '.' + this.category[9].category,
+        ).offsetTop;
+        var pos_08 = document.querySelector(
+          '.' + this.category[8].category,
+        ).offsetTop;
+        var pos_07 = document.querySelector(
+          '.' + this.category[7].category,
+        ).offsetTop;
+        var pos_06 = document.querySelector(
+          '.' + this.category[6].category,
+        ).offsetTop;
+        var pos_05 = document.querySelector(
+          '.' + this.category[5].category,
+        ).offsetTop;
+        var pos_04 = document.querySelector(
+          '.' + this.category[3].category,
+        ).offsetTop;
+        var pos_03 = document.querySelector(
+          '.' + this.category[2].category,
+        ).offsetTop;
+        var pos_02 = document.querySelector(
+          '.' + this.category[1].category,
+        ).offsetTop;
+        var pos_01 = document.querySelector(
+          '.' + this.category[0].category,
+        ).offsetTop;
+        var pos_00 = document.querySelector(
+          '.' + this.category[4].category,
+        ).offsetTop;
         console.log(pos_00 + pos_10 + pos_01 + pos_02 + pos_03);
       },
       register_event_info() {
