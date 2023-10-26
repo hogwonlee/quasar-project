@@ -338,7 +338,15 @@
             closest_category = c.category;
           }
         });
-        this.handleScroll(closest_category);
+        let target = getScrollTarget(
+          document.querySelector('.' + closest_category),
+        );
+        const duration = 300;
+        setVerticalScrollPosition(
+          target,
+          offset(document.querySelector('.' + closest_category)).top - 50,
+          duration,
+        );
       },
       register_event_info() {
         alert.confirm(
@@ -356,7 +364,7 @@
         console.log(val);
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
-        let offset = offset(ele).top - 50;
+        let offset = ele.offsetTop - 50;
         // console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
