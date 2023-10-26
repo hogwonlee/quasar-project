@@ -329,7 +329,7 @@
         var closest_category;
         this.category.forEach(c => {
           var closest_dis = 9999;
-          var dis = offset(document.querySelector('.' + c.category))[0] - 750;
+          var dis = offset(document.querySelector('.' + c.category)).top - 750;
           if (dis > 0 && dis < closest_dis) {
             closest_dis = dis;
             closest_category = c.category;
@@ -353,7 +353,7 @@
         console.log(val);
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
-        let offset = offset(ele)[0] - 50;
+        let offset = offset(ele).top - 50;
         // console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
