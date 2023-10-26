@@ -416,7 +416,8 @@
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
-            address3: this.address3,
+            gate_password:
+              this.doorScretKey == 'free' ? '' : this.outdoorpassword,
             user_id: this.user.USER_ID,
             is_default: this.checked,
           };

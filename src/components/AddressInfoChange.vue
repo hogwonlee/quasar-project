@@ -200,7 +200,7 @@
           class="col-6"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
-          v-model="outdoorpassword"
+          v-model="outdoorpassword_edit"
           :label="selected_local.gate_password"
           :hint="selected_local.outdoorpasswordhint"
           lazy-rules
@@ -245,7 +245,7 @@
         cheked: ref(true),
         addr_search_api_card: ref(false),
         keyword: '',
-        outdoorpassword: '',
+        outdoorpassword_edit: '',
         doorScretKey: 'free',
       };
     },
@@ -280,6 +280,10 @@
         default: '',
       },
       address3: {
+        type: String,
+        default: '',
+      },
+      outdoorpassword: {
         type: String,
         default: '',
       },
@@ -421,6 +425,8 @@
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3_edit,
+            gate_password:
+              this.doorScretKey == 'free' ? '' : this.outdoorpassword_edit,
             address_id: this.address_id,
             user_id: this.user.USER_ID,
           };
@@ -468,6 +474,8 @@
         this.address1_edit = this.address1;
         this.address2_edit = this.address2;
         this.address3_edit = this.address3;
+        this.outdoorpassword_edit = this.outdoorpassword;
+        this.doorScretKey = this.outdoorpassword == '' ? 'free' : 'password';
         this.address_tag_edit = this.address_tag;
         this.recipient_edit = this.recipient;
         this.recipient_phone_edit = this.recipient_phone;

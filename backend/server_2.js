@@ -262,6 +262,7 @@ app.post('/api/addressRegister', function (req, res) {
             address1: body.address1,
             address2: body.address2,
             address3: body.address3,
+            gate_password: body.gate_password,
             is_default: body.is_default,
             user_id: body.user_id,
           };
@@ -404,7 +405,7 @@ app.post('/api/addressInfoChange', function (req, res) {
         }
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend_update =
-            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
+            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=?,gate_password=? WHERE address_id = ? ';
           const body = req.body;
           const param_update = {
             address_tag: body.address_tag,
@@ -414,6 +415,7 @@ app.post('/api/addressInfoChange', function (req, res) {
             address1: body.address1,
             address2: body.address2,
             address3: body.address3,
+            gate_password: body.gate_password,
             address_id: body.address_id,
           };
           return db.query(
@@ -426,6 +428,7 @@ app.post('/api/addressInfoChange', function (req, res) {
               param_update.address1,
               param_update.address2,
               param_update.address3,
+              param_update.gate_password,
               param_update.address_id,
             ],
             function (err, results, fields) {
