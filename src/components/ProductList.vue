@@ -332,7 +332,7 @@
           var dis = document.querySelector('.' + c.category).offsetTop - 750;
           if (dis > 0 && dis < closest_dis) {
             closest_dis = dis;
-            closest_category = c;
+            closest_category = c.category;
           }
         });
         this.handleScroll(closest_category);
