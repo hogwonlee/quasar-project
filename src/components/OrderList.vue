@@ -203,7 +203,7 @@
             :model-value="
               this.address_selected.outdoorpassword == ''
                 ? selected_local.gate_free
-                : selected_local.gate_password
+                : this.address_selected.outdoorpassword
             "
           >
             <template v-slot:prepend>
