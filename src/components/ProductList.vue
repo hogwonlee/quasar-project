@@ -357,7 +357,9 @@
         var pos_00 = document.querySelector(
           '.' + this.category[4].category,
         ).offsetTop;
-        console.log(pos_00 + pos_10 + pos_01 + pos_02 + pos_03);
+        console.log(
+          pos_00 + '/' + pos_01 + '/' + pos_02 + '/' + pos_03 + '/' + pos_10,
+        );
       },
       register_event_info() {
         alert.confirm(
