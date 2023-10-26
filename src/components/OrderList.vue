@@ -188,6 +188,28 @@
             color="white-1"
             standout
             readonly
+            :label="selected_local.tel"
+            :model-value="this.address_selected.recipient_phone"
+          >
+            <template v-slot:prepend>
+              <q-icon name="tel" />
+            </template>
+          </q-input>
+          <q-input
+            color="white-1"
+            standout
+            readonly
+            :label="selected_local.gate_password"
+            :model-value="this.address_selected.outdoorpassword"
+          >
+            <template v-slot:prepend>
+              <q-icon name="tel" />
+            </template>
+          </q-input>
+          <q-input
+            color="white-1"
+            standout
+            readonly
             autogrow
             :label="selected_local.receiveaddr"
             :model-value="
