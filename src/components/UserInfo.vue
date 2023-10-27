@@ -137,7 +137,7 @@
       <q-separator class="q-my-sm" />
       <q-card-section class="row items-center q-px-none q-py-sm">
         <div class="text-h6 text-bold">
-          {{ selected_local.coupon_info }}
+          {{ selected_local.buy_history }}
         </div>
 
         <q-btn
@@ -145,6 +145,7 @@
           @click="orderHistoryDialog = true"
           color="positive"
           outline
+          class="absolute-top-right"
         ></q-btn>
       </q-card-section>
       <q-separator class="q-my-sm" />
