@@ -145,7 +145,7 @@
           @click="orderHistoryDialog = true"
           color="positive"
           outline
-          class="absolute-top-right"
+          class="absolute-right"
         ></q-btn>
       </q-card-section>
       <q-separator class="q-my-sm" />
