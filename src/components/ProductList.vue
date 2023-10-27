@@ -84,11 +84,19 @@
         />
       </q-fab>
     </q-page-sticky>
+    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 30]">
+      <q-btn
+        label="이전"
+        icon="keyboard_arrow_up"
+        class="bg-dark"
+        @click="go_prev_category()"
+      ></q-btn>
+    </q-page-sticky>
     <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
       <q-btn
-        class="next"
         label="다음"
         icon="keyboard_arrow_down"
+        class="bg-dark"
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
@@ -324,17 +332,35 @@
     },
 
     methods: {
+      go_prev_category() {
+        var closest_category;
+        var dis = 0;
+        var closest_dis = -9999;
+        this.category.forEach(c => {
+          if (offset(document.querySelector('.' + c.category)).top < 0) {
+            dis = offset(document.querySelector('.' + c.category)).top;
+            if (dis < 0 && dis > closest_dis) {
+              closest_dis = dis;
+              closest_category = c.category;
+            }
+          }
+        });
+        let target = getScrollTarget(
+          document.querySelector('.' + closest_category),
+        );
+        const duration = 300;
+        setVerticalScrollPosition(
+          target,
+          document.querySelector('.' + closest_category).offsetTop - 50,
+          duration,
+        );
+      },
       go_next_category() {
         var closest_category;
         var dis = 0;
         var closest_dis = 9999;
         this.category.forEach(c => {
           if (offset(document.querySelector('.' + c.category)).top > 0) {
-            console.log(
-              c.category +
-                ': ' +
-                offset(document.querySelector('.' + c.category)).top,
-            );
             dis = offset(document.querySelector('.' + c.category)).top;
             if (dis > 0 && dis < closest_dis) {
               closest_dis = dis;
