@@ -84,11 +84,12 @@
         />
       </q-fab>
     </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 30]">
+    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 50]">
       <q-btn
         label="이전"
         icon="keyboard_arrow_up"
-        class="bg-dark"
+        class="bg-dark text-white"
+        rounded
         @click="go_prev_category()"
       ></q-btn>
     </q-page-sticky>
@@ -96,7 +97,8 @@
       <q-btn
         label="다음"
         icon="keyboard_arrow_down"
-        class="bg-dark"
+        class="bg-dark text-white"
+        rounded
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
@@ -361,7 +363,7 @@
         var closest_dis = 9999;
         this.category.forEach(c => {
           if (offset(document.querySelector('.' + c.category)).top > 0) {
-            dis = offset(document.querySelector('.' + c.category)).top;
+            dis = offset(document.querySelector('.' + c.category)).top - 50;
             if (dis > 0 && dis < closest_dis) {
               closest_dis = dis;
               closest_category = c.category;
