@@ -183,6 +183,8 @@ const _ko = {
   gate_free: '공동현관 자유출입',
   gate_password: '공동현관 출입번호',
   buy_history: '자주 구매 상품 정보',
+  next_category: '다음 분류',
+  prev_category: '이전 분류',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -364,6 +366,8 @@ const _cn = {
   gate_free: '楼栋大门自由出入',
   gate_password: '楼栋大门出入密码',
   buy_history: '查看经常购买商品',
+  next_category: '下一类',
+  prev_category: '上一类',
 };
 
 const state = {

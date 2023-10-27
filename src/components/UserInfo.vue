@@ -135,10 +135,18 @@
       </q-card>
 
       <q-separator class="q-my-sm" />
-      <q-btn
-        :label="selected_local.buy_history"
-        @click="orderHistoryDialog = true"
-      ></q-btn>
+      <q-card-section class="row items-center q-px-none q-py-sm">
+        <div class="text-h6 text-bold">
+          {{ selected_local.coupon_info }}
+        </div>
+
+        <q-btn
+          :label="selected_local.buy_history"
+          @click="orderHistoryDialog = true"
+          color="positive"
+          outline
+        ></q-btn>
+      </q-card-section>
       <q-separator class="q-my-sm" />
 
       <q-card class="transparent" flat>

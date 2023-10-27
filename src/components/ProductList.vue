@@ -86,7 +86,7 @@
     </q-page-sticky>
     <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 50]">
       <q-btn
-        label="이전"
+        :label="selected_local.prev_category"
         icon="keyboard_arrow_up"
         class="bg-dark text-white"
         rounded
@@ -95,7 +95,7 @@
     </q-page-sticky>
     <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
       <q-btn
-        label="다음"
+        :label="selected_local.next_category"
         icon="keyboard_arrow_down"
         class="bg-dark text-white"
         rounded
