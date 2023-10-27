@@ -333,7 +333,7 @@
 
     methods: {
       go_prev_category() {
-        var closest_category;
+        var closest_category = this.category[4].category;
         var dis = 0;
         var closest_dis = -9999;
         this.category.forEach(c => {
