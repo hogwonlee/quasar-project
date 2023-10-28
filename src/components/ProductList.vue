@@ -465,9 +465,9 @@
         console.log(this.load_time);
       }, 7000);
     },
-    mounted() {
-      console.log(JSON.stringify(this.category));
-    },
+    // mounted() {
+    //   console.log(JSON.stringify(this.category));
+    // },
     setup() {
       return {
         list_show: ref(false),
