@@ -339,8 +339,8 @@
         var dis = 0;
         var closest_dis = -9999;
         this.category.forEach(c => {
-          if (offset(document.querySelector('.' + c.category)).top < 0) {
-            dis = offset(document.querySelector('.' + c.category)).top;
+          if (document.querySelector('.' + c.category).offsetTop < 0) {
+            dis = document.querySelector('.' + c.category).offsetTop;
             if (dis > closest_dis) {
               closest_dis = dis;
               closest_category = c.category;
@@ -362,8 +362,8 @@
         var dis = 0;
         var closest_dis = 9999;
         this.category.forEach(c => {
-          if (offset(document.querySelector('.' + c.category)).top > 100) {
-            dis = offset(document.querySelector('.' + c.category)).top;
+          if (document.querySelector('.' + c.category).offsetTop > 100) {
+            dis = document.querySelector('.' + c.category).offsetTop;
             if (dis < closest_dis) {
               closest_dis = dis;
               closest_category = c.category;
