@@ -239,7 +239,7 @@
       <div
         :v-if="load_time > 5"
         class="row"
-        v-for="c in [category[11], category[12], category[10]]"
+        v-for="c in [category[10], category[12], category[11]]"
         :key="c.category"
         v-bind="c"
       >
