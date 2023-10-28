@@ -31,15 +31,26 @@
           :rules="[val => (val && val.length > 0) || '']"
         />
 
-        <div class="q-gutter-sm q-py-sm">
+        <div class="q-gutter-sm">
           <q-btn
             :label="selected_local.confirm"
             type="submit"
-            color="primary"
+            color="positive"
+            outline
             v-close-popup
           />
-          <q-btn :label="selected_local.cancel" color="primary" v-close-popup />
-          <q-btn :label="selected_local.reinput" type="reset" color="primary" />
+          <q-btn
+            :label="selected_local.cancel"
+            color="negative"
+            outline
+            v-close-popup
+          />
+          <q-btn
+            :label="selected_local.reinput"
+            type="reset"
+            color="positive"
+            outline
+          />
         </div>
       </q-form>
     </q-card>

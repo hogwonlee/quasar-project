@@ -3,14 +3,14 @@
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders" :ratio="1">
         <div class="absolute-top-right q-mt-sm transparent">
-          <q-badge v-if="buyoption == true" color="teal" floating rounded>
+          <q-badge v-if="buyoption == true" color="red" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
           x {{ quantity }}
           <div class="absolute-top-right transparent">
-            <q-badge v-if="bonus_quantity > 0" color="teal" floating rounded>
+            <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>
               {{ bonus_quantity }}
             </q-badge>
           </div>
@@ -20,11 +20,11 @@
     <div>
       <q-dialog v-model="card" :id="category">
         <q-card
-          class="bg-teal-3 row justify-center q-px-none q-mx-none"
+          class="row justify-center q-px-none q-mx-none"
           style="width: 75%; height: 60%"
         >
           <q-btn
-            class="absolute-top-right bg-grey z-top q-ma-xs"
+            class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
             v-close-popup
           >
@@ -62,7 +62,7 @@
             >
               {{ price }}
               <q-badge
-                color="teal"
+                color="red"
                 floating
                 rounded
                 transparent
@@ -123,7 +123,7 @@
               readonly
               disable
               outlined
-              bg-color="teal-2"
+              bg-color="red-2"
               v-model="this.localQuantity"
               input-class="text-right"
             >
@@ -163,7 +163,7 @@
             /> -->
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-xs q-px-sm">
-            <q-bar dense class="col-12 bg-teal text-white"> 基本信息 </q-bar>
+            <q-bar dense class="col-12 bg-red text-white"> 基本信息 </q-bar>
             <q-input
               class="col-6"
               readonly
@@ -186,7 +186,9 @@
               disable
               borderless
               :label="selected_local.shelf_life"
-              :model-value="shelf_life + selected_local.month_count"
+              :model-value="
+                shelf_life <= 0 ? '-' : shelf_life + selected_local.month_count
+              "
             />
             <q-input
               class="col-6"
@@ -194,7 +196,7 @@
               disable
               borderless
               :label="selected_local.production_date"
-              :model-value="production_date + selected_local.after"
+              :model-value="selected_local.after"
             />
           </q-card-section>
         </q-card>
@@ -210,13 +212,13 @@
             <q-btn
               flat
               :label="selected_local.cancel"
-              color="primary"
+              color="negative"
               v-close-popup
             />
             <q-btn
               flat
               :label="selected_local.confirm"
-              color="primary"
+              color="positive"
               v-close-popup
               @click="deleteProductFromCart(product_name)"
             />

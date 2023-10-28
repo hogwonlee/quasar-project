@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-md bg-teal-2">
+  <q-page class="q-pa-md">
     <section v-if="user_status">
       <!-- <div class="text-h3">내 정보</div> -->
-      <q-card class="row bg-teal-2" flat>
+      <q-card class="row" flat>
         <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
         <q-input
           :model-value="user.USER_NAME"
@@ -23,7 +23,7 @@
           <q-fab
             v-model="user_option"
             icon="settings"
-            text-color="primary"
+            text-color="positive"
             color="white"
             padding="sm"
             direction="left"
@@ -31,21 +31,21 @@
           >
             <q-fab-action
               color="white"
-              text-color="primary"
+              text-color="positive"
               padding="none"
               :label="selected_local.changemyinfo"
               @click="this.checkPasswordDialog = true"
             />
             <q-fab-action
               color="white"
-              text-color="primary"
+              text-color="positive"
               padding="none"
               :label="selected_local.changepassword"
               @click="this.changePasswordDialog = true"
             />
             <q-fab-action
               color="white"
-              text-color="red"
+              text-color="negative"
               padding="none"
               :label="selected_local.logout"
               @click="confirm_logout()"
@@ -69,7 +69,7 @@
             <q-fab
               v-model="addr_option"
               icon="settings"
-              text-color="primary"
+              text-color="positive"
               color="white"
               padding="sm"
               direction="left"
@@ -77,14 +77,14 @@
             >
               <q-fab-action
                 color="white"
-                text-color="primary"
+                text-color="positive"
                 padding="none"
                 :label="selected_local.registernewaddr"
                 @click="this.register = true"
               />
               <q-fab-action
                 color="white"
-                text-color="primary"
+                text-color="positive"
                 padding="none"
                 :label="selected_local.addr"
                 @click="this.address_vue = true"
@@ -97,20 +97,23 @@
         </q-card-section>
         <q-card-section
           v-else
-          class="row items-center q-ma-none q-pa-none bg-white"
+          class="row items-center q-ma-none q-pa-none"
           style="width: 100%"
           v-for="addr in addressList"
           :key="addr.address_id"
           v-bind="addr"
         >
           <q-card-section v-if="addr.is_default == 1">
-            <div class="text-h6 text-bold q-mx-sm q-pa-none q-my-none">
+            <div
+              class="text-h6 text-bold q-mx-sm q-pa-none q-my-none"
+              style="border-radius: 1px; border: 1px"
+            >
               {{ '(' + addr.address_tag + ') ' + addr.recipient }}
               <q-chip
                 class="q-py-none q-my-none"
                 v-if="addr.is_default"
                 dense
-                text-color="primary"
+                text-color="dark"
               >
                 {{ selected_local.defaultaddr }}
               </q-chip>
@@ -132,6 +135,21 @@
       </q-card>
 
       <q-separator class="q-my-sm" />
+      <q-card-section class="row items-center q-px-none q-py-sm">
+        <div class="text-h6 text-bold">
+          {{ selected_local.buy_history }}
+        </div>
+
+        <q-btn
+          :label="selected_local.buy_history"
+          @click="orderHistoryDialog = true"
+          color="positive"
+          outline
+          class="absolute-right"
+        ></q-btn>
+      </q-card-section>
+      <q-separator class="q-my-sm" />
+
       <q-card class="transparent" flat>
         <q-card-section class="row items-center q-px-none q-py-sm">
           <div class="text-h6 text-bold">
@@ -143,7 +161,7 @@
             label="?"
             round
             color="white"
-            text-color="primary"
+            text-color="positive"
             @click="coupon_info_dialog()"
           />
         </q-card-section>
@@ -158,7 +176,7 @@
             v-bind="coupon"
           >
             <q-card-section class="bg-grey-3 q-pa-none">
-              <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
+              <div class="text-subtitle2 text-bold text-dark q-ml-md">
                 {{ coupon.coupon_name }}
               </div>
               <q-space />
@@ -167,21 +185,21 @@
                 :label="selected_local.use_reserve"
                 icon="task_alt"
                 dense
-                text-color="primary"
+                text-color="positive"
                 class="q-mr-sm"
               ></q-chip>
             </q-card-section>
-            <q-card-section class="bg-primary q-px-none q-pt-xs q-pb-none">
+            <q-card-section class="bg-red-13 q-px-none q-pt-xs q-pb-none">
               <div class="text-h3 text-bold text-white q-mx-sm">
                 <q-icon name="img:icons\kr_won.png" />
                 {{ coupon.coupon_price / 1000 }} {{ selected_local.won000 }}
               </div>
               <q-separator class="q-my-sm" />
-              <div class="text-caption text-grey-3 q-ml-md">
+              <div class="text-caption text-white q-ml-md">
                 {{ selected_local.use_condition }} {{ coupon.use_condition }}
                 {{ selected_local.more }}
               </div>
-              <div class="text-caption text-grey-3 q-ml-md">
+              <div class="text-caption text-white q-ml-md">
                 {{ selected_local.use_limit }}
                 {{ limit_date(coupon.gift_day, 90) }}
                 {{ selected_local.up_to }}
@@ -192,7 +210,7 @@
         <q-card-section v-else>
           <q-card class="my-card q-pa-none q-ma-xs">
             <q-card-section class="bg-grey-3 q-pa-none">
-              <div class="text-subtitle2 text-bold text-deep-purple q-ml-md">
+              <div class="text-subtitle2 text-bold text-dark q-ml-md">
                 {{ selected_local.coupon_name_none }}
               </div>
             </q-card-section>
@@ -202,8 +220,12 @@
                 {{ selected_local.coupon_value_none }}
               </div>
               <q-separator class="q-my-sm" />
-              <div class="text-caption text-grey-3 q-ml-md">사용조건:</div>
-              <div class="text-caption text-grey-3 q-ml-md">사용기한:</div>
+              <div class="text-caption text-grey-3 q-ml-md">
+                {{ selected_local.use_condition }} :
+              </div>
+              <div class="text-caption text-grey-3 q-ml-md">
+                {{ selected_local.use_limit }} :
+              </div>
             </q-card-section>
           </q-card>
         </q-card-section>
@@ -228,7 +250,7 @@
         outline
         :label="selected_local.use_policy"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="service_policy_vue = true"
       />
 
@@ -237,7 +259,7 @@
         outline
         :label="selected_local.privacy_policy"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="privacy_policy_vue = true"
       />
 
@@ -246,7 +268,7 @@
         outline
         :label="selected_local.deliver_info_title"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="delivery_policy_vue = true"
       />
 
@@ -255,7 +277,7 @@
         outline
         :label="selected_local.claim_info"
         color="white"
-        text-color="teal"
+        text-color="dark"
         @click="exchange_policy_vue = true"
       />
     </div>
@@ -264,40 +286,40 @@
     </q-dialog>
     <q-dialog v-model="coupon_vue">
       <CouponList
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm"
+        class="absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
     </q-dialog>
     <q-dialog v-model="privacy_policy_vue">
       <PrivacyPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="service_policy_vue">
       <ServicePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="delivery_policy_vue">
       <DeliveryPolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
 
     <q-dialog v-model="exchange_policy_vue">
       <ExchangePolicy
-        class="bg-teal-2 absolute-top q-mx-lg q-pa-sm q-mt-xl"
+        class="bg-dark absolute-top q-mx-lg q-pa-sm q-mt-xl"
         style="max-height: 500px"
       />
     </q-dialog>
@@ -351,12 +373,14 @@
             <q-btn
               :label="selected_local.confirm"
               type="submit"
-              color="primary"
+              color="positive"
+              outline
               v-close-popup
             />
             <q-btn
               :label="selected_local.cancel"
-              color="primary"
+              color="negative"
+              outline
               v-close-popup
             />
           </div>
@@ -377,6 +401,22 @@
       transition-hide="scale"
       ><ChangePassword
     /></q-dialog>
+    <q-dialog v-model="orderHistoryDialog">
+      <ProductInfo
+        class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+        v-for="product in product_all.filter(
+          p => p.product_id == orderHistory.product_id,
+        )"
+        :key="product.product_id"
+        v-bind="product"
+        @setbuyoption="product.buyoption = $event"
+        @setquantity="product.quantity = $event"
+        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
+        @sendRemoveItem="
+          this.$store.dispatch('cart/removeProductFromCart', product)
+        "
+      />
+    </q-dialog>
   </q-page>
 </template>
 
@@ -404,6 +444,7 @@
   import {Dialog} from 'quasar';
   const {addToDate} = date;
   // import security from 'src/util/modules/security';
+  import ProductInfo from './ProductInfo.vue';
 
   export default defineComponent({
     name: 'UserInfo',
@@ -420,6 +461,7 @@
       ExchangePolicy,
       AddressRegister,
       AddressList,
+      ProductInfo,
     },
     data: function () {
       return {
@@ -441,6 +483,8 @@
         delivery_policy_vue: ref(false),
         exchange_policy_vue: ref(false),
         isPwd: ref(true),
+        orderHistory: {},
+        orderHistoryDialog: ref(false),
       };
     },
     computed: {
@@ -452,6 +496,7 @@
         couponList: state => state.coupon.items,
         coupon_status: state => state.coupon.status,
         selected_local: state => state.ui_local.status,
+        product_all: state => state.products.all,
       }),
     },
     mounted() {
@@ -624,6 +669,36 @@
               console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
             });
         }
+      },
+      readOrderHistory() {
+        const userData = {
+          user_id: this.user.USER_ID,
+        };
+
+        axios({
+          url: `${configs.server}/orderHistory`,
+          method: 'POST',
+          data: userData,
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res.status));
+            if (res.status == 200) {
+              // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
+              this.orderHistory = res.data.results;
+            } else {
+              alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+            }
+          })
+
+          .catch(res => {
+            alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
       },
     },
   });

@@ -6,11 +6,11 @@
     <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
 
     <q-dialog v-model="address_popup">
-      <AddressList class="bg-teal-2" />
+      <AddressList />
     </q-dialog>
 
-    <div class="q-pa-md bg-teal">
-      <q-chip outline color="grey-1" class="bg-teal text-body3 text-grey-1">{{
+    <div class="q-pa-md">
+      <q-chip outline color="grey-1" class="bg-dark text-body3 text-grey-1">{{
         selected_local.orderlist
       }}</q-chip>
       <p v-show="!cartList.length">
@@ -35,12 +35,12 @@
         />
       </div>
     </div>
-
-    <q-card class="q-py-sm bg-teal-2">
+    <q-separator />
+    <q-card class="q-py-sm">
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.foodprice }}
@@ -48,7 +48,7 @@
                 <template v-slot:append>
                   <q-icon
                     name="live_help"
-                    class="text-white"
+                    color="positive"
                     @click="buy_event_info()"
                   />
                 </template>
@@ -59,7 +59,7 @@
             </td>
           </tr>
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.delivercost }}
@@ -69,7 +69,7 @@
             <td class="text-right col-8 text-h4">
               <q-chip
                 dense
-                color="teal"
+                color="grey"
                 icon="new_releases"
                 :label="selected_local.delivercostnotice"
                 text-color="white"
@@ -77,8 +77,8 @@
               {{ shipment }} {{ selected_local.won }}
             </td>
           </tr>
-          <tr class="row">
-            <td class="text-left bg-teal col-4">
+          <!-- <tr class="row">
+            <td class="text-left col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.point }}
@@ -89,7 +89,6 @@
                     class="text-white"
                     @Click="coupon_info_dialog()"
                   />
-                  <!-- @click="coupon_list = true" -->
                 </template>
               </q-field>
             </td>
@@ -102,9 +101,9 @@
               }}
               P
             </td>
-          </tr>
+          </tr> -->
           <tr class="row">
-            <td class="text-left bg-teal col-4">
+            <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
                 <template v-slot:control>
                   {{ selected_local.total }}
@@ -112,11 +111,7 @@
               </q-field>
             </td>
             <td class="text-right col-8 text-h4">
-              {{
-                reservedCoupon() != undefined
-                  ? total + shipment - reservedCoupon().coupon_price
-                  : total + shipment - 0
-              }}
+              {{ total + shipment }}
               {{ selected_local.won }}
             </td>
           </tr>
@@ -125,9 +120,9 @@
     </q-card>
 
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
-      <CouponList class="bg-teal-2" v-bind:food_price="total" />
+      <CouponList class="bg-white" v-bind:food_price="total" />
     </q-dialog>
-    <q-card class="bg-teal-2">
+    <q-card>
       <div v-if="user_status">
         <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
       <div>수령인: {{ this.address_selected.recipient }}</div>
@@ -146,6 +141,7 @@
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
             color="negative"
+            outline
             :label="selected_local.addrresister"
             @click="register_popup = true"
           ></q-btn>
@@ -163,13 +159,15 @@
           </q-input>
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
-            color="primary"
+            color="positive"
+            outline
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
         </div>
-        <div v-else>
+        <div class="row" v-else>
           <q-input
+            class="col-12"
             color="white-1"
             standout
             readonly
@@ -182,12 +180,42 @@
           </q-input>
           <q-btn
             class="text-bold absolute-top-right q-ma-sm"
-            color="primary"
+            color="positive"
+            outline
             :label="selected_local.change"
             @click="address_popup = true"
           ></q-btn>
           <q-input
             color="white-1"
+            class="col-6"
+            standout
+            readonly
+            :label="selected_local.tel"
+            :model-value="this.address_selected.recipient_phone"
+          >
+            <template v-slot:prepend>
+              <q-icon name="phone" />
+            </template>
+          </q-input>
+          <q-input
+            color="white-1"
+            class="col-6"
+            standout
+            readonly
+            :label="selected_local.gate_password"
+            :model-value="
+              this.address_selected.outdoorpassword == ''
+                ? selected_local.gate_free
+                : this.address_selected.outdoorpassword
+            "
+          >
+            <template v-slot:prepend>
+              <q-icon name="apartment" />
+            </template>
+          </q-input>
+          <q-input
+            color="white-1"
+            class="col-12"
             standout
             readonly
             autogrow
@@ -219,6 +247,7 @@
         <q-btn
           class="text-bold absolute-top-right q-ma-sm"
           color="negative"
+          outline
           :label="selected_local.gotologinvue"
           tag="a"
           to="/UserInfo"
@@ -226,6 +255,10 @@
       </div>
     </q-card>
     <div id="payment-method" class="q-py-none"></div>
+    <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+    <br />
+    <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
+    ><br />
     <div id="agreement" class="q-py-none"></div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
@@ -233,16 +266,132 @@
         <div v-if="no_login">{{ selected_local.needloginfirst }}</div>
       </div>
       <q-btn
-        color="primary"
+        color="positive"
+        outline
         size="22px"
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
-        @click="selectPaymentmethod(total, shipment, reservedCoupon())"
+        @click="before_pay_check()"
       >
       </q-btn>
     </div>
 
+    <q-dialog v-model="finalCheck" persistent>
+      <q-card>
+        <q-card-section class="row items-center q-pa-none">
+          <div class="text-h6 text-bold">
+            {{ selected_local.final_pay_confirm }}
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_recipent_confirm }}
+          </div>
+          <div class="row">
+            <q-input
+              class="col-6"
+              color="white-1"
+              standout
+              readonly
+              :label="selected_local.recipient"
+              :model-value="this.address_selected.recipient"
+            >
+              <template v-slot:prepend>
+                <q-icon name="person" />
+              </template>
+            </q-input>
+            <q-input
+              class="col-6"
+              color="white-1"
+              standout
+              readonly
+              :label="selected_local.tel"
+              :model-value="this.address_selected.recipient_phone"
+            >
+              <template v-slot:prepend>
+                <q-icon name="phone" />
+              </template>
+            </q-input>
+            <q-input
+              class="col-12"
+              color="white-1"
+              standout
+              readonly
+              autogrow
+              :label="selected_local.receiveaddr"
+              :model-value="
+                '(' +
+                this.address_selected.address_tag +
+                ') ' +
+                this.address_selected.address1 +
+                ' ' +
+                this.address_selected.address2 +
+                ' ' +
+                this.address_selected.address3
+              "
+            >
+              <template v-slot:prepend>
+                <q-icon name="place" />
+              </template>
+            </q-input>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_coupon_confirm }}
+          </div>
+          <div class="row">
+            <q-radio
+              color="positive"
+              class="col-12"
+              v-model="coupon"
+              val=""
+              :label="selected_local.donot_use"
+            />
+            <q-radio
+              color="positive"
+              v-model="coupon"
+              v-for="c in couponList.filter(c => c.available == 1)"
+              :Key="c.coupon_id"
+              :bind="c"
+              :val="c"
+              :label="
+                c.coupon_name +
+                ': ' +
+                c.coupon_price +
+                selected_local.won +
+                selected_local.coupon_use_info_1 +
+                `${c.use_condition == null ? 0 : c.use_condition}` +
+                selected_local.won +
+                selected_local.coupon_use_info_2
+              "
+              :disable="c.use_condition > total ? true : false"
+            />
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body1 text-bold">
+            {{ selected_local.final_payamount_confirm }}
+          </div>
+          {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
+          {{ selected_local.won }}
+        </q-card-section>
+        <div class="row justify-center">
+          <q-btn
+            color="positive"
+            outline
+            size="22px"
+            class="text-bold q-py-none q-px-xl q-ma-sm"
+            :label="selected_local.checkout"
+            @click="selectPaymentmethod(total, shipment, coupon)"
+          >
+          </q-btn>
+        </div>
+      </q-card>
+    </q-dialog>
     <q-dialog
       v-model="persistent"
       persistent
@@ -291,77 +440,79 @@
         register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
+        finalCheck: ref(false),
+        coupon: ref(''),
       };
     },
     watch: {
-      total: function (val, old) {
-        // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
-        if (old < 50000 && val >= 50000) {
-          // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
-          console.log('50000 구매 쿠폰 적용');
-          if (this.couponList.length > 0) {
-            var coupon_id = this.find_coupon(50000);
-            if (coupon_id == null) {
-              console.log(
-                'no 50000 condition coupon, then 30000 구매 쿠폰 적용',
-              );
-              coupon_id = this.find_coupon(30000);
-              if (coupon_id != null) {
-                if (this.reservedCoupon() != undefined) {
-                  if (this.reservedCoupon().coupon_id != coupon_id) {
-                    this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                    this.reserve_use_coupon(coupon_id);
-                  }
-                } else {
-                  this.reserve_use_coupon(coupon_id);
-                }
-              } else {
-                if (this.reservedCoupon() != undefined) {
-                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                }
-              }
-            } else {
-              if (this.reservedCoupon() != undefined) {
-                if (this.reservedCoupon().coupon_id != coupon_id) {
-                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                  this.reserve_use_coupon(coupon_id);
-                }
-              } else {
-                this.reserve_use_coupon(coupon_id);
-              }
-            }
-          }
-        } else if (
-          (old < 30000 && val >= 30000 && val < 50000) ||
-          (old >= 50000 && val >= 30000 && val < 50000)
-        ) {
-          console.log('30000 구매 쿠폰 적용');
-          // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
-          if (this.couponList.length > 0) {
-            var coupon_id = this.find_coupon(30000);
+      // total: function (val, old) {
+      //   // 주문 페이지에서 주문을 변경 시, 금액 변화에 따라 쿠폰 자동 사용이 변경됨.
+      //   if (old < 50000 && val >= 50000) {
+      //     // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
+      //     console.log('50000 구매 쿠폰 적용');
+      //     if (this.couponList.length > 0) {
+      //       var coupon_id = this.find_coupon(50000);
+      //       if (coupon_id == null) {
+      //         console.log(
+      //           'no 50000 condition coupon, then 30000 구매 쿠폰 적용',
+      //         );
+      //         coupon_id = this.find_coupon(30000);
+      //         if (coupon_id != null) {
+      //           if (this.reservedCoupon() != undefined) {
+      //             if (this.reservedCoupon().coupon_id != coupon_id) {
+      //               this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //               this.reserve_use_coupon(coupon_id);
+      //             }
+      //           } else {
+      //             this.reserve_use_coupon(coupon_id);
+      //           }
+      //         } else {
+      //           if (this.reservedCoupon() != undefined) {
+      //             this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //           }
+      //         }
+      //       } else {
+      //         if (this.reservedCoupon() != undefined) {
+      //           if (this.reservedCoupon().coupon_id != coupon_id) {
+      //             this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //             this.reserve_use_coupon(coupon_id);
+      //           }
+      //         } else {
+      //           this.reserve_use_coupon(coupon_id);
+      //         }
+      //       }
+      //     }
+      //   } else if (
+      //     (old < 30000 && val >= 30000 && val < 50000) ||
+      //     (old >= 50000 && val >= 30000 && val < 50000)
+      //   ) {
+      //     console.log('30000 구매 쿠폰 적용');
+      //     // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
+      //     if (this.couponList.length > 0) {
+      //       var coupon_id = this.find_coupon(30000);
 
-            if (coupon_id == null) {
-              if (this.reservedCoupon() != undefined) {
-                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-              }
-            } else {
-              if (this.reservedCoupon() != undefined) {
-                if (this.reservedCoupon().coupon_id != coupon_id) {
-                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                  this.reserve_use_coupon(coupon_id);
-                }
-              } else {
-                this.reserve_use_coupon(coupon_id);
-              }
-            }
-          }
-        } else if (old >= 30000 && val < 30000) {
-          //기존에 예약한 쿠폰 모두 취소.
-          if (this.reservedCoupon() != undefined) {
-            this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-          }
-        }
-      },
+      //       if (coupon_id == null) {
+      //         if (this.reservedCoupon() != undefined) {
+      //           this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //         }
+      //       } else {
+      //         if (this.reservedCoupon() != undefined) {
+      //           if (this.reservedCoupon().coupon_id != coupon_id) {
+      //             this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //             this.reserve_use_coupon(coupon_id);
+      //           }
+      //         } else {
+      //           this.reserve_use_coupon(coupon_id);
+      //         }
+      //       }
+      //     }
+      //   } else if (old >= 30000 && val < 30000) {
+      //     //기존에 예약한 쿠폰 모두 취소.
+      //     if (this.reservedCoupon() != undefined) {
+      //       this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //     }
+      //   }
+      // },
       default_addr: function (new_default) {
         // console.log('기본 배송지 변경: ' + new_default.address2);
         this.address_selected = new_default[0];
@@ -406,8 +557,9 @@
       },
       selectPaymentmethod(total, shipment, coupon) {
         var discount;
-        if (coupon != undefined) {
+        if (coupon != undefined || coupon != '') {
           discount = coupon.coupon_price;
+          this.reserve_use_coupon(coupon.coupon_id);
         } else {
           discount = 0;
         }
@@ -447,28 +599,45 @@
           );
         }
       },
-      find_coupon(val) {
-        var coupon = this.couponList.find(
-          item => (item.use_condition === val) & (item.available == 1),
-        );
-        if (coupon == undefined) {
-          return null;
+      before_pay_check() {
+        if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
+          if (paymentMethod.getSelectedPaymentMethod().method == '계좌이체') {
+            this.finalCheck = true;
+          } else {
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.payment_policy,
+            );
+          }
         } else {
-          console.log('쿠폰 사용가능여부 확인: ' + coupon.available);
-          return coupon.coupon_id;
+          alert.confirm(
+            this.selected_local.notice,
+            this.selected_local.check_agreement,
+          );
         }
       },
+      // find_coupon(val) {
+      //   var coupon = this.couponList.find(
+      //     item => (item.use_condition === val) & (item.available == 1),
+      //   );
+      //   if (coupon == undefined) {
+      //     return null;
+      //   } else {
+      //     console.log('쿠폰 사용가능여부 확인: ' + coupon.available);
+      //     return coupon.coupon_id;
+      //   }
+      // },
       reserve_use_coupon(coupon_id) {
         this.$store.dispatch('coupon/reserveUseCouponAction', coupon_id);
       },
-      reserve_cancle_coupon(coupon_id) {
-        this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
-      },
-      reservedCoupon() {
-        return this.couponList.find(
-          element => element.coupon_use_reserve === 1,
-        );
-      },
+      // reserve_cancle_coupon(coupon_id) {
+      //   this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
+      // },
+      // reservedCoupon() {
+      //   return this.couponList.find(
+      //     element => element.coupon_use_reserve === 1,
+      //   );
+      // },
       read_coupon() {
         if (this.coupon_status != null && this.no_login == false) {
           axios({
@@ -505,14 +674,14 @@
             });
         }
       },
-      coupon_info_dialog() {
-        alert.confirm(
-          this.selected_local.coupon_info + this.selected_local.notice,
-          this.selected_local.coupon_use_info +
-            '\n ' +
-            this.selected_local.coupon_use_condition,
-        );
-      },
+      // coupon_info_dialog() {
+      //   alert.confirm(
+      //     this.selected_local.coupon_info + this.selected_local.notice,
+      //     this.selected_local.coupon_use_info +
+      //       '\n ' +
+      //       this.selected_local.coupon_use_condition,
+      //   );
+      // },
     },
     async created() {
       // ------  결제위젯 초기화 ------
@@ -539,61 +708,61 @@
 
       this.read_coupon();
       this.address_selected = this.default_addr[0];
-      if (this.total >= 50000) {
-        // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
-        console.log('50000 구매 쿠폰 적용');
-        if (this.couponList.length > 0) {
-          var coupon_id = this.find_coupon(50000);
-          if (coupon_id == null) {
-            console.log('no 50000 condition coupon, then 30000 구매 쿠폰 적용');
-            coupon_id = this.find_coupon(30000);
-            if (coupon_id != null) {
-              if (this.reservedCoupon() != undefined) {
-                if (this.reservedCoupon().coupon_id != coupon_id) {
-                  this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                  this.reserve_use_coupon(coupon_id);
-                }
-              } else {
-                this.reserve_use_coupon(coupon_id);
-              }
-            } else {
-              if (this.reservedCoupon() != undefined) {
-                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-              }
-            }
-          } else {
-            if (this.reservedCoupon() != undefined) {
-              if (this.reservedCoupon().coupon_id != coupon_id) {
-                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                this.reserve_use_coupon(coupon_id);
-              }
-            } else {
-              this.reserve_use_coupon(coupon_id);
-            }
-          }
-        }
-      } else if (this.total >= 30000) {
-        console.log('30000 구매 쿠폰 적용');
-        // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
-        if (this.couponList.length > 0) {
-          var coupon_id = this.find_coupon(30000);
+      // if (this.total >= 50000) {
+      //   // 사용 조건이 오만원이상인 쿠폰 찾아서 적용
+      //   console.log('50000 구매 쿠폰 적용');
+      //   if (this.couponList.length > 0) {
+      //     var coupon_id = this.find_coupon(50000);
+      //     if (coupon_id == null) {
+      //       console.log('no 50000 condition coupon, then 30000 구매 쿠폰 적용');
+      //       coupon_id = this.find_coupon(30000);
+      //       if (coupon_id != null) {
+      //         if (this.reservedCoupon() != undefined) {
+      //           if (this.reservedCoupon().coupon_id != coupon_id) {
+      //             this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //             this.reserve_use_coupon(coupon_id);
+      //           }
+      //         } else {
+      //           this.reserve_use_coupon(coupon_id);
+      //         }
+      //       } else {
+      //         if (this.reservedCoupon() != undefined) {
+      //           this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //         }
+      //       }
+      //     } else {
+      //       if (this.reservedCoupon() != undefined) {
+      //         if (this.reservedCoupon().coupon_id != coupon_id) {
+      //           this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //           this.reserve_use_coupon(coupon_id);
+      //         }
+      //       } else {
+      //         this.reserve_use_coupon(coupon_id);
+      //       }
+      //     }
+      //   }
+      // } else if (this.total >= 30000) {
+      //   console.log('30000 구매 쿠폰 적용');
+      //   // 사용 조건이 삼만원이상인 쿠폰 찾아서 적용
+      //   if (this.couponList.length > 0) {
+      //     var coupon_id = this.find_coupon(30000);
 
-          if (coupon_id == null) {
-            if (this.reservedCoupon() != undefined) {
-              this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-            }
-          } else {
-            if (this.reservedCoupon() != undefined) {
-              if (this.reservedCoupon().coupon_id != coupon_id) {
-                this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
-                this.reserve_use_coupon(coupon_id);
-              }
-            } else {
-              this.reserve_use_coupon(coupon_id);
-            }
-          }
-        }
-      }
+      //     if (coupon_id == null) {
+      //       if (this.reservedCoupon() != undefined) {
+      //         this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //       }
+      //     } else {
+      //       if (this.reservedCoupon() != undefined) {
+      //         if (this.reservedCoupon().coupon_id != coupon_id) {
+      //           this.reserve_cancle_coupon(this.reservedCoupon().coupon_id);
+      //           this.reserve_use_coupon(coupon_id);
+      //         }
+      //       } else {
+      //         this.reserve_use_coupon(coupon_id);
+      //       }
+      //     }
+      //   }
+      // }
     },
     mounted() {},
   });

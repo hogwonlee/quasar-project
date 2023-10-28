@@ -190,7 +190,7 @@ quasar 설치
 
 ```
 yarn global add @quasar/cli
-pm2 start "quasar dev" --daemon --name webapp
+pm2 start "quasar dev" --daemon --name qaapp
 ```
 
 상태확인

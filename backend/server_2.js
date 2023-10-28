@@ -262,6 +262,7 @@ app.post('/api/addressRegister', function (req, res) {
             address1: body.address1,
             address2: body.address2,
             address3: body.address3,
+            gate_password: body.gate_password,
             is_default: body.is_default,
             user_id: body.user_id,
           };
@@ -404,7 +405,7 @@ app.post('/api/addressInfoChange', function (req, res) {
         }
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend_update =
-            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=? WHERE address_id = ? ';
+            'UPDATE addressinfo SET address_tag = ?, recipient= ?,recipient_phone = ? , post_code=?,address1=?,address2=?,address3=?,gate_password=? WHERE address_id = ? ';
           const body = req.body;
           const param_update = {
             address_tag: body.address_tag,
@@ -414,6 +415,7 @@ app.post('/api/addressInfoChange', function (req, res) {
             address1: body.address1,
             address2: body.address2,
             address3: body.address3,
+            gate_password: body.gate_password,
             address_id: body.address_id,
           };
           return db.query(
@@ -426,6 +428,7 @@ app.post('/api/addressInfoChange', function (req, res) {
               param_update.address1,
               param_update.address2,
               param_update.address3,
+              param_update.gate_password,
               param_update.address_id,
             ],
             function (err, results, fields) {
@@ -547,7 +550,7 @@ app.post('/api/orderRegister', function (req, res) {
         //쿠폰을 사용했을 경우, 쿠폰 사용 완료 표시
         if (req.body.used_coupon_id != null) {
           const sqlCommend_useCoupon =
-            'UPDATE usercoupon SET available = 0 WHERE user_id = ? AND coupon_id = ?';
+            'UPDATE usercoupon SET available = 0 WHERE available = 1 AND user_id = ? AND coupon_id = ?';
           const param_useCoupon = {
             user_id: req.body.user_id,
             coupon_id: req.body.used_coupon_id,
@@ -818,4 +821,34 @@ app.post('/api/mycoupon', (req, res) => {
   db.query(sqlCommend, param.user_id, (err, results, fields) => {
     res.status(200).send({results});
   });
+});
+
+app.post('/api/orderHistory', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('orderHistory 에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend =
+            'SELECT DISTINCT product_id FROM ordergroup JOIN  orderinfo ON ordergroup.id = orderinfo.order_group  WHERE ordergroup.user_id = ?';
+          const body = req.body;
+          const param = {user_id: body.user_id};
+
+          db.query(sqlCommend, param.user_id, (err, results, fields) => {
+            if (err) {
+              console.log('주문 조회 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              res.status(200).send({results});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
 });

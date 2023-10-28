@@ -1,12 +1,15 @@
 <template>
   <div>
     <q-input
-      class="fixed-top-right z-top"
-      input-class="text-right text-white"
-      style="width: 150px; max-height: 50px"
-      borderless
+      class="fixed-top-right z-top q-ma-xs"
+      rounded
+      standout
+      dense
+      outlined
+      input-class=" text-right text-white"
+      style="width: 40%"
       v-model="keyword"
-      label-color="white"
+      label-color="dark"
       :label="selected_local.search"
     >
       <!-- :label="selected_local.search" -->
@@ -17,10 +20,10 @@
           @click="keyword = ''"
           class="cursor-pointer"
         />
-        <q-icon name="search" color="white" />
+        <q-icon name="search" color="dark" />
       </template>
     </q-input>
-    <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
+    <!-- <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
       <q-fab
         v-model="event_fab"
         label="이벤트안내(~23.12.31)"
@@ -45,40 +48,135 @@
           @click="coupon_5353_event()"
         />
       </q-fab>
-    </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-right" :offset="[-15, 10]">
-      <q-list v-if="list_show" bordered separator class="bg-primary">
-        <q-item
-          clickable
-          v-ripple
-          v-for="c in category"
+    </q-page-sticky> -->
+    <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+      <q-fab
+        v-model="list_show"
+        persistent="false"
+        :label="selected_local.category"
+        direction="up"
+        class="q-pa-none q-gutter-none"
+        color="dark"
+        vertical-actions-align="right"
+        icon="keyboard_arrow_up"
+      >
+        <q-fab-action
+          :label="c.category"
+          padding="3px"
+          v-for="c in [
+            category[10],
+            category[11],
+            category[9],
+            category[8],
+            category[7],
+            category[6],
+            category[5],
+            category[3],
+            category[2],
+            category[1],
+            category[0],
+            category[4],
+          ]"
           :key="c.category"
           v-bind="c"
-        >
-          <q-item-section @click="handleScroll(c.category)">
-            <q-item-label overline class="text-white">{{
-              c.category
-            }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <!-- :label="selected_local.category" -->
+          color="dark"
+          @click="handleScroll(c.category)"
+        />
+      </q-fab>
+    </q-page-sticky>
+    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 50]">
       <q-btn
-        fab
-        :label="selected_local.category"
-        color="primary"
-        @click="list_show = !list_show"
-      />
+        :label="selected_local.prev_category"
+        icon="keyboard_arrow_up"
+        class="bg-dark text-white"
+        rounded
+        @click="go_prev_category()"
+      ></q-btn>
+    </q-page-sticky>
+    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
+      <q-btn
+        :label="selected_local.next_category"
+        icon="keyboard_arrow_down"
+        class="bg-dark text-white"
+        rounded
+        @click="go_next_category()"
+      ></q-btn>
     </q-page-sticky>
     <div>
       <div
-        :v-if="load_time > 3"
+        :v-if="load_time > 1"
         class="row"
         v-for="c in [category[4]]"
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-dark text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        :v-if="load_time > 2"
+        class="row"
+        v-for="c in [category[0], category[1], category[2]]"
+        :key="c.category"
+        v-bind="c"
+      >
+        <q-bar dense class="col-12 bg-dark text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
+      <div
+        :v-if="load_time > 3"
+        class="row"
+        v-for="c in [category[3], category[5], category[6]]"
+        :key="c.category"
+        v-bind="c"
+      >
+        <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -107,11 +205,11 @@
       <div
         :v-if="load_time > 4"
         class="row"
-        v-for="c in [category[0], category[1], category[2]]"
+        v-for="c in [category[7], category[8], category[9]]"
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -140,77 +238,11 @@
       <div
         :v-if="load_time > 5"
         class="row"
-        v-for="c in [category[3], category[5], category[6]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-teal text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
-      <div
-        :v-if="load_time > 6"
-        class="row"
-        v-for="c in [category[7], category[8], category[9]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-teal text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
-      <div
-        :v-if="load_time > 7"
-        class="row"
         v-for="c in [category[11], category[10]]"
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-teal text-white">
+        <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
@@ -284,6 +316,9 @@
   import validation from 'src/util/data/validation';
   import configs from 'src/configs/';
 
+  import {dom} from 'quasar';
+  const {offset} = dom;
+
   const {getScrollTarget, setVerticalScrollPosition} = scroll;
 
   export default defineComponent({
@@ -297,7 +332,54 @@
         load_time: 0,
       };
     },
+
     methods: {
+      go_prev_category() {
+        var closest_category = this.category[4].category;
+        var dis = 0;
+        var closest_dis = -9999;
+        this.category.forEach(c => {
+          if (offset(document.querySelector('.' + c.category)).top < 0) {
+            dis = offset(document.querySelector('.' + c.category)).top;
+            if (dis > closest_dis) {
+              closest_dis = dis;
+              closest_category = c.category;
+            }
+          }
+        });
+        let target = getScrollTarget(
+          document.querySelector('.' + closest_category),
+        );
+        const duration = 300;
+        setVerticalScrollPosition(
+          target,
+          document.querySelector('.' + closest_category).offsetTop - 50,
+          duration,
+        );
+      },
+      go_next_category() {
+        var closest_category;
+        var dis = 0;
+        var closest_dis = 9999;
+        this.category.forEach(c => {
+          if (offset(document.querySelector('.' + c.category)).top > 100) {
+            dis = offset(document.querySelector('.' + c.category)).top;
+            if (dis < closest_dis) {
+              closest_dis = dis;
+              closest_category = c.category;
+            }
+          }
+        });
+        let target = getScrollTarget(
+          document.querySelector('.' + closest_category),
+        );
+        const duration = 300;
+        setVerticalScrollPosition(
+          target,
+          document.querySelector('.' + closest_category).offsetTop - 50,
+          duration,
+        );
+      },
       register_event_info() {
         alert.confirm(
           '회원 가입 이벤트 안내',
@@ -311,11 +393,11 @@
         );
       },
       handleScroll(val) {
-        console.log(val);
+        // console.log(val);
         let ele = document.querySelector('.' + val);
         let target = getScrollTarget(ele);
         let offset = ele.offsetTop - 50;
-        console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
+        // console.log('타겟위치: ' + target + '/offset 위치: ' + offset);
         const duration = 300;
         setVerticalScrollPosition(target, offset, duration);
       },
@@ -369,16 +451,20 @@
     },
     created() {
       this.products_update();
-      console.log(this.load_time);
+      // console.log(this.load_time);
       // 1초 간격으로 타임추가
-      let timerId = setInterval(() => this.load_time++, 1000);
+      let timerId = setInterval(
+        () => (this.load_time = this.load_time + 1),
+        1000,
+      );
 
       // 5초 후에 정지
       setTimeout(() => {
         clearInterval(timerId);
         console.log(this.load_time);
-      }, 11000);
+      }, 7000);
     },
+
     setup() {
       return {
         list_show: ref(false),

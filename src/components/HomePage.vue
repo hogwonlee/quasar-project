@@ -13,14 +13,14 @@
       padding
       arrows
       style="width: 100%; height: max-content"
-      class="bg-teal-2 text-white shadow-1 rounded-borders"
+      class="bg-white text-white shadow-1 rounded-borders"
     >
       <template v-slot:navigation-icon="{active, btnProps, onClick}">
         <q-btn
           v-if="active"
           size="lg"
           icon="home"
-          color="primary"
+          color="positive"
           flat
           round
           dense

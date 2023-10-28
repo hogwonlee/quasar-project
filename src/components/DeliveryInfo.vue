@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md bg-teal-2">
+  <q-page class="q-pa-md">
     <div class="col-12 text-h6 text-bold">
       {{ selected_local.deliver_info_title }}
     </div>
@@ -36,19 +36,22 @@
 
             <div class="absolute-top-right q-pa-sm q-gutter-sm">
               <q-btn
-                color="primary"
+                color="positive"
+                outline
                 :label="selected_local.tracedeliver"
                 @click="
                   this.tracker_info(order.delivery_code, order.delivery_invoice)
                 "
               ></q-btn>
               <q-btn
-                color="primary"
+                color="positive"
+                outline
                 :label="selected_local.detailorder"
                 @click="get_order_list(order.orderGroup_id)"
               ></q-btn>
               <q-btn
-                color="primary"
+                color="positive"
+                outline
                 :label="selected_local.claim"
                 @click="show_claim()"
               ></q-btn>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <q-card class="transparent" flat>
+  <div class="bg-white">
+    <q-card flat>
       <q-card-section class="row items-center q-pa-none">
         <div class="text-h6 text-bold">{{ selected_local.addr }}</div>
         <q-space />
@@ -31,8 +31,9 @@
       </q-card>
       <q-btn
         icon="add"
-        color="primary"
-        class="col-12"
+        color="positive"
+        outline
+        class="col-12 q-pa-sm"
         style="width: 100%"
         :label="selected_local.registernewaddr"
         @click="register = true"

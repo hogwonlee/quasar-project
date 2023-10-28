@@ -11,10 +11,13 @@
       <!-- <h4 class="row justify-center">주소 등록</h4> -->
 
       <q-input
+        standout
+        dense
         outlined
         v-model="recipient"
         class="q-ma-sm"
         :label="selected_local.recipient"
+        :hint="selected_local.recipienthint"
         lazy-rules
         :rules="[
           val =>
@@ -23,6 +26,8 @@
       ></q-input>
 
       <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="recipient_phone"
@@ -37,16 +42,18 @@
             selected_local.telhint,
         ]"
       ></q-input>
-
       <div class="row">
         <q-btn
           class="q-ma-sm col"
-          color="primary"
+          outline
+          color="positive"
           :label="selected_local.postcoderegister"
           @click="addr_search_api_card = !addr_search_api_card"
         />
 
         <q-input
+          standout
+          dense
           v-model="post_code"
           filled
           class="q-ma-sm col"
@@ -56,19 +63,21 @@
           disable
         />
       </div>
-      <q-card-section class="bg-teal-2" v-show="addr_search_api_card">
-        <q-toolbar class="bg-teal text-white rounded-borders">
+      <q-card-section v-show="addr_search_api_card">
+        <q-toolbar class="text-white rounded-borders">
           <q-btn
             round
             dense
             flat
             icon="arrow_back"
+            color="positive"
             class="q-mr-xs"
             @click="addr_search_api_card = !addr_search_api_card"
           />
           <q-input
+            standout
             dense
-            label="주소 검색"
+            :label="selected_local.search_addr"
             style="width: 100%"
             v-model="keyword"
           >
@@ -103,6 +112,7 @@
                   <q-checkbox
                     v-model="props.selected"
                     :label="props.row.zipNo"
+                    color="positive"
                   />
                   <div class="text-subtitle2">
                     {{
@@ -116,11 +126,46 @@
           </template>
         </q-table>
         <q-card-section v-show="api_addr.length <= 0">
-          * 검색어 예: 도로명(반포대로 (空格)58), 건물명(독립기념관),
+          * 关键词示例：도로명(반포대로 (空格)58), 건물명(독립기념관),
           지번(삼성동 (空格)25)
         </q-card-section>
       </q-card-section>
+      <q-input
+        standout
+        dense
+        :v-model="address1"
+        filled
+        class="q-ma-sm"
+        for="daum_addr"
+        :placeholder="selected_local.addrandhint"
+        readonly
+        disable
+      />
 
+      <q-input
+        standout
+        dense
+        v-model="address2"
+        filled
+        class="q-ma-sm"
+        for="daum_extraAddr"
+        readonly
+        disable
+        :placeholder="selected_local.addrdetailandhint"
+      />
+
+      <q-input
+        standout
+        dense
+        outlined
+        v-model="address3"
+        class="q-ma-sm"
+        for="daum_detailAddress"
+        :hint="selected_local.addrextraandhint"
+        :label="selected_local.addrextra"
+        lazy-rules
+        :rules="[val => !!val || '请输入楼栋房号信息']"
+      />
       <!-- <q-card
         id="wrap"
         v-show="addr_search"
@@ -132,55 +177,59 @@
           <q-btn icon="close" flat round dense @click="foldDaumPostcode()" />
         </q-card-section>
       </q-card> -->
-      <q-input
-        :v-model="address1"
-        filled
-        class="q-ma-sm"
-        for="daum_addr"
-        :placeholder="selected_local.addrandhint"
-        readonly
-        disable
-      />
 
       <q-input
-        v-model="address2"
-        filled
-        class="q-ma-sm"
-        for="daum_extraAddr"
-        readonly
-        disable
-        :placeholder="selected_local.addrdetailandhint"
-      />
-
-      <q-input
-        outlined
-        v-model="address3"
-        class="q-ma-sm"
-        for="daum_detailAddress"
-        :label="selected_local.addrextraandhint"
-        lazy-rules
-        :rules="[val => !!val || '请输入附加信息']"
-      />
-      <q-input
+        standout
+        dense
         outlined
         class="q-ma-sm"
         v-model="address_tag"
-        :label="selected_local.addrtagandhint"
+        :label="selected_local.addrtag"
+        :hint="selected_local.addrtagandhint"
         lazy-rules
         :rules="[
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row">
+      <div class="row q-py-none">
+        <q-radio
+          class="col-12"
+          color="positive"
+          v-model="doorScretKey"
+          val="free"
+          :label="selected_local.gate_free"
+        />
+        <q-radio
+          class="col-5"
+          color="positive"
+          v-model="doorScretKey"
+          val="password"
+          :label="selected_local.gate_password"
+        />
+
+        <q-input
+          standout
+          dense
+          class="col-6"
+          :disable="doorScretKey == 'password' ? false : true"
+          outlined
+          v-model="outdoorpassword"
+          :label="selected_local.gate_password"
+          :hint="selected_local.outdoorpasswordhint"
+          lazy-rules
+          :rules="[val => !!val || '请输入附加信息']"
+        />
         <q-checkbox
-          class="q-ma-sm col"
+          class="q-ma-sm col-6"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
+          color="positive"
         />
         <q-btn
-          class="q-ma-sm col"
-          color="primary"
+          class="q-ma-sm col-6"
+          outline
+          color="positive"
           size="md"
           style="width: 200px"
           :label="selected_local.addrresister"
@@ -223,6 +272,8 @@
         keyword: '',
         checked: ref(true),
         addr_search_api_card: ref(false),
+        outdoorpassword: '',
+        doorScretKey: 'free',
       };
     },
     setup() {
@@ -365,6 +416,8 @@
             address1: document.getElementById('daum_addr').value,
             address2: document.getElementById('daum_extraAddr').value,
             address3: this.address3,
+            gate_password:
+              this.doorScretKey == 'free' ? '' : this.outdoorpassword,
             user_id: this.user.USER_ID,
             is_default: this.checked,
           };

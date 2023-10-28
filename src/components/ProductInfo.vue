@@ -52,12 +52,13 @@
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
-          class="bg-teal-3 row justify-center q-px-none q-mx-none"
+          class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 75%; height: 60%"
         >
           <q-btn
-            class="absolute-top-right bg-grey z-top q-ma-xs"
+            class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
+            text-color="white"
             v-close-popup
           >
           </q-btn>
@@ -74,8 +75,8 @@
             <q-btn-toggle
               v-if="boxprice > 0"
               v-model="bulkbuy"
-              toggle-color="primary"
-              toggle-text-color="white"
+              toggle-color="secondary"
+              toggle-text-color="primary"
               color="grey"
               text-color="black"
               unelevated
@@ -101,7 +102,7 @@
             >
               {{ price }}
               <q-badge
-                color="teal"
+                color="red"
                 floating
                 rounded
                 transparent
@@ -163,7 +164,7 @@
               disable
               square
               outlined
-              bg-color="teal-2"
+              bg-color="red-2"
               input-class="text-right"
               :model-value="(price - cutprice) * this.localQuantity"
             >
@@ -177,7 +178,7 @@
               square
               outlined
               disable
-              bg-color="teal-2"
+              bg-color="red-2"
               input-class="text-right"
               :model-value="boxprice * this.localQuantity"
             >
@@ -186,6 +187,7 @@
               :disable="localQuantity <= 0"
               class="col-3"
               icon="remove"
+              text-color="negative"
               @click="handle(-1)"
             ></q-btn>
             <q-input
@@ -194,7 +196,7 @@
               readonly
               disable
               outlined
-              bg-color="teal-2"
+              bg-color="red-2"
               v-model="this.localQuantity"
               input-class="text-right"
             >
@@ -208,29 +210,27 @@
                 </q-badge>
               </div>
             </q-input>
-            <q-btn class="col-3" icon="add" @click="handle(1)"></q-btn>
+            <q-btn
+              class="col-3"
+              icon="add"
+              text-color="positive"
+              @click="handle(1)"
+            ></q-btn>
 
             <q-btn
-              class="col-9 q-my-xs"
-              glossy
-              icon="shopping_cart_checkout"
-              color="primary"
-              tag="a"
-              to="/OrderList"
-              :label="selected_local.gocounter"
-            />
-            <q-btn
-              class="col-3 q-my-xs"
-              color="white"
-              text-color="primary"
+              class="col-12 q-my-xs"
+              text-color="positive"
               glossy
               icon="add_shopping_cart"
+              :label="selected_local.add_to_cart"
               @click="sendToCart(this.product_name, quantity)"
               :disable="this.localQuantity <= 0"
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-teal text-white"> 基本信息 </q-bar>
+            <q-bar dense class="col-12 bg-red text-white">
+              {{ selected_local.default_info }}
+            </q-bar>
             <q-input
               class="col-6"
               readonly
@@ -267,6 +267,18 @@
             />
           </q-card-section>
         </q-card>
+        <q-page-sticky class="z-top" position="bottom" :offset="[0, 50]">
+          <q-btn
+            class="z-top"
+            stack
+            rounded
+            icon="shopping_cart_checkout"
+            color="dark"
+            tag="a"
+            to="/OrderList"
+            :label="selected_local.gocounter"
+          />
+        </q-page-sticky>
       </q-dialog>
     </div>
   </div>

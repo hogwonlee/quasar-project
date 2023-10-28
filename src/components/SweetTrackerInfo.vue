@@ -12,14 +12,7 @@
         {{ t_invoice }}
       </div>
     </div>
-    <q-stepper
-      class="bg-secondary"
-      v-model="step"
-      ref="stepper1"
-      color="primary"
-      animated
-      vertical
-    >
+    <q-stepper v-model="step" ref="stepper1" color="primary" animated vertical>
       <q-step
         :name="1"
         :title="selected_local.prepareproduct"
