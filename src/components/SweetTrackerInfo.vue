@@ -213,7 +213,7 @@
         // this.t_key = 'XPrmI9vGFcc8x97uZrpEPg';
         // this.t_code = '04'; // cj대한통운
         // this.t_invoice = '655123092251';
-        this.t_key = 'I2uFSQI8NBXDY8caOUnh5A';
+        this.t_key = 'M027Dd5aAhqeZQKnygIvJg';
         this.t_code = this.delivery_code; // cj대한통운
         this.t_invoice = this.delivery_invoice;
         if (this.t_invoice == '0') {
