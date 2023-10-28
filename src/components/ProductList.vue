@@ -65,17 +65,18 @@
           padding="3px"
           v-for="c in [
             category[10],
+            category[12],
             category[11],
             category[9],
             category[8],
             category[7],
             category[6],
-            category[5],
             category[3],
             category[2],
             category[1],
             category[0],
             category[4],
+            category[5],
           ]"
           :key="c.category"
           v-bind="c"
@@ -106,7 +107,7 @@
       <div
         :v-if="load_time > 1"
         class="row"
-        v-for="c in [category[4]]"
+        v-for="c in [category[5]]"
         :key="c.category"
         v-bind="c"
       >
@@ -139,7 +140,7 @@
       <div
         :v-if="load_time > 2"
         class="row"
-        v-for="c in [category[0], category[1], category[2]]"
+        v-for="c in [category[4], category[0], category[1]]"
         :key="c.category"
         v-bind="c"
       >
@@ -172,7 +173,7 @@
       <div
         :v-if="load_time > 3"
         class="row"
-        v-for="c in [category[3], category[5], category[6]]"
+        v-for="c in [category[2], category[3], category[6]]"
         :key="c.category"
         v-bind="c"
       >
@@ -238,7 +239,7 @@
       <div
         :v-if="load_time > 5"
         class="row"
-        v-for="c in [category[11], category[10]]"
+        v-for="c in [category[10], category[12], category[11]]"
         :key="c.category"
         v-bind="c"
       >
