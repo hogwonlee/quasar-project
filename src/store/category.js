@@ -1,9 +1,9 @@
 // import shop from './storage';
 
 // initial state
-const state = () => ({
+const state = {
   items: [],
-});
+};
 
 // getters
 const getters = {};

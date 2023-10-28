@@ -64,9 +64,9 @@
           :label="c.category"
           padding="3px"
           v-for="c in [
-            category[10],
-            category[12],
             category[11],
+            category[12],
+            category[10],
             category[9],
             category[8],
             category[7],
