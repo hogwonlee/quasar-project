@@ -688,8 +688,8 @@
           .then(res => {
             // console.log(JSON.stringify(res.status));
             if (res.status == 200) {
-              // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
               this.orderHistory = res.data.results;
+              console.log(JSON.stringify(res.data.results));
             } else {
               alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
             }
