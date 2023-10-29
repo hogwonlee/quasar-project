@@ -142,7 +142,7 @@
 
         <q-btn
           :label="selected_local.buy_history"
-          @click="orderHistoryDialog = true"
+          @click="readOrderHistory()"
           color="positive"
           outline
           class="absolute-right"
@@ -690,6 +690,7 @@
             if (res.status == 200) {
               this.orderHistory = res.data.results;
               console.log(JSON.stringify(res.data.results));
+              this.orderHistoryDialog = true;
             } else {
               alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
             }
