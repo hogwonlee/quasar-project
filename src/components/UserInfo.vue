@@ -406,12 +406,13 @@
       style="width: 70%; height: fit-content"
     >
       <q-card
-        class="my-card col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+        class="my-card"
         v-for="order in orderHistory"
         :key="order.product_id"
         v-bind="order"
       >
         <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in product_all.filter(
             p => p.product_id == order.product_id,
           )"
