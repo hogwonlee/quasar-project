@@ -104,60 +104,54 @@
       ></q-btn>
     </q-page-sticky>
     <div>
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
+      <div
+        v-show="showSimulatedReturnData"
+        class="row"
+        v-for="c in [
+          category[5],
+          category[4],
+          category[0],
+          category[1],
+          category[2],
+          category[3],
+          category[6],
+          category[7],
+          category[8],
+          category[9],
+          category[10],
+          category[12],
+          category[11],
+        ]"
+        :key="c.category"
+        v-bind="c"
       >
-        <div
-          v-show="showSimulatedReturnData"
-          class="row"
-          v-for="c in [
-            category[5],
-            category[4],
-            category[0],
-            category[1],
-            category[2],
-            category[3],
-            category[6],
-            category[7],
-            category[8],
-            category[9],
-            category[10],
-            category[12],
-            category[11],
-          ]"
-          :key="c.category"
-          v-bind="c"
-        >
-          <q-bar dense class="col-12 bg-dark text-white">
-            <div :class="c.category">{{ c.category }}</div>
-            <q-space />
-          </q-bar>
+        <q-bar dense class="col-12 bg-dark text-white">
+          <div :class="c.category">{{ c.category }}</div>
+          <q-space />
+        </q-bar>
 
-          <ProductInfo
-            class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-            v-for="product in products.filter(
-              p =>
-                p.category == c.category &&
-                p.stored == 1 &&
-                (p.product_name + p.category + p.keyword)
-                  .toLowerCase()
-                  .includes(keyword.toLowerCase()),
-            )"
-            :key="product.id"
-            v-bind="product"
-            @setbuyoption="product.buyoption = $event"
-            @setquantity="product.quantity = $event"
-            @sendOrderItem="
-              this.$store.dispatch('cart/addProductToCart', product)
-            "
-            @sendRemoveItem="
-              this.$store.dispatch('cart/removeProductFromCart', product)
-            "
-          />
-        </div>
-      </transition>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="product in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="product.id"
+          v-bind="product"
+          @setbuyoption="product.buyoption = $event"
+          @setquantity="product.quantity = $event"
+          @sendOrderItem="
+            this.$store.dispatch('cart/addProductToCart', product)
+          "
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', product)
+          "
+        />
+      </div>
       <q-inner-loading :showing="visible">
         <q-spinner-gears size="50px" color="positive" />
       </q-inner-loading>
