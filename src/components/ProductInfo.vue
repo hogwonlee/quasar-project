@@ -112,7 +112,7 @@
           </q-img>
           <q-chip
             v-if="bulkbuy == false"
-            class="absolute-bottom q-ml-lg"
+            class="q-ml-lg"
             dense
             text-color="white"
             icon="img:icons\currency-krw-white.png"
@@ -130,7 +130,7 @@
           </q-chip>
           <q-chip
             v-else
-            class="absolute-bottom"
+            class="q-ml-lg"
             dense
             text-color="white"
             icon="img:icons\currency-krw-white.png"
