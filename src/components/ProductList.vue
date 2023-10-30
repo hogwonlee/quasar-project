@@ -12,7 +12,6 @@
       label-color="dark"
       :label="selected_local.search"
     >
-      <!-- :label="selected_local.search" -->
       <template v-slot:append>
         <q-icon
           v-if="keyword !== ''"
@@ -23,32 +22,7 @@
         <q-icon name="search" color="dark" />
       </template>
     </q-input>
-    <!-- <q-page-sticky class="z-top" position="top-right" :offset="[0, 0]">
-      <q-fab
-        v-model="event_fab"
-        label="이벤트안내(~23.12.31)"
-        text-color="primary"
-        vertical-actions-align="right"
-        color="white"
-        padding="none xl"
-        icon="keyboard_arrow_down"
-        direction="down"
-      >
-        <q-fab-action
-          padding="3px"
-          color="primary"
-          label="회원 가입 이벤트"
-          @click="register_event_info()"
-        />
-        <q-card></q-card>
-        <q-fab-action
-          padding="3px"
-          color="primary"
-          label="5353 쿠폰 이벤트"
-          @click="coupon_5353_event()"
-        />
-      </q-fab>
-    </q-page-sticky> -->
+
     <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
       <q-fab
         v-model="list_show"
@@ -152,143 +126,11 @@
           "
         />
       </div>
+    </div>
+    <q-page-container>
       <q-inner-loading :showing="visible">
         <q-spinner-gears size="50px" color="positive" />
       </q-inner-loading>
-      <!-- <div
-        :v-if="load_time > 2"
-        class="row"
-        v-for="c in [category[4], category[0], category[1]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
-      <div
-        :v-if="load_time > 3"
-        class="row"
-        v-for="c in [category[2], category[3], category[6]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
-      <div
-        :v-if="load_time > 4"
-        class="row"
-        v-for="c in [category[7], category[8], category[9]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
-      <div
-        :v-if="load_time > 5"
-        class="row"
-        v-for="c in [category[10], category[12], category[11]]"
-        :key="c.category"
-        v-bind="c"
-      >
-        <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c.category">{{ c.category }}</div>
-          <q-space />
-        </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div> -->
-    </div>
-    <q-page-container>
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
           <template v-slot:control>
@@ -399,18 +241,18 @@
           duration,
         );
       },
-      register_event_info() {
-        alert.confirm(
-          '회원 가입 이벤트 안내',
-          '이벤트 기간동안 회원 가입만 하면 3천원 쿠폰을 지급합니다. (해당 쿠폰은 3만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
-        );
-      },
-      coupon_5353_event() {
-        alert.confirm(
-          this.selected_local.event_5353_info,
-          this.selected_local.event_5353_detail,
-        );
-      },
+      // register_event_info() {
+      //   alert.confirm(
+      //     '회원 가입 이벤트 안내',
+      //     '이벤트 기간동안 회원 가입만 하면 3천원 쿠폰을 지급합니다. (해당 쿠폰은 3만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
+      //   );
+      // },
+      // coupon_5353_event() {
+      //   alert.confirm(
+      //     this.selected_local.event_5353_info,
+      //     this.selected_local.event_5353_detail,
+      //   );
+      // },
       handleScroll(val) {
         // console.log(val);
         let ele = document.querySelector('.' + val);
@@ -478,19 +320,7 @@
         selected_local: state => state.ui_local.status,
       }),
     },
-    created() {
-      // console.log(this.load_time);
-      // 1초 간격으로 타임추가
-      // let timerId = setInterval(
-      //   () => (this.load_time = this.load_time + 1),
-      //   1000,
-      // );
-      // // 5초 후에 정지
-      // setTimeout(() => {
-      //   clearInterval(timerId);
-      //   console.log(this.load_time);
-      // }, 7000);
-    },
+    created() {},
     mounted() {
       this.showProductLoading();
     },
