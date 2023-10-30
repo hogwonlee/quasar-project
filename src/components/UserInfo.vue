@@ -401,10 +401,12 @@
       transition-hide="scale"
       ><ChangePassword
     /></q-dialog>
-    <q-dialog v-model="orderHistoryDialog">
+    <q-dialog
+      v-model="orderHistoryDialog"
+      style="width: 70%; height: fit-content"
+    >
       <q-card
         class="my-card col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-        style="width: 70%; height: fit-content"
         v-for="order in orderHistory"
         :key="order.product_id"
         v-bind="order"
