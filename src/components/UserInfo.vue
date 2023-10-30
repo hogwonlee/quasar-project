@@ -403,9 +403,11 @@
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
       <q-card class="my-card" style="width: 80%">
-        <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
-        <q-space />
-        <q-btn dense flat icon="close" v-close-popup />
+        <q-card-section class="row items-center q-pa-none">
+          <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
+          <q-space />
+          <q-btn dense flat icon="close" v-close-popup />
+        </q-card-section>
         <q-card-section
           class="row"
           v-for="order in orderHistory"
