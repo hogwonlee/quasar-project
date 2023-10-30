@@ -402,7 +402,7 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <q-card class="my-card">
+      <q-card class="my-card" style="width: 80%">
         <ProductInfo
           class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in orderHistory"
