@@ -105,9 +105,22 @@
     </q-page-sticky>
     <div>
       <div
-        :v-if="load_time > 1"
         class="row"
-        v-for="c in [category[5]]"
+        v-for="c in [
+          category[5],
+          category[4],
+          category[0],
+          category[1],
+          category[2],
+          category[3],
+          category[6],
+          category[7],
+          category[8],
+          category[9],
+          category[10],
+          category[12],
+          category[11],
+        ]"
         :key="c.category"
         v-bind="c"
       >
@@ -115,29 +128,39 @@
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
+          <ProductInfo
+            v-show="showSimulatedReturnData"
+            class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+            v-for="product in products.filter(
+              p =>
+                p.category == c.category &&
+                p.stored == 1 &&
+                (p.product_name + p.category + p.keyword)
+                  .toLowerCase()
+                  .includes(keyword.toLowerCase()),
+            )"
+            :key="product.id"
+            v-bind="product"
+            @setbuyoption="product.buyoption = $event"
+            @setquantity="product.quantity = $event"
+            @sendOrderItem="
+              this.$store.dispatch('cart/addProductToCart', product)
+            "
+            @sendRemoveItem="
+              this.$store.dispatch('cart/removeProductFromCart', product)
+            "
+          />
+        </transition>
+        <q-inner-loading :showing="visible">
+          <q-spinner-gears size="50px" color="positive" />
+        </q-inner-loading>
       </div>
-      <div
+      <!-- <div
         :v-if="load_time > 2"
         class="row"
         v-for="c in [category[4], category[0], category[1]]"
@@ -268,7 +291,7 @@
             this.$store.dispatch('cart/removeProductFromCart', product)
           "
         />
-      </div>
+      </div> -->
     </div>
     <q-page-container>
       <div class="q-gutter-md row inline">
@@ -439,6 +462,15 @@
       setproductbuyoption(product, buyoption) {
         product.buyoption = buyoption;
       },
+      showTextLoading() {
+        visible.value = true;
+        showSimulatedReturnData.value = false;
+
+        setTimeout(() => {
+          visible.value = false;
+          showSimulatedReturnData.value = true;
+        }, 3000);
+      },
     },
     computed: {
       ...mapState({
@@ -454,25 +486,29 @@
       this.products_update();
       // console.log(this.load_time);
       // 1초 간격으로 타임추가
-      let timerId = setInterval(
-        () => (this.load_time = this.load_time + 1),
-        1000,
-      );
+      // let timerId = setInterval(
+      //   () => (this.load_time = this.load_time + 1),
+      //   1000,
+      // );
 
-      // 5초 후에 정지
+      // // 5초 후에 정지
+      // setTimeout(() => {
+      //   clearInterval(timerId);
+      //   console.log(this.load_time);
+      // }, 7000);
+
       setTimeout(() => {
-        clearInterval(timerId);
-        console.log(this.load_time);
-      }, 7000);
+        this.showTextLoading();
+      }, 3000);
     },
-    // mounted() {
-    //   console.log(JSON.stringify(this.category));
-    // },
+
     setup() {
       return {
         list_show: ref(false),
         keyword: ref(''),
         event_fab: ref(false),
+        visible: ref(false),
+        showSimulatedReturnData: ref(false),
       };
     },
   });
