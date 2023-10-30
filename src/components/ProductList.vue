@@ -490,19 +490,16 @@
       //   () => (this.load_time = this.load_time + 1),
       //   1000,
       // );
-
       // // 5초 후에 정지
       // setTimeout(() => {
       //   clearInterval(timerId);
       //   console.log(this.load_time);
       // }, 7000);
-      this.products_update();
-
-      setTimeout(() => {
-        this.showTextLoading();
-      }, 3000);
     },
-
+    mounted() {
+      this.showTextLoading();
+      this.products_update();
+    },
     setup() {
       return {
         list_show: ref(false),
