@@ -272,8 +272,9 @@
             class="z-top"
             stack
             rounded
+            outline
             icon="shopping_cart_checkout"
-            color="dark"
+            color="positive"
             tag="a"
             to="/OrderList"
             :label="selected_local.gocounter"
