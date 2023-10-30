@@ -401,10 +401,7 @@
       transition-hide="scale"
       ><ChangePassword
     /></q-dialog>
-    <q-dialog
-      v-model="orderHistoryDialog"
-      style="width: 70%; height: fit-content"
-    >
+    <q-dialog v-model="orderHistoryDialog" style="width: 70%">
       <q-card
         class="my-card"
         v-for="order in orderHistory"
