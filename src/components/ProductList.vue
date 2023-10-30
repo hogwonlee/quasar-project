@@ -105,6 +105,7 @@
     </q-page-sticky>
     <div>
       <div
+        v-show="showSimulatedReturnData"
         class="row"
         v-for="c in [
           category[5],
@@ -134,7 +135,6 @@
           leave-active-class="animated fadeOut"
         >
           <ProductInfo
-            v-show="showSimulatedReturnData"
             class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
             v-for="product in products.filter(
               p =>
