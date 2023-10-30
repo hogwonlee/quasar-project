@@ -131,7 +131,7 @@
       <q-inner-loading :showing="visible">
         <q-spinner-gears size="50px" color="positive" />
       </q-inner-loading>
-      <q-card :showing="visible" style="max-width: 300px">
+      <q-card :showing="visible">
         <q-item>
           <q-item-section>
             <q-skeleton type="QToolBar" />
