@@ -495,10 +495,10 @@
       //   clearInterval(timerId);
       //   console.log(this.load_time);
       // }, 7000);
+      this.products_update();
 
       setTimeout(() => {
         this.showTextLoading();
-        this.products_update();
       }, 3000);
     },
 
