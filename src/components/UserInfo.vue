@@ -402,37 +402,35 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <q-toolbar>
-        <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
+      <q-toolbar inset>
+        <q-toolbar-title>{{ selected_local.buy_history }}</q-toolbar-title>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup />
       </q-toolbar>
       <q-card class="my-card" style="width: 80%">
-        <q-scroll-area>
-          <q-card-section
-            class="row"
-            v-for="order in orderHistory"
-            :key="order.product_id"
-            v-bind="order"
-          >
-            <ProductInfo
-              class="col-4 q-pa-xs"
-              v-for="product in product_all.filter(
-                p => p.product_id == order.product_id,
-              )"
-              :key="product.product_id"
-              v-bind="product"
-              @setbuyoption="product.buyoption = $event"
-              @setquantity="product.quantity = $event"
-              @sendOrderItem="
-                this.$store.dispatch('cart/addProductToCart', product)
-              "
-              @sendRemoveItem="
-                this.$store.dispatch('cart/removeProductFromCart', product)
-              "
-            />
-          </q-card-section>
-        </q-scroll-area>
+        <q-card-section
+          class="row"
+          v-for="order in orderHistory"
+          :key="order.product_id"
+          v-bind="order"
+        >
+          <ProductInfo
+            class="col-4 q-pa-xs"
+            v-for="product in product_all.filter(
+              p => p.product_id == order.product_id,
+            )"
+            :key="product.product_id"
+            v-bind="product"
+            @setbuyoption="product.buyoption = $event"
+            @setquantity="product.quantity = $event"
+            @sendOrderItem="
+              this.$store.dispatch('cart/addProductToCart', product)
+            "
+            @sendRemoveItem="
+              this.$store.dispatch('cart/removeProductFromCart', product)
+            "
+          />
+        </q-card-section>
       </q-card>
     </q-dialog>
   </q-page>
