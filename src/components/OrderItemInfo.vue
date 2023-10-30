@@ -25,6 +25,7 @@
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
+            text-color="white"
             icon="close"
             v-close-popup
           >
