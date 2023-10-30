@@ -53,7 +53,7 @@
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
-          style="width: 75%; height: 60%"
+          style="width: 75%; height: 75%"
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
