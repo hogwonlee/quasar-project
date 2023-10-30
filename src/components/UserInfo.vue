@@ -404,9 +404,9 @@
     <q-dialog v-model="orderHistoryDialog">
       <ProductInfo
         class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-        v-for="oeder in orderHistory"
-        :key="oeder.product_id"
-        v-bind="product_all"
+        v-for="product in orderHistory"
+        :key="product.product_id"
+        v-bind="product"
         @setbuyoption="product.buyoption = $event"
         @setquantity="product.quantity = $event"
         @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
