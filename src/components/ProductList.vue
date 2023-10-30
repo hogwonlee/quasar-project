@@ -483,7 +483,6 @@
       }),
     },
     created() {
-      this.products_update();
       // console.log(this.load_time);
       // 1초 간격으로 타임추가
       // let timerId = setInterval(
@@ -499,6 +498,7 @@
 
       setTimeout(() => {
         this.showTextLoading();
+        this.products_update();
       }, 3000);
     },
 
