@@ -404,7 +404,7 @@
     <q-dialog v-model="orderHistoryDialog">
       <q-card class="my-card" style="width: 80%">
         <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          class="col-4 q-pa-xs"
           v-for="product in orderHistory"
           :key="product.product_id"
           v-bind="product"
