@@ -200,7 +200,6 @@
               readonly
               disable
               outlined
-              bg-color="red-2"
               v-model="this.localQuantity"
               input-class="text-right"
             >
@@ -232,7 +231,7 @@
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-red text-white">
+            <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
             </q-bar>
             <q-input
