@@ -77,7 +77,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div>
+    <div v-if="category[5].category != undefined">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -299,7 +299,6 @@
         setTimeout(() => {
           this.visible = false;
           this.showSimulatedReturnData = true;
-          this.products_update();
         }, 1000);
       },
     },
@@ -313,7 +312,9 @@
         selected_local: state => state.ui_local.status,
       }),
     },
-    created() {},
+    created() {
+      this.products_update();
+    },
     mounted() {
       this.showProductLoading();
     },
