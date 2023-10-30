@@ -402,14 +402,14 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <div
+      <q-card
+        class="my-card col-xs-4 col-sm-3 col-md-1 q-pa-xs"
         style="width: 70%; height: fit-content"
         v-for="order in orderHistory"
         :key="order.product_id"
         v-bind="order"
       >
         <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in product_all.filter(
             p => p.product_id == order.product_id,
           )"
@@ -424,7 +424,7 @@
             this.$store.dispatch('cart/removeProductFromCart', product)
           "
         />
-      </div>
+      </q-card>
     </q-dialog>
   </q-page>
 </template>
