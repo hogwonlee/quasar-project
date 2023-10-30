@@ -131,23 +131,6 @@
       <q-inner-loading :showing="visible">
         <q-spinner-gears size="50px" color="positive" />
       </q-inner-loading>
-      <q-card :showing="visible">
-        <q-item>
-          <q-item-section>
-            <q-skeleton type="QToolBar" />
-          </q-item-section>
-
-          <q-item-section class="row">
-            <q-skeleton type="rect" class="col-4" />
-            <q-skeleton type="rect" class="col-4" />
-            <q-skeleton type="rect" class="col-4" />
-            <q-skeleton type="rect" class="col-4" />
-          </q-item-section>
-          <q-item-section>
-            <q-skeleton type="QChip" />
-          </q-item-section>
-        </q-item>
-      </q-card>
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
           <template v-slot:control>
