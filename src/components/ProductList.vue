@@ -156,10 +156,10 @@
             "
           />
         </transition>
-        <q-inner-loading :showing="visible">
-          <q-spinner-gears size="50px" color="positive" />
-        </q-inner-loading>
       </div>
+      <q-inner-loading :showing="visible">
+        <q-spinner-gears size="50px" color="positive" />
+      </q-inner-loading>
       <!-- <div
         :v-if="load_time > 2"
         class="row"
