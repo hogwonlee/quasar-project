@@ -93,54 +93,53 @@
             style="max-width: 75%"
             class="rounded-borders q-mt-xs"
           >
-            <q-chip
-              v-if="bulkbuy == false"
-              class="absolute-bottom q-ml-lg"
-              dense
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ price }}
-              <q-badge
-                color="red"
-                floating
-                rounded
-                transparent
-                v-if="cutprice > 0"
-              >
-                - {{ cutprice }}
-              </q-badge>
-            </q-chip>
-            <q-chip
-              v-else
-              class="absolute-bottom"
-              dense
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ boxprice }}
-              <q-badge color="orange" floating rounded>
-                {{ boxcapacity }} {{ selected_local.bundle_count }}
-              </q-badge>
-            </q-chip>
-            <div class="absolute-bottom-right transparent">
-              <q-badge
-                v-if="stock > 0"
-                class="q-mt-md"
-                color="red"
-                floating
-                rounded
-              >
-                <q-icon name="warning" color="white" />
-                {{
-                  stock == null || stock == 0 || stock == ''
-                    ? selected_local.stock_enough
-                    : selected_local.stock_null
-                }}
-              </q-badge>
-            </div>
           </q-img>
-
+          <q-chip
+            v-if="bulkbuy == false"
+            class="absolute-bottom q-ml-lg"
+            dense
+            text-color="white"
+            icon="img:icons\currency-krw-white.png"
+          >
+            {{ price }}
+            <q-badge
+              color="red"
+              floating
+              rounded
+              transparent
+              v-if="cutprice > 0"
+            >
+              - {{ cutprice }}
+            </q-badge>
+          </q-chip>
+          <q-chip
+            v-else
+            class="absolute-bottom"
+            dense
+            text-color="white"
+            icon="img:icons\currency-krw-white.png"
+          >
+            {{ boxprice }}
+            <q-badge color="orange" floating rounded>
+              {{ boxcapacity }} {{ selected_local.bundle_count }}
+            </q-badge>
+          </q-chip>
+          <div class="absolute-bottom-right transparent">
+            <q-badge
+              v-if="stock > 0"
+              class="q-mt-md"
+              color="red"
+              floating
+              rounded
+            >
+              <q-icon name="warning" color="white" />
+              {{
+                stock == null || stock == 0 || stock == ''
+                  ? selected_local.stock_enough
+                  : selected_local.stock_null
+              }}
+            </q-badge>
+          </div>
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
             <div
@@ -272,9 +271,8 @@
             class="z-top"
             stack
             rounded
-            outline
             icon="shopping_cart_checkout"
-            color="positive"
+            color="dark"
             tag="a"
             to="/OrderList"
             :label="selected_local.gocounter"
