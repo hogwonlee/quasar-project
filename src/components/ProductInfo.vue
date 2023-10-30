@@ -110,11 +110,12 @@
               </q-badge>
             </div>
           </q-img>
-          <div class="bg-dark" style="width: max-content">
+          <div style="width: 100%">
             <q-chip
               v-if="bulkbuy == false"
               class="q-ml-lg"
               dense
+              color="dark"
               text-color="white"
               icon="img:icons\currency-krw-white.png"
             >
