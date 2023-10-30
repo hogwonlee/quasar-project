@@ -402,11 +402,9 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <q-toolbar inset>
-        <q-toolbar-title>{{ selected_local.buy_history }}</q-toolbar-title>
-        <q-space />
-        <q-btn dense flat icon="close" v-close-popup />
-      </q-toolbar>
+      <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
+      <q-space />
+      <q-btn dense flat icon="close" v-close-popup />
       <q-card class="my-card" style="width: 80%">
         <q-card-section
           class="row"
