@@ -464,12 +464,12 @@
         product.buyoption = buyoption;
       },
       showTextLoading() {
-        visible.value = true;
-        showSimulatedReturnData.value = false;
+        this.visible = true;
+        this.showSimulatedReturnData = false;
 
         setTimeout(() => {
-          visible.value = false;
-          showSimulatedReturnData.value = true;
+          this.visible = false;
+          this.showSimulatedReturnData = true;
         }, 3000);
       },
     },
