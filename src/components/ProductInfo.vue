@@ -93,36 +93,6 @@
             style="max-width: 75%"
             class="rounded-borders q-mt-xs"
           >
-            <q-chip
-              v-if="bulkbuy == false"
-              class="absolute-bottom q-ml-lg"
-              dense
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ price }}
-              <q-badge
-                color="red"
-                floating
-                rounded
-                transparent
-                v-if="cutprice > 0"
-              >
-                - {{ cutprice }}
-              </q-badge>
-            </q-chip>
-            <q-chip
-              v-else
-              class="absolute-bottom"
-              dense
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ boxprice }}
-              <q-badge color="orange" floating rounded>
-                {{ boxcapacity }} {{ selected_local.bundle_count }}
-              </q-badge>
-            </q-chip>
             <div class="absolute-bottom-right transparent">
               <q-badge
                 v-if="stock > 0"
@@ -140,6 +110,40 @@
               </q-badge>
             </div>
           </q-img>
+          <div style="width: 100%" class="row justify-center">
+            <q-chip
+              v-if="bulkbuy == false"
+              style="width: 70%"
+              dense
+              color="dark"
+              text-color="white"
+              icon="img:icons\currency-krw-white.png"
+            >
+              {{ price }}
+              <q-badge
+                color="red"
+                floating
+                rounded
+                transparent
+                v-if="cutprice > 0"
+              >
+                - {{ cutprice }}
+              </q-badge>
+            </q-chip>
+            <q-chip
+              v-else
+              style="width: 70%"
+              color="dark"
+              dense
+              text-color="white"
+              icon="img:icons\currency-krw-white.png"
+            >
+              {{ boxprice }}
+              <q-badge color="orange" floating rounded>
+                {{ boxcapacity }} {{ selected_local.bundle_count }}
+              </q-badge>
+            </q-chip>
+          </div>
 
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
@@ -196,7 +200,6 @@
               readonly
               disable
               outlined
-              bg-color="red-2"
               v-model="this.localQuantity"
               input-class="text-right"
             >
@@ -228,7 +231,7 @@
             />
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-red text-white">
+            <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
             </q-bar>
             <q-input
@@ -267,7 +270,7 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky class="z-top" position="bottom" :offset="[0, 50]">
+        <q-page-sticky class="z-top" position="bottom" :offset="[0, 10]">
           <q-btn
             class="z-top"
             stack

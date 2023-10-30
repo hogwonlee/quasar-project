@@ -142,7 +142,7 @@
 
         <q-btn
           :label="selected_local.buy_history"
-          @click="orderHistoryDialog = true"
+          @click="readOrderHistory()"
           color="positive"
           outline
           class="absolute-right"
@@ -402,20 +402,38 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <ProductInfo
-        class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-        v-for="product in product_all.filter(
-          p => p.product_id == orderHistory.product_id,
-        )"
-        :key="product.product_id"
-        v-bind="product"
-        @setbuyoption="product.buyoption = $event"
-        @setquantity="product.quantity = $event"
-        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
-        @sendRemoveItem="
-          this.$store.dispatch('cart/removeProductFromCart', product)
-        "
-      />
+      <q-card class="my-card" style="width: 80%">
+        <q-card-section class="row items-center q-pa-none">
+          <q-toolbar class="bg-dark text-h6 text-bold text-white q-pl-lg">
+            {{ selected_local.buy_history }}
+            <q-space />
+            <q-btn dense flat icon="close" v-close-popup color="white" />
+          </q-toolbar>
+        </q-card-section>
+        <q-card-section
+          class="row"
+          v-for="order in orderHistory"
+          :key="order.product_id"
+          v-bind="order"
+        >
+          <ProductInfo
+            class="col-4 q-pa-xs"
+            v-for="product in product_all.filter(
+              p => p.product_id == order.product_id,
+            )"
+            :key="product.product_id"
+            v-bind="product"
+            @setbuyoption="product.buyoption = $event"
+            @setquantity="product.quantity = $event"
+            @sendOrderItem="
+              this.$store.dispatch('cart/addProductToCart', product)
+            "
+            @sendRemoveItem="
+              this.$store.dispatch('cart/removeProductFromCart', product)
+            "
+          />
+        </q-card-section>
+      </q-card>
     </q-dialog>
   </q-page>
 </template>
@@ -483,7 +501,7 @@
         delivery_policy_vue: ref(false),
         exchange_policy_vue: ref(false),
         isPwd: ref(true),
-        orderHistory: {},
+        orderHistory: [],
         orderHistoryDialog: ref(false),
       };
     },
@@ -688,8 +706,16 @@
           .then(res => {
             // console.log(JSON.stringify(res.status));
             if (res.status == 200) {
-              // 정보변경창(ChangeInfo.vue)을 열어줘야 함.
+              // res.data.results.forEach(product => {
+              //   this.product_all.forEach(p => {
+              //     if (p.product_id == product.product_id) {
+              //       this.orderHistory.push(p);
+              //     }
+              //   });
+              // });
+              // console.log(JSON.stringify(this.orderHistory));
               this.orderHistory = res.data.results;
+              this.orderHistoryDialog = true;
             } else {
               alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
             }
