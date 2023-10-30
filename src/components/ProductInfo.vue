@@ -113,7 +113,7 @@
           <div style="width: 100%">
             <q-chip
               v-if="bulkbuy == false"
-              class="q-ml-lg"
+              class="row items-center"
               style="width: 70%"
               dense
               color="dark"
@@ -133,7 +133,7 @@
             </q-chip>
             <q-chip
               v-else
-              class="q-ml-lg"
+              class="row items-center"
               style="width: 70%"
               color="dark"
               dense
