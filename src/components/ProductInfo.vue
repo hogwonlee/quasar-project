@@ -267,7 +267,7 @@
             />
           </q-card-section>
         </q-card>
-        <q-page-sticky class="z-top" position="bottom" :offset="[0, 50]">
+        <q-page-sticky class="z-top" position="bottom" :offset="[0, 10]">
           <q-btn
             class="z-top"
             stack
