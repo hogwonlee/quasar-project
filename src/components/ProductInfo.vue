@@ -110,7 +110,7 @@
               </q-badge>
             </div>
           </q-img>
-          <div>
+          <div class="bg-dark" style="width: max-content">
             <q-chip
               v-if="bulkbuy == false"
               class="q-ml-lg"
