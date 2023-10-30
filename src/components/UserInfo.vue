@@ -481,7 +481,7 @@
         delivery_policy_vue: ref(false),
         exchange_policy_vue: ref(false),
         isPwd: ref(true),
-        orderHistory: {},
+        orderHistory: [],
         orderHistoryDialog: ref(false),
       };
     },
@@ -689,7 +689,7 @@
               res.data.results.forEach(product => {
                 this.product_all.forEach(p => {
                   if (p.product_id == product.product_id) {
-                    this.orderHistory.add(p);
+                    this.orderHistory.push(p);
                   }
                 });
               });
