@@ -93,6 +93,22 @@
             style="max-width: 75%"
             class="rounded-borders q-mt-xs"
           >
+            <div class="absolute-bottom-right transparent">
+              <q-badge
+                v-if="stock > 0"
+                class="q-mt-md"
+                color="red"
+                floating
+                rounded
+              >
+                <q-icon name="warning" color="white" />
+                {{
+                  stock == null || stock == 0 || stock == ''
+                    ? selected_local.stock_enough
+                    : selected_local.stock_null
+                }}
+              </q-badge>
+            </div>
           </q-img>
           <q-chip
             v-if="bulkbuy == false"
@@ -124,22 +140,6 @@
               {{ boxcapacity }} {{ selected_local.bundle_count }}
             </q-badge>
           </q-chip>
-          <div class="absolute-bottom-right transparent">
-            <q-badge
-              v-if="stock > 0"
-              class="q-mt-md"
-              color="red"
-              floating
-              rounded
-            >
-              <q-icon name="warning" color="white" />
-              {{
-                stock == null || stock == 0 || stock == ''
-                  ? selected_local.stock_enough
-                  : selected_local.stock_null
-              }}
-            </q-badge>
-          </div>
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
             <div
