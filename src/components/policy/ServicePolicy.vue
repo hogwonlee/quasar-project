@@ -3,9 +3,11 @@
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <div class="text-h6 text-bold">이용약관</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
+        <q-bar>
+          <div class="text-h6 text-bold">이용약관</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-bar>
       </q-card-section>
       <q-card-section>
         <div class="text-bold">제1조(목적)</div>
