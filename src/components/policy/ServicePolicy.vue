@@ -3,13 +3,11 @@
     <!-- <q-btn label="reset" @click="resetcouponList"></q-btn> -->
     <q-card class="transparent" flat>
       <q-card-section class="row items-center q-pa-none">
-        <q-toolbar>
-          <div class="text-h6 text-bold">이용약관</div>
+        <q-toolbar inset>
+          <q-toolbar-title class="text-h6 text-bold">이용약관</q-toolbar-title>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-toolbar>
-      </q-card-section>
-      <q-card-section>
         <div class="text-bold">제1조(목적)</div>
         <div>
           이 약관은 중국식품온라인 회사(전자상거래 사업자)가 운영하는 중국식품

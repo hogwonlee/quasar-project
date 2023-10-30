@@ -402,10 +402,10 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
-      <q-space />
-      <q-btn dense flat icon="close" v-close-popup />
       <q-card class="my-card" style="width: 80%">
+        <div class="text-h6 text-bold">{{ selected_local.buy_history }}</div>
+        <q-space />
+        <q-btn dense flat icon="close" v-close-popup />
         <q-card-section
           class="row"
           v-for="order in orderHistory"
