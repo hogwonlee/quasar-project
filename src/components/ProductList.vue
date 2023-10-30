@@ -462,10 +462,10 @@
         this.showSimulatedReturnData = false;
 
         setTimeout(() => {
-          this.products_update();
           this.visible = false;
           this.showSimulatedReturnData = true;
-        }, 3000);
+          this.products_update();
+        }, 1000);
       },
     },
     computed: {
@@ -490,9 +490,10 @@
       //   clearInterval(timerId);
       //   console.log(this.load_time);
       // }, 7000);
+    },
+    mounted() {
       this.showProductLoading();
     },
-    mounted() {},
     setup() {
       return {
         list_show: ref(false),
