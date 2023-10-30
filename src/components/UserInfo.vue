@@ -402,24 +402,18 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <div v-for="oeder in orderHistory" :key="oeder.product_id" v-bind="oeder">
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in product_all.filter(
-            p => p.product_id == oeder.product_id,
-          )"
-          :key="product.product_id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </div>
+      <ProductInfo
+        class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+        v-for="oeder in orderHistory"
+        :key="oeder.product_id"
+        v-bind="product_all"
+        @setbuyoption="product.buyoption = $event"
+        @setquantity="product.quantity = $event"
+        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
+        @sendRemoveItem="
+          this.$store.dispatch('cart/removeProductFromCart', product)
+        "
+      />
     </q-dialog>
   </q-page>
 </template>
@@ -692,8 +686,14 @@
           .then(res => {
             // console.log(JSON.stringify(res.status));
             if (res.status == 200) {
-              this.orderHistory = res.data.results;
-              console.log(JSON.stringify(res.data.results));
+              res.data.results.forEach(product => {
+                this.product_all.forEach(p => {
+                  if (p.product_id == product.product_id) {
+                    this.orderHistory.add(p);
+                  }
+                });
+              });
+              console.log(JSON.stringify(this.orderHistory));
               this.orderHistoryDialog = true;
             } else {
               alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
