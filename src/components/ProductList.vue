@@ -187,13 +187,6 @@
     components: {
       ProductInfo,
     },
-    data() {
-      return {
-        childbuyoption: false,
-        load_time: 0,
-      };
-    },
-
     methods: {
       go_prev_category() {
         var closest_category = this.category[4].category;
@@ -327,6 +320,7 @@
     setup() {
       return {
         list_show: ref(false),
+        childbuyoption: ref(false),
         keyword: ref(''),
         event_fab: ref(false),
         visible: ref(false),
