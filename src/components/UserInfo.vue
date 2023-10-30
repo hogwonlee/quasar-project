@@ -402,29 +402,18 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog" style="width: 70%">
-      <q-card
-        class="my-card"
-        v-for="order in orderHistory"
-        :key="order.product_id"
-        v-bind="order"
-      >
-        <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in product_all.filter(
-            p => p.product_id == order.product_id,
-          )"
-          :key="product.product_id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
-          "
-        />
-      </q-card>
+      <ProductInfo
+        class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+        v-for="product in orderHistory"
+        :key="product.product_id"
+        v-bind="product"
+        @setbuyoption="product.buyoption = $event"
+        @setquantity="product.quantity = $event"
+        @sendOrderItem="this.$store.dispatch('cart/addProductToCart', product)"
+        @sendRemoveItem="
+          this.$store.dispatch('cart/removeProductFromCart', product)
+        "
+      />
     </q-dialog>
   </q-page>
 </template>
@@ -697,15 +686,15 @@
           .then(res => {
             // console.log(JSON.stringify(res.status));
             if (res.status == 200) {
-              // res.data.results.forEach(product => {
-              //   this.product_all.forEach(p => {
-              //     if (p.product_id == product.product_id) {
-              //       this.orderHistory.push(p);
-              //     }
-              //   });
-              // });
+              res.data.results.forEach(product => {
+                this.product_all.forEach(p => {
+                  if (p.product_id == product.product_id) {
+                    this.orderHistory.push(p);
+                  }
+                });
+              });
               // console.log(JSON.stringify(this.orderHistory));
-              this.orderHistory = res.data.results;
+              // this.orderHistory = res.data.results;
               this.orderHistoryDialog = true;
             } else {
               alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
