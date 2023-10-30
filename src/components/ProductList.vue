@@ -457,11 +457,12 @@
       setproductbuyoption(product, buyoption) {
         product.buyoption = buyoption;
       },
-      showTextLoading() {
+      showProductLoading() {
         this.visible = true;
         this.showSimulatedReturnData = false;
 
         setTimeout(() => {
+          this.products_update();
           this.visible = false;
           this.showSimulatedReturnData = true;
         }, 3000);
@@ -489,11 +490,9 @@
       //   clearInterval(timerId);
       //   console.log(this.load_time);
       // }, 7000);
+      this.showProductLoading();
     },
-    mounted() {
-      this.showTextLoading();
-      this.products_update();
-    },
+    mounted() {},
     setup() {
       return {
         list_show: ref(false),
