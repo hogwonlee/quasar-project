@@ -80,7 +80,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="category[5].category != undefined">
+    <div v-if="category.length > 0">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -237,18 +237,6 @@
           duration,
         );
       },
-      // register_event_info() {
-      //   alert.confirm(
-      //     '회원 가입 이벤트 안내',
-      //     '이벤트 기간동안 회원 가입만 하면 3천원 쿠폰을 지급합니다. (해당 쿠폰은 3만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
-      //   );
-      // },
-      // coupon_5353_event() {
-      //   alert.confirm(
-      //     this.selected_local.event_5353_info,
-      //     this.selected_local.event_5353_detail,
-      //   );
-      // },
       handleScroll(val) {
         // console.log(val);
         let ele = document.querySelector('.' + val);
@@ -267,12 +255,14 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                // this.$store.dispatch('category/emptyStoreAction');
-                // res.data.category.map(element => {
-                //   this.$store.dispatch('category/getCategoryAction', element);
-                // });
-                this.showProductLoading(res.data.results);
-
+                this.$store.dispatch('category/emptyStoreAction');
+                res.data.category.map(element => {
+                  this.$store.dispatch('category/getCategoryAction', element);
+                });
+                this.$store.dispatch('products/emptyStoreAction');
+                res.data.results.map(element => {
+                  this.$store.dispatch('products/getProductAction', element);
+                });
                 this.$store.dispatch(
                   'products/getVersionAction',
                   res.data.version,
@@ -300,10 +290,7 @@
         setTimeout(() => {
           this.visible = false;
           this.showSimulatedReturnData = true;
-          this.$store.dispatch('products/emptyStoreAction');
-          productsDB.map(element => {
-            this.$store.dispatch('products/getProductAction', element);
-          });
+          this.products_update();
         }, 2000);
       },
     },
@@ -317,16 +304,9 @@
         selected_local: state => state.ui_local.status,
       }),
     },
-    created() {
-      this.$store.dispatch('category/emptyStoreAction');
-      this.category_pre.map(element => {
-        this.$store.dispatch('category/getCategoryAction', element);
-      });
-      this.products_update();
+    mounted() {
+      this.showProductLoading();
     },
-    // mounted() {
-    //   this.showProductLoading();
-    // },
     setup() {
       return {
         list_show: ref(false),
@@ -335,21 +315,6 @@
         event_fab: ref(false),
         visible: ref(false),
         showSimulatedReturnData: ref(false),
-        category_pre: [
-          {category: '炒货坚果l과자견과류'},
-          {category: '饼干糕点l과자'},
-          {category: '饮料l음료수'},
-          {category: '方便速食l간편식'},
-          {category: '佐餐类l반찬류'},
-          {category: '川味零食l별미간식'},
-          {category: '肉制品l육류가공식품'},
-          {category: '冷冻冷藏l냉동냉장류'},
-          {category: '干货粉面l건어물면류'},
-          {category: '复合调味料l복합조미료'},
-          {category: '基本调味料l조미료'},
-          {category: '酸甜零食l세콤달콤'},
-          {category: '其他l기타'},
-        ],
       };
     },
   });
