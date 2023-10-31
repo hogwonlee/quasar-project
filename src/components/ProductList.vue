@@ -131,7 +131,7 @@
         />
       </div>
     </div>
-    <div v-else>
+    <div v-if="!visible">
       <q-card class="row">
         <q-skeleton class="col-12" type="text" height="20px" />
         <q-card-section class="q-gutter-md col-4">
@@ -319,6 +319,11 @@
         product.buyoption = buyoption;
       },
       showProductLoading() {
+        // if(this.category.length >0){
+
+        // }else{
+
+        // }
         this.visible = true;
         this.showSimulatedReturnData = false;
 
@@ -340,10 +345,7 @@
       }),
     },
     mounted() {
-      if (this.category.length > 0) {
-      } else {
-        this.showProductLoading();
-      }
+      this.showProductLoading();
     },
     setup() {
       return {
@@ -352,7 +354,7 @@
         keyword: ref(''),
         event_fab: ref(false),
         visible: ref(false),
-        showSimulatedReturnData: ref(false),
+        showSimulatedReturnData: ref(true),
       };
     },
   });
