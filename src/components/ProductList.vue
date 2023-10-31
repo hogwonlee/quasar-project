@@ -320,9 +320,9 @@
     created() {
       this.products_update();
     },
-    mounted() {
-      this.showProductLoading();
-    },
+    // mounted() {
+    //   this.showProductLoading();
+    // },
     setup() {
       return {
         list_show: ref(false),
