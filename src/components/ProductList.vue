@@ -100,7 +100,7 @@
           category[12],
           category[11],
         ]"
-        :key="c"
+        :key="c.category"
         v-bind="c"
       >
         <q-bar dense class="col-12 bg-dark text-white">
@@ -229,7 +229,7 @@
     },
     methods: {
       go_prev_category() {
-        var closest_category = this.category[4].category;
+        var closest_category = this.category[5].category;
         var dis = 0;
         var closest_dis = -9999;
         this.category.forEach(c => {
@@ -327,7 +327,6 @@
 
           setTimeout(() => {
             this.products_update();
-            console.log(JSON.stringify(this.category));
           }, 1000);
         } else {
           this.visible = true;
@@ -337,7 +336,6 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
-            console.log(JSON.stringify(this.category));
           }, 1000);
         }
       },
@@ -353,7 +351,6 @@
       }),
     },
     mounted() {
-      console.log(JSON.stringify(this.category));
       this.showProductLoading();
     },
     setup() {
