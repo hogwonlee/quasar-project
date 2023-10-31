@@ -327,6 +327,7 @@
 
           setTimeout(() => {
             this.products_update();
+            console.log(JSON.stringify(this.category));
           }, 1000);
         } else {
           this.visible = true;
@@ -336,6 +337,7 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
+            console.log(JSON.stringify(this.category));
           }, 1000);
         }
       },
@@ -351,6 +353,7 @@
       }),
     },
     mounted() {
+      console.log(JSON.stringify(this.category));
       this.showProductLoading();
     },
     setup() {
