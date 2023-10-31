@@ -41,7 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in category"
+          v-for="c in category.reverse()"
           :key="c.category"
           v-bind="c"
           color="dark"
