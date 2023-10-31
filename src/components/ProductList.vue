@@ -41,7 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in category.reverse()"
+          v-for="c in fab_category"
           :key="c.category"
           v-bind="c"
           color="dark"
@@ -305,6 +305,7 @@
 
           setTimeout(() => {
             this.products_update();
+            this.fab_category = this.category.reverse();
           }, 1000);
         } else {
           this.visible = true;
@@ -314,12 +315,10 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
+            this.fab_category = this.category.reverse();
           }, 1000);
         }
       },
-      // setCategory(category) {
-      //   this.draw_category = category;
-      // },
     },
     computed: {
       ...mapState({
@@ -342,7 +341,7 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
-        draw_category: ref(''),
+        fab_category: ref({}),
       };
     },
   });
