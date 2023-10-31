@@ -39,7 +39,7 @@
         icon="keyboard_arrow_up"
       >
         <q-fab-action
-          :label="c[0].val"
+          :label="c.category"
           padding="3px"
           v-for="c in [
             category[11],
@@ -56,10 +56,10 @@
             category[4],
             category[5],
           ]"
-          :key="c"
+          :key="c.category"
           v-bind="c"
           color="dark"
-          @click="handleScroll(c[0].val)"
+          @click="handleScroll(c.category)"
         />
       </q-fab>
     </q-page-sticky>
@@ -100,11 +100,11 @@
           category[12],
           category[11],
         ]"
-        :key="c[0].val"
+        :key="c.category"
         v-bind="c"
       >
         <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c[0].val">{{ c[0].val }}</div>
+          <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
 
@@ -112,7 +112,7 @@
           class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in products.filter(
             p =>
-              p.category == c[0].val &&
+              p.category == c.category &&
               p.stored == 1 &&
               (p.product_name + p.category + p.keyword)
                 .toLowerCase()
