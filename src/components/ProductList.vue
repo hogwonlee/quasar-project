@@ -166,9 +166,11 @@
       </q-card>
     </div>
     <q-page-container>
-      <q-inner-loading :showing="visible" :label="selected_local.img_loading">
-        <q-spinner-gears size="50px" color="dark" />
-      </q-inner-loading>
+      <q-inner-loading
+        :showing="visible"
+        :label="selected_local.img_loading"
+        label-style="font-size: 1.1em"
+      />
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
           <template v-slot:control>
