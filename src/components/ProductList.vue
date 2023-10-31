@@ -131,6 +131,55 @@
         />
       </div>
     </div>
+    <div v-else>
+      <q-card class="row">
+        <q-skeleton type="text" height="20px" />
+        <q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" />
+        </q-card-section>
+        <q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="text" height="33px" />
+        </q-card-section>
+      </q-card>
+    </div>
     <q-page-container>
       <q-inner-loading :showing="visible" :label="selected_local.img_loading">
         <q-spinner-gears size="50px" color="dark" />
@@ -284,7 +333,7 @@
       setproductbuyoption(product, buyoption) {
         product.buyoption = buyoption;
       },
-      showProductLoading(productsDB) {
+      showProductLoading() {
         this.visible = true;
         this.showSimulatedReturnData = false;
 
