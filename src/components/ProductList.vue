@@ -271,10 +271,7 @@
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
                 });
-                this.$store.dispatch('products/emptyStoreAction');
-                res.data.results.map(element => {
-                  this.$store.dispatch('products/getProductAction', element);
-                });
+                this.showProductLoading(res.data.results);
 
                 this.$store.dispatch(
                   'products/getVersionAction',
@@ -296,13 +293,17 @@
       setproductbuyoption(product, buyoption) {
         product.buyoption = buyoption;
       },
-      showProductLoading() {
+      showProductLoading(productsDB) {
         this.visible = true;
         this.showSimulatedReturnData = false;
 
         setTimeout(() => {
           this.visible = false;
           this.showSimulatedReturnData = true;
+          this.$store.dispatch('products/emptyStoreAction');
+          productsDB.map(element => {
+            this.$store.dispatch('products/getProductAction', element);
+          });
         }, 1000);
       },
     },
