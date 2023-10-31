@@ -293,7 +293,7 @@
                 console.log('no update');
               } else {
                 this.$store.dispatch('category/emptyStoreAction');
-                console.log('카테고리: ' + res.data.category);
+                console.log('카테고리: ' + JSON.stringify(res.data.category));
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
                 });
