@@ -327,7 +327,7 @@
 
           setTimeout(() => {
             this.products_update();
-          }, 2000);
+          }, 1000);
         } else {
           this.visible = true;
           this.showSimulatedReturnData = false;
@@ -336,7 +336,7 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
-          }, 2000);
+          }, 1000);
         }
       },
     },
