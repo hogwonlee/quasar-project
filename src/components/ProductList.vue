@@ -41,7 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in category.slice().reverse()"
+          v-for="c in category.slice().sort().reverse()"
           :key="c.category"
           v-bind="c"
           color="dark"
@@ -71,7 +71,7 @@
       <div
         v-show="showSimulatedReturnData"
         class="row"
-        v-for="c in category"
+        v-for="c in category.sort()"
         :key="c.category"
         v-bind="c"
       >
@@ -305,8 +305,6 @@
 
           setTimeout(() => {
             this.products_update();
-            this.fab_category = this.category;
-            this.fab_category.reverse();
           }, 1000);
         } else {
           this.visible = true;
@@ -316,8 +314,6 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
-            this.fab_category = this.category;
-            this.fab_category.reverse();
           }, 1000);
         }
       },
@@ -343,7 +339,6 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
-        fab_category: ref({}),
       };
     },
   });
