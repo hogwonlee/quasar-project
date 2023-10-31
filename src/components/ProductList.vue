@@ -23,7 +23,7 @@
       </template>
     </q-input>
     <q-page-sticky
-      v-if="category.length > 0"
+      v-if="products.length > 0"
       class="z-top"
       position="bottom-right"
       :offset="[10, 10]"
@@ -56,7 +56,7 @@
             category[4],
             category[5],
           ]"
-          :key="c.category"
+          :key="c"
           v-bind="c"
           color="dark"
           @click="handleScroll(c.category)"
@@ -81,7 +81,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="category.length > 0">
+    <div v-if="products.length > 0">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -100,7 +100,7 @@
           category[12],
           category[11],
         ]"
-        :key="c.category"
+        :key="c"
         v-bind="c"
       >
         <q-bar dense class="col-12 bg-dark text-white">
