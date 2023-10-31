@@ -305,7 +305,8 @@
 
           setTimeout(() => {
             this.products_update();
-            this.fab_category = this.category.reverse();
+            this.fab_category = this.category;
+            this.fab_category.reverse();
           }, 1000);
         } else {
           this.visible = true;
@@ -315,7 +316,8 @@
             this.visible = false;
             this.showSimulatedReturnData = true;
             this.products_update();
-            this.fab_category = this.category.reverse();
+            this.fab_category = this.category;
+            this.fab_category.reverse();
           }, 1000);
         }
       },
