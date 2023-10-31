@@ -39,7 +39,7 @@
         icon="keyboard_arrow_up"
       >
         <q-fab-action
-          :label="c.category"
+          :label="category[5].category"
           padding="3px"
           v-for="c in [
             category[11],
@@ -81,7 +81,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="c.category != undefined">
+    <div v-if="category[5].category != undefined">
       <div
         v-show="showSimulatedReturnData"
         class="row"
