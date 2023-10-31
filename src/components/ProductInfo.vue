@@ -33,7 +33,7 @@
         </div>
       </q-img>
       <q-chip
-        class="bg-grey q-pa-sm"
+        class="bg-grey q-pr-md"
         style="width: 100%; height: 33px"
         dense
         text-color="white"
