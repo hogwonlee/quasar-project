@@ -41,7 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in category"
+          v-for="c in category.slice().sort().reverse()"
           :key="c.category"
           v-bind="c"
           color="dark"
@@ -71,7 +71,7 @@
       <div
         v-show="showSimulatedReturnData"
         class="row"
-        v-for="c in category"
+        v-for="c in category.sort()"
         :key="c.category"
         v-bind="c"
       >
@@ -317,9 +317,6 @@
           }, 1000);
         }
       },
-      // setCategory(category) {
-      //   this.draw_category = category;
-      // },
     },
     computed: {
       ...mapState({
@@ -342,7 +339,6 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
-        draw_category: ref(''),
       };
     },
   });
