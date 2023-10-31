@@ -131,7 +131,7 @@
         />
       </div>
     </div>
-    <div v-if="!showSimulatedReturnData || !(category.length > 0)">
+    <div v-if="!showSimulatedReturnData || !(products.length > 0)">
       <q-card class="row">
         <q-skeleton class="col-12" type="text" height="20px" />
         <q-card-section class="q-gutter-md col-4">
@@ -229,7 +229,7 @@
     },
     methods: {
       go_prev_category() {
-        var closest_category = this.category[4].category;
+        var closest_category = this.category[5].category;
         var dis = 0;
         var closest_dis = -9999;
         this.category.forEach(c => {
@@ -321,7 +321,7 @@
         product.buyoption = buyoption;
       },
       showProductLoading() {
-        if (this.category.length > 0) {
+        if (this.products.length > 0) {
           this.visible = false;
           this.showSimulatedReturnData = true;
 
