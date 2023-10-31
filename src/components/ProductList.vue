@@ -22,8 +22,12 @@
         <q-icon name="search" color="dark" />
       </template>
     </q-input>
-
-    <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+    <q-page-sticky
+      v-if="category.length > 0"
+      class="z-top"
+      position="bottom-right"
+      :offset="[10, 10]"
+    >
       <q-fab
         v-model="list_show"
         persistent="false"
@@ -77,7 +81,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="category[5].category != undefined">
+    <div v-if="category.length > 0">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -127,10 +131,46 @@
         />
       </div>
     </div>
+    <div v-if="!showSimulatedReturnData || !(category.length > 0)">
+      <q-card class="row">
+        <q-skeleton class="col-12" type="text" height="20px" />
+        <q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" />
+        </q-card-section>
+        <q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" /> </q-card-section
+        ><q-card-section class="q-gutter-md col-4">
+          <q-skeleton type="rect" height="120px" />
+          <q-skeleton type="text" height="33px" />
+        </q-card-section>
+      </q-card>
+    </div>
     <q-page-container>
-      <q-inner-loading :showing="visible">
-        <q-spinner-gears size="50px" color="positive" />
-      </q-inner-loading>
+      <q-inner-loading
+        :showing="visible"
+        :label="selected_local.img_loading"
+        label-style="font-size: 1.1em"
+      />
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
           <template v-slot:control>
@@ -234,18 +274,6 @@
           duration,
         );
       },
-      // register_event_info() {
-      //   alert.confirm(
-      //     '회원 가입 이벤트 안내',
-      //     '이벤트 기간동안 회원 가입만 하면 3천원 쿠폰을 지급합니다. (해당 쿠폰은 3만원 이상 구매 시 사용가능합니다. 받은 후 3개월 내에 사용하셔야 합니다.)',
-      //   );
-      // },
-      // coupon_5353_event() {
-      //   alert.confirm(
-      //     this.selected_local.event_5353_info,
-      //     this.selected_local.event_5353_detail,
-      //   );
-      // },
       handleScroll(val) {
         // console.log(val);
         let ele = document.querySelector('.' + val);
@@ -264,13 +292,13 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                this.$store.dispatch('products/emptyStoreAction');
-                res.data.results.map(element => {
-                  this.$store.dispatch('products/getProductAction', element);
-                });
                 this.$store.dispatch('category/emptyStoreAction');
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
+                });
+                this.$store.dispatch('products/emptyStoreAction');
+                res.data.results.map(element => {
+                  this.$store.dispatch('products/getProductAction', element);
                 });
                 this.$store.dispatch(
                   'products/getVersionAction',
@@ -293,27 +321,34 @@
         product.buyoption = buyoption;
       },
       showProductLoading() {
-        this.visible = true;
-        this.showSimulatedReturnData = false;
-
-        setTimeout(() => {
+        if (this.category.length > 0) {
           this.visible = false;
           this.showSimulatedReturnData = true;
-        }, 1000);
+
+          setTimeout(() => {
+            this.products_update();
+          }, 1000);
+        } else {
+          this.visible = true;
+          this.showSimulatedReturnData = false;
+
+          setTimeout(() => {
+            this.visible = false;
+            this.showSimulatedReturnData = true;
+            this.products_update();
+          }, 1000);
+        }
       },
     },
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
+        category: state => state.category.items,
         products: state => state.products.all,
         storeversion: state => state.products.version,
-        category: state => state.category.items,
         products_status: state => state.products.status,
         selected_local: state => state.ui_local.status,
       }),
-    },
-    created() {
-      this.products_update();
     },
     mounted() {
       this.showProductLoading();
@@ -324,7 +359,7 @@
         childbuyoption: ref(false),
         keyword: ref(''),
         event_fab: ref(false),
-        visible: ref(false),
+        visible: ref(true),
         showSimulatedReturnData: ref(false),
       };
     },

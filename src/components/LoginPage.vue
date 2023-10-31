@@ -28,6 +28,7 @@
         <q-checkbox
           v-model="auto_login"
           :label="selected_local.auto_login"
+          color="positive"
         ></q-checkbox>
 
         <div class="q-gutter-xs q-py-xs">
