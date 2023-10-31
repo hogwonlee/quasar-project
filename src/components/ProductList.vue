@@ -295,6 +295,7 @@
       },
       showProductLoading() {
         if (this.products.length > 0) {
+          console.log('상품이 있을때: ' + this.category[5].category);
           this.visible = false;
           this.showSimulatedReturnData = true;
 
