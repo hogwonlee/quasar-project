@@ -131,7 +131,7 @@
         />
       </div>
     </div>
-    <div v-if="!visible">
+    <div v-if="visible">
       <q-card class="row">
         <q-skeleton class="col-12" type="text" height="20px" />
         <q-card-section class="q-gutter-md col-4">
