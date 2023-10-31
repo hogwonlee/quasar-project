@@ -33,12 +33,12 @@
         </div>
       </q-img>
       <q-chip
-        class="bg-grey"
+        class="bg-grey q-pa-sm"
         style="width: 100%; height: 33px"
         dense
         text-color="white"
       >
-        <div class="absolute-bottom q-pa-sm">
+        <div class="absolute-bottom q-pl-sm">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
         </div>
