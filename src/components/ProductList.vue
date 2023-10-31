@@ -23,7 +23,7 @@
       </template>
     </q-input>
     <q-page-sticky
-      v-if="c.category != undefined"
+      v-if="category[5].category != undefined"
       class="z-top"
       position="bottom-right"
       :offset="[10, 10]"
@@ -39,7 +39,7 @@
         icon="keyboard_arrow_up"
       >
         <q-fab-action
-          :label="category[5].category"
+          :label="c.category"
           padding="3px"
           v-for="c in [
             category[11],
