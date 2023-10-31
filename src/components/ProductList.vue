@@ -23,7 +23,7 @@
       </template>
     </q-input>
     <q-page-sticky
-      v-if="category[5].category != undefined"
+      v-if="products.length > 0"
       class="z-top"
       position="bottom-right"
       :offset="[10, 10]"
@@ -39,7 +39,7 @@
         icon="keyboard_arrow_up"
       >
         <q-fab-action
-          :label="c.category"
+          :label="c[0].val"
           padding="3px"
           v-for="c in [
             category[11],
@@ -59,7 +59,7 @@
           :key="c"
           v-bind="c"
           color="dark"
-          @click="handleScroll(c.category)"
+          @click="handleScroll(c[0].val)"
         />
       </q-fab>
     </q-page-sticky>
@@ -81,7 +81,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="category[5].category != undefined">
+    <div v-if="products.length > 0">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -100,11 +100,11 @@
           category[12],
           category[11],
         ]"
-        :key="c"
+        :key="c[0].val"
         v-bind="c"
       >
         <q-bar dense class="col-12 bg-dark text-white">
-          <div :class="c.category">{{ c.category }}</div>
+          <div :class="c[0].val">{{ c[0].val }}</div>
           <q-space />
         </q-bar>
 
@@ -112,7 +112,7 @@
           class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
           v-for="product in products.filter(
             p =>
-              p.category == c.category &&
+              p.category == c[0].val &&
               p.stored == 1 &&
               (p.product_name + p.category + p.keyword)
                 .toLowerCase()
