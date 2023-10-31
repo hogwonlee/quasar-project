@@ -133,49 +133,34 @@
     </div>
     <div v-else>
       <q-card class="row">
-        <q-skeleton type="text" height="20px" />
+        <q-skeleton class="col-12" type="text" height="20px" />
         <q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" />
         </q-card-section>
         <q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" /> </q-card-section
         ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
-          <q-skeleton type="text" height="33px" /> </q-card-section
-        ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
-          <q-skeleton type="text" height="33px" /> </q-card-section
-        ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
-          <q-skeleton type="text" height="33px" /> </q-card-section
-        ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
-          <q-skeleton type="text" height="33px" /> </q-card-section
-        ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
-          <q-skeleton type="text" height="33px" /> </q-card-section
-        ><q-card-section class="q-gutter-md col-4">
-          <q-skeleton type="rect" height="80px" />
+          <q-skeleton type="rect" height="120px" />
           <q-skeleton type="text" height="33px" />
         </q-card-section>
       </q-card>
