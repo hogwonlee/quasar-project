@@ -80,7 +80,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="!validation_pre.isNull(category[5].category)">
+    <div v-if="category[5].category != undefined">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -179,7 +179,6 @@
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
   import configs from 'src/configs/';
-  const {validation_pre} = validation;
 
   import {dom} from 'quasar';
   const {offset} = dom;
@@ -268,14 +267,10 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                this.updated_products.push(res.data.results[0]);
-                // setTimeout(() => {
-                //   this.$store.dispatch('products/emptyStoreAction');
-                //   res.data.results.map(element => {
-                //     this.$store.dispatch('products/getProductAction', element);
-                //   });
-                // }, 3000);
-                console.log(JSON.stringify(this.updated_products));
+                this.$store.dispatch('products/emptyStoreAction');
+                res.data.results.map(element => {
+                  this.$store.dispatch('products/getProductAction', element);
+                });
                 this.$store.dispatch('category/emptyStoreAction');
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
@@ -309,14 +304,6 @@
           this.showSimulatedReturnData = true;
         }, 1000);
       },
-      products_update_late() {
-        setTimeout(() => {
-          this.$store.dispatch('products/emptyStoreAction');
-          this.updated_products.map(element => {
-            this.$store.dispatch('products/getProductAction', element);
-          });
-        }, 3000);
-      },
     },
     computed: {
       ...mapState({
@@ -342,7 +329,6 @@
         event_fab: ref(false),
         visible: ref(false),
         showSimulatedReturnData: ref(false),
-        updated_products: [],
       };
     },
   });
