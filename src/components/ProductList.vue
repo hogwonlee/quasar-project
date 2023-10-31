@@ -22,7 +22,10 @@
         <q-icon name="search" color="dark" />
       </template>
     </q-input>
-
+    <q-btn
+      label="상품 로컬 저장소 패치"
+      @click="products_update_late()"
+    ></q-btn>
     <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
       <q-fab
         v-model="list_show"
@@ -264,12 +267,13 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                setTimeout(() => {
-                  this.$store.dispatch('products/emptyStoreAction');
-                  res.data.results.map(element => {
-                    this.$store.dispatch('products/getProductAction', element);
-                  });
-                }, 3000);
+                this.updated_products = res.data.results;
+                // setTimeout(() => {
+                //   this.$store.dispatch('products/emptyStoreAction');
+                //   res.data.results.map(element => {
+                //     this.$store.dispatch('products/getProductAction', element);
+                //   });
+                // }, 3000);
 
                 this.$store.dispatch('category/emptyStoreAction');
                 res.data.category.map(element => {
@@ -304,6 +308,14 @@
           this.showSimulatedReturnData = true;
         }, 1000);
       },
+      products_update_late() {
+        setTimeout(() => {
+          this.$store.dispatch('products/emptyStoreAction');
+          this.updated_products.map(element => {
+            this.$store.dispatch('products/getProductAction', element);
+          });
+        }, 3000);
+      },
     },
     computed: {
       ...mapState({
@@ -329,6 +341,7 @@
         event_fab: ref(false),
         visible: ref(false),
         showSimulatedReturnData: ref(false),
+        updated_products: [],
       };
     },
   });
