@@ -131,7 +131,7 @@
         />
       </div>
     </div>
-    <div v-if="visible">
+    <div v-if="!showSimulatedReturnData || !(category.length > 0)">
       <q-card class="row">
         <q-skeleton class="col-12" type="text" height="20px" />
         <q-card-section class="q-gutter-md col-4">
