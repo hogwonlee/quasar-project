@@ -100,7 +100,7 @@
           category[12],
           category[11],
         ]"
-        :key="c.category"
+        :key="c"
         v-bind="c"
       >
         <q-bar dense class="col-12 bg-dark text-white">
