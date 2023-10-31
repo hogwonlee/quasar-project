@@ -267,7 +267,7 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                this.updated_products.push(res.data.results);
+                this.updated_products.push(res.data.results[0]);
                 // setTimeout(() => {
                 //   this.$store.dispatch('products/emptyStoreAction');
                 //   res.data.results.map(element => {
