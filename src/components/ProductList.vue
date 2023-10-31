@@ -309,9 +309,9 @@
     computed: {
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
+        category: state => state.category.items,
         products: state => state.products.all,
         storeversion: state => state.products.version,
-        category: state => state.category.items,
         products_status: state => state.products.status,
         selected_local: state => state.ui_local.status,
       }),
