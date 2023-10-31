@@ -41,21 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in [
-            category[11],
-            category[12],
-            category[10],
-            category[9],
-            category[8],
-            category[7],
-            category[6],
-            category[3],
-            category[2],
-            category[1],
-            category[0],
-            category[4],
-            category[5],
-          ]"
+          v-for="c in category"
           :key="c.category"
           v-bind="c"
           color="dark"
@@ -85,21 +71,7 @@
       <div
         v-show="showSimulatedReturnData"
         class="row"
-        v-for="c in [
-          category[5],
-          category[4],
-          category[0],
-          category[1],
-          category[2],
-          category[3],
-          category[6],
-          category[7],
-          category[8],
-          category[9],
-          category[10],
-          category[12],
-          category[11],
-        ]"
+        v-for="c in category"
         :key="c.category"
         v-bind="c"
       >
