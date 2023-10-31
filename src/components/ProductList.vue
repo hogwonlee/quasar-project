@@ -340,7 +340,10 @@
       }),
     },
     mounted() {
-      this.showProductLoading();
+      if (this.category.length > 0) {
+      } else {
+        this.showProductLoading();
+      }
     },
     setup() {
       return {
