@@ -319,19 +319,23 @@
         product.buyoption = buyoption;
       },
       showProductLoading() {
-        // if(this.category.length >0){
-
-        // }else{
-
-        // }
-        this.visible = true;
-        this.showSimulatedReturnData = false;
-
-        setTimeout(() => {
+        if (this.category.length > 0) {
           this.visible = false;
           this.showSimulatedReturnData = true;
-          this.products_update();
-        }, 2000);
+
+          setTimeout(() => {
+            this.products_update();
+          }, 2000);
+        } else {
+          this.visible = true;
+          this.showSimulatedReturnData = false;
+
+          setTimeout(() => {
+            this.visible = false;
+            this.showSimulatedReturnData = true;
+            this.products_update();
+          }, 2000);
+        }
       },
     },
     computed: {
@@ -353,8 +357,8 @@
         childbuyoption: ref(false),
         keyword: ref(''),
         event_fab: ref(false),
-        visible: ref(false),
-        showSimulatedReturnData: ref(true),
+        visible: ref(true),
+        showSimulatedReturnData: ref(false),
       };
     },
   });
