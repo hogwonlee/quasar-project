@@ -304,7 +304,7 @@
           productsDB.map(element => {
             this.$store.dispatch('products/getProductAction', element);
           });
-        }, 1000);
+        }, 2000);
       },
     },
     computed: {
@@ -318,6 +318,7 @@
       }),
     },
     created() {
+      this.category[5].category = '炒货坚果l과자견과류';
       this.products_update();
     },
     // mounted() {
