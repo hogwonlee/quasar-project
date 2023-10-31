@@ -80,7 +80,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="!validation.isNull(category[5].category)">
+    <div v-if="!validation_pre.isNull(category[5].category)">
       <div
         v-show="showSimulatedReturnData"
         class="row"
@@ -179,6 +179,7 @@
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
   import configs from 'src/configs/';
+  const {validation_pre} = validation;
 
   import {dom} from 'quasar';
   const {offset} = dom;
