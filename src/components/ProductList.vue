@@ -22,11 +22,12 @@
         <q-icon name="search" color="dark" />
       </template>
     </q-input>
-    <q-btn
-      label="상품 로컬 저장소 패치"
-      @click="products_update_late()"
-    ></q-btn>
-    <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+    <q-page-sticky
+      v-if="category.length > 0"
+      class="z-top"
+      position="bottom-right"
+      :offset="[10, 10]"
+    >
       <q-fab
         v-model="list_show"
         persistent="false"
