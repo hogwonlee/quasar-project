@@ -274,7 +274,7 @@
                 //     this.$store.dispatch('products/getProductAction', element);
                 //   });
                 // }, 3000);
-
+                console.log(JSON.stringify(this.updated_products));
                 this.$store.dispatch('category/emptyStoreAction');
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
