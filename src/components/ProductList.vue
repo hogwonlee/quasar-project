@@ -80,7 +80,7 @@
         @click="go_next_category()"
       ></q-btn>
     </q-page-sticky>
-    <div v-if="category[5].category != undefined">
+    <div v-if="!validation.isNull(category[5].category)">
       <div
         v-show="showSimulatedReturnData"
         class="row"
