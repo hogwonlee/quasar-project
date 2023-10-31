@@ -41,21 +41,7 @@
         <q-fab-action
           :label="c.category"
           padding="3px"
-          v-for="c in [
-            category[11],
-            category[12],
-            category[10],
-            category[9],
-            category[8],
-            category[7],
-            category[6],
-            category[3],
-            category[2],
-            category[1],
-            category[0],
-            category[4],
-            category[5],
-          ]"
+          v-for="c in category"
           :key="c.category"
           v-bind="c"
           color="dark"
@@ -85,21 +71,7 @@
       <div
         v-show="showSimulatedReturnData"
         class="row"
-        v-for="c in [
-          category[5],
-          category[4],
-          category[0],
-          category[1],
-          category[2],
-          category[3],
-          category[6],
-          category[7],
-          category[8],
-          category[9],
-          category[10],
-          category[12],
-          category[11],
-        ]"
+        v-for="c in category"
         :key="c.category"
         v-bind="c"
       >
@@ -110,7 +82,7 @@
 
         <ProductInfo
           class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-          v-for="product in products.filter(
+          v-for="p in products.filter(
             p =>
               p.category == c.category &&
               p.stored == 1 &&
@@ -118,15 +90,13 @@
                 .toLowerCase()
                 .includes(keyword.toLowerCase()),
           )"
-          :key="product.id"
-          v-bind="product"
-          @setbuyoption="product.buyoption = $event"
-          @setquantity="product.quantity = $event"
-          @sendOrderItem="
-            this.$store.dispatch('cart/addProductToCart', product)
-          "
+          :key="p.id"
+          v-bind="p"
+          @setbuyoption="p.buyoption = $event"
+          @setquantity="p.quantity = $event"
+          @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
           @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', product)
+            this.$store.dispatch('cart/removeProductFromCart', p)
           "
         />
       </div>
@@ -229,7 +199,7 @@
     },
     methods: {
       go_prev_category() {
-        var closest_category = this.category[5].category;
+        var closest_category = this.category[0].category;
         var dis = 0;
         var closest_dis = -9999;
         this.category.forEach(c => {
@@ -292,12 +262,20 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
+                var inserted_category = '';
                 this.$store.dispatch('category/emptyStoreAction');
-                res.data.category.map(element => {
-                  this.$store.dispatch('category/getCategoryAction', element);
-                });
+                // res.data.category.map(element => {
+                //   this.$store.dispatch('category/getCategoryAction', element);
+                // });
                 this.$store.dispatch('products/emptyStoreAction');
                 res.data.results.map(element => {
+                  if (element.category != inserted_category) {
+                    this.$store.dispatch(
+                      'category/getCategoryAction',
+                      element.category,
+                    );
+                    inserted_category = element.category;
+                  }
                   this.$store.dispatch('products/getProductAction', element);
                 });
                 this.$store.dispatch(
@@ -339,6 +317,9 @@
           }, 1000);
         }
       },
+      // setCategory(category) {
+      //   this.draw_category = category;
+      // },
     },
     computed: {
       ...mapState({
@@ -361,6 +342,7 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
+        draw_category: ref(''),
       };
     },
   });
