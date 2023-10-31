@@ -185,6 +185,7 @@ const _ko = {
   buy_history: '자주 구매 상품 정보',
   next_category: '다음 분류',
   prev_category: '이전 분류',
+  img_loading: '상품 불러오는 중...',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -368,6 +369,7 @@ const _cn = {
   buy_history: '查看经常购买商品',
   next_category: '下一类',
   prev_category: '上一类',
+  img_loading: '读取商品中...',
 };
 
 const state = {

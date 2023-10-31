@@ -132,8 +132,8 @@
       </div>
     </div>
     <q-page-container>
-      <q-inner-loading :showing="visible">
-        <q-spinner-gears size="50px" color="positive" />
+      <q-inner-loading :showing="visible" :label="selected_local.img_loading">
+        <q-spinner-gears size="50px" color="dark" />
       </q-inner-loading>
       <div class="q-gutter-md row inline">
         <q-field label="상호명" stack-label style="max-width: fit-content">
