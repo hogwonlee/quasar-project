@@ -38,7 +38,7 @@
         dense
         text-color="white"
       >
-        <div class="absolute-bottom q-pl-sm">
+        <div class="absolute-bottom q-pa-sm">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
         </div>

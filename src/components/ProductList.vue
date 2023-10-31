@@ -264,10 +264,13 @@
               if (validation.isNull(res.data.results)) {
                 console.log('no update');
               } else {
-                this.$store.dispatch('products/emptyStoreAction');
-                res.data.results.map(element => {
-                  this.$store.dispatch('products/getProductAction', element);
-                });
+                setTimeout(() => {
+                  this.$store.dispatch('products/emptyStoreAction');
+                  res.data.results.map(element => {
+                    this.$store.dispatch('products/getProductAction', element);
+                  });
+                }, 3000);
+
                 this.$store.dispatch('category/emptyStoreAction');
                 res.data.category.map(element => {
                   this.$store.dispatch('category/getCategoryAction', element);
