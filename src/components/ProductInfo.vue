@@ -1,7 +1,13 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img :src="img" class="rounded-borders" :ratio="1" loading="lazy">
+      <q-img
+        :src="img"
+        class="rounded-borders"
+        :ratio="1"
+        loading="lazy"
+        v-once
+      >
         <div class="absolute-top-right transparent">
           <q-badge
             v-if="bonuscondition > 0"
