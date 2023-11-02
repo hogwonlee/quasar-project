@@ -79,6 +79,17 @@
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
+        <q-bar
+          dense
+          v-if="c.category == '速冻l냉동보관' || '冷藏l냉장보관'"
+          class="col-12 bg-red text-black"
+        >
+          <text-body2>
+            *订单包含此类商品,商家直接送货,额外收取运费(满5万则免)
+          </text-body2>
+          <q-space />
+        </q-bar>
+
         <KeepAlive>
           <ProductInfo
             class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
