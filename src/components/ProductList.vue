@@ -84,10 +84,8 @@
           v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
           class="col-12 bg-red text-black text-bold"
         >
-          <text-body2>
-            *订单包含此类商品,商家直接送货到家(时间:晚上)
-          </text-body2>
-          <text-body2> *订单包含此类商品,额外收取运费(满5万则免) </text-body2>
+          <div>{{ selected_local.freeze_deliver_info1 }}</div>
+          <div>{{ selected_local.freeze_deliver_info2 }}</div>
           <q-space />
         </q-bar>
 
