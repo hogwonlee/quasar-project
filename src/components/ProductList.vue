@@ -78,14 +78,22 @@
         <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
-        </q-bar>
-        <q-bar
-          dense
-          v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
-          class="row col-12 bg-red text-black text-bold"
-        >
-          <div>{{ selected_local.freeze_deliver_info1 }}</div>
-          <div>{{ selected_local.freeze_deliver_info2 }}</div>
+
+          <div
+            v-if="
+              c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'
+            "
+            class="text-red"
+          >
+            <div>
+              {{ selected_local.freeze_deliver_info1 }}
+            </div>
+            <q-space />
+
+            <div>
+              {{ selected_local.freeze_deliver_info2 }}
+            </div>
+          </div>
           <q-space />
         </q-bar>
 
