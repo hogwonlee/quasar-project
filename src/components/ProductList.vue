@@ -87,12 +87,10 @@
           <div>
             {{ selected_local.freeze_deliver_info1 }}
           </div>
-          <q-space />
 
           <div>
             {{ selected_local.freeze_deliver_info2 }}
           </div>
-          <q-space />
         </q-bar>
 
         <KeepAlive>
