@@ -37,7 +37,7 @@
         </q-bar>
         <div
           v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
-          class="bg-dark text-red"
+          class="col-12 bg-dark text-red"
         >
           <q-bar dense>
             <div>
