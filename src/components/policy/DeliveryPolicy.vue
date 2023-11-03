@@ -15,8 +15,10 @@
         <div>- 全国</div>
         <div class="text-body1 text-bold">运费</div>
         <div>- 满X万免费</div>
-        <div>- 购买额未满3万时，收取运费2800韩元。</div>
-        <div>- 包含冷冻冷藏食品时，购买额未满5万时，额外收取运费2200韩元。</div>
+        <div>- 购买额未满3万时，收取运费3,000韩元。</div>
+        <div>
+          - 包含冷冻冷藏食品时，购买额未满5万时，额外收取运费3,000韩元。
+        </div>
         <div class="text-body1 text-bold">运送时间</div>
         <div>- 2天~3天</div>
         <div class="text-body1 text-bold">运送须知</div>
@@ -50,10 +52,10 @@
         <div>- 전국지역</div>
         <div class="text-body1 text-bold">배송 비용</div>
         <div>- 조건부 무료</div>
-        <div>- 주문 금액 30,000원 미만일 때 배송비 2,800원을 추가합니다.</div>
+        <div>- 주문 금액 30,000원 미만일 때 배송비 3,000원을 추가합니다.</div>
         <div>
           - 냉동/냉장 식품 포함시, 주문 금액 50,000원 미만일 때 별도로 배송비
-          2,200원을 추가합니다.
+          3,000원을 추가합니다.
         </div>
         <div class="text-body1 text-bold">배송 기간</div>
         <div>- 2일 ~ 3일</div>
