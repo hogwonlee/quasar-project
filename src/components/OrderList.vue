@@ -80,7 +80,9 @@
           <tr class="row">
             <td class="text-left bg-grey-3 col-4">
               <q-field borderless dense>
-                <template v-slot:control> 냉동배송비 </template>
+                <template v-slot:control>
+                  {{ selected_local.freeze_delivercost }}
+                </template>
               </q-field>
             </td>
             <td class="text-right col-8 text-h4">
@@ -88,7 +90,7 @@
                 dense
                 color="grey"
                 icon="new_releases"
-                :label="selected_local.delivercostnotice"
+                :label="selected_local.freeze_delivercostnotice"
                 text-color="white"
               />
               {{ freeze_shipment }} {{ selected_local.won }}
