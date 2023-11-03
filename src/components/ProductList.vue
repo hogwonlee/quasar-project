@@ -22,51 +22,7 @@
         <q-icon name="search" color="dark" />
       </template>
     </q-input>
-    <q-page-sticky
-      v-if="products.length > 0"
-      class="z-top"
-      position="bottom-right"
-      :offset="[10, 10]"
-    >
-      <q-fab
-        v-model="list_show"
-        persistent="false"
-        :label="selected_local.category"
-        direction="up"
-        class="q-pa-none q-gutter-none"
-        color="dark"
-        vertical-actions-align="right"
-        icon="keyboard_arrow_up"
-      >
-        <q-fab-action
-          :label="c.category"
-          padding="3px"
-          v-for="c in category.slice().sort().reverse()"
-          :key="c.category"
-          v-bind="c"
-          color="dark"
-          @click="handleScroll(c.category)"
-        />
-      </q-fab>
-    </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 50]">
-      <q-btn
-        :label="selected_local.prev_category"
-        icon="keyboard_arrow_up"
-        class="bg-dark text-white"
-        rounded
-        @click="go_prev_category()"
-      ></q-btn>
-    </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
-      <q-btn
-        :label="selected_local.next_category"
-        icon="keyboard_arrow_down"
-        class="bg-dark text-white"
-        rounded
-        @click="go_next_category()"
-      ></q-btn>
-    </q-page-sticky>
+
     <div v-if="products.length > 0">
       <div
         v-show="showSimulatedReturnData"
@@ -78,25 +34,24 @@
         <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
-
-          <div
-            v-if="
-              c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'
-            "
-            class="text-red"
-          >
+        </q-bar>
+        <div
+          v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
+          class="col-12 bg-dark text-red"
+        >
+          <q-bar dense>
             <div>
               {{ selected_local.freeze_deliver_info1 }}
             </div>
             <q-space />
-
+          </q-bar>
+          <q-bar dense>
             <div>
               {{ selected_local.freeze_deliver_info2 }}
             </div>
-          </div>
-          <q-space />
-        </q-bar>
-
+            <q-space />
+          </q-bar>
+        </div>
         <KeepAlive>
           <ProductInfo
             class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
@@ -118,6 +73,50 @@
             "
           />
         </KeepAlive>
+        <q-page-sticky
+          v-if="products.length > 0"
+          position="bottom-right"
+          :offset="[10, 10]"
+        >
+          <q-fab
+            v-model="list_show"
+            persistent="false"
+            :label="selected_local.category"
+            direction="up"
+            class="q-pa-none q-gutter-none"
+            color="dark"
+            vertical-actions-align="right"
+            icon="keyboard_arrow_up"
+          >
+            <q-fab-action
+              :label="c.category"
+              padding="3px"
+              v-for="c in category.slice().sort().reverse()"
+              :key="c.category"
+              v-bind="c"
+              color="dark"
+              @click="handleScroll(c.category)"
+            />
+          </q-fab>
+        </q-page-sticky>
+        <q-page-sticky position="bottom-left" :offset="[10, 50]">
+          <q-btn
+            :label="selected_local.prev_category"
+            icon="keyboard_arrow_up"
+            class="bg-dark text-white"
+            rounded
+            @click="go_prev_category()"
+          ></q-btn>
+        </q-page-sticky>
+        <q-page-sticky position="bottom-left" :offset="[10, 10]">
+          <q-btn
+            :label="selected_local.next_category"
+            icon="keyboard_arrow_down"
+            class="bg-dark text-white"
+            rounded
+            @click="go_next_category()"
+          ></q-btn>
+        </q-page-sticky>
       </div>
     </div>
     <div v-if="!showSimulatedReturnData || !(products.length > 0)">
