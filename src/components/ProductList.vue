@@ -82,7 +82,7 @@
         <q-bar
           v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
           dense
-          class="row bg-dark text-red"
+          class="bg-dark text-red"
         >
           <div>
             {{ selected_local.freeze_deliver_info1 }}
