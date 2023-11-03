@@ -56,9 +56,14 @@ const getters = {
   },
   freeze_shipmentPrice: (state, getters) => {
     var freeze_product;
-    freeze_product = state.items.find(product =>( product.category == '冷藏l냉장보관' || product.category == '速冻l냉동보관' ))
-    console.log('냉동식품'+freeze_product)
-    return  getters.cartTotalPrice >= 30000 || getters.cartTotalPrice === 0
+    freeze_product = state.items.find(
+      product =>
+        product.category == '冷藏l냉장보관' ||
+        product.category == '速冻l냉동보관',
+    );
+    return freeze_product == undefined
+      ? 0
+      : getters.cartTotalPrice >= 50000
       ? 0
       : 3000;
   },
