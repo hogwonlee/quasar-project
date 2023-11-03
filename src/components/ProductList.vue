@@ -24,7 +24,6 @@
     </q-input>
     <q-page-sticky
       v-if="products.length > 0"
-      class="z-top"
       position="bottom-right"
       :offset="[10, 10]"
     >
@@ -49,7 +48,7 @@
         />
       </q-fab>
     </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 50]">
+    <q-page-sticky position="bottom-left" :offset="[10, 50]">
       <q-btn
         :label="selected_local.prev_category"
         icon="keyboard_arrow_up"
@@ -58,7 +57,7 @@
         @click="go_prev_category()"
       ></q-btn>
     </q-page-sticky>
-    <q-page-sticky class="z-top" position="bottom-left" :offset="[10, 10]">
+    <q-page-sticky position="bottom-left" :offset="[10, 10]">
       <q-btn
         :label="selected_local.next_category"
         icon="keyboard_arrow_down"
@@ -79,20 +78,21 @@
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
-        <q-bar
+        <div
           v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
-          dense
           class="bg-dark text-red"
         >
-          <div>
-            {{ selected_local.freeze_deliver_info1 }}
-          </div>
-
-          <div>
-            {{ selected_local.freeze_deliver_info2 }}
-          </div>
-        </q-bar>
-
+          <q-bar dense>
+            <div>
+              {{ selected_local.freeze_deliver_info1 }}
+            </div>
+          </q-bar>
+          <q-bar dense>
+            <div>
+              {{ selected_local.freeze_deliver_info2 }}
+            </div>
+          </q-bar>
+        </div>
         <KeepAlive>
           <ProductInfo
             class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
