@@ -77,6 +77,25 @@
               {{ shipment }} {{ selected_local.won }}
             </td>
           </tr>
+          <tr class="row">
+            <td class="text-left bg-grey-3 col-4">
+              <q-field borderless dense>
+                <template v-slot:control>
+                  {{ selected_local.freeze_delivercost }}
+                </template>
+              </q-field>
+            </td>
+            <td class="text-right col-8 text-h4">
+              <q-chip
+                dense
+                color="grey"
+                icon="new_releases"
+                :label="selected_local.freeze_delivercostnotice"
+                text-color="white"
+              />
+              {{ freeze_shipment }} {{ selected_local.won }}
+            </td>
+          </tr>
           <!-- <tr class="row">
             <td class="text-left col-4">
               <q-field borderless dense>
@@ -111,7 +130,7 @@
               </q-field>
             </td>
             <td class="text-right col-8 text-h4">
-              {{ total + shipment }}
+              {{ total + shipment + freeze_shipment }}
               {{ selected_local.won }}
             </td>
           </tr>
@@ -376,7 +395,12 @@
           <div class="text-body1 text-bold">
             {{ selected_local.final_payamount_confirm }}
           </div>
-          {{ total + shipment - `${coupon == '' ? 0 : coupon.coupon_price}` }}
+          {{
+            total +
+            shipment +
+            freeze_shipment -
+            `${coupon == '' ? 0 : coupon.coupon_price}`
+          }}
           {{ selected_local.won }}
         </q-card-section>
         <div class="row justify-center">
@@ -386,7 +410,9 @@
             size="22px"
             class="text-bold q-py-none q-px-xl q-ma-sm"
             :label="selected_local.checkout"
-            @click="selectPaymentmethod(total, shipment, coupon)"
+            @click="
+              selectPaymentmethod(total, shipment, freeze_shipment, coupon)
+            "
           >
           </q-btn>
         </div>
@@ -534,6 +560,7 @@
         cartProducts: 'cartProducts',
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
+        freeze_shipment: 'freeze_shipmentPrice',
       }),
       ...mapGetters('address', {
         default_addr: 'getDefaultAddr',

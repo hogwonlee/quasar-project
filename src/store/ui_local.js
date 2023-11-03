@@ -72,7 +72,9 @@ const _ko = {
   noordernotice: '장바구니에 상품을 추가해주세요.',
   foodprice: '구매금액',
   delivercost: '배송비',
+  freeze_delivercost: '냉동배송비',
   delivercostnotice: '3만원이상 무료',
+  freeze_delivercostnotice: '5만원이상 무료',
   point: '포인트',
   total: '총합',
   checkout: '결제',
@@ -186,6 +188,9 @@ const _ko = {
   next_category: '다음 분류',
   prev_category: '이전 분류',
   img_loading: '상품 불러오는 중...',
+  freeze_deliver_info1:
+    '*아래 상품 포함시 우리가 직접 배송합니다.(시간:18시~22시)',
+  freeze_deliver_info2: '*배송비가 추가됩니다.(5만원이상 무료)',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -258,7 +263,9 @@ const _cn = {
   noordernotice: '购物车里空无一物',
   foodprice: '购买额',
   delivercost: '运送费',
+  freeze_delivercost: '冷冻运送费',
   delivercostnotice: '满3万，免运费',
+  freeze_delivercostnotice: '满5万，免运费',
   point: '积分',
   total: '总计',
   checkout: '支付',
@@ -370,6 +377,8 @@ const _cn = {
   next_category: '下一类',
   prev_category: '上一类',
   img_loading: '读取商品中...',
+  freeze_deliver_info1: '*订单包含此类商品,商家直接送货到家(时间:18点~22点)',
+  freeze_deliver_info2: '*订单包含此类商品,额外收取运费(满5万则免)',
 };
 
 const state = {
