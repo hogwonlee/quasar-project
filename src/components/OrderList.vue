@@ -585,11 +585,11 @@
       selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;
         console.log('쿠폰' + coupon);
-        if (coupon != '') {
+        if (coupon == '') {
+          discount = 0;
+        } else {
           discount = coupon.coupon_price;
           this.reserve_use_coupon(coupon.coupon_id);
-        } else {
-          discount = 0;
         }
         var amountOfPayment =
           total + shipment + freeze_shipmentPrice - discount;
