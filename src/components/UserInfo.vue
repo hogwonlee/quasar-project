@@ -403,7 +403,7 @@
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
       <q-card class="my-card row" style="width: 80%">
-        <q-card-section class="items-center q-pa-none">
+        <q-card-section class="col-12 items-center q-pa-none">
           <q-toolbar class="bg-dark text-h6 text-bold text-white q-pl-lg">
             {{ selected_local.buy_history }}
             <q-space />
