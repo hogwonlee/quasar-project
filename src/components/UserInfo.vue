@@ -411,13 +411,13 @@
           </q-toolbar>
         </q-card-section>
         <q-card-section
-          class="q-gutter-xs"
+          class="row q-gutter-xs"
           v-for="order in orderHistory"
           :key="order.product_id"
           v-bind="order"
         >
           <ProductInfo
-            class="col-3"
+            class="col-xs-4 col-sm-3"
             v-for="product in product_all.filter(
               p => p.product_id == order.product_id,
             )"
