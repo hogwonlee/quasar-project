@@ -582,7 +582,7 @@
           this.selected_local.event_5353_detail,
         );
       },
-      selectPaymentmethod(total, shipment, coupon) {
+      selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;
         if (coupon != undefined || coupon != '') {
           discount = coupon.coupon_price;
@@ -590,7 +590,8 @@
         } else {
           discount = 0;
         }
-        var amountOfPayment = total + shipment - discount;
+        var amountOfPayment =
+          total + shipment + freeze_shipmentPrice - discount;
         var random_id =
           this.user.USER_ID +
           '_orderid_' +
