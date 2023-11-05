@@ -584,12 +584,9 @@
       },
       selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;
-        console.log('쿠폰' + coupon);
         if (coupon == '') {
           discount = 0;
         } else {
-          console.log('쿠폰 JSON' + JSON.stringify(coupon));
-
           discount = coupon.coupon_price;
           this.reserve_use_coupon(coupon.coupon_id);
         }
