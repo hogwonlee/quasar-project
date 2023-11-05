@@ -16,7 +16,6 @@ const actions = {
   reserveCancleAction({state, commit}, id) {
     var c = state.items.find(item => item.coupon_id == id);
     var i = state.items.indexOf(c);
-    console.log('삭제예정' + i);
     commit('cancleReserveCoupon', i);
   },
   emptyCouponAction({commit}) {

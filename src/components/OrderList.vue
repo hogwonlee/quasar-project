@@ -586,9 +586,6 @@
         var discount;
         console.log('쿠폰' + coupon);
         if (coupon == '') {
-          this.couponList.forEach(c => {
-            this.reserve_cancle_coupon(c.coupon_id);
-          });
           discount = 0;
         } else {
           console.log('쿠폰 JSON' + JSON.stringify(coupon));
@@ -635,6 +632,9 @@
       },
       before_pay_check() {
         this.coupon = '';
+        this.couponList.forEach(c => {
+          this.reserve_cancle_coupon(c.coupon_id);
+        });
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           if (paymentMethod.getSelectedPaymentMethod().method == '계좌이체') {
             this.finalCheck = true;
