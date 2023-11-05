@@ -37,6 +37,7 @@
         cartTotalPrice: 'cartTotalPrice',
         cartProducts: 'cartProducts',
         shipment: 'shipmentPrice',
+        freeze_shipment: 'freeze_shipmentPrice',
       }),
 
       ...mapActions('cart', ['checkout']),
@@ -62,7 +63,8 @@
       paymentAuthorizationRequest() {
         this.readResData();
         const requestData = this.postJsonData;
-        var amountOfPayment = this.cartTotalPrice + this.shipment - 3000;
+        var amountOfPayment =
+          this.cartTotalPrice + this.shipment + this.freeze_shipment - 3000;
         console.log(
           '가격 비교: ' +
             amountOfPayment +

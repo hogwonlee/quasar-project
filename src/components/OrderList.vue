@@ -631,6 +631,7 @@
         }
       },
       before_pay_check() {
+        this.coupon = '';
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           if (paymentMethod.getSelectedPaymentMethod().method == '계좌이체') {
             this.finalCheck = true;
