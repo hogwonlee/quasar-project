@@ -97,7 +97,10 @@
               );
             }
           })
-          .catch(e => console.error(e));
+          .catch(e => {
+            alert.confirm(this.selected_local.err, JSON.stringify(e));
+            console.error(e);
+          });
       },
 
       set_order_with_address(address_id) {
