@@ -402,8 +402,8 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <q-card class="my-card" style="width: 80%">
-        <q-card-section class="row items-center q-pa-none">
+      <q-card class="my-card row" style="width: 80%">
+        <q-card-section class="col-12 items-center q-pa-none">
           <q-toolbar class="bg-dark text-h6 text-bold text-white q-pl-lg">
             {{ selected_local.buy_history }}
             <q-space />
@@ -411,13 +411,12 @@
           </q-toolbar>
         </q-card-section>
         <q-card-section
-          class="row"
+          class="col-xs-4 col-sm-3"
           v-for="order in orderHistory"
           :key="order.product_id"
           v-bind="order"
         >
           <ProductInfo
-            class="col-4 q-pa-xs"
             v-for="product in product_all.filter(
               p => p.product_id == order.product_id,
             )"
