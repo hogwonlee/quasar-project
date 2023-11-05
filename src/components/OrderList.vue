@@ -586,6 +586,9 @@
         var discount;
         console.log('쿠폰' + coupon);
         if (coupon == '') {
+          this.couponList.forEach(c => {
+            this.reserve_cancle_coupon(c.coupon_id);
+          });
           discount = 0;
         } else {
           console.log('쿠폰 JSON' + JSON.stringify(coupon));
@@ -662,9 +665,9 @@
       reserve_use_coupon(coupon_id) {
         this.$store.dispatch('coupon/reserveUseCouponAction', coupon_id);
       },
-      // reserve_cancle_coupon(coupon_id) {
-      //   this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
-      // },
+      reserve_cancle_coupon(coupon_id) {
+        this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
+      },
       // reservedCoupon() {
       //   return this.couponList.find(
       //     element => element.coupon_use_reserve === 1,
