@@ -582,15 +582,16 @@
           this.selected_local.event_5353_detail,
         );
       },
-      selectPaymentmethod(total, shipment, coupon) {
+      selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;
-        if (coupon != undefined || coupon != '') {
+        if (coupon == '') {
+          discount = 0;
+        } else {
           discount = coupon.coupon_price;
           this.reserve_use_coupon(coupon.coupon_id);
-        } else {
-          discount = 0;
         }
-        var amountOfPayment = total + shipment - discount;
+        var amountOfPayment =
+          total + shipment + freeze_shipmentPrice - discount;
         var random_id =
           this.user.USER_ID +
           '_orderid_' +
@@ -627,6 +628,10 @@
         }
       },
       before_pay_check() {
+        this.coupon = '';
+        this.couponList.forEach(c => {
+          this.reserve_cancle_coupon(c.coupon_id);
+        });
         if (agreementWidget.getAgreementStatus().agreedRequiredTerms) {
           if (paymentMethod.getSelectedPaymentMethod().method == '계좌이체') {
             this.finalCheck = true;
@@ -657,9 +662,9 @@
       reserve_use_coupon(coupon_id) {
         this.$store.dispatch('coupon/reserveUseCouponAction', coupon_id);
       },
-      // reserve_cancle_coupon(coupon_id) {
-      //   this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
-      // },
+      reserve_cancle_coupon(coupon_id) {
+        this.$store.dispatch('coupon/reserveCancleAction', coupon_id);
+      },
       // reservedCoupon() {
       //   return this.couponList.find(
       //     element => element.coupon_use_reserve === 1,
