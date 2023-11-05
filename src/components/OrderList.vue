@@ -584,7 +584,7 @@
       },
       selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;
-        if (coupon != undefined || coupon != '') {
+        if (coupon != '') {
           discount = coupon.coupon_price;
           this.reserve_use_coupon(coupon.coupon_id);
         } else {
