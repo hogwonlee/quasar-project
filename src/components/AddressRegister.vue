@@ -230,7 +230,6 @@
           class="col-6"
           outline
           color="positive"
-          size="md"
           style="width: 50%"
           :label="selected_local.addrresister"
           :disable="

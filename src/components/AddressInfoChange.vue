@@ -211,7 +211,6 @@
           class="col-12"
           color="positive"
           outline
-          size="md"
           style="width: 100%"
           :label="selected_local.changeaddrinfo"
           @click="exeAddrInfoChange"
