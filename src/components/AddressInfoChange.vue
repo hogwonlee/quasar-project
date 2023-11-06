@@ -203,7 +203,6 @@
           outlined
           v-model="outdoorpassword_edit"
           :label="selected_local.gate_password"
-          :hint="selected_local.outdoorpasswordhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
