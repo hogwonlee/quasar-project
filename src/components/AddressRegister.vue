@@ -193,14 +193,14 @@
       ></q-input>
       <div class="row q-py-none">
         <q-radio
-          class="col-12"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="free"
           :label="selected_local.gate_free"
         />
         <q-radio
-          class="col-5"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="password"
@@ -210,7 +210,7 @@
         <q-input
           standout
           dense
-          class="col-6"
+          class="col-12"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword"
@@ -220,18 +220,17 @@
           :rules="[val => !!val || '请输入附加信息']"
         />
         <q-checkbox
-          class="q-ma-sm col-4"
+          class="q-ma-sm col-5"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
           color="positive"
         />
         <q-btn
-          class="q-ma-sm col-8"
+          class="q-ma-sm col-7"
           outline
           color="positive"
           size="md"
-          style="width: 200px"
           :label="selected_local.addrresister"
           :disable="
             address_tag == '' ||
