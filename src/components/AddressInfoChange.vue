@@ -246,7 +246,7 @@
         addr_search_api_card: ref(false),
         keyword: '',
         outdoorpassword_edit: '',
-        doorScretKey: 'free',
+        doorScretKey: 'password',
       };
     },
     setup() {

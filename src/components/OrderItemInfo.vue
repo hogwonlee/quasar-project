@@ -328,7 +328,7 @@
       handle(name, value) {
         this.localQuantity += value;
         this.sendToCart(name, this.localQuantity);
-        if (this.localQuantity <= 0) {
+        if (this.localQuantity == 1 && value == -1) {
           this.deleteConfirm = true;
         }
       },
