@@ -220,17 +220,16 @@
           :rules="[val => !!val || '请输入附加信息']"
         />
         <q-checkbox
-          class="q-ma-sm col-5"
+          class="=col-5"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
           color="positive"
         />
         <q-btn
-          class="q-ma-sm col-7"
+          class="=col-7"
           outline
           color="positive"
-          size="md"
           :label="selected_local.addrresister"
           :disable="
             address_tag == '' ||

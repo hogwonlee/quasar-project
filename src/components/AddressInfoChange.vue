@@ -180,14 +180,14 @@
       ></q-input>
       <div class="row q-py-none">
         <q-radio
-          class="col-12"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="free"
           :label="selected_local.gate_free"
         />
         <q-radio
-          class="col-5"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="password"
@@ -197,7 +197,7 @@
         <q-input
           standout
           dense
-          class="col-6"
+          class="col-12"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword_edit"
@@ -206,13 +206,10 @@
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
-        <q-space class="col-6" />
         <q-btn
-          class="q-ma-sm col-6"
+          class="col-12"
           color="positive"
           outline
-          size="md"
-          style="width: 200px"
           :label="selected_local.changeaddrinfo"
           @click="exeAddrInfoChange"
           v-close-popup
