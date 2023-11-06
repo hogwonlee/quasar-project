@@ -178,7 +178,7 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row q-py-none">
+      <div class="row q-ma-sm q-py-none">
         <q-radio
           class="col-6"
           color="positive"
@@ -197,7 +197,7 @@
         <q-input
           standout
           dense
-          class="q-ma-sm col-12"
+          style="width: 100%"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword_edit"
