@@ -7,13 +7,8 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
     </q-card>
-    <div :v-model="is_addr_added">
-      <q-card
-        class="transparent my-card q-gutter-xs q-pa-none q-ma-none"
-        flat
-        square
-        outlined
-      >
+    <div class="q-ma-sm" :v-model="is_addr_added">
+      <q-card class="transparent my-card q-gutter-xs" flat square outlined>
         <AddressInfo
           :class="addr.is_default ? 'bg-white' : 'bg-grey-5'"
           rounded
@@ -33,7 +28,6 @@
         icon="add"
         color="positive"
         outline
-        class="q-ma-sm"
         style="width: 100%"
         :label="selected_local.registernewaddr"
         @click="register = true"

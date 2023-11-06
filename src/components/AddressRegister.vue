@@ -191,7 +191,7 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row q-py-none">
+      <div class="row q-py-none q-ma-sm">
         <q-radio
           class="col-6"
           color="positive"
@@ -210,7 +210,7 @@
         <q-input
           standout
           dense
-          class="q-ma-sm col-12"
+          class="col-12"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword"
@@ -220,7 +220,7 @@
           :rules="[val => !!val || '请输入附加信息']"
         />
         <q-checkbox
-          class="q-ml-sm col-5"
+          class="col-5"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
