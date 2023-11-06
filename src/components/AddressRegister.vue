@@ -191,7 +191,7 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row q-ma-sm">
+      <div class="row q-ma-sm q-py-sm">
         <q-radio
           class="col-6"
           color="positive"
