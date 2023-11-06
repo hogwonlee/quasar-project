@@ -210,7 +210,7 @@
         <q-input
           standout
           dense
-          class="col-12"
+          class="q-ma-sm col-12"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword"
@@ -220,16 +220,18 @@
           :rules="[val => !!val || '请输入附加信息']"
         />
         <q-checkbox
-          class="=col-5"
+          class="q-ma-sm col-5"
           left-label
           v-model="checked"
           :label="selected_local.defaultaddr"
           color="positive"
         />
         <q-btn
-          class="=col-7"
+          class="col-7"
           outline
           color="positive"
+          size="md"
+          style="width: 200px"
           :label="selected_local.addrresister"
           :disable="
             address_tag == '' ||

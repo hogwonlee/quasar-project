@@ -33,7 +33,7 @@
         icon="add"
         color="positive"
         outline
-        class="col-12 q-pa-sm"
+        class="col-12 q-ma-sm"
         style="width: 100%"
         :label="selected_local.registernewaddr"
         @click="register = true"
