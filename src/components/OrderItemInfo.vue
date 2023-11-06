@@ -113,7 +113,7 @@
               {{ boxprice * this.localQuantity }} {{ selected_local.won }}
             </div>
             <q-btn
-              :disable="localQuantity <= 1"
+              :disable="localQuantity <= 0"
               class="col-3"
               icon="remove"
               @click="handle(product_name, -1)"
@@ -328,6 +328,9 @@
       handle(name, value) {
         this.localQuantity += value;
         this.sendToCart(name, this.localQuantity);
+        if (this.localQuantity <= 0) {
+          this.deleteConfirm = true;
+        }
       },
       sendToCart(name, quantity) {
         Notify.create({
