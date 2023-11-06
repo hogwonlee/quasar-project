@@ -197,6 +197,7 @@
         <q-input
           standout
           dense
+          class="col-12"
           style="width: 100%"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
@@ -207,11 +208,11 @@
           :rules="[val => !!val || '请输入附加信息']"
         />
         <q-btn
-          class="q-ma-sm col-12"
+          class="col-12"
           color="positive"
           outline
           size="md"
-          style="width: 200px"
+          style="width: 100%"
           :label="selected_local.changeaddrinfo"
           @click="exeAddrInfoChange"
           v-close-popup
