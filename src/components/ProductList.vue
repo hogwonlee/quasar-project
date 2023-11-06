@@ -73,50 +73,6 @@
             "
           />
         </KeepAlive>
-        <q-page-sticky
-          v-if="products.length > 0"
-          position="bottom-right"
-          :offset="[10, 10]"
-        >
-          <q-fab
-            v-model="list_show"
-            persistent="false"
-            :label="selected_local.category"
-            direction="up"
-            class="q-pa-none q-gutter-none"
-            color="dark"
-            vertical-actions-align="right"
-            icon="keyboard_arrow_up"
-          >
-            <q-fab-action
-              :label="c.category"
-              padding="3px"
-              v-for="c in category.slice().sort().reverse()"
-              :key="c.category"
-              v-bind="c"
-              color="dark"
-              @click="handleScroll(c.category)"
-            />
-          </q-fab>
-        </q-page-sticky>
-        <q-page-sticky position="bottom-left" :offset="[10, 50]">
-          <q-btn
-            :label="selected_local.prev_category"
-            icon="keyboard_arrow_up"
-            class="bg-dark text-white"
-            rounded
-            @click="go_prev_category()"
-          ></q-btn>
-        </q-page-sticky>
-        <q-page-sticky position="bottom-left" :offset="[10, 10]">
-          <q-btn
-            :label="selected_local.next_category"
-            icon="keyboard_arrow_down"
-            class="bg-dark text-white"
-            rounded
-            @click="go_next_category()"
-          ></q-btn>
-        </q-page-sticky>
       </div>
     </div>
     <div v-if="!showSimulatedReturnData || !(products.length > 0)">
@@ -191,6 +147,50 @@
         </q-field>
       </div>
     </q-page-container>
+    <q-page-sticky
+      v-if="products.length > 0"
+      position="bottom-right"
+      :offset="[10, 10]"
+    >
+      <q-fab
+        v-model="list_show"
+        persistent="false"
+        :label="selected_local.category"
+        direction="up"
+        class="q-pa-none q-gutter-none"
+        color="dark"
+        vertical-actions-align="right"
+        icon="keyboard_arrow_up"
+      >
+        <q-fab-action
+          :label="c.category"
+          padding="3px"
+          v-for="c in category.slice().sort().reverse()"
+          :key="c.category"
+          v-bind="c"
+          color="dark"
+          @click="handleScroll(c.category)"
+        />
+      </q-fab>
+    </q-page-sticky>
+    <q-page-sticky position="bottom-left" :offset="[10, 50]">
+      <q-btn
+        :label="selected_local.prev_category"
+        icon="keyboard_arrow_up"
+        class="bg-dark text-white"
+        rounded
+        @click="go_prev_category()"
+      ></q-btn>
+    </q-page-sticky>
+    <q-page-sticky position="bottom-left" :offset="[10, 10]">
+      <q-btn
+        :label="selected_local.next_category"
+        icon="keyboard_arrow_down"
+        class="bg-dark text-white"
+        rounded
+        @click="go_next_category()"
+      ></q-btn>
+    </q-page-sticky>
   </div>
 </template>
 

@@ -36,7 +36,7 @@
             ripple
             push
             unelevated
-            icon="remove"
+            icon="delete"
             @click="this.deleteConfirm = true"
           />
           <q-badge
@@ -328,6 +328,9 @@
       handle(name, value) {
         this.localQuantity += value;
         this.sendToCart(name, this.localQuantity);
+        if (this.localQuantity == 1 && value == -1) {
+          this.deleteConfirm = true;
+        }
       },
       sendToCart(name, quantity) {
         Notify.create({

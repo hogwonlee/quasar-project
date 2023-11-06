@@ -178,16 +178,16 @@
           val => (!!val && val.length <= 20) || '请输入任意代称（小于20字节）',
         ]"
       ></q-input>
-      <div class="row q-py-none">
+      <div class="row q-ma-sm q-py-none">
         <q-radio
-          class="col-12"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="free"
           :label="selected_local.gate_free"
         />
         <q-radio
-          class="col-5"
+          class="col-6"
           color="positive"
           v-model="doorScretKey"
           val="password"
@@ -197,22 +197,20 @@
         <q-input
           standout
           dense
-          class="col-6"
+          class="col-12"
+          style="width: 100%"
           :disable="doorScretKey == 'password' ? false : true"
           outlined
           v-model="outdoorpassword_edit"
           :label="selected_local.gate_password"
-          :hint="selected_local.outdoorpasswordhint"
           lazy-rules
           :rules="[val => !!val || '请输入附加信息']"
         />
-        <q-space class="col-6" />
         <q-btn
-          class="q-ma-sm col-6"
+          class="col-12"
           color="positive"
           outline
-          size="md"
-          style="width: 200px"
+          style="width: 100%"
           :label="selected_local.changeaddrinfo"
           @click="exeAddrInfoChange"
           v-close-popup
@@ -246,7 +244,7 @@
         addr_search_api_card: ref(false),
         keyword: '',
         outdoorpassword_edit: '',
-        doorScretKey: 'free',
+        doorScretKey: 'password',
       };
     },
     setup() {
