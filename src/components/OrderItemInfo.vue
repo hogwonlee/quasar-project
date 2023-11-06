@@ -36,7 +36,7 @@
             ripple
             push
             unelevated
-            icon="remove"
+            icon="delete"
             @click="this.deleteConfirm = true"
           />
           <q-badge
@@ -113,7 +113,7 @@
               {{ boxprice * this.localQuantity }} {{ selected_local.won }}
             </div>
             <q-btn
-              :disable="localQuantity <= 0"
+              :disable="localQuantity <= 1"
               class="col-3"
               icon="remove"
               @click="handle(product_name, -1)"

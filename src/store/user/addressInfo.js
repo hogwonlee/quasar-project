@@ -42,7 +42,7 @@ const mutations = {
       address1: address.address1,
       address2: address.address2 || '',
       address3: address.address3 || '',
-      outdoorpassword: address.gatepassword || '',
+      outdoorpassword: address.gatepassword,
       is_default: address.is_default,
       user_id: address.user_id,
     });
