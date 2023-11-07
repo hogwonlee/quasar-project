@@ -402,7 +402,7 @@
       ><ChangePassword
     /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
-      <q-card class="my-card row" style="width: 80%">
+      <q-card class="my-card row" style="width: 100%">
         <q-card-section class="col-12 items-center q-pa-none">
           <q-toolbar class="bg-dark text-h6 text-bold text-white q-pl-lg">
             {{ selected_local.buy_history }}
@@ -410,7 +410,11 @@
             <q-btn dense flat icon="close" v-close-popup color="white" />
           </q-toolbar>
         </q-card-section>
+        <q-card-section v-if="orderHistory.length <= 0">
+          {{ selected_local.no_buy_history }}
+        </q-card-section>
         <q-card-section
+          v-else
           class="col-4"
           v-for="order in orderHistory"
           :key="order.product_id"
@@ -717,12 +721,18 @@
               this.orderHistory = res.data.results;
               this.orderHistoryDialog = true;
             } else {
-              alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+              alert.confirm(
+                this.selected_local.notice,
+                this.selected_local.no_buy_history,
+              );
             }
           })
 
           .catch(res => {
-            alert.confirm(this.selected_local.notice, '구매기록이 없습니다.');
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.no_buy_history,
+            );
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
           });
       },
