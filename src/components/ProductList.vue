@@ -52,27 +52,25 @@
             <q-space />
           </q-bar>
         </div>
-        <KeepAlive>
-          <ProductInfo
-            class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
-            v-for="p in products.filter(
-              p =>
-                p.category == c.category &&
-                p.stored == 1 &&
-                (p.product_name + p.category + p.keyword)
-                  .toLowerCase()
-                  .includes(keyword.toLowerCase()),
-            )"
-            :key="p.id"
-            v-bind="p"
-            @setbuyoption="p.buyoption = $event"
-            @setquantity="p.quantity = $event"
-            @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
-            @sendRemoveItem="
-              this.$store.dispatch('cart/removeProductFromCart', p)
-            "
-          />
-        </KeepAlive>
+        <ProductInfo
+          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          v-for="p in products.filter(
+            p =>
+              p.category == c.category &&
+              p.stored == 1 &&
+              (p.product_name + p.category + p.keyword)
+                .toLowerCase()
+                .includes(keyword.toLowerCase()),
+          )"
+          :key="p.id"
+          v-bind="p"
+          @setbuyoption="p.buyoption = $event"
+          @setquantity="p.quantity = $event"
+          @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
+          @sendRemoveItem="
+            this.$store.dispatch('cart/removeProductFromCart', p)
+          "
+        />
       </div>
     </div>
     <div v-if="!showSimulatedReturnData || !(products.length > 0)">
