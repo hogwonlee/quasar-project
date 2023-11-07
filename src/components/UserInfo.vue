@@ -703,7 +703,8 @@
           },
         })
           .then(res => {
-            // console.log(JSON.stringify(res.status));
+            console.log(JSON.stringify(res.status));
+            console.log(JSON.stringify(res.data.results));
             if (res.status == 200) {
               // res.data.results.forEach(product => {
               //   this.product_all.forEach(p => {
