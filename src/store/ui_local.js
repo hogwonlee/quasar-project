@@ -191,6 +191,7 @@ const _ko = {
   freeze_deliver_info1:
     '*아래 상품 포함시 우리가 직접 배송합니다.(시간:18시~22시)',
   freeze_deliver_info2: '*배송비가 추가됩니다.(5만원이상 무료)',
+  no_buy_history: '아직 구매 기록이 없습니다.',
 };
 const _cn = {
   chinafood: '中国食品X韩',
@@ -379,6 +380,7 @@ const _cn = {
   img_loading: '读取商品中...',
   freeze_deliver_info1: '*订单包含此类商品,商家直接送货到家(时间:18点~22点)',
   freeze_deliver_info2: '*订单包含此类商品,额外收取运费(满5万则免)',
+  no_buy_history: '暂无购买记录',
 };
 
 const state = {
