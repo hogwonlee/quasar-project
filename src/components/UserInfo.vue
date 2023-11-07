@@ -411,7 +411,7 @@
           </q-toolbar>
         </q-card-section>
         <q-card-section
-          class="col-xs-4 col-sm-3"
+          class="col-4"
           v-for="order in orderHistory"
           :key="order.product_id"
           v-bind="order"
