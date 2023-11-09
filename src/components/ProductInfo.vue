@@ -53,7 +53,7 @@
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
-          style="width: 100%"
+          style="width: 80%"
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
@@ -248,17 +248,6 @@
               :label="selected_local.productname"
               :model-value="product_name"
             />
-
-            <q-input
-              class="col-6"
-              readonly
-              disable
-              standout
-              dense
-              borderless
-              :label="selected_local.flavorandspec"
-              :model-value="tag"
-            />
             <q-input
               class="col-6"
               readonly
@@ -269,6 +258,28 @@
               :label="selected_local.productname"
               :model-value="product_name_ko"
             />
+            <q-input
+              class="col-12"
+              readonly
+              disable
+              standout
+              autogrow
+              dense
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              standout
+              dense
+              borderless
+              :label="selected_local.flavorandspec"
+              :model-value="tag"
+            />
+
             <q-input
               class="col-6"
               readonly
@@ -290,17 +301,6 @@
               borderless
               :label="selected_local.production_date"
               :model-value="selected_local.after"
-            />
-            <q-input
-              class="col-12"
-              readonly
-              disable
-              standout
-              autogrow
-              dense
-              borderless
-              :label="selected_local.product_desc"
-              :model-value="product_desc"
             />
           </q-card-section>
         </q-card>
