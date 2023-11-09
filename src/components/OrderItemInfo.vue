@@ -181,12 +181,12 @@
             />
             <q-input
               class="col-6"
-              readonly
               dense
+              readonly
               disable
               borderless
-              :label="selected_local.productname"
-              :model-value="product_name_ko"
+              :label="selected_local.flavorandspec"
+              :model-value="tag"
             />
             <q-input
               v-if="product_desc != null"
@@ -199,16 +199,17 @@
               :label="selected_local.product_desc"
               :model-value="product_desc"
             />
+
             <q-input
+              v-if="product_name_ko != null"
               class="col-6"
-              dense
               readonly
+              dense
               disable
               borderless
-              :label="selected_local.flavorandspec"
-              :model-value="tag"
+              :label="selected_local.productname_ko"
+              :model-value="product_name_ko"
             />
-
             <q-input
               class="col-6"
               readonly
