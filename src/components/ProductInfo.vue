@@ -259,6 +259,7 @@
               :model-value="product_name_ko"
             />
             <q-input
+              v-if="product_desc.val != ''"
               class="col-12"
               readonly
               disable
