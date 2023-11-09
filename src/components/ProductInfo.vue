@@ -238,7 +238,7 @@
               {{ selected_local.default_info }}
             </q-bar>
             <q-input
-              v-if="product_desc.length > 0"
+              v-if="product_desc != ''"
               class="col-12"
               readonly
               disable
