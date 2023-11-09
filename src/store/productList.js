@@ -53,6 +53,8 @@ const mutations = {
       shelf_life: products.shelf_life,
       production_date: products.production_date,
       flavor_refer: products.flavor_refer,
+      product_name_ko: products.product_name_ko,
+      product_desc: products.product_desc,
       quantity: 0,
       buyoption: false,
     });

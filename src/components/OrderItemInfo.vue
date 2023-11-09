@@ -265,6 +265,14 @@
         type: String,
         default: '',
       },
+      product_name_ko: {
+        type: String,
+        default: '',
+      },
+      product_desc: {
+        type: String,
+        default: '',
+      },
       tag: {
         type: String,
         default: '',

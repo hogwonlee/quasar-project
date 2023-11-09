@@ -193,9 +193,11 @@
               icon="remove"
               text-color="negative"
               @click="handle(-1)"
+              size="xs"
             ></q-btn>
             <q-input
               class="col-6"
+              dense
               style="vertical-align: top"
               readonly
               disable
@@ -216,6 +218,7 @@
             <q-btn
               class="col-3"
               icon="add"
+              size="xs"
               text-color="positive"
               @click="handle(1)"
             ></q-btn>
@@ -240,7 +243,15 @@
               disable
               borderless
               :label="selected_local.productname"
-              :model-value="product_name"
+              :model-value="product_name_ko"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name_ko"
             />
             <q-input
               class="col-6"
@@ -335,6 +346,14 @@
         required: true,
       },
       product_name: {
+        type: String,
+        default: '',
+      },
+      product_name_ko: {
+        type: String,
+        default: '',
+      },
+      product_desc: {
         type: String,
         default: '',
       },
