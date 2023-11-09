@@ -238,12 +238,13 @@
               {{ selected_local.default_info }}
             </q-bar>
             <q-input
-              class="col-6"
+              v-if="product_desc.length > 0"
+              class="col-12"
               readonly
               disable
               borderless
-              :label="selected_local.productname"
-              :model-value="product_name_ko"
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
             />
             <q-input
               class="col-6"
@@ -251,8 +252,9 @@
               disable
               borderless
               :label="selected_local.productname"
-              :model-value="product_name_ko"
+              :model-value="product_name"
             />
+
             <q-input
               class="col-6"
               readonly
@@ -260,6 +262,14 @@
               borderless
               :label="selected_local.flavorandspec"
               :model-value="tag"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name_ko"
             />
             <q-input
               class="col-6"

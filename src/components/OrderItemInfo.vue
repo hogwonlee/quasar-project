@@ -115,6 +115,7 @@
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
+              size="xs"
               icon="remove"
               @click="handle(product_name, -1)"
             ></q-btn>
@@ -123,6 +124,7 @@
               style="vertical-align: top"
               readonly
               disable
+              dense
               outlined
               v-model="this.localQuantity"
               input-class="text-right"
@@ -140,6 +142,7 @@
             <q-btn
               class="col-3"
               icon="add"
+              size="xs"
               @click="handle(product_name, 1)"
             ></q-btn>
             <!-- <q-btn
@@ -167,6 +170,15 @@
               {{ selected_local.default_info }}
             </q-bar>
             <q-input
+              v-if="product_desc.length > 0"
+              class="col-12"
+              readonly
+              disable
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
+            />
+            <q-input
               class="col-6"
               readonly
               disable
@@ -181,6 +193,14 @@
               borderless
               :label="selected_local.flavorandspec"
               :model-value="tag"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name_ko"
             />
             <q-input
               class="col-6"
