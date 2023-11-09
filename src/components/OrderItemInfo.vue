@@ -169,15 +169,7 @@
             <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
             </q-bar>
-            <q-input
-              v-if="product_desc.length > 0"
-              class="col-12"
-              readonly
-              disable
-              borderless
-              :label="selected_local.product_desc"
-              :model-value="product_desc"
-            />
+
             <q-input
               class="col-6"
               readonly
@@ -219,6 +211,14 @@
               borderless
               :label="selected_local.production_date"
               :model-value="selected_local.after"
+            />
+            <q-input
+              class="col-12"
+              readonly
+              disable
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
             />
           </q-card-section>
         </q-card>
