@@ -21,7 +21,7 @@
       <q-dialog v-model="card" :id="category">
         <q-card
           class="row justify-center q-px-none q-mx-none"
-          style="width: 75%; height: 60%"
+          style="width: 80%"
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
@@ -115,6 +115,7 @@
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
+              size="xs"
               icon="remove"
               @click="handle(product_name, -1)"
             ></q-btn>
@@ -123,6 +124,7 @@
               style="vertical-align: top"
               readonly
               disable
+              dense
               outlined
               v-model="this.localQuantity"
               input-class="text-right"
@@ -140,6 +142,7 @@
             <q-btn
               class="col-3"
               icon="add"
+              size="xs"
               @click="handle(product_name, 1)"
             ></q-btn>
             <!-- <q-btn
@@ -166,16 +169,19 @@
             <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
             </q-bar>
+
             <q-input
               class="col-6"
               readonly
               disable
               borderless
+              dense
               :label="selected_local.productname"
               :model-value="product_name"
             />
             <q-input
               class="col-6"
+              dense
               readonly
               disable
               borderless
@@ -183,8 +189,31 @@
               :model-value="tag"
             />
             <q-input
+              v-if="product_desc != null"
+              class="col-12"
+              readonly
+              dense
+              autogrow
+              disable
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
+            />
+
+            <q-input
+              v-if="product_name_ko != null"
               class="col-6"
               readonly
+              dense
+              disable
+              borderless
+              :label="selected_local.productname_ko"
+              :model-value="product_name_ko"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              dense
               disable
               borderless
               :label="selected_local.shelf_life"
@@ -195,6 +224,7 @@
             <q-input
               class="col-6"
               readonly
+              dense
               disable
               borderless
               :label="selected_local.production_date"
@@ -262,6 +292,14 @@
         required: '',
       },
       product_name: {
+        type: String,
+        default: '',
+      },
+      product_name_ko: {
+        type: String,
+        default: '',
+      },
+      product_desc: {
         type: String,
         default: '',
       },
