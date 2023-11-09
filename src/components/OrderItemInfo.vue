@@ -21,7 +21,7 @@
       <q-dialog v-model="card" :id="category">
         <q-card
           class="row justify-center q-px-none q-mx-none"
-          style="width: 75%; height: 60%"
+          style="width: 80%"
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
@@ -175,28 +175,44 @@
               readonly
               disable
               borderless
+              dense
               :label="selected_local.productname"
               :model-value="product_name"
             />
             <q-input
               class="col-6"
               readonly
-              disable
-              borderless
-              :label="selected_local.flavorandspec"
-              :model-value="tag"
-            />
-            <q-input
-              class="col-6"
-              readonly
+              dense
               disable
               borderless
               :label="selected_local.productname"
               :model-value="product_name_ko"
             />
             <q-input
+              v-if="product_desc != null"
+              class="col-12"
+              readonly
+              dense
+              autogrow
+              disable
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
+            />
+            <q-input
+              class="col-6"
+              dense
+              readonly
+              disable
+              borderless
+              :label="selected_local.flavorandspec"
+              :model-value="tag"
+            />
+
+            <q-input
               class="col-6"
               readonly
+              dense
               disable
               borderless
               :label="selected_local.shelf_life"
@@ -207,18 +223,11 @@
             <q-input
               class="col-6"
               readonly
+              dense
               disable
               borderless
               :label="selected_local.production_date"
               :model-value="selected_local.after"
-            />
-            <q-input
-              class="col-12"
-              readonly
-              disable
-              borderless
-              :label="selected_local.product_desc"
-              :model-value="product_desc"
             />
           </q-card-section>
         </q-card>

@@ -242,7 +242,6 @@
               class="col-6"
               readonly
               disable
-              standout
               dense
               borderless
               :label="selected_local.productname"
@@ -252,7 +251,6 @@
               class="col-6"
               readonly
               disable
-              standout
               dense
               borderless
               :label="selected_local.productname"
