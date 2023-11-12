@@ -161,7 +161,7 @@
               </div>
             </div>
             <q-input
-              class="col-4"
+              class="col-4 q-ma-none"
               outlined
               input-class="text-right"
               :model-value="total"
