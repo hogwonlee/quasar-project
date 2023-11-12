@@ -161,7 +161,7 @@
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-4 items-end">
               (<q-icon name="shopping_cart" /> {{ total }})
             </div>
             <q-btn
