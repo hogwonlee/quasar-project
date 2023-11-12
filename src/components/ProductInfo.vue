@@ -163,10 +163,12 @@
             </div>
             <q-input
               class="col-4"
-              icon="shopping_cart"
               input-class="text-right"
               :model-value="total"
               readonly
+              dense
+              ><template v-slot:before>
+                <q-icon name="shopping_cart" /> </template
             ></q-input>
             <q-btn
               :disable="localQuantity <= 0"
