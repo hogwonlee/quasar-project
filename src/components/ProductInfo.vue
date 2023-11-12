@@ -161,7 +161,7 @@
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
             </div>
-            <div class="col-6 text-h6 text-bold">
+            <div class="col-6">
               (<q-icon name="img:icons\currency-krw-black.png" /> {{ total }}
               {{ selected_local.won }})
             </div>
