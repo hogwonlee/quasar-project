@@ -161,9 +161,12 @@
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
             </div>
-            <div class="col-4 items-end">
-              (<q-icon name="shopping_cart" /> {{ total }})
-            </div>
+            <q-input
+              icon="shopping_cart"
+              input-class="text-right"
+              :label="total"
+              readonly
+            ></q-input>
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
