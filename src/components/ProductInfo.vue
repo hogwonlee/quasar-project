@@ -146,6 +146,30 @@
           </div>
 
           <q-card-section class="row q-px-sm q-py-none">
+            <div
+              class="col-8"
+              :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
+            >
+              <div v-if="!bulkbuy" class="text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ (price - cutprice) * this.localQuantity }}
+                {{ selected_local.won }}
+              </div>
+              <div v-else class="text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+              </div>
+            </div>
+            <q-input
+              class="col-4"
+              outlined
+              input-class="text-right"
+              :model-value="total"
+              readonly
+              dense
+              ><template v-slot:before>
+                <q-icon name="shopping_cart" /> </template
+            ></q-input>
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
@@ -191,29 +215,6 @@
               @click="sendToCart(this.product_name, quantity)"
               :disable="this.localQuantity <= 0"
             />
-            <div
-              class="col-8"
-              :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
-            >
-              <div v-if="!bulkbuy" class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
-                {{ (price - cutprice) * this.localQuantity }}
-                {{ selected_local.won }}
-              </div>
-              <div v-else class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
-                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
-              </div>
-            </div>
-            <q-input
-              class="col-4"
-              input-class="text-right"
-              :model-value="total"
-              readonly
-              dense
-              ><template v-slot:before>
-                <q-icon name="shopping_cart" /> </template
-            ></q-input>
           </q-card-section>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
             <q-bar dense class="col-12 bg-dark text-white">
