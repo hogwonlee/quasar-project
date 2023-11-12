@@ -151,42 +151,20 @@
               class="col-12"
               :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
             >
-              <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
+              <div v-if="!bulkbuy" class="col-6 text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ (price - cutprice) * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
-              <div v-else class="col-12 text-h6 text-bold">
+              <div v-else class="col-6 text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
+              <div class="col-6 text-h6 text-bold">
+                (<q-icon name="img:icons\currency-krw-black.png" /> {{ total }}
+                {{ selected_local.won }})
+              </div>
             </div>
-            <!-- <q-input
-              v-if="!bulkbuy"
-              class="col-12 q-my-xs"
-              readonly
-              disable
-              square
-              outlined
-              bg-color="red-2"
-              input-class="text-right"
-              :model-value="(price - cutprice) * this.localQuantity"
-            >
-            </q-input> -->
-            <!-- :label="selected_local.sellprice" -->
-
-            <!-- <q-input
-              v-else
-              class="col-12 q-my-xs"
-              readonly
-              square
-              outlined
-              disable
-              bg-color="red-2"
-              input-class="text-right"
-              :model-value="boxprice * this.localQuantity"
-            >
-            </q-input> -->
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
@@ -333,6 +311,9 @@
     computed: {
       ...mapState({
         selected_local: state => state.ui_local.status,
+      }),
+      ...mapGetters('cart', {
+        total: 'cartTotalPrice',
       }),
       localParam: {
         get: function () {
