@@ -146,30 +146,6 @@
           </div>
 
           <q-card-section class="row q-px-sm q-py-none">
-            <!-- :label="selected_local.sellprice" -->
-            <div
-              class="col-8"
-              :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
-            >
-              <div v-if="!bulkbuy" class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
-                {{ (price - cutprice) * this.localQuantity }}
-                {{ selected_local.won }}
-              </div>
-              <div v-else class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
-                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
-              </div>
-            </div>
-            <q-input
-              class="col-4"
-              input-class="text-right"
-              :model-value="total"
-              readonly
-              dense
-              ><template v-slot:before>
-                <q-icon name="shopping_cart" /> </template
-            ></q-input>
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
@@ -282,6 +258,29 @@
               :label="selected_local.production_date"
               :model-value="selected_local.after"
             />
+            <div
+              class="col-8"
+              :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
+            >
+              <div v-if="!bulkbuy" class="text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ (price - cutprice) * this.localQuantity }}
+                {{ selected_local.won }}
+              </div>
+              <div v-else class="text-h6 text-bold">
+                <q-icon name="img:icons\currency-krw-black.png" />
+                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+              </div>
+            </div>
+            <q-input
+              class="col-4"
+              input-class="text-right"
+              :model-value="total"
+              readonly
+              dense
+              ><template v-slot:before>
+                <q-icon name="shopping_cart" /> </template
+            ></q-input>
           </q-card-section>
         </q-card>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
