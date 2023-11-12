@@ -162,7 +162,8 @@
               </div>
             </div>
             <div class="col-4">
-              (<q-icon name="shopping_cart" /> {{ total }})
+              (<q-icon name="shopping_cart" /> {{ total
+              }}{{ selected_local.won }})
             </div>
             <q-btn
               :disable="localQuantity <= 0"
