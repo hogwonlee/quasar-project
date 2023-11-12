@@ -300,7 +300,7 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {Notify} from 'quasar';
-  import {mapState} from 'vuex';
+  import {mapGetters, mapState} from 'vuex';
 
   export default defineComponent({
     name: 'ProductInfo',
