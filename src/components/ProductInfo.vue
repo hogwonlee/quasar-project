@@ -147,7 +147,7 @@
 
           <q-card-section class="row q-px-sm q-py-none">
             <div
-              class="col-8"
+              class="col-7"
               :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
             >
               <div v-if="!bulkbuy" class="text-h6 text-bold">
@@ -161,7 +161,7 @@
               </div>
             </div>
             <q-input
-              class="col-4"
+              class="col-5"
               filled
               input-class="text-right"
               :model-value="total"
