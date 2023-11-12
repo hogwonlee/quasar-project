@@ -162,9 +162,10 @@
               </div>
             </div>
             <q-input
+              class="col-4"
               icon="shopping_cart"
               input-class="text-right"
-              :label="total"
+              :model-value="total"
               readonly
             ></q-input>
             <q-btn
