@@ -148,22 +148,22 @@
           <q-card-section class="row q-px-sm q-py-none">
             <!-- :label="selected_local.sellprice" -->
             <div
-              class="col-12"
+              class="col-6"
               :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
             >
-              <div v-if="!bulkbuy" class="col-6 text-h6 text-bold">
+              <div v-if="!bulkbuy" class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ (price - cutprice) * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
-              <div v-else class="col-6 text-h6 text-bold">
+              <div v-else class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
-              <div class="col-6 text-h6 text-bold">
-                (<q-icon name="img:icons\currency-krw-black.png" /> {{ total }}
-                {{ selected_local.won }})
-              </div>
+            </div>
+            <div class="col-6 text-h6 text-bold">
+              (<q-icon name="img:icons\currency-krw-black.png" /> {{ total }}
+              {{ selected_local.won }})
             </div>
             <q-btn
               :disable="localQuantity <= 0"
