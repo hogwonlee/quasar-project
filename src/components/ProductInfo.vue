@@ -167,7 +167,7 @@
               :model-value="total"
               readonly
               dense
-              ><template v-slot:before>
+              ><template v-slot:prepend>
                 <q-icon name="shopping_cart" /> </template
             ></q-input>
             <q-btn
