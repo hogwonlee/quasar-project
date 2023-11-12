@@ -162,7 +162,7 @@
             </div>
             <q-input
               class="col-5"
-              filled
+              outlined
               input-class="text-right"
               :model-value="total"
               readonly
