@@ -146,47 +146,30 @@
           </div>
 
           <q-card-section class="row q-px-sm q-py-none">
-            <!-- :label="selected_local.sellprice" -->
             <div
-              class="col-12"
+              class="col-7"
               :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
             >
-              <div v-if="!bulkbuy" class="col-12 text-h6 text-bold">
+              <div v-if="!bulkbuy" class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ (price - cutprice) * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
-              <div v-else class="col-12 text-h6 text-bold">
+              <div v-else class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }}
               </div>
             </div>
-            <!-- <q-input
-              v-if="!bulkbuy"
-              class="col-12 q-my-xs"
-              readonly
-              disable
-              square
+            <q-input
+              class="col-5"
               outlined
-              bg-color="red-2"
               input-class="text-right"
-              :model-value="(price - cutprice) * this.localQuantity"
-            >
-            </q-input> -->
-            <!-- :label="selected_local.sellprice" -->
-
-            <!-- <q-input
-              v-else
-              class="col-12 q-my-xs"
+              :model-value="total"
               readonly
-              square
-              outlined
-              disable
-              bg-color="red-2"
-              input-class="text-right"
-              :model-value="boxprice * this.localQuantity"
-            >
-            </q-input> -->
+              dense
+              ><template v-slot:prepend>
+                <q-icon name="shopping_cart" /> </template
+            ></q-input>
             <q-btn
               :disable="localQuantity <= 0"
               class="col-3"
@@ -322,7 +305,7 @@
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
   import {Notify} from 'quasar';
-  import {mapState} from 'vuex';
+  import {mapGetters, mapState} from 'vuex';
 
   export default defineComponent({
     name: 'ProductInfo',
@@ -333,6 +316,9 @@
     computed: {
       ...mapState({
         selected_local: state => state.ui_local.status,
+      }),
+      ...mapGetters('cart', {
+        total: 'cartTotalPrice',
       }),
       localParam: {
         get: function () {
