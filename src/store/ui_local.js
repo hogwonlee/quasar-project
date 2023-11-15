@@ -157,7 +157,7 @@ const _ko = {
   shelf_life: '유통기간: ', //保质期:
   month_count: '개월', //个月
   production_date: '소비기한: ', //生产日期:
-  after: '구매일로부터 90일 이상',
+  after: '구매일로부터 30일 이상',
   confirm_delete: '이 상품을 장바구니에서 제거하시겠습니까?',
   deleted: '삭제함. (',
   event_5353_info: '5353 쿠폰 이벤트 안내',
@@ -349,7 +349,7 @@ const _cn = {
   shelf_life: '保质期：', //保质期:
   month_count: '个月', //个月
   production_date: '有效期至：', //生产日期:
-  after: '购买日起90天以上',
+  after: '购买日起30天以上',
   confirm_delete: '确定要删除此商品吗？',
   deleted: '已删除。(',
   event_5353_info: '5353优惠券活动消息',
