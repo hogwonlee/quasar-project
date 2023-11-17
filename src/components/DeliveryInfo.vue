@@ -85,7 +85,7 @@
         v-bind:delivery_invoice="this.child_invoice"
       />
     </q-dialog>
-    <div v-if="user.ID == 'master'" class="q-pa-md">
+    <div v-if="user.USER_ID == 'master'" class="q-pa-md">
       <div class="col-12 text-h6 text-bold">주문리스트</div>
       <q-btn label="조회" @click="load_order_all()"></q-btn>
       <q-table
