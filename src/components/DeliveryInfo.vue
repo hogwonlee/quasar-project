@@ -95,15 +95,16 @@
         v-model:selected="selected"
       />
       <q-table
+        v-show="order_address.length > 0"
+        :rows="order_address"
+        row-key="address_id"
+      />
+      <q-table
         v-show="order_detail.length > 0"
         :rows="order_detail"
         row-key="product_id"
         selection="multiple"
-      />
-      <q-table
-        v-show="order_address.length > 0"
-        :rows="order_address"
-        row-key="address_id"
+        v-model:selected="multi_selected"
       />
     </div>
   </q-page>
@@ -396,6 +397,7 @@
     setup() {
       return {
         selected: ref([]),
+        multi_selected: ref([]),
         all_order: ref([]),
         order_detail: ref([]),
         order_address: ref([]),
