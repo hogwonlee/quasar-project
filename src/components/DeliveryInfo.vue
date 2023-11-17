@@ -86,6 +86,27 @@
       />
     </q-dialog>
   </q-page>
+  <q-page v-if="user.ID == 'master'" class="q-pa-md">
+    <div class="col-12 text-h6 text-bold">주문리스트</div>
+    <q-btn label="조회" @click="load_order_all()"></q-btn>
+    <q-table
+      :rows="all_order.slice().sort().reverse()"
+      row-key="id"
+      selection="single"
+      v-model:selected="selected"
+    />
+    <q-table
+      v-show="order_detail.length > 0"
+      :rows="order_detail"
+      row-key="product_id"
+      selection="multiple"
+    />
+    <q-table
+      v-show="order_address.length > 0"
+      :rows="order_address"
+      row-key="address_id"
+    />
+  </q-page>
 </template>
 
 <script>
@@ -109,7 +130,6 @@
         search_order_id: 0,
         child_code: '',
         child_invoice: '',
-        center_text: '中国食品',
         res_order: [],
         columns: [],
         delivery_policy_vue: ref(false),
@@ -140,6 +160,13 @@
       if (!validation.isNull(this.user.USER_ID)) {
         this.load_order_info();
       }
+    },
+
+    watch: {
+      selected: function (new_a) {
+        this.load_order_detail(new_a[0].id);
+        this.load_order_address(new_a[0].address_id);
+      },
     },
     methods: {
       load_order_info() {
@@ -280,6 +307,99 @@
           },
         ];
       },
+      load_order_all() {
+        axios({
+          url: `${configs.server}/orderGroup`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: {
+            user_id: this.user.USER_ID,
+          },
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.all_order = res.data.results;
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
+      },
+      load_order_detail(order_group) {
+        // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&
+        axios({
+          url: `${configs.server}/orderDetail`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: {
+            user_id: this.user.USER_ID,
+            order_group_id: order_group,
+          },
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.order_detail = res.data.results;
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
+      },
+      load_order_address(address_id) {
+        // 최근 주문 리스트 읽어오기. 이 페이지가 로드될 때, 주문 내역이 변경되었을 때마다 새로 불러와야 함.  &&
+        axios({
+          url: `${configs.server}/orderAddressInfo`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: {
+            user_id: this.user.USER_ID,
+            address_id: address_id,
+          },
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.order_address = res.data.results;
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
+      },
+    },
+    setup() {
+      return {
+        selected: ref([]),
+        all_order: ref([]),
+        order_detail: ref([]),
+        order_address: ref([]),
+      };
     },
   });
 </script>
