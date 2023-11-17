@@ -85,27 +85,27 @@
         v-bind:delivery_invoice="this.child_invoice"
       />
     </q-dialog>
-  </q-page>
-  <q-page v-if="user.ID == 'master'" class="q-pa-md">
-    <div class="col-12 text-h6 text-bold">주문리스트</div>
-    <q-btn label="조회" @click="load_order_all()"></q-btn>
-    <q-table
-      :rows="all_order.slice().sort().reverse()"
-      row-key="id"
-      selection="single"
-      v-model:selected="selected"
-    />
-    <q-table
-      v-show="order_detail.length > 0"
-      :rows="order_detail"
-      row-key="product_id"
-      selection="multiple"
-    />
-    <q-table
-      v-show="order_address.length > 0"
-      :rows="order_address"
-      row-key="address_id"
-    />
+    <div v-if="user.ID == 'master'" class="q-pa-md">
+      <div class="col-12 text-h6 text-bold">주문리스트</div>
+      <q-btn label="조회" @click="load_order_all()"></q-btn>
+      <q-table
+        :rows="all_order.slice().sort().reverse()"
+        row-key="id"
+        selection="single"
+        v-model:selected="selected"
+      />
+      <q-table
+        v-show="order_detail.length > 0"
+        :rows="order_detail"
+        row-key="product_id"
+        selection="multiple"
+      />
+      <q-table
+        v-show="order_address.length > 0"
+        :rows="order_address"
+        row-key="address_id"
+      />
+    </div>
   </q-page>
 </template>
 
