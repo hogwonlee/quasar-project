@@ -852,3 +852,86 @@ app.post('/api/orderHistory', (req, res) => {
     console.log('요청 헤더에 승인 정보가 없음.');
   }
 });
+
+app.post('/api/orderGroup', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('orderGroup 에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend = 'SELECT * FROM ordergroup order by id';
+          db.query(sqlCommend, (err, results, fields) => {
+            if (err) {
+              console.log('주문 조회 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              res.status(200).send({results});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/api/orderDetail', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('orderDetail 에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend =
+            'SELECT orderinfo.product_id, orderinfo.quantity, orderinfo.bonus_quantity, orderinfo.bulk_buy, orderinfo.flavor, productinfo.product_name, productinfo.tag FROM orderinfo JOIN productinfo ON orderinfo.product_id=productinfo.id WHERE order_group = ?';
+          const body = req.body;
+          const param = {order_group_id: body.order_group_id};
+          db.query(sqlCommend, param.order_group_id, (err, results, fields) => {
+            if (err) {
+              console.log('주문 조회 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              res.status(200).send({results});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
+
+app.post('/api/orderAddressInfo', (req, res) => {
+  if (req.headers.authorization != null) {
+    jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
+      if (err) {
+        console.log('orderAddressInfo 에러 발생: ' + err);
+      } else {
+        if (decoded.USER_ID == req.body.user_id) {
+          const sqlCommend = 'SELECT * FROM addressinfo WHERE address_id = ?';
+          const body = req.body;
+          const param = {address_id: body.address_id};
+          db.query(sqlCommend, param.address_id, (err, results, fields) => {
+            if (err) {
+              console.log('주문 조회 요청:' + err);
+              res.status(400).send({msg: 'error', content: err});
+            } else {
+              res.status(200).send({results});
+            }
+          });
+        } else {
+          console.log('로그인 정보와 등록 정보가 일치하지 않습니다.');
+        }
+      }
+    });
+  } else {
+    console.log('요청 헤더에 승인 정보가 없음.');
+  }
+});
