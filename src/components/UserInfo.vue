@@ -5,6 +5,13 @@
       <q-card class="row" flat>
         <div class="col-12 text-h6 text-bold">{{ selected_local.myinfo }}</div>
         <q-input
+          :model-value="user.USER_ID"
+          :label="selected_local.identity"
+          readonly
+          borderless
+          class="q-pl-lg col-12"
+        ></q-input>
+        <q-input
           :model-value="user.USER_NAME"
           :label="selected_local.name"
           readonly
