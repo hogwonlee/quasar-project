@@ -6,7 +6,7 @@
         class="rounded-borders"
         :ratio="1"
         loading="lazy"
-        position="0 600"
+        position="300 300"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
@@ -99,8 +99,8 @@
               ]"
             />
           </div>
-          <q-scroll-area style="height: 300px; max-width: 75%">
-            <q-img :src="img" fit="fill">
+          <q-scroll-area style="max-height: 25%; max-width: 75%">
+            <q-img :src="img">
               <template v-slot:error>
                 <div
                   class="absolute-full flex flex-center bg-negative text-white"
