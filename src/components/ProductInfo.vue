@@ -100,40 +100,11 @@
               ]"
             />
           </div>
-          <q-intersection v-for="index in 6" :key="index" class="example-item">
-            <q-card flat bordered class="q-ma-sm">
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 600px, 0)"
-                :key="1"
-              />
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 1200px, 0)"
-                :key="2"
-              />
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 1800px, 0)"
-                :key="3"
-              />
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 2400px, 0)"
-                :key="4"
-              />
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 3000px, 0)"
-                :key="5"
-              />
-              <img
-                :src="img"
-                style="position: absolute; clip: rect(0, 600px, 3600px, 0)"
-                :key="6"
-              />
-            </q-card>
-          </q-intersection>
+          <q-scroll-area v-for="index in 6" :key="index" class="example-item">
+            <div>
+              <q-img :src="img" />
+            </div>
+          </q-scroll-area>
           <div class="absolute-bottom-right transparent">
             <q-badge
               v-if="stock > 0"
