@@ -1,13 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img
-        :src="img"
-        class="rounded-borders"
-        :ratio="1"
-        loading="lazy"
-        position="300 300"
-      >
+      <q-img :src="img" class="rounded-borders" loading="lazy" position="0 0">
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
@@ -99,7 +93,7 @@
               ]"
             />
           </div>
-          <q-scroll-area style="max-height: 25%; max-width: 75%">
+          <q-scroll-area style="height: 300px; max-width: 300px">
             <q-img :src="img">
               <template v-slot:error>
                 <div
