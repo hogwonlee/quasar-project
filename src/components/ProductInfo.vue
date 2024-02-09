@@ -1,50 +1,47 @@
 <template>
   <div>
     <div @click="card = true">
-      <div width="60px" height="60px">
-        <q-img
-          :src="img"
-          class="rounded-borders"
-          loading="lazy"
-          :ratio="1"
-          style="position: absolute; clip: rect(0, 60px, 60px, 0)"
-        >
-          <template v-slot:error>
-            <div class="absolute-full flex flex-center bg-negative text-white">
-              Cannot load image
-            </div>
-          </template>
-          <div class="absolute-top-right transparent">
-            <q-badge
-              v-if="bonuscondition > 0"
-              class="absolute-right"
-              color="orange"
-              floating
-              rounded
-            >
-              {{ bonuscondition }}+1
-            </q-badge>
-            <q-badge
-              v-if="cutprice > 0"
-              class="absolute-right"
-              color="orange"
-              floating
-              rounded
-            >
-              - {{ cutprice }}
-            </q-badge>
-            <q-badge
-              v-if="stock > 0"
-              class="absolute-right"
-              color="red"
-              floating
-              rounded
-            >
-              <q-icon name="warning" color="white" />
-            </q-badge>
+      <q-img
+        :src="img"
+        class="rounded-borders"
+        loading="lazy"
+        style="position: absolute; clip: rect(0, 600px, 600px, 0)"
+      >
+        <template v-slot:error>
+          <div class="absolute-full flex flex-center bg-negative text-white">
+            Cannot load image
           </div>
-        </q-img>
-      </div>
+        </template>
+        <div class="absolute-top-right transparent">
+          <q-badge
+            v-if="bonuscondition > 0"
+            class="absolute-right"
+            color="orange"
+            floating
+            rounded
+          >
+            {{ bonuscondition }}+1
+          </q-badge>
+          <q-badge
+            v-if="cutprice > 0"
+            class="absolute-right"
+            color="orange"
+            floating
+            rounded
+          >
+            - {{ cutprice }}
+          </q-badge>
+          <q-badge
+            v-if="stock > 0"
+            class="absolute-right"
+            color="red"
+            floating
+            rounded
+          >
+            <q-icon name="warning" color="white" />
+          </q-badge>
+        </div>
+      </q-img>
       <q-chip
         class="bg-grey"
         style="width: 95%; height: 33px"
@@ -105,10 +102,33 @@
             <q-card flat bordered class="q-ma-sm">
               <img
                 :src="img"
-                style="
-                  position: absolute;
-                  clip: rect(0, 60px, 0px + index * 60px, 0);
-                "
+                style="position: absolute; clip: rect(0, 600px, 600px, 0)"
+                :key="1"
+              />
+              <img
+                :src="img"
+                style="position: absolute; clip: rect(0, 600px, 1200px, 0)"
+                :key="2"
+              />
+              <img
+                :src="img"
+                style="position: absolute; clip: rect(0, 600px, 1800px, 0)"
+                :key="3"
+              />
+              <img
+                :src="img"
+                style="position: absolute; clip: rect(0, 600px, 2400px, 0)"
+                :key="4"
+              />
+              <img
+                :src="img"
+                style="position: absolute; clip: rect(0, 600px, 3000px, 0)"
+                :key="5"
+              />
+              <img
+                :src="img"
+                style="position: absolute; clip: rect(0, 600px, 3600px, 0)"
+                :key="6"
               />
             </q-card>
           </q-intersection>
