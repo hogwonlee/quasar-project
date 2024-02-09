@@ -1,14 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img
-        :src="img"
-        class="rounded-borders"
-        loading="lazy"
-        position="absolute"
-        clip="rect(0px,600px,600px,0px)"
-        :ratio="1"
-      >
+      <q-img :src="img" class="rounded-borders rect" loading="lazy" :ratio="1">
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
@@ -471,3 +464,9 @@
     },
   });
 </script>
+<style>
+  .rect {
+    position: absolute;
+    clip: rect(0px, 600px, 600px, 0px);
+  }
+</style>
