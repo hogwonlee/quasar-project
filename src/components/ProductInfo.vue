@@ -5,7 +5,7 @@
         :src="img"
         class="rounded-borders"
         loading="lazy"
-        style="top: 300px; left: 300px"
+        position="100% 20%"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
@@ -98,27 +98,25 @@
               ]"
             />
           </div>
-          <q-scroll-area style="height: 300px; max-width: 300px">
-            <div>
-              <q-img :src="img" loading="lazy" position="0 0"> </q-img>
-            </div>
-            <div class="absolute-bottom-right transparent">
-              <q-badge
-                v-if="stock > 0"
-                class="q-mt-md"
-                color="red"
-                floating
-                rounded
-              >
-                <q-icon name="warning" color="white" />
-                {{
-                  stock == null || stock == 0 || stock == ''
-                    ? selected_local.stock_enough
-                    : selected_local.stock_null
-                }}
-              </q-badge>
-            </div>
-          </q-scroll-area>
+          <div style="height: 300px; max-width: 300px">
+            <q-img :src="img" loading="lazy" position="0 0"> </q-img>
+          </div>
+          <div class="absolute-bottom-right transparent">
+            <q-badge
+              v-if="stock > 0"
+              class="q-mt-md"
+              color="red"
+              floating
+              rounded
+            >
+              <q-icon name="warning" color="white" />
+              {{
+                stock == null || stock == 0 || stock == ''
+                  ? selected_local.stock_enough
+                  : selected_local.stock_null
+              }}
+            </q-badge>
+          </div>
 
           <div style="width: 100%" class="row justify-center">
             <q-chip
