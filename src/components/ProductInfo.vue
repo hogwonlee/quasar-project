@@ -7,6 +7,7 @@
         loading="lazy"
         :ratio="1"
         style="max-height: 600px"
+        position="0 0"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
