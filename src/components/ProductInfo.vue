@@ -6,7 +6,8 @@
         class="rounded-borders"
         loading="lazy"
         position="absolute"
-        rect="0px,600px,600px,0px"
+        clip="rect(0px,600px,600px,0px)"
+        :ratio="1"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
@@ -99,23 +100,25 @@
               ]"
             />
           </div>
-          <q-img :src="img"> </q-img>
-          <div class="absolute-bottom-right transparent">
-            <q-badge
-              v-if="stock > 0"
-              class="q-mt-md"
-              color="red"
-              floating
-              rounded
-            >
-              <q-icon name="warning" color="white" />
-              {{
-                stock == null || stock == 0 || stock == ''
-                  ? selected_local.stock_enough
-                  : selected_local.stock_null
-              }}
-            </q-badge>
-          </div>
+          <q-intersection style="height: 300px; width: 300px">
+            <q-img :src="img"> </q-img>
+            <div class="absolute-bottom-right transparent">
+              <q-badge
+                v-if="stock > 0"
+                class="q-mt-md"
+                color="red"
+                floating
+                rounded
+              >
+                <q-icon name="warning" color="white" />
+                {{
+                  stock == null || stock == 0 || stock == ''
+                    ? selected_local.stock_enough
+                    : selected_local.stock_null
+                }}
+              </q-badge>
+            </div>
+          </q-intersection>
 
           <div style="width: 100%" class="row justify-center">
             <q-chip
