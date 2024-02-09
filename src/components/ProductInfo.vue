@@ -1,7 +1,18 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img :src="img" class="rounded-borders" :ratio="1" loading="lazy">
+      <q-img
+        :src="img"
+        class="rounded-borders"
+        :ratio="1"
+        loading="lazy"
+        position="0 600"
+      >
+        <template v-slot:error>
+          <div class="absolute-full flex flex-center bg-negative text-white">
+            Cannot load image
+          </div>
+        </template>
         <div class="absolute-top-right transparent">
           <q-badge
             v-if="bonuscondition > 0"
@@ -88,11 +99,16 @@
               ]"
             />
           </div>
-          <q-img
-            :src="img"
-            style="max-width: 75%"
-            class="rounded-borders q-mt-xs"
-          >
+          <q-scroll-area style="height: 300px; max-width: 75%">
+            <q-img :src="img" fit="fill">
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template></q-img
+            >
             <div class="absolute-bottom-right transparent">
               <q-badge
                 v-if="stock > 0"
@@ -109,7 +125,8 @@
                 }}
               </q-badge>
             </div>
-          </q-img>
+          </q-scroll-area>
+
           <div style="width: 100%" class="row justify-center">
             <q-chip
               v-if="bulkbuy == false"
