@@ -100,7 +100,7 @@
               ]"
             />
           </div>
-          <q-scroll-area v-for="index in 6" :key="index" class="example-item">
+          <q-scroll-area style="height: 300px">
             <div>
               <q-img :src="img" />
             </div>
