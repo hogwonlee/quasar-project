@@ -1,13 +1,13 @@
 <template>
   <div>
     <div @click="card = true">
-      <div width="600px" height="600px">
+      <div width="60px" height="60px">
         <q-img
           :src="img"
           class="rounded-borders"
           loading="lazy"
           :ratio="1"
-          style="position: absolute; clip: rect(0, 600px, 600px, 0)"
+          style="position: absolute; clip: rect(0, 60px, 60px, 0)"
         >
           <template v-slot:error>
             <div class="absolute-full flex flex-center bg-negative text-white">
@@ -107,7 +107,7 @@
                 :src="img"
                 style="
                   position: absolute;
-                  clip: rect(0, 600px, 600px + index * 600px, 0);
+                  clip: rect(0, 60px, 0px + index * 60px, 0);
                 "
               />
             </q-card>
