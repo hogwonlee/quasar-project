@@ -1,12 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img
-        :src="img"
-        class="rounded-borders"
-        loading="lazy"
-        position="100% 20%"
-      >
+      <q-img :src="img" class="rounded-borders" loading="lazy" rect="0,0,60,60">
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
