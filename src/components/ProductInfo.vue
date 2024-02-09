@@ -5,7 +5,8 @@
         :src="img"
         class="rounded-borders"
         loading="lazy"
-        style="position: absolute; clip: rect(0, 600px, 600px, 0)"
+        :ratio="1"
+        style="max-height: 600px"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
