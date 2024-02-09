@@ -6,7 +6,7 @@
         class="rounded-borders"
         loading="lazy"
         position="absolute"
-        rect="0px,600px,600px,px"
+        rect="0px,600px,600px,0px"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
@@ -99,9 +99,7 @@
               ]"
             />
           </div>
-          <div style="height: 300px; max-width: 300px">
-            <q-img :src="img"> </q-img>
-          </div>
+          <q-img :src="img"> </q-img>
           <div class="absolute-bottom-right transparent">
             <q-badge
               v-if="stock > 0"
