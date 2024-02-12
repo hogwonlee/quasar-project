@@ -100,11 +100,9 @@
               ]"
             />
           </div>
-          <q-scroll-area style="height: 300px">
-            <div>
+            <div style="max-height: 30%;">
               <q-img :src="img" />
             </div>
-          </q-scroll-area>
           <div class="absolute-bottom-right transparent">
             <q-badge
               v-if="stock > 0"
