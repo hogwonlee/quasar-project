@@ -67,23 +67,22 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <q-card-section style="max-height: 30%">
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              position="0 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-          </q-card-section>
+          <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <q-img
+            :src="img"
+            class="rounded-borders"
+            loading="lazy"
+            :ratio="1"
+            position="0 0"
+          >
+            <template v-slot:error>
+              <div
+                class="absolute-full flex flex-center bg-negative text-white"
+              >
+                Cannot load image
+              </div>
+            </template>
+          </q-img>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
