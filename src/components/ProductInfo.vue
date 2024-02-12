@@ -67,6 +67,9 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
+          <q-card-section style="max-height: 30%">
+            <q-img :src="img" />
+          </q-card-section>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
@@ -100,9 +103,7 @@
               ]"
             />
           </div>
-            <div style="max-height: 30%;">
-              <q-img :src="img" />
-            </div>
+
           <div class="absolute-bottom-right transparent">
             <q-badge
               v-if="stock > 0"
