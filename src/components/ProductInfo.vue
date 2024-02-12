@@ -68,7 +68,13 @@
           style="width: 80%"
         >
           <q-card-section style="max-height: 30%">
-            <q-img :src="img"></q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              position="0 0"
+            ></q-img>
           </q-card-section>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
