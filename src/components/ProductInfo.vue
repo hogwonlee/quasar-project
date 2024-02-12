@@ -68,7 +68,8 @@
           style="width: 80%"
         >
           <div style="max-height: 600px">
-            <q-img
+            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <!-- <q-img
               :src="img"
               class="rounded-borders"
               loading="lazy"
@@ -82,7 +83,7 @@
                   Cannot load image
                 </div>
               </template>
-            </q-img>
+            </q-img> -->
           </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
