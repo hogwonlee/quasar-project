@@ -74,7 +74,15 @@
               loading="lazy"
               :ratio="1"
               position="0 0"
-            ></q-img>
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
           </q-card-section>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
