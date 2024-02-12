@@ -67,9 +67,9 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <q-scroll-area style="height: 200px">
+          <div style="height: 200px">
             <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-          </q-scroll-area>
+          </div>
           <!-- <img :src="img" /> -->
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
