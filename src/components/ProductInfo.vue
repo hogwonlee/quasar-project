@@ -67,14 +67,12 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <q-intersection style="height: 200px">
-            <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
-            <q-scroll-area>
-              <div>
-                <img :src="img" />
-              </div>
-            </q-scroll-area>
-          </q-intersection>
+          <div style="height: 200px">
+            <q-intersection>
+              <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
+              <img :src="img" />
+            </q-intersection>
+          </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
