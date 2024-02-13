@@ -67,10 +67,10 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <div style="height: 200px">
+          <q-intersection class="overflow-hidden" style="height: 200px">
             <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
             <img :src="img" />
-          </div>
+          </q-intersection>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
