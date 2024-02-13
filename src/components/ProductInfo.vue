@@ -67,9 +67,11 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <q-intersection class="overflow-hidden" style="height: 200px">
+          <q-intersection style="height: 200px">
             <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
-            <img :src="img" />
+            <q-scroll-area>
+              <img :src="img" :ratio="1" />
+            </q-scroll-area>
           </q-intersection>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
