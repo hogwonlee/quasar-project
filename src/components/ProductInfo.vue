@@ -71,7 +71,7 @@
             <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
             <q-scroll-area>
               <div>
-                <img :src="img" :ratio="1" />
+                <img :src="img" />
               </div>
             </q-scroll-area>
           </q-intersection>
