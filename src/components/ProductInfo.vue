@@ -70,7 +70,9 @@
           <q-intersection style="height: 200px">
             <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
             <q-scroll-area>
-              <img :src="img" :ratio="1" />
+              <div>
+                <img :src="img" :ratio="1" />
+              </div>
             </q-scroll-area>
           </q-intersection>
           <q-btn
