@@ -68,10 +68,10 @@
           style="width: 80%"
         >
           <div style="height: 200px">
-            <q-intersection>
+            <q-scroll-area style="height: 200px; max-width: 300px">
               <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
               <img :src="img" />
-            </q-intersection>
+            </q-scroll-area>
           </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
