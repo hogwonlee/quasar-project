@@ -68,7 +68,7 @@
           style="width: 80%"
         >
           <div style="height: 200px">
-            <q-img
+            <!-- <q-img
               :src="img"
               class="rounded-borders"
               loading="lazy"
@@ -147,7 +147,7 @@
                   Cannot load image
                 </div>
               </template>
-            </q-img>
+            </q-img> -->
             <q-img
               :src="img"
               class="rounded-borders"
