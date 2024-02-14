@@ -7,7 +7,7 @@
         loading="lazy"
         :ratio="1"
         style="max-height: 600px"
-        position="300 0"
+        position="0 0"
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
@@ -148,13 +148,13 @@
                 </div>
               </template>
             </q-img> -->
-            <q-img
+            <!-- <q-img
               :src="img"
               class="rounded-borders"
               loading="lazy"
               :ratio="1"
               style="max-height: 600px"
-              position="0 300"
+              position="600 0"
             >
               <template v-slot:error>
                 <div
@@ -163,7 +163,8 @@
                   Cannot load image
                 </div>
               </template>
-            </q-img>
+            </q-img> -->
+            <img :src="img" position="600 0" />
           </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
