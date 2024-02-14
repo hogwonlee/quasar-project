@@ -67,110 +67,73 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <div style="height: 200px">
-            <!-- <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="0 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="0 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="0 600"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="600 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="0 600px"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img> -->
-            <!-- <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="600 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img> -->
-            <img
-              :src="img"
-              style="height: 600px; width: 600px"
-              :ratio="1"
-              position="600 0"
+          <q-card-section class="row q-mt-none q-pt-none q-px-sm">
+            <q-bar dense class="col-12 bg-dark text-white">
+              {{ selected_local.default_info }}
+            </q-bar>
+
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              dense
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name"
             />
-          </div>
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              dense
+              borderless
+              :label="selected_local.flavorandspec"
+              :model-value="tag"
+            />
+            <q-input
+              v-if="product_desc != null"
+              class="col-12"
+              readonly
+              disable
+              autogrow
+              dense
+              borderless
+              :label="selected_local.product_desc"
+              :model-value="product_desc"
+            />
+
+            <q-input
+              v-if="product_name_ko != null"
+              class="col-6"
+              readonly
+              disable
+              dense
+              borderless
+              :label="selected_local.productname_ko"
+              :model-value="product_name_ko"
+            />
+            <q-input
+              class="col-6"
+              readonly
+              dense
+              disable
+              borderless
+              :label="selected_local.shelf_life"
+              :model-value="
+                shelf_life <= 0 ? '-' : shelf_life + selected_local.month_count
+              "
+            />
+            <q-input
+              class="col-6"
+              readonly
+              disable
+              standout
+              dense
+              borderless
+              :label="selected_local.production_date"
+              :model-value="selected_local.after"
+            />
+          </q-card-section>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
@@ -327,76 +290,113 @@
                 :disable="this.localQuantity <= 0"
               />
             </q-card-section>
-            <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-              <q-bar dense class="col-12 bg-dark text-white">
-                {{ selected_local.default_info }}
-              </q-bar>
-
-              <q-input
-                class="col-6"
-                readonly
-                disable
-                dense
-                borderless
-                :label="selected_local.productname"
-                :model-value="product_name"
-              />
-              <q-input
-                class="col-6"
-                readonly
-                disable
-                dense
-                borderless
-                :label="selected_local.flavorandspec"
-                :model-value="tag"
-              />
-              <q-input
-                v-if="product_desc != null"
-                class="col-12"
-                readonly
-                disable
-                autogrow
-                dense
-                borderless
-                :label="selected_local.product_desc"
-                :model-value="product_desc"
-              />
-
-              <q-input
-                v-if="product_name_ko != null"
-                class="col-6"
-                readonly
-                disable
-                dense
-                borderless
-                :label="selected_local.productname_ko"
-                :model-value="product_name_ko"
-              />
-              <q-input
-                class="col-6"
-                readonly
-                dense
-                disable
-                borderless
-                :label="selected_local.shelf_life"
-                :model-value="
-                  shelf_life <= 0
-                    ? '-'
-                    : shelf_life + selected_local.month_count
-                "
-              />
-              <q-input
-                class="col-6"
-                readonly
-                disable
-                standout
-                dense
-                borderless
-                :label="selected_local.production_date"
-                :model-value="selected_local.after"
-              />
-            </q-card-section>
           </q-card-section>
+          <div style="height: 200px">
+            <!-- <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 600"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="600 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 600px"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img> -->
+            <!-- <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="600 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img> -->
+            <img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              style="height: auto; width: 600px"
+              :ratio="1"
+              position="600 0"
+            />
+          </div>
         </q-card>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
           <q-btn
