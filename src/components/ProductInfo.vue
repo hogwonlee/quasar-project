@@ -388,14 +388,16 @@
                 </div>
               </template>
             </q-img> -->
-            <img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              style="height: auto; width: 600px"
-              :ratio="1"
-              position="600 0"
-            />
+            <q-scroll-area style="height: 200px">
+              <img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                style="height: auto; width: 600px"
+                :ratio="1"
+                position="0 600"
+              />
+            </q-scroll-area>
           </div>
         </q-card>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
