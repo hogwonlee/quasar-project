@@ -70,7 +70,18 @@
           <div style="height: 200px">
             <q-scroll-area style="height: 200px; max-width: 300px">
               <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
-              <img :src="img" />
+              <q-list>
+                <q-item>
+                  <q-item-section>
+                    <q-img :src="img" :ratio="1" position="0 600px" />
+                    <q-img :src="img" :ratio="1" position="0 1200px" />
+                    <q-img :src="img" :ratio="1" position="0 1800px" />
+                    <q-img :src="img" :ratio="1" position="0 2400px" />
+                    <q-img :src="img" :ratio="1" position="0 3000px" />
+                    <q-img :src="img" :ratio="1" position="0 3600px" />
+                  </q-item-section>
+                </q-item>
+              </q-list>
             </q-scroll-area>
           </div>
           <q-btn
