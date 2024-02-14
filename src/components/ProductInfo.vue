@@ -387,10 +387,10 @@
                 </div>
               </template>
             </q-img> -->
-          <q-scroll-area style="height: 200px; width: auto">
-            a s a s a a s as df fsdfsdfesfs sdfsdfsdf sadfsdfd asdf sdf asdf sad
-            f sdf asdf as df sd f sd
+          <q-scroll-area style="height: 200px; max-width: 300px">
             <div>
+              a s a s a a s as df fsdfsdfesfs sdfsdfsdf sadfsdfd asdf sdf asdf
+              sad f sdf asdf as df sd f sd
               <img
                 :src="img"
                 class="rounded-borders"
