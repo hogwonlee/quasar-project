@@ -396,7 +396,7 @@
                 :ratio="1"
                 position="0 600"
               /> -->
-            <div v-for="n in number" :key="n">
+            <div v-for="n in 4" :key="n">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
