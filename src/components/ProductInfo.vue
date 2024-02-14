@@ -164,7 +164,7 @@
                 </div>
               </template>
             </q-img> -->
-            <img :src="img" position="600 0" />
+            <img :src="img" :ratio="1" position="600 0" />
           </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
