@@ -68,67 +68,102 @@
           style="width: 80%"
         >
           <div style="height: 200px">
-            <q-scroll-area style="height: 200px; max-width: 300px">
-              <!-- <img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
-              <q-list>
-                <q-item>
-                  <q-item-section>
-                    <img :src="img" />
-
-                    <q-img :src="img" loading="lazy" :ratio="1" position="0 60">
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="1200 0"
-                    >
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                    <q-img :src="img" loading="lazy" :ratio="1" position="0 0">
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                    <q-img :src="img" loading="lazy" :ratio="1" position="0 0">
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                    <q-img :src="img" loading="lazy" :ratio="1" position="60 0">
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-scroll-area>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 600"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="600 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="0 600px"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
+            <q-img
+              :src="img"
+              class="rounded-borders"
+              loading="lazy"
+              :ratio="1"
+              style="max-height: 600px"
+              position="600px 0"
+            >
+              <template v-slot:error>
+                <div
+                  class="absolute-full flex flex-center bg-negative text-white"
+                >
+                  Cannot load image
+                </div>
+              </template>
+            </q-img>
           </div>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
