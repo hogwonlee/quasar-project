@@ -73,7 +73,7 @@
               <q-list>
                 <q-item>
                   <q-item-section>
-                    <img :src="img" loading="lazy" :ratio="1" position="0 0" />
+                    <img :src="img" />
 
                     <q-img :src="img" loading="lazy" :ratio="1" position="0 60">
                       <template v-slot:error>
