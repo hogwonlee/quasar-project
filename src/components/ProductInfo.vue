@@ -388,17 +388,17 @@
               </template>
             </q-img> -->
           <q-scroll-area style="height: 200px; max-width: 300px">
-            <div>
-              a s a s a a s as df fsdfsdfesfs sdfsdfsdf sadfsdfd asdf sdf asdf
-              sad f sdf asdf as df sd f sd
-              <img
+            <!-- <img
                 :src="img"
                 class="rounded-borders"
                 loading="lazy"
                 style="height: auto; width: 600px"
                 :ratio="1"
                 position="0 600"
-              />
+              /> -->
+            <div v-for="n in number" :key="n">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
           </q-scroll-area>
         </q-card>
