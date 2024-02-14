@@ -291,8 +291,7 @@
               />
             </q-card-section>
           </q-card-section>
-          <div style="height: 200px">
-            <!-- <q-img
+          <!-- <q-img
               :src="img"
               class="rounded-borders"
               loading="lazy"
@@ -372,7 +371,7 @@
                 </div>
               </template>
             </q-img> -->
-            <!-- <q-img
+          <!-- <q-img
               :src="img"
               class="rounded-borders"
               loading="lazy"
@@ -388,7 +387,8 @@
                 </div>
               </template>
             </q-img> -->
-            <q-scroll-area style="height: 200px">
+          <q-scroll-area style="height: 200px">
+            <div>
               <img
                 :src="img"
                 class="rounded-borders"
@@ -397,8 +397,8 @@
                 :ratio="1"
                 position="0 600"
               />
-            </q-scroll-area>
-          </div>
+            </div>
+          </q-scroll-area>
         </q-card>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
           <q-btn
