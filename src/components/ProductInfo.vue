@@ -73,12 +73,16 @@
               <q-list>
                 <q-item>
                   <q-item-section>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="0 600px"
-                    >
+                    <q-img :src="img" loading="lazy" :ratio="1" position="0 0">
+                      <template v-slot:error>
+                        <div
+                          class="absolute-full flex flex-center bg-negative text-white"
+                        >
+                          Cannot load image
+                        </div>
+                      </template>
+                    </q-img>
+                    <q-img :src="img" loading="lazy" :ratio="1" position="0 60">
                       <template v-slot:error>
                         <div
                           class="absolute-full flex flex-center bg-negative text-white"
@@ -91,7 +95,7 @@
                       :src="img"
                       loading="lazy"
                       :ratio="1"
-                      position="0 1200px"
+                      position="1200 0"
                     >
                       <template v-slot:error>
                         <div
@@ -101,12 +105,7 @@
                         </div>
                       </template>
                     </q-img>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="0 1800px"
-                    >
+                    <q-img :src="img" loading="lazy" :ratio="1" position="0 0">
                       <template v-slot:error>
                         <div
                           class="absolute-full flex flex-center bg-negative text-white"
@@ -115,12 +114,7 @@
                         </div>
                       </template>
                     </q-img>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="0 2400px"
-                    >
+                    <q-img :src="img" loading="lazy" :ratio="1" position="0 0">
                       <template v-slot:error>
                         <div
                           class="absolute-full flex flex-center bg-negative text-white"
@@ -129,26 +123,7 @@
                         </div>
                       </template>
                     </q-img>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="0 3000px"
-                    >
-                      <template v-slot:error>
-                        <div
-                          class="absolute-full flex flex-center bg-negative text-white"
-                        >
-                          Cannot load image
-                        </div>
-                      </template>
-                    </q-img>
-                    <q-img
-                      :src="img"
-                      loading="lazy"
-                      :ratio="1"
-                      position="0 3600px"
-                    >
+                    <q-img :src="img" loading="lazy" :ratio="1" position="60 0">
                       <template v-slot:error>
                         <div
                           class="absolute-full flex flex-center bg-negative text-white"
