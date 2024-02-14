@@ -154,7 +154,7 @@
               loading="lazy"
               :ratio="1"
               style="max-height: 600px"
-              position="600px 0"
+              position="0 600px"
             >
               <template v-slot:error>
                 <div
