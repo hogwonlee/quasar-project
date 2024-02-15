@@ -292,98 +292,100 @@
             </q-card-section>
           </q-card-section>
         </q-card>
-        <q-carousel
-          v-model="slide"
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          animated
-          control-color="primary"
-          class="rounded-borders"
-        >
-          <q-carousel-slide name="style" class="column no-wrap flex-center">
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="0 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-          </q-carousel-slide>
-          <q-carousel-slide name="tv" class="column no-wrap flex-center">
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="600 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-          </q-carousel-slide>
-          <q-carousel-slide name="layers" class="column no-wrap flex-center">
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="1200 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-          </q-carousel-slide>
-          <q-carousel-slide name="map" class="column no-wrap flex-center">
-            <q-img
-              :src="img"
-              class="rounded-borders"
-              loading="lazy"
-              :ratio="1"
-              style="max-height: 600px"
-              position="1800 0"
-            >
-              <template v-slot:error>
-                <div
-                  class="absolute-full flex flex-center bg-negative text-white"
-                >
-                  Cannot load image
-                </div>
-              </template>
-            </q-img>
-          </q-carousel-slide>
-        </q-carousel>
-        <div class="row justify-center">
-          <q-btn-toggle
-            glossy
+        <div class="q-pa-md bg-white" style="height: 600px; width: 75%">
+          <q-carousel
             v-model="slide"
-            :options="[
-              {label: 1, value: 'style'},
-              {label: 2, value: 'tv'},
-              {label: 3, value: 'layers'},
-              {label: 4, value: 'map'},
-            ]"
-          />
+            transition-prev="slide-right"
+            transition-next="slide-left"
+            animated
+            control-color="primary"
+            class="rounded-borders"
+          >
+            <q-carousel-slide name="style" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="0 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="tv" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="600 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="layers" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="1200 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="map" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="1800 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+          </q-carousel>
+          <div class="row justify-center">
+            <q-btn-toggle
+              glossy
+              v-model="slide"
+              :options="[
+                {label: 1, value: 'style'},
+                {label: 2, value: 'tv'},
+                {label: 3, value: 'layers'},
+                {label: 4, value: 'map'},
+              ]"
+            />
+          </div>
         </div>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
           <q-btn
