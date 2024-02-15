@@ -64,86 +64,25 @@
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <div class="bg-white" style="height: 400px; width: 100%">
-          <q-carousel
-            v-model="slide"
-            transition-prev="slide-right"
-            transition-next="slide-left"
-            swipeable
-            animated
-            control-color="primary"
-            navigation
-            padding
-            arrows
-            class="rounded-borders"
-          >
-            <q-carousel-slide name="style" class="column no-wrap flex-center">
-              <q-img
-                :src="img"
-                class="rounded-borders"
-                loading="lazy"
-                :ratio="1"
-                position="0 0"
-              >
-                <template v-slot:error>
-                  <div
-                    class="absolute-full flex flex-center bg-negative text-white"
-                  >
-                    Cannot load image
-                  </div>
-                </template>
-              </q-img>
-            </q-carousel-slide>
-            <q-carousel-slide name="tv" class="column no-wrap flex-center">
-              <q-img
-                :src="img"
-                class="rounded-borders"
-                loading="lazy"
-                :ratio="1"
-                position="30 0"
-              >
-                <template v-slot:error>
-                  <div
-                    class="absolute-full flex flex-center bg-negative text-white"
-                  >
-                    Cannot load image
-                  </div>
-                </template>
-              </q-img>
-            </q-carousel-slide>
-            <q-carousel-slide name="layers" class="column no-wrap flex-center">
-              <q-img
-                :src="img"
-                class="rounded-borders"
-                loading="lazy"
-                :ratio="1"
-                position="60 0"
-              >
-                <template v-slot:error>
-                  <div
-                    class="absolute-full flex flex-center bg-negative text-white"
-                  >
-                    Cannot load image
-                  </div>
-                </template>
-              </q-img>
-            </q-carousel-slide>
-            <q-carousel-slide name="map" class="column no-wrap flex-center">
-              <q-img
-                :src="img"
-                class="rounded-borders"
-                loading="lazy"
-                :ratio="1"
-                position="1800 0"
-              >
-                <template v-slot:error>
-                  <div
-                    class="absolute-full flex flex-center bg-negative text-white"
-                  >
-                    Cannot load image
-                  </div>
-                </template>
-              </q-img>
-            </q-carousel-slide>
+          <q-carousel animated v-model="slide" arrows navigation infinite>
+            <q-carousel-slide
+              :name="1"
+              :img-src="img"
+              :ratio="1"
+              position="60 0"
+            />
+            <q-carousel-slide
+              :name="2"
+              :img-src="img"
+              :ratio="1"
+              position="0 0"
+            />
+            <q-carousel-slide
+              :name="3"
+              :img-src="img"
+              :ratio="1"
+              position="120 0"
+            />
           </q-carousel>
         </div>
         <q-card
@@ -404,7 +343,7 @@
     components: {},
     data: function () {
       return {
-        slide: ref('style'),
+        slide: ref(1),
       };
     },
     computed: {
