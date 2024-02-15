@@ -292,7 +292,7 @@
             </q-card-section>
           </q-card-section>
         </q-card>
-        <div class="q-pa-md bg-white" style="height: 600px; width: 75%">
+        <div class="q-pa-md bg-white" style="height: 300px; width: 75%">
           <q-carousel
             v-model="slide"
             transition-prev="slide-right"
