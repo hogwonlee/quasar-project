@@ -387,20 +387,99 @@
                 </div>
               </template>
             </q-img> -->
-          <q-scroll-area style="height: 200px; max-width: 300px">
-            <!-- <img
+          <q-carousel
+            v-model="slide"
+            transition-prev="slide-right"
+            transition-next="slide-left"
+            animated
+            control-color="primary"
+            class="rounded-borders"
+          >
+            <q-carousel-slide name="style" class="column no-wrap flex-center">
+              <q-img
                 :src="img"
                 class="rounded-borders"
                 loading="lazy"
-                style="height: auto; width: 600px"
                 :ratio="1"
-                position="0 600"
-              /> -->
-            <div v-for="n in 4" :key="n">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-          </q-scroll-area>
+                style="max-height: 600px"
+                position="0 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="tv" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="600 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="layers" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="1200 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+            <q-carousel-slide name="map" class="column no-wrap flex-center">
+              <q-img
+                :src="img"
+                class="rounded-borders"
+                loading="lazy"
+                :ratio="1"
+                style="max-height: 600px"
+                position="1800 0"
+              >
+                <template v-slot:error>
+                  <div
+                    class="absolute-full flex flex-center bg-negative text-white"
+                  >
+                    Cannot load image
+                  </div>
+                </template>
+              </q-img>
+            </q-carousel-slide>
+          </q-carousel>
+          <div class="row justify-center">
+            <q-btn-toggle
+              glossy
+              v-model="slide"
+              :options="[
+                {label: 1, value: 'style'},
+                {label: 2, value: 'tv'},
+                {label: 3, value: 'layers'},
+                {label: 4, value: 'map'},
+              ]"
+            />
+          </div>
         </q-card>
         <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
           <q-btn
@@ -429,7 +508,9 @@
     name: 'ProductInfo',
     components: {},
     data: function () {
-      return {};
+      return {
+        slide: ref('style'),
+      };
     },
     computed: {
       ...mapState({
