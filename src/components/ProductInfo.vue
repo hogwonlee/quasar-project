@@ -63,7 +63,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
-        <div class="bg-white">
+        <div class="bg-white" style="height: 200px; width: 100%">
           <q-carousel
             v-model="slide"
             transition-prev="slide-right"
