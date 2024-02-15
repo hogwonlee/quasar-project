@@ -63,7 +63,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
-        <div class="bg-white" style="height: 200px; width: 100%">
+        <div class="bg-white" style="height: 400px; width: 100%">
           <q-carousel
             v-model="slide"
             transition-prev="slide-right"
@@ -99,7 +99,7 @@
                 class="rounded-borders"
                 loading="lazy"
                 :ratio="1"
-                position="60 0"
+                position="30 0"
               >
                 <template v-slot:error>
                   <div
@@ -116,7 +116,7 @@
                 class="rounded-borders"
                 loading="lazy"
                 :ratio="1"
-                position="120 0"
+                position="60 0"
               >
                 <template v-slot:error>
                   <div
