@@ -67,8 +67,10 @@
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <div class="bg-white" style="height: 300px; width: 100%">
-            <img :src="img" style="width: 100%" />
+          <div class="q-ma-none">
+            <q-scroll-area style="height: 200px; max-width: 300px">
+              <img :src="img" style="width: 100%" />
+            </q-scroll-area>
           </div>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
             <q-bar dense class="col-12 bg-dark text-white">
