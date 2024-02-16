@@ -65,13 +65,14 @@
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
           class="deep-orange-3 row justify-center q-px-none q-mx-none"
+          style="height: 300px; width: 80%"
+        >
+          <img :src="img" style="width: 100%" />
+        </q-card>
+        <q-card
+          class="deep-orange-3 row justify-center q-px-none q-mx-none"
           style="width: 80%"
         >
-          <div>
-            <q-scroll-area style="height: 300px; width: 100%">
-              <img :src="img" style="width: 100%" />
-            </q-scroll-area>
-          </div>
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
             <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
