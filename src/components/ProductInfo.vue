@@ -62,8 +62,9 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" class="col justify-start q-gutter-none">
-        <!-- <div class="absolute-top-left z-top q-ma-xs">
+      <q-dialog v-model="card">
+        <q-card class="col justify-start q-gutter-none">
+          <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
             v-model="bulkbuy"
@@ -114,146 +115,143 @@
           size="md"
         >
         </q-btn> -->
-        <q-card class="my-card q-ma-none" style="height: 50%; width: 80%">
-          <q-input
-            class="col-12"
-            readonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname"
-            :model-value="product_name"
-          />
-          <q-input
-            v-if="product_name_ko != null"
-            class="col-12"
-            readonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname_ko"
-            :model-value="product_name_ko"
-          />
-          <img :src="img" />
-        </q-card>
-        <q-card class="my-card" style="width: 80%">
-          <q-card-section class="row q-mt-none q-py-none q-px-sm">
-            <div style="width: 100%" class="row justify-center">
-              <q-chip
-                v-if="bulkbuy == false"
-                style="width: 70%"
-                dense
-                color="dark"
-                text-color="white"
-                icon="img:icons\currency-krw-white.png"
-              >
-                {{ price }}
-                <q-badge
-                  color="red"
-                  floating
-                  rounded
-                  transparent
-                  v-if="cutprice > 0"
+          <q-card class="my-card q-ma-none" style="height: 50%; width: 80%">
+            <q-input
+              class="col-12"
+              readonly
+              disable
+              dense
+              borderless
+              :label="selected_local.productname"
+              :model-value="product_name"
+            />
+            <q-input
+              v-if="product_name_ko != null"
+              class="col-12"
+              readonly
+              disable
+              dense
+              borderless
+              :label="selected_local.productname_ko"
+              :model-value="product_name_ko"
+            />
+            <img :src="img" />
+          </q-card>
+          <q-card class="my-card" style="width: 80%">
+            <q-card-section class="row q-mt-none q-py-none q-px-sm">
+              <div style="width: 100%" class="row justify-center">
+                <q-chip
+                  v-if="bulkbuy == false"
+                  style="width: 70%"
+                  dense
+                  color="dark"
+                  text-color="white"
+                  icon="img:icons\currency-krw-white.png"
                 >
-                  - {{ cutprice }}
-                </q-badge>
-              </q-chip>
-              <q-chip
-                v-else
-                style="width: 70%"
-                color="dark"
-                dense
-                text-color="white"
-                icon="img:icons\currency-krw-white.png"
-              >
-                {{ boxprice }}
-                <q-badge color="orange" floating rounded>
-                  {{ boxcapacity }} {{ selected_local.bundle_count }}
-                </q-badge>
-              </q-chip>
-            </div>
-
-            <q-card-section class="row q-px-sm q-py-none">
-              <div
-                class="col-7"
-                :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
-              >
-                <div v-if="!bulkbuy" class="text-h6 text-bold">
-                  <q-icon name="img:icons\currency-krw-black.png" />
-                  {{ (price - cutprice) * this.localQuantity }}
-                  {{ selected_local.won }}
-                </div>
-                <div v-else class="text-h6 text-bold">
-                  <q-icon name="img:icons\currency-krw-black.png" />
-                  {{ boxprice * this.localQuantity }} {{ selected_local.won }}
-                </div>
-              </div>
-              <q-input
-                class="col-5"
-                outlined
-                input-class="text-right"
-                :model-value="total"
-                readonly
-                dense
-                ><template v-slot:prepend>
-                  <q-icon name="shopping_cart" /> </template
-              ></q-input>
-              <q-btn
-                :disable="localQuantity <= 0"
-                class="col-3"
-                icon="remove"
-                text-color="negative"
-                @click="handle(-1)"
-                size="xs"
-              ></q-btn>
-              <q-input
-                class="col-6"
-                dense
-                style="vertical-align: top"
-                readonly
-                disable
-                outlined
-                v-model="this.localQuantity"
-                input-class="text-right"
-              >
-                <div
-                  v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
-                  class="q-mt-sm q-ml-lg absolute-right transparent"
-                >
-                  <q-badge color="orange" floating rounded>
-                    {{ selected_local.n_plus_one }}
-                    {{ parseInt(localQuantity / bonuscondition) }}
+                  {{ price }}
+                  <q-badge
+                    color="red"
+                    floating
+                    rounded
+                    transparent
+                    v-if="cutprice > 0"
+                  >
+                    - {{ cutprice }}
                   </q-badge>
-                </div>
-              </q-input>
-              <q-btn
-                class="col-3"
-                icon="add"
-                size="xs"
-                text-color="positive"
-                @click="handle(1)"
-              ></q-btn>
+                </q-chip>
+                <q-chip
+                  v-else
+                  style="width: 70%"
+                  color="dark"
+                  dense
+                  text-color="white"
+                  icon="img:icons\currency-krw-white.png"
+                >
+                  {{ boxprice }}
+                  <q-badge color="orange" floating rounded>
+                    {{ boxcapacity }} {{ selected_local.bundle_count }}
+                  </q-badge>
+                </q-chip>
+              </div>
 
-              <q-btn
-                class="col-12 q-my-xs"
-                text-color="positive"
-                glossy
-                icon="add_shopping_cart"
-                :label="selected_local.add_to_cart"
-                @click="sendToCart(this.product_name, quantity)"
-                :disable="this.localQuantity <= 0"
-              />
+              <q-card-section class="row q-px-sm q-py-none">
+                <div
+                  class="col-7"
+                  :class="this.localQuantity > 0 ? 'visible' : 'invisible'"
+                >
+                  <div v-if="!bulkbuy" class="text-h6 text-bold">
+                    <q-icon name="img:icons\currency-krw-black.png" />
+                    {{ (price - cutprice) * this.localQuantity }}
+                    {{ selected_local.won }}
+                  </div>
+                  <div v-else class="text-h6 text-bold">
+                    <q-icon name="img:icons\currency-krw-black.png" />
+                    {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+                  </div>
+                </div>
+                <q-input
+                  class="col-5"
+                  outlined
+                  input-class="text-right"
+                  :model-value="total"
+                  readonly
+                  dense
+                  ><template v-slot:prepend>
+                    <q-icon name="shopping_cart" /> </template
+                ></q-input>
+                <q-btn
+                  :disable="localQuantity <= 0"
+                  class="col-3"
+                  icon="remove"
+                  text-color="negative"
+                  @click="handle(-1)"
+                  size="xs"
+                ></q-btn>
+                <q-input
+                  class="col-6"
+                  dense
+                  style="vertical-align: top"
+                  readonly
+                  disable
+                  outlined
+                  v-model="this.localQuantity"
+                  input-class="text-right"
+                >
+                  <div
+                    v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
+                    class="q-mt-sm q-ml-lg absolute-right transparent"
+                  >
+                    <q-badge color="orange" floating rounded>
+                      {{ selected_local.n_plus_one }}
+                      {{ parseInt(localQuantity / bonuscondition) }}
+                    </q-badge>
+                  </div>
+                </q-input>
+                <q-btn
+                  class="col-3"
+                  icon="add"
+                  size="xs"
+                  text-color="positive"
+                  @click="handle(1)"
+                ></q-btn>
+
+                <q-btn
+                  class="col-12 q-my-xs"
+                  text-color="positive"
+                  glossy
+                  icon="add_shopping_cart"
+                  :label="selected_local.add_to_cart"
+                  @click="sendToCart(this.product_name, quantity)"
+                  :disable="this.localQuantity <= 0"
+                />
+              </q-card-section>
             </q-card-section>
-          </q-card-section>
+          </q-card>
         </q-card>
 
-        <q-page-sticky
-          class="z-top bg-primary"
-          position="bottom"
-          :offset="[0, -60]"
-        >
+        <q-page-sticky class="z-top" position="bottom" :offset="[0, -60]">
           <q-btn
-            class="z-top"
+            class="z-top bg-positive"
             stack
             rounded
             icon="shopping_cart_checkout"
