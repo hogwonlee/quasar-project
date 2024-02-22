@@ -65,7 +65,7 @@
       <q-dialog
         v-model="card"
         :id="category"
-        class="q-px-none q-mx-none row q-gutter-none col"
+        class="q-pa-none q-ma-none row q-gutter-none col"
       >
         <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
@@ -111,13 +111,17 @@
           {{ bonuscondition }}+1
         </q-badge>
         <q-btn
-          class="absolute-top-right bg-dark z-top q-ma-xs"
+          class="absolute-top-right bg-dark z-top q-ma-md"
           icon="close"
           text-color="white"
           v-close-popup
+          size="md"
         >
         </q-btn>
-        <q-card class="deep-orange-3 q-pa-none q-mx-none" style="height: 50%">
+        <q-card
+          class="deep-orange-3 q-pa-none q-ma-none"
+          style="height: 50%; width: 80%"
+        >
           <q-input
             class="col-12"
             readonly
@@ -139,7 +143,7 @@
           />
           <img :src="img" />
         </q-card>
-        <q-card class="deep-orange-3 q-pa-none q-mx-none" style="width: 80%">
+        <q-card class="deep-orange-3 q-pa-none q-ma-none" style="width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
