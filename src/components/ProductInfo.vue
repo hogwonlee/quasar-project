@@ -65,42 +65,59 @@
       <q-dialog
         v-model="card"
         :id="category"
-        class="q-px-none q-mx-none q-gutter-xs"
+        class="q-px-none q-mx-none row q-gutter-none col"
       >
+        <div class="absolute-top-left z-top q-ma-xs">
+          <q-btn-toggle
+            v-if="boxprice > 0"
+            v-model="bulkbuy"
+            toggle-color="secondary"
+            toggle-text-color="primary"
+            color="grey"
+            text-color="black"
+            unelevated
+            glossy
+            style="flex-direction: column"
+            :options="[
+              {label: selected_local.product_unit, value: false},
+              {label: selected_local.product_bundle, value: true},
+            ]"
+          />
+        </div>
+        <div class="absolute-bottom-right transparent">
+          <q-badge
+            v-if="stock > 0"
+            class="q-mt-md"
+            color="red"
+            floating
+            rounded
+          >
+            <q-icon name="warning" color="white" />
+            {{
+              stock == null || stock == 0 || stock == ''
+                ? selected_local.stock_enough
+                : selected_local.stock_null
+            }}
+          </q-badge>
+        </div>
+
+        <q-badge
+          class="absolute-top-right z-top q-ma-xs q-mt-xl"
+          v-if="bonuscondition > 0"
+          color="orange"
+          floating
+          rounded
+        >
+          {{ bonuscondition }}+1
+        </q-badge>
+        <q-btn
+          class="absolute-top-right bg-dark z-top q-ma-xs"
+          icon="close"
+          text-color="white"
+          v-close-popup
+        >
+        </q-btn>
         <q-card class="deep-orange-3 q-pa-none q-mx-none" style="height: 50%">
-          <div class="absolute-top-left z-top q-ma-xs">
-            <q-btn-toggle
-              v-if="boxprice > 0"
-              v-model="bulkbuy"
-              toggle-color="secondary"
-              toggle-text-color="primary"
-              color="grey"
-              text-color="black"
-              unelevated
-              glossy
-              style="flex-direction: column"
-              :options="[
-                {label: selected_local.product_unit, value: false},
-                {label: selected_local.product_bundle, value: true},
-              ]"
-            />
-          </div>
-          <div class="absolute-bottom-right transparent">
-            <q-badge
-              v-if="stock > 0"
-              class="q-mt-md"
-              color="red"
-              floating
-              rounded
-            >
-              <q-icon name="warning" color="white" />
-              {{
-                stock == null || stock == 0 || stock == ''
-                  ? selected_local.stock_enough
-                  : selected_local.stock_null
-              }}
-            </q-badge>
-          </div>
           <q-input
             class="col-12"
             readonly
@@ -121,107 +138,43 @@
             :model-value="product_name_ko"
           />
           <img :src="img" />
-          <div style="width: 100%" class="row justify-center">
-            <q-chip
-              v-if="bulkbuy == false"
-              style="width: 70%"
-              dense
-              color="dark"
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ price }}
-              <q-badge
-                color="red"
-                floating
-                rounded
-                transparent
-                v-if="cutprice > 0"
-              >
-                - {{ cutprice }}
-              </q-badge>
-            </q-chip>
-            <q-chip
-              v-else
-              style="width: 70%"
-              color="dark"
-              dense
-              text-color="white"
-              icon="img:icons\currency-krw-white.png"
-            >
-              {{ boxprice }}
-              <q-badge color="orange" floating rounded>
-                {{ boxcapacity }} {{ selected_local.bundle_count }}
-              </q-badge>
-            </q-chip>
-          </div>
-          <q-badge
-            class="absolute-top-right z-top q-ma-xs q-mt-xl"
-            v-if="bonuscondition > 0"
-            color="orange"
-            floating
-            rounded
-          >
-            {{ bonuscondition }}+1
-          </q-badge>
-          <q-btn
-            class="absolute-top-right bg-dark z-top q-ma-xs"
-            icon="close"
-            text-color="white"
-            v-close-popup
-          >
-          </q-btn>
         </q-card>
         <q-card class="deep-orange-3 q-pa-none q-mx-none" style="width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
-            <q-card-section class="bg-white">
-              <!-- <q-bar dense class="col-12 bg-dark text-white">
-              {{ selected_local.default_info }}
-            </q-bar> -->
-
-              <!-- <q-input
-              class="col-6"
-              readonly
-              disable
-              dense
-              borderless
-              :label="selected_local.flavorandspec"
-              :model-value="tag"
-            />
-            <q-input
-              v-if="product_desc != null"
-              class="col-12"
-              readonly
-              disable
-              autogrow
-              dense
-              borderless
-              :label="selected_local.product_desc"
-              :model-value="product_desc"
-            /> -->
-
-              <!-- <q-input
-              class="col-6"
-              readonly
-              dense
-              disable
-              borderless
-              :label="selected_local.shelf_life"
-              :model-value="
-                shelf_life <= 0 ? '-' : shelf_life + selected_local.month_count
-              "
-            />
-            <q-input
-              class="col-6"
-              readonly
-              disable
-              standout
-              dense
-              borderless
-              :label="selected_local.production_date"
-              :model-value="selected_local.after"
-            /> -->
-            </q-card-section>
+            <div style="width: 100%" class="row justify-center">
+              <q-chip
+                v-if="bulkbuy == false"
+                style="width: 70%"
+                dense
+                color="dark"
+                text-color="white"
+                icon="img:icons\currency-krw-white.png"
+              >
+                {{ price }}
+                <q-badge
+                  color="red"
+                  floating
+                  rounded
+                  transparent
+                  v-if="cutprice > 0"
+                >
+                  - {{ cutprice }}
+                </q-badge>
+              </q-chip>
+              <q-chip
+                v-else
+                style="width: 70%"
+                color="dark"
+                dense
+                text-color="white"
+                icon="img:icons\currency-krw-white.png"
+              >
+                {{ boxprice }}
+                <q-badge color="orange" floating rounded>
+                  {{ boxcapacity }} {{ selected_local.bundle_count }}
+                </q-badge>
+              </q-chip>
+            </div>
 
             <q-card-section class="row q-px-sm q-py-none">
               <div
