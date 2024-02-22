@@ -137,9 +137,12 @@
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
           />
-          <q-card-section style="height: 80%">
-            <img :src="img" />
-          </q-card-section>
+          <img :src="img" />
+        </q-card>
+        <q-card
+          class="deep-orange-3 q-pa-none q-ma-none flat"
+          style="width: 80%"
+        >
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
@@ -250,7 +253,7 @@
           </q-card-section>
         </q-card>
 
-        <q-page-sticky class="z-top" position="bottom" :offset="[0, 0]">
+        <q-page-sticky class="z-top" position="bottom" :offset="[-10, 0]">
           <q-btn
             class="z-top"
             stack
