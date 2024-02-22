@@ -63,14 +63,21 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
-        <q-card
-          class="deep-orange-3 row justify-center q-pa-none q-ma-none"
-          style="height: 300px; width: 80%"
+        <q-btn
+          class="absolute-top-right bg-dark z-top q-ma-xs"
+          icon="close"
+          text-color="white"
+          v-close-popup
         >
-          <img :src="img" style="width: 100%" />
+        </q-btn>
+        <q-card
+          class="deep-orange-3 row justify-center q-py-none q-mx-none"
+          style="height: 33%"
+        >
+          <img :src="img" style="height: 100%" />
         </q-card>
         <q-card
-          class="deep-orange-3 row justify-center q-pa-none q-ma-none"
+          class="deep-orange-3 row justify-center q-py-none q-mx-none"
           style="width: 80%"
         >
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
@@ -140,13 +147,7 @@
               :model-value="selected_local.after"
             /> -->
           </q-card-section>
-          <q-btn
-            class="absolute-top-right bg-dark z-top q-ma-xs"
-            icon="close"
-            text-color="white"
-            v-close-popup
-          >
-          </q-btn>
+
           <q-badge
             class="absolute-top-right z-top q-ma-xs q-mt-xl"
             v-if="bonuscondition > 0"
