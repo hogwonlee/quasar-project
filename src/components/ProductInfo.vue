@@ -62,7 +62,10 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card">
+      <q-dialog
+        v-model="card"
+        class="fit row wrap justify-start items-start content-start"
+      >
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
