@@ -69,7 +69,7 @@
       >
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
-          style="height: min-content"
+          style="height: 40%"
         >
           <img :src="img" />
           <q-btn
