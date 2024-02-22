@@ -78,7 +78,7 @@
             v-close-popup
           >
           </q-btn>
-          <q-img :src="img" style="height: 100%" :ratio="1"></q-img>
+          <img :src="img" style="height: 100%" :ratio="1" />
         </q-card>
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
