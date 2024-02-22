@@ -65,12 +65,13 @@
       <q-dialog
         v-model="card"
         :id="category"
-        class="q-px-none q-mx-none q-gutter-none"
+        class="q-px-none q-mx-none q-gutter-xs col"
       >
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
           style="height: 40%; width: 80%"
         >
+          <q-img :src="img" style="height: 100%; width: max-content" />
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
@@ -78,7 +79,6 @@
             v-close-popup
           >
           </q-btn>
-          <img :src="img" style="height: 100%; width: max-content" />
         </q-card>
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
