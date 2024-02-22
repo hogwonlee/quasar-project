@@ -62,22 +62,26 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
-        <q-btn
-          class="absolute-top-right bg-dark z-top q-ma-xs"
-          icon="close"
-          text-color="white"
-          v-close-popup
-        >
-        </q-btn>
+      <q-dialog
+        v-model="card"
+        :id="category"
+        class="q-px-none q-mx-none q-gutter-none"
+      >
         <q-card
-          class="deep-orange-3 row justify-center q-py-none q-mx-none"
-          style="height: 33%"
+          class="deep-orange-3 row justify-center q-pa-none q-mx-none"
+          style="height: 40%"
         >
-          <img :src="img" style="height: 100%" />
+          <q-btn
+            class="absolute-top-right bg-dark z-top q-ma-xs"
+            icon="close"
+            text-color="white"
+            v-close-popup
+          >
+          </q-btn>
+          <q-img :src="img" style="height: 100%" :ratio="1" />
         </q-card>
         <q-card
-          class="deep-orange-3 row justify-center q-py-none q-mx-none"
+          class="deep-orange-3 row justify-center q-pa-none q-mx-none"
           style="width: 80%"
         >
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
