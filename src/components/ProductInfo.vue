@@ -69,7 +69,7 @@
       >
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
-          style="height: 40%"
+          style="height: 40%; width: 80%"
         >
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
@@ -78,7 +78,7 @@
             v-close-popup
           >
           </q-btn>
-          <img :src="img" style="height: 100%" :ratio="1" />
+          <img :src="img" style="height: 100%; width: max-content" />
         </q-card>
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
