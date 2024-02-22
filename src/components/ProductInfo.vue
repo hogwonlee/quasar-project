@@ -65,13 +65,13 @@
       <q-dialog
         v-model="card"
         :id="category"
-        class="q-px-none q-mx-none q-gutter-xs col"
+        class="q-px-none q-mx-none q-gutter-xs"
       >
         <q-card
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
-          style="height: 40%; width: 80%"
+          style="height: min-content"
         >
-          <q-img :src="img" style="height: 100%; width: max-content" />
+          <img :src="img" />
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
             icon="close"
@@ -84,7 +84,7 @@
           class="deep-orange-3 row justify-center q-pa-none q-mx-none"
           style="width: 80%"
         >
-          <q-card-section class="row q-mt-none q-pt-none q-px-sm">
+          <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <!-- <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
             </q-bar> -->
