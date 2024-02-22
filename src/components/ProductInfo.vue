@@ -62,7 +62,7 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" class="justify-start q-gutter-none">
+      <q-dialog v-model="card" class="col justify-start q-gutter-none">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
@@ -247,7 +247,11 @@
           </q-card-section>
         </q-card>
 
-        <q-page-sticky class="z-top" position="bottom" :offset="[-90, -60]">
+        <q-page-sticky
+          class="z-top bg-primary"
+          position="bottom"
+          :offset="[0, -60]"
+        >
           <q-btn
             class="z-top"
             stack
