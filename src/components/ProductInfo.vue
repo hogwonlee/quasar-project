@@ -64,22 +64,22 @@
     <div>
       <q-dialog v-model="card" :id="category" class="q-px-none q-mx-none">
         <q-card
-          class="deep-orange-3 row justify-center q-px-none q-mx-none"
+          class="deep-orange-3 row justify-center q-pa-none q-ma-none"
           style="height: 300px; width: 80%"
         >
           <img :src="img" style="width: 100%" />
         </q-card>
         <q-card
-          class="deep-orange-3 row justify-center q-px-none q-mx-none"
+          class="deep-orange-3 row justify-center q-pa-none q-ma-none"
           style="width: 80%"
         >
           <q-card-section class="row q-mt-none q-pt-none q-px-sm">
-            <q-bar dense class="col-12 bg-dark text-white">
+            <!-- <q-bar dense class="col-12 bg-dark text-white">
               {{ selected_local.default_info }}
-            </q-bar>
+            </q-bar> -->
 
             <q-input
-              class="col-6"
+              class="col-12"
               readonly
               disable
               dense
@@ -87,7 +87,7 @@
               :label="selected_local.productname"
               :model-value="product_name"
             />
-            <q-input
+            <!-- <q-input
               class="col-6"
               readonly
               disable
@@ -106,11 +106,11 @@
               borderless
               :label="selected_local.product_desc"
               :model-value="product_desc"
-            />
+            /> -->
 
             <q-input
               v-if="product_name_ko != null"
-              class="col-6"
+              class="col-12"
               readonly
               disable
               dense
@@ -118,7 +118,7 @@
               :label="selected_local.productname_ko"
               :model-value="product_name_ko"
             />
-            <q-input
+            <!-- <q-input
               class="col-6"
               readonly
               dense
@@ -138,7 +138,7 @@
               borderless
               :label="selected_local.production_date"
               :model-value="selected_local.after"
-            />
+            /> -->
           </q-card-section>
           <q-btn
             class="absolute-top-right bg-dark z-top q-ma-xs"
