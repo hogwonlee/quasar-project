@@ -64,10 +64,9 @@
     <div>
       <q-dialog
         v-model="card"
-        :id="category"
         class="q-pa-none q-ma-none row q-gutter-none col"
       >
-        <div class="absolute-top-left z-top q-ma-xs">
+        <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
             v-model="bulkbuy"
@@ -117,7 +116,7 @@
           v-close-popup
           size="md"
         >
-        </q-btn>
+        </q-btn> -->
         <q-card
           class="deep-orange-3 q-pa-none q-ma-none"
           style="height: 50%; width: 80%"
@@ -144,7 +143,7 @@
           <img :src="img" />
         </q-card>
         <q-card class="deep-orange-3 q-pa-none q-ma-none" style="width: 80%">
-          <q-card-section class="row q-mt-none q-py-none q-px-sm">
+          <!-- <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
                 v-if="bulkbuy == false"
@@ -251,10 +250,10 @@
                 :disable="this.localQuantity <= 0"
               />
             </q-card-section>
-          </q-card-section>
+          </q-card-section> -->
         </q-card>
 
-        <q-page-sticky class="z-top" position="bottom-right" :offset="[10, 10]">
+        <q-page-sticky class="z-top" position="left" :offset="[0, 0]">
           <q-btn
             class="z-top"
             stack
