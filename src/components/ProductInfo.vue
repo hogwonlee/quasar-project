@@ -134,9 +134,11 @@
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
           />
-          <img :src="img" />
-        </q-card>
-        <q-card class="my-card q-pa-none" style="width: 80%">
+          <div style="height: 50%">
+            <img :src="img" />
+          </div>
+          <!-- </q-card>
+        <q-card class="my-card q-pa-none" style="width: 80%"> -->
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
