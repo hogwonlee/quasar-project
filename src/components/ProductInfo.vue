@@ -62,7 +62,7 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" no-focus="true">
+      <q-dialog v-model="card">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
@@ -137,7 +137,7 @@
           <img :src="img" />
         </q-card>
       </q-dialog>
-      <q-dialog v-model="card" position="bottom" no-focus="true">
+      <q-dialog v-model="card" position="bottom" allow-focus-outside>
         <q-card class="my-card q-pa-none" style="width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
