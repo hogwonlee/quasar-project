@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card class="my-card q-pa-none" style="height: 50%; width: 80%">
+        <q-card class="my-card q-pa-none" style="height: 70%; width: 80%">
           <q-input
             class="col-12"
             readonly
@@ -134,11 +134,11 @@
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
           />
-          <div style="height: 50%">
-            <img :src="img" />
-          </div>
-          <!-- </q-card>
-        <q-card class="my-card q-pa-none" style="width: 80%"> -->
+          <img :src="img" />
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="card" position="bottom">
+        <q-card class="my-card q-pa-none" style="width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
@@ -248,10 +248,6 @@
             </q-card-section>
           </q-card-section>
         </q-card>
-        <q-card>a</q-card>
-        <q-card>b</q-card>
-        <q-card>c</q-card>
-        <q-card>d</q-card>
 
         <q-page-sticky class="z-top" position="bottom" :offset="[0, -60]">
           <q-btn
