@@ -137,7 +137,7 @@
           <img :src="img" />
         </q-card>
 
-        <q-card class="my-card q-pa-none" style="width: 80%">
+        <q-card class="my-card q-pa-none" style="height: 20%; width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
