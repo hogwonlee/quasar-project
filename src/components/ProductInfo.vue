@@ -143,7 +143,7 @@
               icon="close"
               text-color="white"
               v-close-popup
-              size="md"
+              size="sm"
             >
             </q-btn>
             <div style="width: 100%" class="row justify-center">
