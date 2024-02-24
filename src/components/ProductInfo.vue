@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card class="my-card q-pa-none" style="height: 50%; width: 80%">
+        <q-carousel class="my-card q-pa-none" style="height: 50%; width: 80%">
           <q-input
             class="col-12"
             readonly
@@ -135,7 +135,7 @@
             :model-value="product_name_ko"
           />
           <img :src="img" />
-        </q-card>
+        </q-carousel>
         <q-card class="my-card q-pa-none" style="height: 20%; width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
@@ -245,18 +245,6 @@
               />
             </q-card-section>
           </q-card-section>
-        </q-card>
-        <q-card style="width: 80%">
-          <q-btn
-            class="z-top bg-positive"
-            stack
-            rounded
-            icon="shopping_cart_checkout"
-            color="dark"
-            tag="a"
-            to="/OrderList"
-            :label="selected_local.gocounter"
-          />
         </q-card>
       </q-dialog>
     </div>
