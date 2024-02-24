@@ -207,7 +207,7 @@
                   <q-icon name="shopping_cart" /> </template
               ></q-input>
               <q-btn
-                :disable="localQuantity <= 10"
+                :disable="localQuantity <= 9"
                 class="col-2"
                 label="-10"
                 text-color="negative"
