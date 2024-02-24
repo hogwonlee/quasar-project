@@ -209,7 +209,6 @@
               <q-btn
                 :disable="localQuantity <= 0"
                 class="col-2"
-                icon="remove"
                 label="-10"
                 text-color="negative"
                 @click="handle(-10)"
@@ -252,7 +251,6 @@
               ></q-btn>
               <q-btn
                 class="col-2"
-                icon="add"
                 label="+10"
                 size="xs"
                 text-color="positive"
