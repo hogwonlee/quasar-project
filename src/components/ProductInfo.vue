@@ -62,7 +62,7 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card">
+      <q-dialog v-model="card" position="top">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 50%; width: 80%">
+        <q-card style="height: 70%; width: 80%">
           <q-input
             class="col-12"
             readonly
