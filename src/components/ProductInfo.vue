@@ -139,7 +139,7 @@
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <q-btn
-              class="absolute-top-right bg-dark z-top q-ma-md"
+              class="absolute-top-right bg-dark z-top"
               icon="close"
               text-color="white"
               v-close-popup
@@ -245,7 +245,6 @@
               <q-btn
                 class="col-4 q-mx-none q-my-xs"
                 stack
-                rounded
                 icon="shopping_cart_checkout"
                 color="dark"
                 tag="a"
