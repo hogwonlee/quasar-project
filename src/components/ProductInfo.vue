@@ -138,6 +138,14 @@
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
+            <q-btn
+              class="absolute-top-right bg-dark z-top q-ma-md"
+              icon="close"
+              text-color="white"
+              v-close-popup
+              size="md"
+            >
+            </q-btn>
             <div style="width: 100%" class="row justify-center">
               <q-chip
                 v-if="bulkbuy == false"
