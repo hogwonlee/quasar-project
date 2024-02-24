@@ -62,7 +62,7 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" position="bottom">
+      <q-dialog v-model="card">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
@@ -136,7 +136,6 @@
           />
           <img :src="img" />
         </q-card>
-
         <q-card class="my-card q-pa-none" style="height: 20%; width: 80%">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
@@ -247,8 +246,7 @@
             </q-card-section>
           </q-card-section>
         </q-card>
-
-        <q-page-sticky class="z-top" position="bottom" :offset="[0, -60]">
+        <q-card style="width: 80%">
           <q-btn
             class="z-top bg-positive"
             stack
@@ -259,7 +257,7 @@
             to="/OrderList"
             :label="selected_local.gocounter"
           />
-        </q-page-sticky>
+        </q-card>
       </q-dialog>
     </div>
   </div>
