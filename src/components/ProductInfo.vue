@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 50%; width: 80%">
+        <q-card style="height: 50%; width: 80%" :offset="[0, 100]">
           <q-input
             class="col-12"
             readonly
