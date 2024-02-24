@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-carousel class="my-card q-pa-none" style="height: 50%; width: 80%">
+        <q-card>
           <q-input
             class="col-12"
             readonly
@@ -135,8 +135,8 @@
             :model-value="product_name_ko"
           />
           <img :src="img" />
-        </q-carousel>
-        <q-card class="my-card q-pa-none" style="height: 20%; width: 80%">
+        </q-card>
+        <q-card>
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
