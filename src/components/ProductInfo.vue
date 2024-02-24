@@ -208,14 +208,23 @@
               ></q-input>
               <q-btn
                 :disable="localQuantity <= 0"
-                class="col-3"
+                class="col-2"
+                icon="remove"
+                label="-10"
+                text-color="negative"
+                @click="handle(-10)"
+                size="xs"
+              ></q-btn>
+              <q-btn
+                :disable="localQuantity <= 0"
+                class="col-2"
                 icon="remove"
                 text-color="negative"
                 @click="handle(-1)"
                 size="xs"
               ></q-btn>
               <q-input
-                class="col-6"
+                class="col-4"
                 dense
                 style="vertical-align: top"
                 readonly
@@ -235,11 +244,19 @@
                 </div>
               </q-input>
               <q-btn
-                class="col-3"
+                class="col-2"
                 icon="add"
                 size="xs"
                 text-color="positive"
                 @click="handle(1)"
+              ></q-btn>
+              <q-btn
+                class="col-2"
+                icon="add"
+                label="+10"
+                size="xs"
+                text-color="positive"
+                @click="handle(10)"
               ></q-btn>
 
               <q-btn
