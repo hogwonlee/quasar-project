@@ -136,7 +136,7 @@
           />
           <img :src="img" />
         </q-card>
-        <q-card>
+        <q-page-sticky position="bottom" :offset="[0, 0]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
@@ -245,7 +245,7 @@
               />
             </q-card-section>
           </q-card-section>
-        </q-card>
+        </q-page-sticky>
       </q-dialog>
     </div>
   </div>
@@ -254,7 +254,7 @@
 <script>
   import {defineComponent} from 'vue';
   import {ref} from 'vue';
-  import {Notify} from 'quasar';
+  import {Notify, QPageSticky} from 'quasar';
   import {mapGetters, mapState} from 'vuex';
 
   export default defineComponent({
