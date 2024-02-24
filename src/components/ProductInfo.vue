@@ -243,18 +243,20 @@
                 @click="sendToCart(this.product_name, quantity)"
                 :disable="this.localQuantity <= 0"
               />
-              <q-btn
-                class="col-12"
-                stack
-                rounded
-                icon="shopping_cart_checkout"
-                color="dark"
-                tag="a"
-                to="/OrderList"
-                :label="selected_local.gocounter"
-              />
             </q-card-section>
           </q-card-section>
+        </q-page-sticky>
+        <q-page-sticky position="bottom" :offset="[0, -50]">
+          <q-btn
+            class="z-top"
+            stack
+            rounded
+            icon="shopping_cart_checkout"
+            color="dark"
+            tag="a"
+            to="/OrderList"
+            :label="selected_local.gocounter"
+          />
         </q-page-sticky>
       </q-dialog>
     </div>
