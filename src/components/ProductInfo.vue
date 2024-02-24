@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 70%">
+        <q-card style="height: 50%; width: 80%">
           <q-input
             class="col-12"
             readonly
@@ -242,6 +242,16 @@
                 :label="selected_local.add_to_cart"
                 @click="sendToCart(this.product_name, quantity)"
                 :disable="this.localQuantity <= 0"
+              />
+              <q-btn
+                class="col-12"
+                stack
+                rounded
+                icon="shopping_cart_checkout"
+                color="dark"
+                tag="a"
+                to="/OrderList"
+                :label="selected_local.gocounter"
               />
             </q-card-section>
           </q-card-section>
