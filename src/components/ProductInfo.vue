@@ -62,7 +62,7 @@
       </q-chip>
     </div>
     <div>
-      <q-dialog v-model="card" position="left">
+      <q-dialog v-model="card" position="standard">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
           <q-btn-toggle
             v-if="boxprice > 0"
@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 60%; width: 80%">
+        <q-card style="height: 50%; width: 80%">
           <q-input
             class="col-12"
             readonly
@@ -136,7 +136,7 @@
           />
           <img :src="img" />
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, 0]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
@@ -235,8 +235,19 @@
               ></q-btn>
 
               <q-btn
-                class="col-12 q-my-xs"
+                class="col-4 q-mx-none q-my-xs"
+                stack
+                rounded
+                icon="shopping_cart_checkout"
+                color="dark"
+                tag="a"
+                to="/OrderList"
+                :label="selected_local.gocounter"
+              />
+              <q-btn
+                class="col-8 q-mx-none q-my-xs"
                 text-color="positive"
+                stack
                 glossy
                 icon="add_shopping_cart"
                 :label="selected_local.add_to_cart"
@@ -246,18 +257,9 @@
             </q-card-section>
           </q-card-section>
         </q-page-sticky>
-        <q-page-sticky position="bottom" :offset="[0, -50]">
-          <q-btn
-            class="z-top"
-            stack
-            rounded
-            icon="shopping_cart_checkout"
-            color="dark"
-            tag="a"
-            to="/OrderList"
-            :label="selected_local.gocounter"
-          />
-        </q-page-sticky>
+        <!-- <q-page-sticky position="bottom" :offset="[0, -50]">
+
+        </q-page-sticky> -->
       </q-dialog>
     </div>
   </div>
