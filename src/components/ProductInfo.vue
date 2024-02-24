@@ -114,7 +114,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card>
+        <q-card style="height: 70%">
           <q-input
             class="col-12"
             readonly
@@ -136,7 +136,7 @@
           />
           <img :src="img" />
         </q-card>
-        <q-page-sticky position="bottom" :offset="[0, 0]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, 0]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div style="width: 100%" class="row justify-center">
               <q-chip
