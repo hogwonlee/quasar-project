@@ -42,10 +42,8 @@
           <img :src="img" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
-          <q-card-section
-            class="row q-mt-none q-py-none q-px-sm"
-            style="height: 150px"
-          >
+          <q-card-section class="row q-mt-none q-py-none q-px-sm">
+            <div class="text-white">제품 가격과 수량</div>
             <q-btn
               class="absolute-top-right bg-dark z-top q-ma-xs"
               text-color="white"
@@ -275,10 +273,11 @@
         }
       },
       sendToCart(name, quantity) {
+        quantity = quantity + 1;
         Notify.create({
           position: 'top',
           message:
-            this.selected_local.shopingcart + ':(' + name + ') ' + quantity + 1,
+            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
           color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
