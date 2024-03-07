@@ -59,6 +59,7 @@
               class="absolute-top bg-red z-top q-mt-xs"
               icon="delete"
               @click="this.deleteConfirm = true"
+              size="xs"
             />
             <div class="col-12 text-h6 text-bold">
               <q-icon name="img:icons\currency-krw-black.png" />
