@@ -51,21 +51,18 @@
               v-close-popup
             >
             </q-btn>
-            <!--
-            ripple
-            push
-            unelevated -->
-            <q-btn
-              class="absolute-top-right bg-red z-top q-mt-xs q-ml-xl q-ml-xl"
-              padding="sm"
-              round
-              icon="delete"
-              @click="this.deleteConfirm = true"
-            />
+
             <div class="col-12 text-h6 text-bold">
               <q-icon name="img:icons\currency-krw-black.png" />
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
+              <q-btn
+                class="bg-red z-top q-ma-xs"
+                padding="sm"
+                round
+                icon="delete"
+                @click="this.deleteConfirm = true"
+              />
             </div>
             <q-btn
               :disable="localQuantity <= 9"
