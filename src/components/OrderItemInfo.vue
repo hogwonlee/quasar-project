@@ -56,10 +56,10 @@
             push
             unelevated -->
             <q-btn
-              class="absolute-top bg-red z-top q-mt-xs"
+              class="absolute-top-right bg-red z-top q-mt-xs"
+              :offset="[100, 0]"
               icon="delete"
               @click="this.deleteConfirm = true"
-              size="xs"
             />
             <div class="col-12 text-h6 text-bold">
               <q-icon name="img:icons\currency-krw-black.png" />
