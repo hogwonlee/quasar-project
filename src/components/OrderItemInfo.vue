@@ -52,7 +52,7 @@
             >
             </q-btn>
             <q-btn
-              class="absolute-top-right bg-red z-top q-ma-xs q-pr-xl"
+              class="absolute-top bg-red z-top q-mt-xs q-ml-xl"
               round
               ripple
               push
