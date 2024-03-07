@@ -56,8 +56,8 @@
             push
             unelevated -->
             <q-btn
-              class="absolute-top-right bg-red z-top q-mt-xs"
-              padding="xs"
+              class="absolute-top-right bg-red z-top q-mt-xs q-mr-xl"
+              padding="sm"
               round
               icon="delete"
               @click="this.deleteConfirm = true"
