@@ -265,9 +265,10 @@
         @click="before_pay_check()"
       >
       </q-btn>
+      <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
     </div>
     <div id="payment-method" class="q-py-none"></div>
-    <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+
     <br />
     <!-- <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
     ><br /> -->

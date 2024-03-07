@@ -69,7 +69,7 @@
               class="col-2"
               label="-10"
               text-color="negative"
-              @click="handle(-10)"
+              @click="handle(this.product_name, -10)"
               size="xs"
             ></q-btn>
             <q-btn
@@ -77,7 +77,7 @@
               class="col-2"
               icon="remove"
               text-color="negative"
-              @click="handle(-1)"
+              @click="handle(this.product_name, -1)"
               size="xs"
             ></q-btn>
             <q-input
@@ -105,14 +105,14 @@
               icon="add"
               size="xs"
               text-color="positive"
-              @click="handle(1)"
+              @click="handle(this.product_name, 1)"
             ></q-btn>
             <q-btn
               class="col-2"
               label="+10"
               size="xs"
               text-color="positive"
-              @click="handle(10)"
+              @click="handle(this.product_name, 10)"
             ></q-btn>
           </q-card-section>
         </q-page-sticky>
@@ -274,7 +274,8 @@
       sendToCart(name, quantity) {
         Notify.create({
           position: 'top',
-          message: this.selected_local.shopingcart + ':(' + name + ') ' + 1,
+          message:
+            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
           color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
