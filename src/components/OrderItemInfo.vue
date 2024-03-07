@@ -56,7 +56,7 @@
             push
             unelevated -->
             <q-btn
-              class="absolute-top-right bg-red z-top q-mt-xs q-mr-xl"
+              class="absolute-top-right bg-red z-top q-mt-xs q-mr-xxl"
               padding="sm"
               round
               icon="delete"
