@@ -249,12 +249,7 @@
         ></q-btn>
       </div>
     </q-card>
-    <div id="payment-method" class="q-py-none"></div>
-    <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
-    <br />
-    <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
-    ><br />
-    <div id="agreement" class="q-py-none"></div>
+
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -271,7 +266,12 @@
       >
       </q-btn>
     </div>
-
+    <div id="payment-method" class="q-py-none"></div>
+    <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+    <br />
+    <!-- <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
+    ><br /> -->
+    <div id="agreement" class="q-py-none"></div>
     <q-dialog v-model="finalCheck" persistent>
       <q-card>
         <q-card-section class="row items-center q-pa-none">

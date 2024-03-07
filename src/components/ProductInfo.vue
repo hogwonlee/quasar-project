@@ -50,6 +50,14 @@
         dense
         text-color="white"
       >
+        <text-subtitle2>{{ tag }}</text-subtitle2>
+      </q-chip>
+      <q-chip
+        class="bg-grey"
+        style="width: 95%; height: 33px"
+        dense
+        text-color="white"
+      >
         <div class="absolute-bottom q-pl-sm">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
@@ -64,21 +72,7 @@
     <div>
       <q-dialog v-model="card" position="standard">
         <!-- <div class="absolute-top-left z-top q-ma-xs">
-          <q-btn-toggle
-            v-if="boxprice > 0"
-            v-model="bulkbuy"
-            toggle-color="secondary"
-            toggle-text-color="primary"
-            color="grey"
-            text-color="black"
-            unelevated
-            glossy
-            style="flex-direction: column"
-            :options="[
-              {label: selected_local.product_unit, value: false},
-              {label: selected_local.product_bundle, value: true},
-            ]"
-          />
+
         </div>
         <div class="absolute-bottom-right transparent">
           <q-badge
@@ -97,15 +91,7 @@
           </q-badge>
         </div>
 
-        <q-badge
-          class="absolute-top-right z-top q-ma-xs q-mt-xl"
-          v-if="bonuscondition > 0"
-          color="orange"
-          floating
-          rounded
-        >
-          {{ bonuscondition }}+1
-        </q-badge>
+
         <q-btn
           class="absolute-top-right bg-dark z-top q-ma-md"
           icon="close"
@@ -114,7 +100,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 50%; width: 80%" :offset="[0, 100]">
+        <q-card style="height: 50%; width: 80%">
           <q-input
             class="col-12"
             readonly
