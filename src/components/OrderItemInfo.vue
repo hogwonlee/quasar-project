@@ -51,12 +51,12 @@
               v-close-popup
             >
             </q-btn>
+            <!-- round
+            ripple
+            push
+            unelevated -->
             <q-btn
               class="absolute-top bg-red z-top q-mt-xs q-ml-xl"
-              round
-              ripple
-              push
-              unelevated
               icon="delete"
               @click="this.deleteConfirm = true"
             />
