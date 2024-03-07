@@ -44,7 +44,6 @@
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
-            <div class="text-white">한줄여백추가</div>
             <q-btn
               class="absolute-top-right bg-dark z-top q-ma-xs"
               text-color="white"
@@ -53,7 +52,7 @@
             >
             </q-btn>
             <q-btn
-              class="absolute-top-left bg-red z-top q-ma-xs"
+              class="absolute-top-right bg-red z-top q-ma-xs q-pr-xl"
               round
               ripple
               push
