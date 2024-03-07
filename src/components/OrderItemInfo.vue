@@ -29,7 +29,7 @@
             :label="selected_local.productname"
             :model-value="product_name"
           />
-          <q-input
+          <!-- <q-input
             v-if="product_name_ko != null"
             class="col-12"
             readonly
@@ -38,11 +38,14 @@
             borderless
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
-          />
+          /> -->
           <img :src="img" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
-          <q-card-section class="row q-mt-none q-py-none q-px-sm">
+          <q-card-section
+            class="row q-mt-none q-py-none q-px-sm"
+            style="height: 150px"
+          >
             <q-btn
               class="absolute-top-right bg-dark z-top q-ma-xs"
               text-color="white"
@@ -275,7 +278,7 @@
         Notify.create({
           position: 'top',
           message:
-            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
+            this.selected_local.shopingcart + ':(' + name + ') ' + quantity + 1,
           color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
