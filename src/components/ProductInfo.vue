@@ -120,7 +120,7 @@
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
           /> -->
-          <img :src="img" padding="1px" />
+          <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
