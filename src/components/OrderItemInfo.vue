@@ -20,7 +20,7 @@
     <div>
       <q-dialog v-model="card" :id="category">
         <q-card style="height: 50%; width: 80%">
-          <q-input
+          <!-- <q-input
             class="col-12"
             readonly
             disable
@@ -28,7 +28,7 @@
             borderless
             :label="selected_local.productname"
             :model-value="product_name"
-          />
+          /> -->
           <!-- <q-input
             v-if="product_name_ko != null"
             class="col-12"

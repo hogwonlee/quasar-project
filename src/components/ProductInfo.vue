@@ -101,7 +101,7 @@
         >
         </q-btn> -->
         <q-card style="height: 50%; width: 80%">
-          <q-input
+          <!-- <q-input
             class="col-12"
             readonly
             disable
@@ -119,7 +119,7 @@
             borderless
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
-          />
+          /> -->
           <img :src="img" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
