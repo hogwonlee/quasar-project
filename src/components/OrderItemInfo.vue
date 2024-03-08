@@ -41,7 +41,7 @@
           /> -->
           <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
             <q-btn
