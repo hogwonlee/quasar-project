@@ -124,7 +124,7 @@
           <div style="text-align: center">---底线---</div>
           <div style="height: 30px"></div>
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -57]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -58]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <q-btn
               class="absolute-top-right bg-dark z-top"
