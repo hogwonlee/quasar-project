@@ -19,7 +19,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category">
-        <q-card style="height: 50%; width: 80%">
+        <q-card style="height: 60%; width: 80%">
           <!-- <q-input
             class="col-12"
             readonly
@@ -41,7 +41,7 @@
           /> -->
           <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -57]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
             <q-btn
