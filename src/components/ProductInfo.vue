@@ -121,9 +121,8 @@
             :model-value="product_name_ko"
           /> -->
           <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
-          <div style="vertical-align: top; text-align: center; height: 30px">
-            ---底线---
-          </div>
+          <div style="text-align: center">---底线---</div>
+          <div style="height: 30px"></div>
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
