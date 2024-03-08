@@ -100,7 +100,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 50%; width: 80%">
+        <q-card style="height: 60%; width: 80%">
           <!-- <q-input
             class="col-12"
             readonly
@@ -120,9 +120,12 @@
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
           /> -->
-          <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
+          <img
+            :src="img"
+            style="margin-top: 3px; margin-bottom: 3px; padding: 30px"
+          />
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="row q-mt-none q-py-none q-px-sm">
             <q-btn
               class="absolute-top-right bg-dark z-top"
