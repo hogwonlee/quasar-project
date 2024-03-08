@@ -100,7 +100,7 @@
           size="md"
         >
         </q-btn> -->
-        <q-card style="height: 60%; width: 80%; padding-bottom: 30px">
+        <q-card style="height: 60%; width: 80%">
           <!-- <q-input
             class="col-12"
             readonly
