@@ -249,11 +249,18 @@
         ></q-btn>
       </div>
     </q-card>
-    <text-h6>支付方式-1：银行转账</text-h6>
-    <text-subtitle2>{{ copyText }}</text-subtitle2>
-    <q-btn @click="copyToClipboard">复制</q-btn>
-    <text-h6>支付方式-2：微信转账</text-h6>
-    <text-h6>支付方式-3：便捷支付</text-h6>
+    <span>
+      <text-h3>支付方式-1：银行转账</text-h3>
+    </span>
+    <div>
+      <text-subtitle2>{{ copyText }}</text-subtitle2>
+      <q-btn @click="copyToClipboard">复制</q-btn>
+    </div>
+
+    <!-- <span><text-h3>支付方式-2：微信转账</text-h3></span> -->
+    <span>
+      <text-h3>支付方式-3：便捷支付</text-h3>
+    </span>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
