@@ -636,7 +636,7 @@
       this.address_selected = this.default_addr[0];
     },
     setup() {
-      copyToClipboard(copyText)
+      copyToClipboard('copy text')
         .then(() => {
           // success!
         })
