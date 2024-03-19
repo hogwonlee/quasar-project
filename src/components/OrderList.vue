@@ -251,7 +251,7 @@
     </q-card>
     <text-h6>支付方式-1：银行转账</text-h6>
     <text-subtitle2>{{ copyText }}</text-subtitle2>
-    <q-btn @click="copyToClipboard"></q-btn>
+    <q-btn @click="copyToClipboard">复制</q-btn>
     <text-h6>支付方式-2：微信转账</text-h6>
     <text-h6>支付方式-3：便捷支付</text-h6>
     <div class="row justify-end">
