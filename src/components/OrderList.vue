@@ -428,14 +428,6 @@
   let paymentMethod = {};
   let agreementWidget = {};
 
-  import {copyToClipboard} from 'quasar';
-  copyToClipboard(copyText)
-    .then(() => {
-      // success!
-    })
-    .catch(() => {
-      // fail
-    });
   export default defineComponent({
     name: 'OrderList',
     components: {
@@ -457,7 +449,7 @@
         selected_coupon_id: ref(null),
         finalCheck: ref(false),
         coupon: ref(''),
-        copyText: ref('텍스트복사'),
+        copyText: ref('1002557640050'),
       };
     },
     watch: {
@@ -498,6 +490,14 @@
       },
     },
     methods: {
+      copyToClipboard() {
+        try {
+          navigator.clipboard.writeText(this.copyText);
+        } catch (e) {
+          console.log(e);
+          throw e;
+        }
+      },
       buy_event_info() {
         alert.confirm(
           this.selected_local.event_5353_info,
@@ -642,6 +642,5 @@
       this.read_coupon();
       this.address_selected = this.default_addr[0];
     },
-    setup() {},
   });
 </script>
