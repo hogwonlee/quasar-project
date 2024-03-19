@@ -429,7 +429,13 @@
   let agreementWidget = {};
 
   import {copyToClipboard} from 'quasar';
-
+  copyToClipboard(copyText)
+    .then(() => {
+      // success!
+    })
+    .catch(() => {
+      // fail
+    });
   export default defineComponent({
     name: 'OrderList',
     components: {
@@ -609,6 +615,7 @@
         }
       },
     },
+
     async created() {
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
@@ -635,14 +642,6 @@
       this.read_coupon();
       this.address_selected = this.default_addr[0];
     },
-    setup() {
-      copyToClipboard('copy text')
-        .then(() => {
-          // success!
-        })
-        .catch(() => {
-          // fail
-        });
-    },
+    setup() {},
   });
 </script>
