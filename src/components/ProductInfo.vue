@@ -46,7 +46,7 @@
       </q-img>
       <q-chip
         class="bg-grey"
-        style="width: 95%; height: 33px"
+        style="width: 95%; height: 33px; align-items: center"
         dense
         text-color="white"
       >

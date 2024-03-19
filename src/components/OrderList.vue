@@ -249,7 +249,11 @@
         ></q-btn>
       </div>
     </q-card>
-
+    <text-h6>支付方式-1：银行转账</text-h6>
+    <text-subtitle2>{{ copyText }}</text-subtitle2>
+    <q-btn @click="copyToClipboard"></q-btn>
+    <text-h6>支付方式-2：微信转账</text-h6>
+    <text-h6>支付方式-3：便捷支付</text-h6>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -424,6 +428,8 @@
   let paymentMethod = {};
   let agreementWidget = {};
 
+  import {copyToClipboard} from 'quasar';
+
   export default defineComponent({
     name: 'OrderList',
     components: {
@@ -445,6 +451,7 @@
         selected_coupon_id: ref(null),
         finalCheck: ref(false),
         coupon: ref(''),
+        copyText: ref('텍스트복사'),
       };
     },
     watch: {
@@ -627,6 +634,15 @@
 
       this.read_coupon();
       this.address_selected = this.default_addr[0];
+    },
+    setup() {
+      copyToClipboard(copyText)
+        .then(() => {
+          // success!
+        })
+        .catch(() => {
+          // fail
+        });
     },
   });
 </script>
