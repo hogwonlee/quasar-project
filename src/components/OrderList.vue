@@ -249,27 +249,41 @@
         ></q-btn>
       </div>
     </q-card>
-    <div class="text-h3 text-bold">支付方式-1：银行转账</div>
+    <div class="text-h6 text-bold">支付方式-1：银行转账</div>
     <div>
       <div>우리은행 (이호권)</div>
       <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
       <q-btn
-        @click="copyToClipboard"
+        @click="copyToClipboard(copyBankAccount)"
         class="text-bold q-ma-sm"
         color="positive"
         outline
         >复制</q-btn
       >
-      <div>支付完之后，请将以下信息发送给我的微信号。（微信ID:l175969775）</div>
+      <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
       <div>1. 包含购物车物品和商品价格的画面</div>
       <div>2. 收件人的地址</div>
       <div>3. 收件人的电话号码</div>
+      <text-subtitle2>微信ID:l175969775</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyWechatAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
+      <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyPhoneAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
     </div>
 
-    <!-- <div><text-h3>支付方式-2：微信转账</text-h3></div> -->
-    <div>
-      <text-h3>支付方式-3：便捷支付</text-h3>
-    </div>
+    <!-- <div class="text-h6 text-bold">支付方式-2：微信转账</div> -->
+    <div class="text-h6 text-bold">支付方式-3：便捷支付</div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -465,7 +479,9 @@
         selected_coupon_id: ref(null),
         finalCheck: ref(false),
         coupon: ref(''),
-        copyText: ref('1002557640050'),
+        copyBankAccount: ref('1002557640050'),
+        copyWechatAccount: ref('l175969775'),
+        copyPhoneAccount: ref('01084920526'),
       };
     },
     watch: {
@@ -506,9 +522,16 @@
       },
     },
     methods: {
-      copyToClipboard() {
+      copyToClipboard(copyText) {
         try {
-          navigator.clipboard.writeText(this.copyText);
+          navigator.clipboard.writeText(copyText);
+          Notify.create({
+            position: 'top',
+            message: '复制完成' + ':(' + copyText + ') ',
+            color: 'green',
+          });
+          //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
+          this.$emit('sendOrderItem');
         } catch (e) {
           console.log(e);
           throw e;
