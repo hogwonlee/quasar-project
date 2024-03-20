@@ -7,11 +7,11 @@
             {{ boxcapacity }} {{ selected_local.bundle_count }}
           </q-badge> -->
           <q-badge v-if="flavor_refer != null" floating rounded>
-            {{ flavor_refer }}
+            {{ flavor_refer }}x {{ quantity }}
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
-          {{ tag }} x {{ quantity }}
+          {{ tag }}
           <div class="absolute-top-right transparent">
             <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>
               {{ bonus_quantity }}

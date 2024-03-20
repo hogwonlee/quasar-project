@@ -27,7 +27,7 @@
           @sendDeleteItem="
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
-          class="col-xs-3 col-sm-3 col-md-2 q-pa-xs"
+          class="col-xs-4 col-sm-4 col-md-3 q-pa-xs"
           v-for="product in cartList"
           :key="product.product_id"
           v-bind="product"
@@ -264,6 +264,30 @@
       <div>1. 包含购物车物品和商品价格的画面</div>
       <div>2. 收件人的地址</div>
       <div>3. 收件人的电话号码</div>
+      <div>
+        <text-subtitle2>微信ID:l175969775</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyWechatAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div>
+      <div>
+        <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyPhoneAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div>
+    </div>
+
+    <div class="text-h6 text-bold">支付方式-2：微信转账</div>
+    <div>
       <text-subtitle2>微信ID:l175969775</text-subtitle2>
       <q-btn
         @click="copyToClipboard(copyWechatAccount)"
@@ -272,6 +296,12 @@
         outline
         >复制</q-btn
       >
+    </div>
+    <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
+    <div>1. 包含购物车物品和商品价格的画面</div>
+    <div>2. 收件人的地址</div>
+    <div>3. 收件人的电话号码</div>
+    <div>
       <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
       <q-btn
         @click="copyToClipboard(copyPhoneAccount)"
@@ -281,9 +311,8 @@
         >复制</q-btn
       >
     </div>
-
-    <!-- <div class="text-h6 text-bold">支付方式-2：微信转账</div> -->
     <div class="text-h6 text-bold">支付方式-3：便捷支付</div>
+    <div>*支付之前需要注册ID并登录收件人地址等信息。</div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
