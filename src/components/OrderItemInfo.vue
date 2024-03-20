@@ -6,7 +6,7 @@
           <!-- <q-badge v-if="buyoption == true" color="red" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}
           </q-badge> -->
-          <q-badge v-if="flavor_refer != null" floating rounded>
+          <q-badge floating rounded>
             {{ flavor_refer }}x {{ quantity }}
           </q-badge>
         </div>
