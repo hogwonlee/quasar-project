@@ -249,16 +249,14 @@
         ></q-btn>
       </div>
     </q-card>
-    <div>
-      <text-h3>支付方式-1：银行转账</text-h3>
-    </div>
+    <div class="text-h3 text-bold">支付方式-1：银行转账</div>
     <div>
       <div>우리은행 (이호권)</div>
       <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
       <q-btn
         @click="copyToClipboard"
-        class="text-bold absolute-top-right q-ma-sm"
-        color="negative"
+        class="text-bold q-ma-sm"
+        color="positive"
         outline
         >复制</q-btn
       >
