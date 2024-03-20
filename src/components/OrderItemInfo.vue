@@ -3,12 +3,15 @@
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders" :ratio="1" position="0 0">
         <div class="absolute-top-right q-mt-sm transparent">
-          <q-badge v-if="buyoption == true" color="red" floating rounded>
+          <!-- <q-badge v-if="buyoption == true" color="red" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}
+          </q-badge> -->
+          <q-badge v-if="flavor_refer != null" floating rounded>
+            {{ flavor_refer }}
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
-          x {{ quantity }}
+          {{ tag }} x {{ quantity }}
           <div class="absolute-top-right transparent">
             <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>
               {{ bonus_quantity }}

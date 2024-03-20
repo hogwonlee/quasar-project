@@ -249,18 +249,29 @@
         ></q-btn>
       </div>
     </q-card>
-    <span>
-      <text-h3>支付方式-1：银行转账</text-h3>
-    </span>
     <div>
-      <text-subtitle2>{{ copyText }}</text-subtitle2>
-      <q-btn @click="copyToClipboard">复制</q-btn>
+      <text-h3>支付方式-1：银行转账</text-h3>
+    </div>
+    <div>
+      <div>우리은행 (이호권)</div>
+      <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard"
+        class="text-bold absolute-top-right q-ma-sm"
+        color="negative"
+        outline
+        >复制</q-btn
+      >
+      <div>支付完之后，请将以下信息发送给我的微信号。（微信ID:l175969775）</div>
+      <div>1. 包含购物车物品和商品价格的画面</div>
+      <div>2. 收件人的地址</div>
+      <div>3. 收件人的电话号码</div>
     </div>
 
-    <!-- <span><text-h3>支付方式-2：微信转账</text-h3></span> -->
-    <span>
+    <!-- <div><text-h3>支付方式-2：微信转账</text-h3></div> -->
+    <div>
       <text-h3>支付方式-3：便捷支付</text-h3>
-    </span>
+    </div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
