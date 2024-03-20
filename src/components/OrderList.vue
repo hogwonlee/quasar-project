@@ -285,6 +285,7 @@
         >
       </div>
     </div>
+    <q-separator />
 
     <div class="text-h6 text-bold">支付方式-2：微信转账</div>
     <div>
@@ -311,6 +312,8 @@
         >复制</q-btn
       >
     </div>
+    <q-separator />
+
     <div class="text-h6 text-bold">支付方式-3：便捷支付</div>
     <div>*支付之前需要注册ID并登录收件人地址等信息。</div>
     <div class="row justify-end">

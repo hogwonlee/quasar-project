@@ -3,6 +3,9 @@
     <div class="col-12 text-h6 text-bold">
       {{ selected_local.deliver_info_title }}
     </div>
+    <span>
+      *以发货日为准，一般情况下需要1~2天到货。若有库存不足情况发生，我们将尽量在3天内补充并联系您。
+    </span>
     <div v-if="order_count > 0">
       <q-card
         class="my-card"

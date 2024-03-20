@@ -35,7 +35,7 @@ const _ko = {
   deliverlevel1: '주문을 확인하는대로 상품을 준비해서 배송하도록 하겠습니다.',
   moving: '상품이동중',
   deliverlevel2:
-    '상품을 배송업체에 전달했습니다. 2,3일 사이에 고객님께 배송될 예정입니다.',
+    '상품을 배송업체에 전달했습니다. 1~3일 사이에 고객님께 배송될 예정입니다.',
   arrivalresion: '배송지도착',
   deliverlevel3: '집 근처 배송지에 도착했습니다. 조금만 더 기다려주세요.',
   deliverstart: '배송출발',
@@ -192,7 +192,8 @@ const _ko = {
   img_loading: '상품 불러오는 중...',
   freeze_deliver_info1:
     '*아래 상품 포함시 우리가 직접 배송합니다.(시간:18시~22시)',
-  freeze_deliver_info2: '*배송비가 추가됩니다.(5만원이상 무료)',
+  freeze_deliver_info2:
+    '*아래 상품 포함시 배송비가 추가됩니다.(5만원이상 무료)',
   no_buy_history: '아직 구매 기록이 없습니다.',
 };
 const _cn = {
@@ -231,7 +232,7 @@ const _cn = {
   prepareproduct: '发货准备中',
   deliverlevel1: '我们将尽快确认订单并抓紧给您发货。',
   moving: '高速货运中',
-  deliverlevel2: '我们将商品交给了快递员，大概2,3天内您就能收到。',
+  deliverlevel2: '我们将商品交给了快递员，大概1~3天内您就能收到。',
   arrivalresion: '已到附近',
   deliverlevel3: '已到达附近中转站，就快到了。',
   deliverstart: '即将送到',
