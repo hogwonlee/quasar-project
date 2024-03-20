@@ -448,7 +448,7 @@
   import validation from 'src/util/data/validation';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
-  import {date} from 'quasar';
+  import {date, Notify} from 'quasar';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
