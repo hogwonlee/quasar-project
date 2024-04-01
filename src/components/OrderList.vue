@@ -328,7 +328,7 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
-        @click="before_pay_check()"
+        @click="selectPaymentmethod(total, shipment, freeze_shipment, coupon)"
       >
       </q-btn>
       <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
@@ -401,7 +401,7 @@
             </q-input>
           </div>
         </q-card-section>
-        <q-card-section>
+        <!-- <q-card-section>
           <div class="text-body1 text-bold">
             {{ selected_local.final_coupon_confirm }}
           </div>
@@ -433,17 +433,13 @@
               :disable="c.use_condition > total ? true : false"
             />
           </div>
-        </q-card-section>
+        </q-card-section> -->
         <q-card-section>
           <div class="text-body1 text-bold">
             {{ selected_local.final_payamount_confirm }}
           </div>
-          {{
-            total +
-            shipment +
-            freeze_shipment -
-            `${coupon == '' ? 0 : coupon.coupon_price}`
-          }}
+          {{ total + shipment + freeze_shipment }}
+          <!-- - `${coupon == '' ? 0 : coupon.coupon_price}` -->
           {{ selected_local.won }}
         </q-card-section>
         <div class="row justify-center">
