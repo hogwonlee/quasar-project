@@ -50,7 +50,12 @@
         dense
         text-color="white"
       >
-        <text-subtitle2>{{ tag }}</text-subtitle2>
+        <text-subtitle2 class="absolute-bottom">{{ tag }}</text-subtitle2>
+        <div v-if="flavor_refer != null" class="absolute-right">
+          <q-badge floating rounded>
+            {{ flavor_refer }}
+          </q-badge>
+        </div>
       </q-chip>
       <q-chip
         class="bg-grey"
@@ -58,14 +63,9 @@
         dense
         text-color="white"
       >
-        <div class="absolute-bottom q-pl-sm">
+        <div class="q-pl-sm" style="text-align: center; align-items: center">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
-        </div>
-        <div v-if="flavor_refer != null" class="absolute-right">
-          <q-badge floating rounded>
-            {{ flavor_refer }}
-          </q-badge>
         </div>
       </q-chip>
     </div>

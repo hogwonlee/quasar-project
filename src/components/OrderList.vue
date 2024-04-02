@@ -41,9 +41,9 @@
         <tbody items-center>
           <tr class="row">
             <td class="text-left bg-grey-3 col-4">
-              <q-field borderless dense>
+              {{ selected_local.foodprice }}
+              <!-- <q-field borderless dense>
                 <template v-slot:control>
-                  {{ selected_local.foodprice }}
                 </template>
                 <template v-slot:append>
                   <q-icon
@@ -52,7 +52,7 @@
                     @click="buy_event_info()"
                   />
                 </template>
-              </q-field>
+              </q-field> -->
             </td>
             <td class="text-right col-8 text-h4">
               {{ total }} {{ selected_local.won }}
