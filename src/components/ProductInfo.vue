@@ -50,7 +50,7 @@
         dense
         text-color="white"
       >
-        <text-subtitle2 style="position: absolute-bottom">{{
+        <text-subtitle2 class="q-pl-sm absolute-bottom">{{
           tag
         }}</text-subtitle2>
         <div v-if="flavor_refer != null" class="absolute-right">
@@ -65,7 +65,7 @@
         dense
         text-color="white"
       >
-        <div class="q-pl-sm" style="text-align: center; align-items: center">
+        <div class="q-pl-sm" style="text-align: right; align-items: center">
           <q-icon name="img:icons\currency-krw-white.png"></q-icon>
           {{ price }}
         </div>
