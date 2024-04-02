@@ -50,7 +50,9 @@
         dense
         text-color="white"
       >
-        <text-subtitle2 class="absolute-bottom">{{ tag }}</text-subtitle2>
+        <text-subtitle2 class="bottom" style="text-align: center">{{
+          tag
+        }}</text-subtitle2>
         <div v-if="flavor_refer != null" class="absolute-right">
           <q-badge floating rounded>
             {{ flavor_refer }}
