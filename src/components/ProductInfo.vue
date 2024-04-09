@@ -6,7 +6,7 @@
         class="rounded-borders"
         loading="lazy"
         :ratio="1"
-        style="max-height: 600px"
+        style="max-height: 900px"
         position="0 0"
       >
         <template v-slot:error>
