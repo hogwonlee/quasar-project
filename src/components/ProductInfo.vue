@@ -5,7 +5,7 @@
         :src="img"
         class="rounded-borders"
         loading="lazy"
-        :ratio="1"
+        :ratio="3 / 4"
         style="max-height: 600px"
         position="0 0"
       >
