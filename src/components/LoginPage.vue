@@ -51,7 +51,12 @@
             outline
           />
         </div>
-        <button id="googleLogin">구글 로그인</button>
+        <q-btn
+          label="구글 로그인"
+          @click="googleLogin"
+          color="positive"
+          outline
+        ></q-btn>
       </q-form>
     </q-card>
     <q-dialog
@@ -104,24 +109,6 @@
   signInWithRedirect(auth, provider);
   // To apply the default browser preference instead of explicitly setting it.
   // auth.useDeviceLanguage();
-  document.getElementById('googleLogin').addEventListener('click', () => {
-    getRedirectResult(auth)
-      .then(result => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-      })
-      .catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  });
 
   export default defineComponent({
     components: {
@@ -230,9 +217,27 @@
 
     setup() {
       const accept = ref(false);
-
+      function googleLogin() {
+        getRedirectResult(auth)
+          .then(result => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+          })
+          .catch(error => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+          });
+      }
       return {
         accept,
+        googleLogin,
         isPwd: ref(true),
         signUpWindow: ref(false),
         auto_login: ref(true),
