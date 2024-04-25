@@ -51,6 +51,7 @@
             outline
           />
         </div>
+        <button id="googleLogin">구글 로그인</button>
       </q-form>
     </q-card>
     <q-dialog
@@ -74,6 +75,53 @@
   import configs from 'src/configs/';
   // import https from 'https';
   // import security from 'src/util/modules/security';
+
+  // Import the functions you need from the SDKs you need
+  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  import {
+    getAuth,
+    getRedirectResult,
+    GoogleAuthProvider,
+    signInWithRedirect,
+  } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
+    authDomain: 'hellohogwon.firebaseapp.com',
+    projectId: 'hellohogwon',
+    storageBucket: 'hellohogwon.appspot.com',
+    messagingSenderId: '309960454694',
+    appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
+  };
+
+  // Initialize Firebase
+  const myShop = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  auth.languageCode = 'cn';
+  const provider = new GoogleAuthProvider();
+  signInWithRedirect(auth, provider);
+  // To apply the default browser preference instead of explicitly setting it.
+  // auth.useDeviceLanguage();
+  document.getElementById('googleLogin').addEventListener('click', () => {
+    getRedirectResult(auth)
+      .then(result => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+      })
+      .catch(error => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  });
 
   export default defineComponent({
     components: {
@@ -99,6 +147,7 @@
           this.selected_local.forget_pw_body,
         );
       },
+
       async serverLogin() {
         // debugger;
         // if (!check.check_login()) {
