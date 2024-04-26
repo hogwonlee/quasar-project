@@ -227,7 +227,7 @@
     setup() {
       const accept = ref(false);
       function googleLogin() {
-        console.log('로그인');
+        console.log('로그인' + auth);
         getRedirectResult(auth)
           .then(result => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
