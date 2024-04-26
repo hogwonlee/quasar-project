@@ -95,7 +95,7 @@
 
   const firebaseConfig = {
     apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-    authDomain: 'https://cfomarket.store:8443',
+    authDomain: 'cfomarket.store',
     databaseURL: 'https://cfomarket.store',
     projectId: 'hellohogwon',
     appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
