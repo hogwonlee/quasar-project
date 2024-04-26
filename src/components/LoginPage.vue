@@ -233,6 +233,7 @@
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
+            console.log('결과' + result);
           })
           .catch(error => {
             // Handle Errors here.
@@ -243,6 +244,7 @@
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
             // ...
+            console.log('실패' + error);
           });
       }
       return {
