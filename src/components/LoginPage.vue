@@ -81,31 +81,40 @@
   // import https from 'https';
   // import security from 'src/util/modules/security';
 
+  import {GoogleAuthProvider} from 'firebase/auth';
+  const provider = new GoogleAuthProvider();
+
   // Import the functions you need from the SDKs you need
   import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
   // https://firebase.google.com/docs/web/setup#available-libraries
   import {
     getAuth,
     getRedirectResult,
-    GoogleAuthProvider,
     signInWithRedirect,
   } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
 
+  const auth = getAuth();
+  auth.languageCode = 'cn';
   // Your web app's Firebase configuration
+  // const firebaseConfig = {
+  //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
+  //   authDomain: 'hellohogwon.firebaseapp.com',
+  //   projectId: 'hellohogwon',
+  //   storageBucket: 'hellohogwon.appspot.com',
+  //   messagingSenderId: '309960454694',
+  //   appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
+  // };
+
   const firebaseConfig = {
     apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-    authDomain: 'hellohogwon.firebaseapp.com',
+    authDomain: 'https://cfomarket.store:8443',
+    databaseURL: 'https://cfomarket.store',
     projectId: 'hellohogwon',
-    storageBucket: 'hellohogwon.appspot.com',
-    messagingSenderId: '309960454694',
     appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
   };
 
   // Initialize Firebase
   const myShop = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  auth.languageCode = 'cn';
-  const provider = new GoogleAuthProvider();
   signInWithRedirect(auth, provider);
   // To apply the default browser preference instead of explicitly setting it.
   // auth.useDeviceLanguage();
