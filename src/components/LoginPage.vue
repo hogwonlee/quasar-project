@@ -81,7 +81,7 @@
   // import https from 'https';
   // import security from 'src/util/modules/security';
 
-  import {GoogleAuthProvider} from 'firebase/auth';
+  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
   const provider = new GoogleAuthProvider();
 
   // Import the functions you need from the SDKs you need
