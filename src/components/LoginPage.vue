@@ -86,15 +86,6 @@
 
   // Import the functions you need from the SDKs you need
   import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  import {
-    getAuth,
-    getRedirectResult,
-    signInWithRedirect,
-  } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
-
-  const auth = getAuth();
-  auth.languageCode = 'cn';
   // Your web app's Firebase configuration
   // const firebaseConfig = {
   //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
@@ -115,6 +106,16 @@
 
   // Initialize Firebase
   const myShop = initializeApp(firebaseConfig);
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  import {
+    getAuth,
+    getRedirectResult,
+    signInWithRedirect,
+  } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+
+  const auth = getAuth();
+  auth.languageCode = 'cn';
+
   signInWithRedirect(auth, provider);
   // To apply the default browser preference instead of explicitly setting it.
   // auth.useDeviceLanguage();
