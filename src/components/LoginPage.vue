@@ -81,9 +81,6 @@
   // import https from 'https';
   // import security from 'src/util/modules/security';
 
-  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
-  const provider = new GoogleAuthProvider();
-
   // Import the functions you need from the SDKs you need
   import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
   // Your web app's Firebase configuration
@@ -105,8 +102,10 @@
   };
 
   // Initialize Firebase
+  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
   const myShop = initializeApp(firebaseConfig);
   // https://firebase.google.com/docs/web/setup#available-libraries
+  const provider = new GoogleAuthProvider();
   import {
     getAuth,
     getRedirectResult,
