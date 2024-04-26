@@ -103,7 +103,7 @@
 
   // Initialize Firebase
   import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
-  const myShop = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   // https://firebase.google.com/docs/web/setup#available-libraries
   const provider = new GoogleAuthProvider();
   import {
