@@ -51,12 +51,13 @@
             outline
           />
         </div>
-        <q-btn
+        <!-- <q-btn
           label="구글 로그인"
           @click="googleLogin"
           color="positive"
           outline
-        ></q-btn>
+        ></q-btn> -->
+        <button id="googleLogin">구글 로그인</button>
       </q-form>
     </q-card>
     <q-dialog
@@ -82,7 +83,7 @@
   // import security from 'src/util/modules/security';
 
   // Import the functions you need from the SDKs you need
-  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+  import {initializeApp} from 'firebase/app';
   // Your web app's Firebase configuration
   // const firebaseConfig = {
   //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
@@ -100,24 +101,66 @@
     projectId: 'hellohogwon',
     appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
   };
-
   // Initialize Firebase
-  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
   const app = initializeApp(firebaseConfig);
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  const provider = new GoogleAuthProvider();
+
   import {
     getAuth,
-    getRedirectResult,
-    signInWithRedirect,
-  } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+  } from 'firebase/auth';
 
-  const auth = getAuth();
+  const auth = getAuth(app);
   auth.languageCode = 'cn';
+  import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 
-  signInWithRedirect(auth, provider);
-  // To apply the default browser preference instead of explicitly setting it.
-  // auth.useDeviceLanguage();
+  document.getElementById('googleLogin').addEventListener('click', function () {
+    signInWithPopup(auth, provider)
+      .then(result => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch(error => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  });
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(userCredential => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+      console.log(user);
+    })
+    .catch(error => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      console.log(error);
+    });
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(userCredential => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+    })
+    .catch(error => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 
   export default defineComponent({
     components: {
@@ -226,30 +269,8 @@
 
     setup() {
       const accept = ref(false);
-      function googleLogin() {
-        console.log('로그인' + Object.entries(auth));
-        getRedirectResult(auth)
-          .then(result => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-            console.log('결과' + result);
-          })
-          .catch(error => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-            console.log('실패' + error);
-          });
-      }
       return {
         accept,
-        googleLogin,
         isPwd: ref(true),
         signUpWindow: ref(false),
         auto_login: ref(true),
