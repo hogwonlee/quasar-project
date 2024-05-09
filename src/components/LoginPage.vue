@@ -71,7 +71,7 @@
   </div>
 </template>
 
-<script>
+<script type="module">
   import {defineComponent, ref} from 'vue';
   import SignUpPage from 'components/SignUpPage.vue';
   import axios from 'axios';
@@ -83,7 +83,7 @@
   // import security from 'src/util/modules/security';
 
   // Import the functions you need from the SDKs you need
-  import {initializeApp} from 'firebase/app';
+  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
   // Your web app's Firebase configuration
   // const firebaseConfig = {
   //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
@@ -108,11 +108,14 @@
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-  } from 'firebase/auth';
+  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 
   const auth = getAuth(app);
   auth.languageCode = 'cn';
-  import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+  import {
+    signInWithPopup,
+    GoogleAuthProvider,
+  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 
   document.getElementById('googleLogin').addEventListener('click', function () {
     signInWithPopup(auth, provider)
@@ -123,6 +126,7 @@
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
+        console.log('구글로그인');
         // ...
       })
       .catch(error => {
