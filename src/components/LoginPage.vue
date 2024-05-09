@@ -51,13 +51,12 @@
             outline
           />
         </div>
-        <!-- <q-btn
+        <q-btn
           label="구글 로그인"
           @click="googleLogin"
           color="positive"
           outline
-        ></q-btn> -->
-        <button id="googleLogin">구글 로그인</button>
+        ></q-btn>
       </q-form>
     </q-card>
     <q-dialog
@@ -116,30 +115,7 @@
     signInWithPopup,
     GoogleAuthProvider,
   } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-
-  document.getElementById('googleLogin').addEventListener('click', function () {
-    signInWithPopup(auth, provider)
-      .then(result => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        console.log('구글로그인');
-        // ...
-      })
-      .catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  });
+  const provider = new GoogleAuthProvider();
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
@@ -268,6 +244,29 @@
         userId.value = null;
         userPw.value = null;
         accept.value = false;
+      },
+      googleLogin() {
+        signInWithPopup(auth, provider)
+          .then(result => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            console.log('구글로그인');
+            // ...
+          })
+          .catch(error => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+          });
       },
     },
 
