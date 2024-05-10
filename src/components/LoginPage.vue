@@ -51,6 +51,12 @@
             outline
           />
         </div>
+        <q-btn
+          label="구글 로그인"
+          @click="googleLogin"
+          color="positive"
+          outline
+        ></q-btn>
       </q-form>
     </q-card>
     <q-dialog
@@ -64,7 +70,7 @@
   </div>
 </template>
 
-<script>
+<script type="module">
   import {defineComponent, ref} from 'vue';
   import SignUpPage from 'components/SignUpPage.vue';
   import axios from 'axios';
@@ -74,6 +80,67 @@
   import configs from 'src/configs/';
   // import https from 'https';
   // import security from 'src/util/modules/security';
+
+  // Import the functions you need from the SDKs you need
+  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
+  // Your web app's Firebase configuration
+  // const firebaseConfig = {
+  //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
+  //   authDomain: 'hellohogwon.firebaseapp.com',
+  //   projectId: 'hellohogwon',
+  //   storageBucket: 'hellohogwon.appspot.com',
+  //   messagingSenderId: '309960454694',
+  //   appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
+  // };
+
+  const firebaseConfig = {
+    apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
+    authDomain: 'cfomarket.store',
+    databaseURL: 'https://cfomarket.store:8443',
+    projectId: 'hellohogwon',
+    appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
+  };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+
+  const auth = getAuth(app);
+  auth.languageCode = 'cn';
+  import {
+    signInWithPopup,
+    GoogleAuthProvider,
+  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+  const provider = new GoogleAuthProvider();
+
+  // createUserWithEmailAndPassword(auth, email, password)
+  //   .then(userCredential => {
+  //     // Signed in
+  //     const user = userCredential.user;
+  //     // ...
+  //     console.log(user);
+  //   })
+  //   .catch(error => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     // ..
+  //     console.log(error);
+  //   });
+
+  // signInWithEmailAndPassword(auth, email, password)
+  //   .then(userCredential => {
+  //     // Signed in
+  //     const user = userCredential.user;
+  //     // ...
+  //   })
+  //   .catch(error => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //   });
 
   export default defineComponent({
     components: {
@@ -99,6 +166,7 @@
           this.selected_local.forget_pw_body,
         );
       },
+
       async serverLogin() {
         // debugger;
         // if (!check.check_login()) {
@@ -177,11 +245,33 @@
         userPw.value = null;
         accept.value = false;
       },
+      googleLogin() {
+        signInWithPopup(auth, provider)
+          .then(result => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            console.log('구글로그인');
+            // ...
+          })
+          .catch(error => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+          });
+      },
     },
 
     setup() {
       const accept = ref(false);
-
       return {
         accept,
         isPwd: ref(true),

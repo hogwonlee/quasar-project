@@ -27,7 +27,7 @@
           @sendDeleteItem="
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
-          class="col-xs-3 col-sm-3 col-md-2 q-pa-xs"
+          class="col-xs-4 col-sm-4 col-md-3 q-pa-xs"
           v-for="product in cartList"
           :key="product.product_id"
           v-bind="product"
@@ -41,9 +41,9 @@
         <tbody items-center>
           <tr class="row">
             <td class="text-left bg-grey-3 col-4">
-              <q-field borderless dense>
+              {{ selected_local.foodprice }}
+              <!-- <q-field borderless dense>
                 <template v-slot:control>
-                  {{ selected_local.foodprice }}
                 </template>
                 <template v-slot:append>
                   <q-icon
@@ -52,7 +52,7 @@
                     @click="buy_event_info()"
                   />
                 </template>
-              </q-field>
+              </q-field> -->
             </td>
             <td class="text-right col-8 text-h4">
               {{ total }} {{ selected_local.won }}
@@ -249,12 +249,73 @@
         ></q-btn>
       </div>
     </q-card>
-    <div id="payment-method" class="q-py-none"></div>
-    <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
-    <br />
-    <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
-    ><br />
-    <div id="agreement" class="q-py-none"></div>
+    <div class="text-h6 text-bold">支付方式-1：银行转账</div>
+    <div>
+      <div>우리은행 (이호권)</div>
+      <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyBankAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
+      <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
+      <div>1. 包含购物车物品和商品价格的画面</div>
+      <div>2. 收件人的地址</div>
+      <div>3. 收件人的电话号码</div>
+      <div>
+        <text-subtitle2>微信ID:l175969775</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyWechatAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div>
+      <div>
+        <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyPhoneAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div>
+    </div>
+    <q-separator />
+
+    <div class="text-h6 text-bold">支付方式-2：微信转账</div>
+    <div>
+      <text-subtitle2>微信ID:l175969775</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyWechatAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
+    </div>
+    <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
+    <div>1. 包含购物车物品和商品价格的画面</div>
+    <div>2. 收件人的地址</div>
+    <div>3. 收件人的电话号码</div>
+    <div>
+      <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyPhoneAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
+    </div>
+    <q-separator />
+
+    <div class="text-h6 text-bold">支付方式-3：便捷支付</div>
+    <div>*支付之前需要注册ID并登录收件人地址等信息。</div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -267,11 +328,17 @@
         class="text-bold q-py-none q-px-xl q-ma-sm"
         :disabled="!cartList.length || no_selected_addr || no_login"
         :label="selected_local.checkout"
-        @click="before_pay_check()"
+        @click="selectPaymentmethod(total, shipment, freeze_shipment, coupon)"
       >
       </q-btn>
+      <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
     </div>
+    <div id="payment-method" class="q-py-none"></div>
 
+    <br />
+    <!-- <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
+    ><br /> -->
+    <div id="agreement" class="q-py-none"></div>
     <q-dialog v-model="finalCheck" persistent>
       <q-card>
         <q-card-section class="row items-center q-pa-none">
@@ -334,7 +401,7 @@
             </q-input>
           </div>
         </q-card-section>
-        <q-card-section>
+        <!-- <q-card-section>
           <div class="text-body1 text-bold">
             {{ selected_local.final_coupon_confirm }}
           </div>
@@ -366,17 +433,13 @@
               :disable="c.use_condition > total ? true : false"
             />
           </div>
-        </q-card-section>
+        </q-card-section> -->
         <q-card-section>
           <div class="text-body1 text-bold">
             {{ selected_local.final_payamount_confirm }}
           </div>
-          {{
-            total +
-            shipment +
-            freeze_shipment -
-            `${coupon == '' ? 0 : coupon.coupon_price}`
-          }}
+          {{ total + shipment + freeze_shipment }}
+          <!-- - `${coupon == '' ? 0 : coupon.coupon_price}` -->
           {{ selected_local.won }}
         </q-card-section>
         <div class="row justify-center">
@@ -413,7 +476,7 @@
   import validation from 'src/util/data/validation';
   import AddressList from './AddressList.vue';
   import AddressRegister from './AddressRegister.vue';
-  import {date} from 'quasar';
+  import {date, Notify} from 'quasar';
   import axios from 'axios';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
@@ -444,6 +507,9 @@
         selected_coupon_id: ref(null),
         finalCheck: ref(false),
         coupon: ref(''),
+        copyBankAccount: ref('1002557640050'),
+        copyWechatAccount: ref('l175969775'),
+        copyPhoneAccount: ref('01084920526'),
       };
     },
     watch: {
@@ -484,6 +550,21 @@
       },
     },
     methods: {
+      copyToClipboard(copyText) {
+        try {
+          navigator.clipboard.writeText(copyText);
+          Notify.create({
+            position: 'top',
+            message: '复制完成' + ':(' + copyText + ') ',
+            color: 'green',
+          });
+          //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
+          this.$emit('sendOrderItem');
+        } catch (e) {
+          console.log(e);
+          throw e;
+        }
+      },
       buy_event_info() {
         alert.confirm(
           this.selected_local.event_5353_info,
@@ -601,6 +682,7 @@
         }
       },
     },
+
     async created() {
       // ------  결제위젯 초기화 ------
       // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.

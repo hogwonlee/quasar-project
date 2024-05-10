@@ -36,15 +36,15 @@
           <q-space />
         </q-bar>
         <div
-          v-if="c.category == '速冻l냉동보관' || c.category == '冷藏l냉장보관'"
+          v-if="c.category == '速冻冷藏l냉동냉장'"
           class="col-12 bg-dark text-red"
         >
-          <q-bar dense>
+          <!-- <q-bar dense>
             <div>
               {{ selected_local.freeze_deliver_info1 }}
             </div>
             <q-space />
-          </q-bar>
+          </q-bar> -->
           <q-bar dense>
             <div>
               {{ selected_local.freeze_deliver_info2 }}

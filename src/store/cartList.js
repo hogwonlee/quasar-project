@@ -52,20 +52,18 @@ const getters = {
   shipmentPrice: (state, getters) => {
     return getters.cartTotalPrice >= 30000 || getters.cartTotalPrice === 0
       ? 0
-      : 3000;
+      : 4200;
   },
   freeze_shipmentPrice: (state, getters) => {
     var freeze_product;
     freeze_product = state.items.find(
-      product =>
-        product.category == '冷藏l냉장보관' ||
-        product.category == '速冻l냉동보관',
+      product => product.category == '速冻冷藏l냉동냉장',
     );
     return freeze_product == undefined
       ? 0
       : getters.cartTotalPrice >= 50000
       ? 0
-      : 3000;
+      : 4200;
   },
 };
 
