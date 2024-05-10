@@ -593,42 +593,42 @@
         );
       },
 
-      read_coupon() {
-        axios({
-          url: `${configs.server}/mycoupon`,
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-            authorization: this.user.USER_TOKEN,
-          },
-          data: {
-            user_id: this.user.USER_ID,
-            user_name: this.user.USER_NAME,
-          },
-        })
-          .then(res => {
-            if (res.status == 200) {
-              this.$store.dispatch('coupon/emptyCouponAction');
-              if (res.data.results.length > 0) {
-                res.data.results.forEach(coupon => {
-                  if (coupon.available === 1) {
-                    this.$store.dispatch('coupon/addCouponAction', coupon);
-                  }
-                });
-              }
-              this.$store.dispatch('coupon/setStatusAction', null);
-            } else {
-              alert.confirm(
-                this.selected_local.err,
-                this.selected_local.err + ': ' + res.data.content,
-              );
-            }
-          })
-          .catch(res => {
-            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
-          });
-      },
+      // read_coupon() {
+      //   axios({
+      //     url: `${configs.server}/mycoupon`,
+      //     method: 'POST',
+      //     headers: {
+      //       'Access-Control-Allow-Headers': '*',
+      //       'Content-Type': 'application/json',
+      //       authorization: this.user.USER_TOKEN,
+      //     },
+      //     data: {
+      //       user_id: this.user.USER_ID,
+      //       user_name: this.user.USER_NAME,
+      //     },
+      //   })
+      //     .then(res => {
+      //       if (res.status == 200) {
+      //         this.$store.dispatch('coupon/emptyCouponAction');
+      //         if (res.data.results.length > 0) {
+      //           res.data.results.forEach(coupon => {
+      //             if (coupon.available === 1) {
+      //               this.$store.dispatch('coupon/addCouponAction', coupon);
+      //             }
+      //           });
+      //         }
+      //         this.$store.dispatch('coupon/setStatusAction', null);
+      //       } else {
+      //         alert.confirm(
+      //           this.selected_local.err,
+      //           this.selected_local.err + ': ' + res.data.content,
+      //         );
+      //       }
+      //     })
+      //     .catch(res => {
+      //       console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+      //     });
+      // },
       limit_date(day, plus_day) {
         return addToDate(new Date(day), {day: plus_day}).toLocaleString(
           'ko-KR',
