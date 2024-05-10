@@ -291,12 +291,12 @@
     <q-dialog v-model="register">
       <AddressRegister />
     </q-dialog>
-    <!-- <q-dialog v-model="coupon_vue">
+    <q-dialog v-model="coupon_vue">
       <CouponList
         class="bg-dark absolute-top q-mx-lg q-pa-sm"
         style="margin-top: 28%; max-height: 500px"
       />
-    </q-dialog> -->
+    </q-dialog>
     <q-dialog v-model="address_vue">
       <AddressList
         class="absolute-top q-mx-lg q-pa-sm"
@@ -460,7 +460,7 @@
   import axios from 'axios';
   import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
-  // import CouponList from 'components/CouponList.vue';
+  import CouponList from 'components/CouponList.vue';
   import PrivacyPolicy from './policy/PrivacyPolicy.vue';
   // import PrivacyPolicy_cn from './policy/PrivacyPolicy_cn.vue';
   import ServicePolicy from './policy/ServicePolicy.vue';
@@ -480,7 +480,7 @@
       LoginPage,
       ChangeInfo,
       ChangePassword,
-      // CouponList,
+      CouponList,
       PrivacyPolicy,
       // PrivacyPolicy_cn,
       ServicePolicy,
@@ -501,8 +501,8 @@
         user_option: ref(false),
         addr_option: ref(false),
         register: ref(false),
-        // coupon_option: ref(false),
-        // coupon_vue: ref(false),
+        coupon_option: ref(false),
+        coupon_vue: ref(false),
         address_vue: ref(false),
         service_policy_vue: ref(false),
         // service_policy_cn_vue: ref(false),
@@ -521,8 +521,8 @@
         user: state => state.user.USER,
         address_status: state => state.address.status,
         addressList: state => state.address.items,
-        // couponList: state => state.coupon.items,
-        // coupon_status: state => state.coupon.status,
+        couponList: state => state.coupon.items,
+        coupon_status: state => state.coupon.status,
         selected_local: state => state.ui_local.status,
         product_all: state => state.products.all,
       }),
@@ -584,51 +584,51 @@
             console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
           });
       },
-      // coupon_info_dialog() {
-      //   alert.confirm(
-      //     this.selected_local.coupon_info + this.selected_local.notice,
-      //     this.selected_local.coupon_use_info +
-      //       '\n ' +
-      //       this.selected_local.coupon_use_condition,
-      //   );
-      // },
+      coupon_info_dialog() {
+        alert.confirm(
+          this.selected_local.coupon_info + this.selected_local.notice,
+          this.selected_local.coupon_use_info +
+            '\n ' +
+            this.selected_local.coupon_use_condition,
+        );
+      },
 
-      // read_coupon() {
-      //   axios({
-      //     url: `${configs.server}/mycoupon`,
-      //     method: 'POST',
-      //     headers: {
-      //       'Access-Control-Allow-Headers': '*',
-      //       'Content-Type': 'application/json',
-      //       authorization: this.user.USER_TOKEN,
-      //     },
-      //     data: {
-      //       user_id: this.user.USER_ID,
-      //       user_name: this.user.USER_NAME,
-      //     },
-      //   })
-      //     .then(res => {
-      //       if (res.status == 200) {
-      //         this.$store.dispatch('coupon/emptyCouponAction');
-      //         if (res.data.results.length > 0) {
-      //           res.data.results.forEach(coupon => {
-      //             if (coupon.available === 1) {
-      //               this.$store.dispatch('coupon/addCouponAction', coupon);
-      //             }
-      //           });
-      //         }
-      //         this.$store.dispatch('coupon/setStatusAction', null);
-      //       } else {
-      //         alert.confirm(
-      //           this.selected_local.err,
-      //           this.selected_local.err + ': ' + res.data.content,
-      //         );
-      //       }
-      //     })
-      //     .catch(res => {
-      //       console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
-      //     });
-      // },
+      read_coupon() {
+        axios({
+          url: `${configs.server}/mycoupon`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+            authorization: this.user.USER_TOKEN,
+          },
+          data: {
+            user_id: this.user.USER_ID,
+            user_name: this.user.USER_NAME,
+          },
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.$store.dispatch('coupon/emptyCouponAction');
+              if (res.data.results.length > 0) {
+                res.data.results.forEach(coupon => {
+                  if (coupon.available === 1) {
+                    this.$store.dispatch('coupon/addCouponAction', coupon);
+                  }
+                });
+              }
+              this.$store.dispatch('coupon/setStatusAction', null);
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
+      },
       limit_date(day, plus_day) {
         return addToDate(new Date(day), {day: plus_day}).toLocaleString(
           'ko-KR',
