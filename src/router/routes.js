@@ -28,14 +28,14 @@ const routes = [
         path: 'LoginPage',
         component: () => import('components/LoginPage.vue'),
       },
-      {
-        path: 'auth',
-        component: () => import('components/checkoutpage/CallbackAuth.vue'),
-      },
-      {
-        path: 'BrandpaySuccess',
-        component: () => import('components/checkoutpage/BrandpaySuccess.vue'),
-      },
+      // {
+      //   path: 'auth',
+      //   component: () => import('components/checkoutpage/CallbackAuth.vue'),
+      // },
+      // {
+      //   path: 'BrandpaySuccess',
+      //   component: () => import('components/checkoutpage/BrandpaySuccess.vue'),
+      // },
       {
         path: 'Success',
         component: () => import('components/checkoutpage/PaySuccess.vue'),
