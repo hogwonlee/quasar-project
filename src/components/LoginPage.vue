@@ -94,10 +94,20 @@
   // };
 
   const firebaseConfig = {
+    // apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
+    // authDomain: 'cfomarket.store',
+    // databaseURL: 'https://cfomarket.store',
+    // projectId: 'hellohogwon',
+    // appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
+    // Obtain the following from the "Add Firebase to your web app" dialogue
+    // Initialize Firebase
+
     apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-    authDomain: 'cfomarket.store',
-    databaseURL: 'https://cfomarket.store:8443',
+    authDomain: 'hellohogwon.firebaseapp.com',
+    //   databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
     projectId: 'hellohogwon',
+    storageBucket: 'hellohogwon.appspot.com',
+    messagingSenderId: '309960454694',
     appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
   };
   // Initialize Firebase
@@ -105,16 +115,13 @@
 
   import {
     getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
+    getRedirectResult,
+    signInWithRedirect,
   } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 
   const auth = getAuth(app);
   auth.languageCode = 'cn';
-  import {
-    signInWithPopup,
-    GoogleAuthProvider,
-  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
   const provider = new GoogleAuthProvider();
 
   // createUserWithEmailAndPassword(auth, email, password)
@@ -246,16 +253,18 @@
         accept.value = false;
       },
       googleLogin() {
-        signInWithPopup(auth, provider)
+        signInWithRedirect(auth, provider);
+        getRedirectResult(auth)
           .then(result => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // This gives you a Google Access Token. You can use it to access Google APIs.
+            const credential = provider.credentialFromResult(result);
             const token = credential.accessToken;
+
             // The signed-in user info.
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
-            console.log('구글로그인');
             // ...
+            console.log('google user: ' + user);
           })
           .catch(error => {
             // Handle Errors here.
@@ -264,9 +273,31 @@
             // The email of the user's account used.
             const email = error.customData.email;
             // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
+            const credential = provider.credentialFromError(error);
             // ...
+            console.log('google login error: ' + errorMessage);
           });
+        // signInWithPopup(auth, provider)
+        //   .then(result => {
+        //     // This gives you a Google Access Token. You can use it to access the Google API.
+        //     const credential = GoogleAuthProvider.credentialFromResult(result);
+        //     const token = credential.accessToken;
+        //     // The signed-in user info.
+        //     const user = result.user;
+        //     // IdP data available using getAdditionalUserInfo(result)
+        //     console.log('구글로그인');
+        //     // ...
+        //   })
+        //   .catch(error => {
+        //     // Handle Errors here.
+        //     const errorCode = error.code;
+        //     const errorMessage = error.message;
+        //     // The email of the user's account used.
+        //     const email = error.customData.email;
+        //     // The AuthCredential type that was used.
+        //     const credential = GoogleAuthProvider.credentialFromError(error);
+        //     // ...
+        //   });
       },
     },
 
