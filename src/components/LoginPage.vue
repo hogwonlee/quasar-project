@@ -271,30 +271,36 @@
         accept.value = false;
       },
       googleLogin() {
-        signInWithRedirect(auth, provider);
-        getRedirectResult(auth)
-          .then(result => {
-            // This gives you a Google Access Token. You can use it to access Google APIs.
-            const credential = provider.credentialFromResult(result);
-            const token = credential.accessToken;
+        window.location.href =
+          'https://accounts.google.com/o/oauth2/auth?' +
+          'client_id={309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com}&' +
+          'redirect_uri={https://cfomarket.store}&' +
+          'response_type=token&' +
+          'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+        // signInWithRedirect(auth, provider);
+        // getRedirectResult(auth)
+        //   .then(result => {
+        //     // This gives you a Google Access Token. You can use it to access Google APIs.
+        //     const credential = provider.credentialFromResult(result);
+        //     const token = credential.accessToken;
 
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-            console.log('google user: ' + user);
-          })
-          .catch(error => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = provider.credentialFromError(error);
-            // ...
-            console.log('google login error: ' + errorMessage);
-          });
+        //     // The signed-in user info.
+        //     const user = result.user;
+        //     // IdP data available using getAdditionalUserInfo(result)
+        //     // ...
+        //     console.log('google user: ' + user);
+        //   })
+        //   .catch(error => {
+        //     // Handle Errors here.
+        //     const errorCode = error.code;
+        //     const errorMessage = error.message;
+        //     // The email of the user's account used.
+        //     const email = error.customData.email;
+        //     // The AuthCredential type that was used.
+        //     const credential = provider.credentialFromError(error);
+        //     // ...
+        //     console.log('google login error: ' + errorMessage);
+        //   });
         // signInWithPopup(auth, provider)
         //   .then(result => {
         //     // This gives you a Google Access Token. You can use it to access the Google API.
