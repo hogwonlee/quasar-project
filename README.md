@@ -193,7 +193,8 @@ yarn global add @quasar/cli
 cd /server/quasar-web
 git checkout qa
 git pull
-pm2 start "quasar dev" --daemon --name qaapp
+//pm2 start "quasar dev" --daemon --name qaapp
+pm2 start "quasar dev" --daemon --name webapp
 ```
 
 상태확인
