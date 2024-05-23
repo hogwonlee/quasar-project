@@ -88,7 +88,6 @@
   </div>
 </template>
 
-<script src="https://accounts.google.com/gsi/client" async></script>
 <script type="module">
   import {defineComponent, ref} from 'vue';
   import SignUpPage from 'components/SignUpPage.vue';
