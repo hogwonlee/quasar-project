@@ -29,13 +29,17 @@ const routes = [
         component: () => import('components/LoginPage.vue'),
       },
       {
-        path: 'auth',
-        component: () => import('components/checkoutpage/CallbackAuth.vue'),
+        path: '__/auth/handler',
+        component: () => import('components/auth/GoogleLogin.vue'),
       },
-      {
-        path: 'BrandpaySuccess',
-        component: () => import('components/checkoutpage/BrandpaySuccess.vue'),
-      },
+      // {
+      //   path: 'auth',
+      //   component: () => import('components/checkoutpage/CallbackAuth.vue'),
+      // },
+      // {
+      //   path: 'BrandpaySuccess',
+      //   component: () => import('components/checkoutpage/BrandpaySuccess.vue'),
+      // },
       {
         path: 'Success',
         component: () => import('components/checkoutpage/PaySuccess.vue'),
