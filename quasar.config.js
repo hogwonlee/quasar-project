@@ -8,7 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const { configure } = require('quasar/wrappers');
+const {configure} = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -79,7 +79,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      port: 443,
+      port: 8443,
       server: {
         // port: 443,
         type: 'https', // NECESSARY (alternative is type 'http')
@@ -108,17 +108,17 @@ module.exports = configure(function (/* ctx */) {
         webSocketURL: {
           hostname: 'cfomarket.store',
           pathname: '/ws',
-          port: 443,
+          port: 8443,
           protocol: 'wss',
         },
         reconnect: false,
       },
       webSocketURL: {
-        port: 443,
+        port: 8443,
       },
       server: {
         hmr: {
-          clientPort: 443,
+          clientPort: 8443,
         },
       },
       open: true, // opens browser window automatically
