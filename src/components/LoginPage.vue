@@ -57,6 +57,24 @@
           color="positive"
           outline
         ></q-btn>
+        <div
+          id="g_id_onload"
+          data-client_id="309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com"
+          data-context="signin"
+          data-ux_mode="redirect"
+          data-login_uri="https://cfomarket.store"
+          data-itp_support="true"
+        ></div>
+
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left"
+        ></div>
       </q-form>
     </q-card>
     <q-dialog
