@@ -149,7 +149,7 @@
               );
             })
             .catch(function (error) {
-              console.log('get요청: ' + error);
+              console.log('url: ' + url + '' + 'get요청: ' + error);
             });
         }
       },
