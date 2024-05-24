@@ -17,6 +17,7 @@
       googleLogin() {
         let url = new URL(window.location.href);
         const accessToken = url.searchParams.get('access_token');
+        console.log('accessToken: ' + accessToken);
 
         axios
           .get(
