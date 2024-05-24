@@ -12,7 +12,7 @@
     name: 'GoogleLogin.vue',
     data() {
       return {
-        accessToken: '',
+        accessToken: 'avc',
       };
     },
     mounted() {
@@ -20,8 +20,8 @@
     },
     methods: {
       googleLogin() {
-        let url = new URL(window.location.href);
-        this.accessToken = url.searchParams.get('access_token');
+        const url = new URLSearchParams(window.location.hash.substring(1));
+        this.accessToken = url.get('access_token');
         console.log('accessToken: ' + this.accessToken);
 
         axios
