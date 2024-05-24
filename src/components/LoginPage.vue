@@ -204,7 +204,7 @@
         window.location.href =
           'https://accounts.google.com/o/oauth2/auth?' +
           'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
-          'redirect_uri=https://cfomarket.store&' +
+          'redirect_uri=https://cfomarket.store/__/auth/handler&' +
           'response_type=token&' +
           'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
       },
