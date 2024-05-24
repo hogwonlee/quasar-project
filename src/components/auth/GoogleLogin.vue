@@ -6,28 +6,7 @@
 
 <script>
   import {defineComponent} from 'vue';
-  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-    authDomain: 'cfomarket.store',
-    projectId: 'hellohogwon',
-    storageBucket: 'hellohogwon.appspot.com',
-    messagingSenderId: '309960454694',
-    appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
-  };
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
-  import {
-    getAuth,
-    getRedirectResult,
-  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-
-  const auth = getAuth(app);
-  auth.languageCode = 'cn';
-  import {GoogleAuthProvider} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-  const provider = new GoogleAuthProvider();
+  import axios from 'axios';
 
   export default defineComponent({
     name: 'GoogleLogin.vue',
@@ -36,28 +15,18 @@
     },
     methods: {
       googleLogin() {
-        getRedirectResult(auth)
-          .then(result => {
-            // This gives you a Google Access Token. You can use it to access Google APIs.
-            const credential = provider.credentialFromResult(result);
-            const token = credential.accessToken;
+        let url = new URL(window.location.href);
+        const accessToken = url.searchParams.get('access_token');
 
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-            console.log('google user: ' + user);
+        axios
+          .get(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
+          )
+          .then(function (response) {
+            console.log('get요청: ' + response + JSON.stringify(response.data));
           })
-          .catch(error => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = provider.credentialFromError(error);
-            // ...
-            console.log('google login error: ' + errorMessage);
+          .catch(function (error) {
+            console.log('get요청: ' + error);
           });
       },
     },
