@@ -10,18 +10,23 @@
 
   export default defineComponent({
     name: 'GoogleLogin.vue',
+    data() {
+      return {
+        accessToken: '',
+      };
+    },
     mounted() {
       this.googleLogin();
     },
     methods: {
       googleLogin() {
         let url = new URL(window.location.href);
-        const accessToken = url.searchParams.get('access_token');
-        console.log('accessToken: ' + accessToken);
+        this.accessToken = url.searchParams.get('access_token');
+        console.log('accessToken: ' + this.accessToken);
 
         axios
           .get(
-            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${this.accessToken}`,
           )
           .then(function (response) {
             console.log('get요청: ' + response + JSON.stringify(response.data));
