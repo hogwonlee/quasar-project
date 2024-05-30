@@ -124,7 +124,7 @@
         this.serverLogin();
       }
       this.change_local(this.ui_local);
-      this.googleLogin();
+      // this.googleLogin();
     },
     methods: {
       change_local(val) {
@@ -134,25 +134,25 @@
           this.$store.dispatch('ui_local/setkoAction');
         }
       },
-      googleLogin() {
-        let url = new URL(window.location.href);
-        const accessToken = url.searchParams.get('access_token');
-        console.log('구글 액세스 토큰: ' + accessToken);
-        if (accessToken != '') {
-          axios
-            .get(
-              `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
-            )
-            .then(function (response) {
-              console.log(
-                'get요청: ' + response + JSON.stringify(response.data),
-              );
-            })
-            .catch(function (error) {
-              console.log('url: ' + url + '' + 'get요청: ' + error);
-            });
-        }
-      },
+      // googleLogin() {
+      //   let url = new URL(window.location.href);
+      //   const accessToken = url.searchParams.get('access_token');
+      //   console.log('구글 액세스 토큰: ' + accessToken);
+      //   if (accessToken != '') {
+      //     axios
+      //       .get(
+      //         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
+      //       )
+      //       .then(function (response) {
+      //         console.log(
+      //           'get요청: ' + response + JSON.stringify(response.data),
+      //         );
+      //       })
+      //       .catch(function (error) {
+      //         console.log('url: ' + url + '' + 'get요청: ' + error);
+      //       });
+      //   }
+      // },
       async serverLogin() {
         const userData = {
           user_id: this.user.USER_ID,
