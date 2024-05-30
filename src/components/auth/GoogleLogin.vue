@@ -74,7 +74,7 @@
               data: json,
               that: this,
             });
-            window.location.href = 'https://cfomarket.store/UserInfo';
+            // window.location.href = 'https://cfomarket.store/UserInfo';
           })
           .catch(function (error) {
             console.log('url: ' + url + '' + 'get요청: ' + error);
