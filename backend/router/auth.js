@@ -155,4 +155,95 @@ module.exports = {
       }
     });
   },
+
+  google_login: async (req, res) => {
+    // console.log('로그인 함수가 실행됩니다.');
+    const sqlCommend =
+      'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_token = ? ';
+    const body = req.body;
+    const param = {
+      user_id: body.user_id,
+      user_pw: hashpw(body.user_pw),
+      user_name: response_google.data.user_name,
+      user_token: this.accessToken,
+      // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
+    };
+    // console.log(param.user_pw);
+
+    if (req.session.user) {
+      // 세션에 유저가 존재한다면
+      console.log('이미 로그인 돼있습니다~');
+      res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
+      res.write('<h1> already Login</h1>');
+      res.end();
+    } else {
+      db.query(
+        sqlCommend,
+        [param.user_id, param.user_token],
+        (err, results, fields) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send({msg: 'error', content: err});
+          }
+          if (results.length <= 0) {
+            const sqlCommend_google = 'INSERT INTO userinfo SET ?';
+            const body_google = req.body;
+            const param_google = {
+              user_id: body_google.user_id,
+              user_pw: hashpw(body_google.user_pw),
+              user_name: body_google.user_name,
+              user_token: body_google.user_token,
+            };
+
+            db.query(
+              sqlCommend_google,
+              param_google,
+              (err, results, fields) => {
+                if (err) {
+                  console.log('회원가입요청:' + err);
+                  res.status(400).send({msg: 'error', content: err});
+                } else {
+                  console.log(JSON.stringify(results));
+                  req.session.cookie.user = {
+                    id: results[0].id,
+                    pw: '******',
+                    name: results[0].user_name,
+                    authorized: true,
+                  };
+                  const token = jwt.sign(
+                    {
+                      USER_ID: results[0].id, //페이로드
+                    },
+                    jwtObj.secret,
+                    jwtObj.option,
+                  );
+                  redisController.setToken(token, req.session.cookie.user);
+                  res.status(200).send({token, results});
+                  // });
+                }
+              },
+            );
+          } else {
+            console.log(JSON.stringify(results));
+            req.session.cookie.user = {
+              id: results[0].id,
+              pw: '******',
+              name: results[0].user_name,
+              authorized: true,
+            };
+            const token = jwt.sign(
+              {
+                USER_ID: results[0].id, //페이로드
+              },
+              jwtObj.secret,
+              jwtObj.option,
+            );
+            redisController.setToken(token, req.session.cookie.user);
+            res.status(200).send({token, results});
+            // });
+          }
+        },
+      );
+    }
+  },
 };
