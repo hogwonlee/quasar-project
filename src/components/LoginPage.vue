@@ -75,6 +75,12 @@
           color="positive"
           outline
         ></q-btn>
+        <q-btn
+          label="구글 로그아웃"
+          @click="logout"
+          color="negative"
+          outline
+        ></q-btn>
       </q-form>
     </q-card>
     <q-dialog
@@ -201,13 +207,37 @@
         accept.value = false;
       },
       googleLogin() {
-        window.location.href =
-          'https://accounts.google.com/o/oauth2/auth?' +
-          'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
-          'redirect_uri=https://cfomarket.store/__/auth/handler&' +
-          'response_type=token&' +
-          'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+        window.location.href = 'https://cfomarket.store:3000/auth/google';
+        // window.location.href =
+        //   'https://accounts.google.com/o/oauth2/auth?' +
+        //   'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
+        //   'redirect_uri=https://cfomarket.store/__/auth/handler&' +
+        //   'response_type=token&' +
+        //   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
       },
+      fetchUser() {
+        axios
+          .get('http://localhost:3000/user', {withCredentials: true})
+          .then(response => {
+            this.user = response.data;
+            console.log(
+              '구글로그인정보: ' + this.user + JSON.stringify(this.user),
+            );
+          })
+          .catch(() => {
+            this.user = null;
+          });
+      },
+      logout() {
+        axios
+          .get('http://localhost:3000/logout', {withCredentials: true})
+          .then(() => {
+            this.user = null;
+          });
+      },
+    },
+    created() {
+      this.fetchUser();
     },
 
     setup() {
