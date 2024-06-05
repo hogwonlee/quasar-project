@@ -84,24 +84,24 @@ passport.deserializeUser((obj, done) => {
 
 // Google auth routes
 app.get(
-  '/auth/google',
+  '/api/auth/google',
   passport.authenticate('google', {scope: ['profile', 'email']}),
 );
 
 app.get(
-  '/auth/google/callback',
+  '/api/auth/google/callback',
   passport.authenticate('google', {failureRedirect: '/'}),
   (req, res) => {
     res.redirect('/');
   },
 );
 // Route to get user info
-app.get('/user', (req, res) => {
+app.get('/api/user', (req, res) => {
   res.send(req.user);
 });
 
 // Logout route
-app.get('/logout', (req, res) => {
+app.get('/api/logout', (req, res) => {
   req.logout(err => {
     if (err) {
       return next(err);

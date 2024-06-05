@@ -217,7 +217,7 @@
       },
       fetchUser() {
         axios
-          .get('http://localhost:3000/user', {withCredentials: true})
+          .get('http://cfomarket.store:3000/user', {withCredentials: true})
           .then(response => {
             this.user = response.data;
             console.log(
@@ -230,7 +230,7 @@
       },
       logout() {
         axios
-          .get('http://localhost:3000/logout', {withCredentials: true})
+          .get('http://cfomarket.store:3000/logout', {withCredentials: true})
           .then(() => {
             this.user = null;
           });
