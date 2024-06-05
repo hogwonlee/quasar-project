@@ -66,7 +66,7 @@ passport.use(
     {
       clientID: googleOauth_Config.clientID,
       clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store:3000/auth/google/callback',
+      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
     },
     (token, tokenSecret, profile, done) => {
       return done(null, profile);
