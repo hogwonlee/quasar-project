@@ -207,13 +207,14 @@
         accept.value = false;
       },
       googleLogin() {
-        axios
-          .get(`${configs.server}/auth/google`)
-          .catch(e => console.log('auth/google: ' + e))
-          .then(res => {
-            this.fetchUser();
-            console.log('auth/google: ' + res);
-          });
+        window.location.href = `${configs.server}/auth/google`;
+        // axios
+        //   .get(`${configs.server}/auth/google`)
+        //   .catch(e => console.log('auth/google: ' + e))
+        //   .then(res => {
+        //     this.fetchUser();
+        //     console.log('auth/google: ' + res);
+        //   });
         // window.location.href =
         //   'https://accounts.google.com/o/oauth2/auth?' +
         //   'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
