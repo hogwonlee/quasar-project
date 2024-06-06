@@ -215,13 +215,17 @@ pm2 restart [순번 (예: 0), 혹은 명칭(예: server)]
 pm2 restart 0
 pm2 restart server
 
-# 웹앱 실행
+# QA앱 실행
 
 quasar 설치
 
 ```
 yarn global add @quasar/cli
-pm2 start "quasar dev" --daemon --name qaapp
+cd /server/quasar-web
+git checkout qa
+git pull
+//pm2 start "quasar dev" --daemon --name qaapp
+pm2 start "quasar dev" --daemon --name webapp
 ```
 
 상태확인
@@ -235,3 +239,29 @@ pm2 list
 ```
 http://175.119.224.213:9000
 ```
+
+# 웹앱 실행
+
+quasar 설치
+
+```
+yarn global add @quasar/cli
+cd /server/quasar-project
+git checkout master
+git pull
+pm2 start "quasar dev" --daemon --name webapp
+```
+
+# 웹앱 서비스가 443 으로 시작 않될 때
+
+```
+#netstat -nltp | grep 443
+```
+
+있는 지 확인. 만일 apache 가 실행되고 있다면
+
+```
+/etc/init.d/apache2 stop
+```
+
+실행후 443 포트 셧다운후 재시작

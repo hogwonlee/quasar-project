@@ -28,6 +28,10 @@ const routes = [
         path: 'LoginPage',
         component: () => import('components/LoginPage.vue'),
       },
+      {
+        path: '__/auth/handler',
+        component: () => import('components/auth/GoogleLogin.vue'),
+      },
       // {
       //   path: 'auth',
       //   component: () => import('components/checkoutpage/CallbackAuth.vue'),

@@ -1,5 +1,23 @@
 <template>
   <div class="q-pa-xs q-gutter-sm">
+    <div
+      id="g_id_onload"
+      data-client_id="309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="redirect"
+      data-login_uri="https://cfomarket.store"
+      data-itp_support="true"
+    ></div>
+
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="left"
+    ></div>
     <!-- <q-dialog persistent transition-show="scale" transition-hide="scale"> -->
     <q-card class="bg-white text-black">
       <q-card-section>
@@ -57,6 +75,12 @@
           color="positive"
           outline
         ></q-btn>
+        <q-btn
+          label="구글 로그아웃"
+          @click="logout"
+          color="negative"
+          outline
+        ></q-btn>
       </q-form>
     </q-card>
     <q-dialog
@@ -78,69 +102,6 @@
   // import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
-  // import https from 'https';
-  // import security from 'src/util/modules/security';
-
-  // Import the functions you need from the SDKs you need
-  import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-  // Your web app's Firebase configuration
-  // const firebaseConfig = {
-  //   apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-  //   authDomain: 'hellohogwon.firebaseapp.com',
-  //   projectId: 'hellohogwon',
-  //   storageBucket: 'hellohogwon.appspot.com',
-  //   messagingSenderId: '309960454694',
-  //   appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
-  // };
-
-  const firebaseConfig = {
-    apiKey: 'AIzaSyDkJGILjwCe1CIaGGJxpH3qxL9C08v-OGs',
-    authDomain: 'cfomarket.store',
-    databaseURL: 'https://cfomarket.store:8443',
-    projectId: 'hellohogwon',
-    appId: '1:309960454694:web:8d7e5ef8f0cd31163e6ce7',
-  };
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-
-  const auth = getAuth(app);
-  auth.languageCode = 'cn';
-  import {
-    signInWithPopup,
-    GoogleAuthProvider,
-  } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-  const provider = new GoogleAuthProvider();
-
-  // createUserWithEmailAndPassword(auth, email, password)
-  //   .then(userCredential => {
-  //     // Signed in
-  //     const user = userCredential.user;
-  //     // ...
-  //     console.log(user);
-  //   })
-  //   .catch(error => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     // ..
-  //     console.log(error);
-  //   });
-
-  // signInWithEmailAndPassword(auth, email, password)
-  //   .then(userCredential => {
-  //     // Signed in
-  //     const user = userCredential.user;
-  //     // ...
-  //   })
-  //   .catch(error => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //   });
 
   export default defineComponent({
     components: {
@@ -246,28 +207,44 @@
         accept.value = false;
       },
       googleLogin() {
-        signInWithPopup(auth, provider)
-          .then(result => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            console.log('구글로그인');
-            // ...
+        window.location.href = `${configs.server}/auth/google`;
+        // axios
+        //   .get(`${configs.server}/auth/google`)
+        //   .catch(e => console.log('auth/google: ' + e))
+        //   .then(res => {
+        //     this.fetchUser();
+        //     console.log('auth/google: ' + res);
+        //   });
+        // window.location.href =
+        //   'https://accounts.google.com/o/oauth2/auth?' +
+        //   'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
+        //   'redirect_uri=https://cfomarket.store/__/auth/handler&' +
+        //   'response_type=token&' +
+        //   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+      },
+      fetchUser() {
+        axios
+          .get(`${configs.server}/user`, {withCredentials: true})
+          .then(response => {
+            this.user = response.data;
+            console.log(
+              '구글로그인정보: ' + this.user + JSON.stringify(this.user),
+            );
           })
-          .catch(error => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
+          .catch(() => {
+            this.user = null;
           });
       },
+      logout() {
+        axios
+          .get(`${configs.server}/logout`, {withCredentials: true})
+          .then(() => {
+            this.user = null;
+          });
+      },
+    },
+    created() {
+      // this.fetchUser();
     },
 
     setup() {

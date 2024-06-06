@@ -64,7 +64,7 @@
         this.readResData();
         const requestData = this.postJsonData;
         var amountOfPayment =
-          this.cartTotalPrice + this.shipment + this.freeze_shipment - 3000;
+          this.cartTotalPrice + this.shipment + this.freeze_shipment - 4200;
         console.log(
           '가격 비교: ' +
             amountOfPayment +

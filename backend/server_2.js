@@ -29,6 +29,13 @@ const crypto = require('crypto');
 const fs = require('fs');
 // const security = require('./utils/security');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
+/// ------------ google oauth const start ---------------------///
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const cookieSession = require('cookie-session');
+const googleOauth_Config = require('./configs/db');
+
+/// ------------ google oauth const end ---------------------///
 
 function hashpw(password) {
   return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
@@ -40,6 +47,70 @@ const {resourceLimits} = require('worker_threads');
 const _dirname = path.resolve();
 const app = express(); // express Server
 
+/// ------------ google oauth get start ---------------------///
+// Configure cookie sessions
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2'],
+  }),
+);
+
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configure passport with Google OAuth 2.0 strategy
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: googleOauth_Config.clientID,
+      clientSecret: googleOauth_Config.clientSecret,
+      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
+    },
+    (token, tokenSecret, profile, done) => {
+      return done(null, profile);
+    },
+  ),
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
+// Google auth routes
+app.get(
+  '/api/auth/google',
+  passport.authenticate('google', {scope: ['profile', 'email']}),
+);
+
+app.get(
+  '/api/auth/google/callback',
+  passport.authenticate('google', {failureRedirect: '/'}),
+  (req, res) => {
+    res.redirect('/');
+  },
+);
+// Route to get user info
+app.get('/api/user', (req, res) => {
+  res.send(req.user);
+});
+
+// Logout route
+app.get('/api/logout', (req, res) => {
+  req.logout(err => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
+
+/// ------------ google oauth get end---------------------///
 app.set('port', 3000);
 
 const prikeyfile = '/etc/ssl/private/cfomarket.store.key';
