@@ -85,6 +85,37 @@ quasar dev -m cordova -T android -warning-mode=all
 cordova plugin rm org.apache.cordova.console --save
 cordova build --release android
 
+# ios
+
+cordova platform add ios
+
+## Xcode: not installed
+
+xcode-select --print-path
+
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+## ios-deploy: not installed
+
+npm install -g ios-deploy
+
+## CocoaPods: not installed
+
+sudo gem install cocoapods
+
+npm i -g @ionic/cli
+npm i -g cordova-res
+
+cd src-cordova
+
+ionic init
+(custrom (cukstrom) choise)
+
+ionic cordova resources ios
+cfo.market.com
+
+cordova build --release ios
+
 # 키 생성
 
 PS C:\Users\82108\quasar-project\src-cordova> keytool -genkey -v -keystore cfomarket-mobileapps.keystore -alias cfomarketmobileapps -keyalg RSA -keysize 2048 -validity 10000
