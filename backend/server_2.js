@@ -134,7 +134,13 @@ const sessionObj = {
 app.use(session(sessionObj));
 
 appServer.listen(app.get('port'), () => {
-  console.log(`${app.get('port')}에서 서버실행중.`);
+  console.log(
+    `${app.get('port')}에서 서버실행중.` +
+      '아이디: ' +
+      googleOauth_Config.clientID +
+      '/시크릿: ' +
+      googleOauth_Config.clientSecret,
+  );
 });
 
 // 미들웨어를 등록한다
