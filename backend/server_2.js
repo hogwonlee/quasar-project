@@ -24,13 +24,14 @@ const {date} = require('quasar');
 const {stringify} = require('querystring');
 const auth = require('./router/auth');
 const authRouter = require('./router/index');
-const noAuthRouter = require('./router/noauth');
 const crypto = require('crypto');
 const fs = require('fs');
 // const security = require('./utils/security');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
 /// ------------ google oauth const start ---------------------///
 const passport = require('passport');
+global.PASSPORT = passport;
+
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieSession = require('cookie-session');
 const googleOauth_Config = require('./configs/db');
@@ -69,7 +70,13 @@ passport.use(
       callbackURL: 'https://cfomarket.store:3000/auth/google/callback',
     },
     (token, tokenSecret, profile, done) => {
-      return done(null, profile);
+      // profle 구조  https://www.passportjs.org/reference/normalized-profile/
+      //
+      // 'SELECT * FROM userinfo WHERE id = ? AND type = "google" ';
+      console.log(JSON.stringify(profile));
+      // return auth.getGoogleUser(profile, (err, user) => {
+      //   return done(err, user);
+      // });
     },
   ),
 );
@@ -83,18 +90,18 @@ passport.deserializeUser((obj, done) => {
 });
 
 // Google auth routes
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {scope: ['profile', 'email']}),
-);
+// app.get(
+//   '/auth/google',
+//   passport.authenticate('google', {scope: ['profile', 'email']}),
+// );
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {failureRedirect: '/'}),
-  (req, res) => {
-    res.redirect('/');
-  },
-);
+// app.get(
+//   '/auth/google/callback',
+//   passport.authenticate('google', {failureRedirect: '/'}),
+//   (req, res) => {
+//     res.redirect('/');
+//   },
+// );
 // Route to get user info
 app.get('/user', (req, res) => {
   res.send(req.user);
@@ -160,7 +167,7 @@ app.get('/api', (req, res) => {
     console.log('이미 로그인 하미' + coo);
   }
 });
-
+const noAuthRouter = require('./router/noauth');
 app.use(noAuthRouter);
 
 app.use(auth.checkAuth);

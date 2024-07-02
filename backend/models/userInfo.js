@@ -1,9 +1,8 @@
-'use strict'
+'use strict';
 
-const { DataTypes } = require('sequelize')
+const {DataTypes} = require('sequelize');
 
 module.exports = sequelize => {
-
   const model = sequelize.define('User', {
     user_id: {
       type: DataTypes.STRING,
@@ -22,23 +21,25 @@ module.exports = sequelize => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-
-  }, {
+    //   type: {
+    //     type: DataTypes.STRING,
+    //     allowNull: true,
+    //   },
+    // },
+    // {
     tableName: 'userinfo',
-    timestamps: false
-  })
+    timestamps: false,
+  });
 
   model.findByIdAndPw = async userPwObj => {
     return await model.findOne({
       attributes: ['user_id', 'user_phone', 'user_name'],
       where: {
         user_id: userPwObj.user_id,
-        user_pw: userPwObj.user_pw
+        user_pw: userPwObj.user_pw,
       },
-    })
-  }
+    });
+  };
 
-
-  return model
-
-}
+  return model;
+};
