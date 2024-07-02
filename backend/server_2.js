@@ -67,7 +67,7 @@ passport.use(
     {
       clientID: googleOauth_Config.clientID,
       clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store:3000/auth/google/callback',
+      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
     },
     (token, tokenSecret, profile, done) => {
       // profle 구조  https://www.passportjs.org/reference/normalized-profile/
@@ -103,12 +103,12 @@ passport.deserializeUser((obj, done) => {
 //   },
 // );
 // Route to get user info
-app.get('/user', (req, res) => {
+app.get('/api/user', (req, res) => {
   res.send(req.user);
 });
 
 // Logout route
-app.get('/logout', (req, res) => {
+app.get('/api/logout', (req, res) => {
   req.logout(err => {
     if (err) {
       return next(err);
@@ -141,7 +141,13 @@ const sessionObj = {
 app.use(session(sessionObj));
 
 appServer.listen(app.get('port'), () => {
-  console.log(`${app.get('port')}에서 서버실행중.`);
+  console.log(
+    `${app.get('port')}에서 서버실행중.` +
+      '아이디: ' +
+      googleOauth_Config.clientID +
+      '/시크릿: ' +
+      googleOauth_Config.clientSecret,
+  );
 });
 
 // 미들웨어를 등록한다

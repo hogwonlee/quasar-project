@@ -17,10 +17,17 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-splashscreen": {}
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-wkwebview-engine": {}
         },
         "platforms": [
             "android"
         ]
+    },
+    "devDependencies": {
+        "cordova-ios": "^7.1.0",
+        "cordova-plugin-ionic-webview": "^5.0.1",
+        "cordova-plugin-wkwebview-engine": "^1.2.2"
     }
 }

@@ -207,7 +207,14 @@
         accept.value = false;
       },
       googleLogin() {
-        window.location.href = 'https://cfomarket.store:3000/auth/google';
+        window.location.href = `${configs.server}/auth/google`;
+        // axios
+        //   .get(`${configs.server}/auth/google`)
+        //   .catch(e => console.log('auth/google: ' + e))
+        //   .then(res => {
+        //     this.fetchUser();
+        //     console.log('auth/google: ' + res);
+        //   });
         // window.location.href =
         //   'https://accounts.google.com/o/oauth2/auth?' +
         //   'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
@@ -217,7 +224,7 @@
       },
       fetchUser() {
         axios
-          .get('http://localhost:3000/user', {withCredentials: true})
+          .get(`${configs.server}/user`, {withCredentials: true})
           .then(response => {
             this.user = response.data;
             console.log(
@@ -230,14 +237,14 @@
       },
       logout() {
         axios
-          .get('http://localhost:3000/logout', {withCredentials: true})
+          .get(`${configs.server}/logout`, {withCredentials: true})
           .then(() => {
             this.user = null;
           });
       },
     },
     created() {
-      this.fetchUser();
+      // this.fetchUser();
     },
 
     setup() {
