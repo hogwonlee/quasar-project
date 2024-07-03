@@ -16,6 +16,8 @@ const https = require('https');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cookieSession = require('cookie-session');
+
 const MemoryStore = require('memorystore')(session);
 const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
@@ -28,15 +30,6 @@ const crypto = require('crypto');
 const fs = require('fs');
 // const security = require('./utils/security');
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
-/// ------------ google oauth const start ---------------------///
-const passport = require('passport');
-global.PASSPORT = passport;
-
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieSession = require('cookie-session');
-const googleOauth_Config = require('./configs/db');
-
-/// ------------ google oauth const end ---------------------///
 
 function hashpw(password) {
   return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
@@ -57,67 +50,6 @@ app.use(
   }),
 );
 
-// Initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Configure passport with Google OAuth 2.0 strategy
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: googleOauth_Config.clientID,
-      clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
-    },
-    (token, tokenSecret, profile, done) => {
-      // profle 구조  https://www.passportjs.org/reference/normalized-profile/
-      //
-      // 'SELECT * FROM userinfo WHERE id = ? AND type = "google" ';
-      console.log(JSON.stringify(profile));
-      // return auth.getGoogleUser(profile, (err, user) => {
-      //   return done(err, user);
-      // });
-    },
-  ),
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
-
-// Google auth routes
-// app.get(
-//   '/auth/google',
-//   passport.authenticate('google', {scope: ['profile', 'email']}),
-// );
-
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate('google', {failureRedirect: '/'}),
-//   (req, res) => {
-//     res.redirect('/');
-//   },
-// );
-// Route to get user info
-app.get('/api/user', (req, res) => {
-  res.send(req.user);
-});
-
-// Logout route
-app.get('/api/logout', (req, res) => {
-  req.logout(err => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/');
-  });
-});
-
-/// ------------ google oauth get end---------------------///
 app.set('port', 3000);
 
 const prikeyfile = '/etc/ssl/private/cfomarket.store.key';
@@ -141,13 +73,7 @@ const sessionObj = {
 app.use(session(sessionObj));
 
 appServer.listen(app.get('port'), () => {
-  console.log(
-    `${app.get('port')}에서 서버실행중.` +
-      '아이디: ' +
-      googleOauth_Config.clientID +
-      '/시크릿: ' +
-      googleOauth_Config.clientSecret,
-  );
+  console.log(`${app.get('port')}에서 서버실행중.`);
 });
 
 // 미들웨어를 등록한다
