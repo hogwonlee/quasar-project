@@ -39,6 +39,7 @@ passport.use(
           'TOKENSECRET: ' +
           JSON.stringify(tokenSecret),
       );
+      authController.google_login;
       return done(err, profile);
     },
   ),
