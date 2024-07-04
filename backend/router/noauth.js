@@ -54,12 +54,12 @@ passport.deserializeUser((obj, done) => {
 
 // Google auth routes
 router.get(
-  '/auth/google',
+  '/api/auth/google',
   passport.authenticate('google', {scope: ['profile', 'email']}),
 );
 
 router.get(
-  '/auth/google/callback',
+  '/api/auth/google/callback',
   passport.authenticate('google', {failureRedirect: '/'}),
   (req, res) => {
     res.redirect('/');
