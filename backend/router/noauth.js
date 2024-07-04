@@ -31,7 +31,14 @@ passport.use(
       callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
     },
     (token, tokenSecret, profile, done) => {
-      console.log(JSON.stringify(profile));
+      console.log(
+        'PROFILE: ' +
+          JSON.stringify(profile) +
+          'TOKEN: ' +
+          JSON.stringify(token) +
+          'TOKENSECRET: ' +
+          JSON.stringify(tokenSecret),
+      );
       return done(err, profile);
     },
   ),
