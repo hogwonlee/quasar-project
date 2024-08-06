@@ -208,12 +208,19 @@
       },
       googleLogin() {
         window.location.href = `${configs.server}/auth/google`;
-        // axios
-        //   .get(`${configs.server}/auth/google`)
+        // axios({
+        //   url: `${configs.server}/auth/google`,
+        //   method: 'GET',
+        //   headers: {
+        //     'Access-Control-Allow-Headers': '*',
+        //     'Content-Type': 'application/json',
+        //     authorization: this.user.USER_TOKEN,
+        //   },
+        // })
         //   .catch(e => console.log('auth/google: ' + e))
         //   .then(res => {
-        //     this.fetchUser();
-        //     console.log('auth/google: ' + res);
+        //     // this.fetchUser();
+        //     console.log('auth/google: ' + JSON.stringify(res.data));
         //   });
         // window.location.href =
         //   'https://accounts.google.com/o/oauth2/auth?' +

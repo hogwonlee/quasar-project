@@ -4,20 +4,9 @@ const authController = require('../router/auth');
 const productController = require('../controller/product');
 const express = require('express');
 const router = express.Router();
-const dbConfig = require('../configs/db');
-const mysql = require('mysql');
+const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
 
-const db = mysql.createConnection({
-  host: dbConfig.host,
-  user: dbConfig.username,
-  password: dbConfig.password,
-  port: dbConfig.port,
-  database: dbConfig.database,
-  allowPublicKeyRetrieval: true,
-  ssl: false,
-});
-
-/// ------------ google oauth const start ---------------------///
+/// ------------  google oauth const start ---------------------///
 const passport = require('passport');
 // global.PASSPORT = passport;
 
@@ -33,15 +22,15 @@ router.get('/api/productList', productController.getProductList);
 // Initialize passport
 router.use(passport.initialize());
 router.use(passport.session());
+// router.use(cors()); //교차통신 적용
 
 // Configure passport with Google OAuth 2.0 strategy
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
+      callbackURL: 'http://localhost:8000/api/auth/google/callback',
     },
-
-    (token, tokenSecret, profile, done) => {
+    function (token, tokenSecret, profile, done) {
       console.log(
         'PROFILE: ' +
           JSON.stringify(profile) +
@@ -50,9 +39,14 @@ passport.use(
           'TOKENSECRET: ' +
           JSON.stringify(tokenSecret),
       );
-      // }
-      authController.google_login;
-      return done(null, profile);
+      authController.google_login(
+        profile,
+        tokenSecret,
+        token,
+        function (err, user) {
+          return done(err, user);
+        },
+      );
     },
   ),
 );
@@ -73,11 +67,16 @@ router.get(
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: 'http://localhost:9000/UserInfo',
-  }),
+  passport.authenticate('google', {failureRedirect: 'http://localhost:9000'}),
   (req, res) => {
-    res.redirect('http://localhost:9000/OrderList');
+    const user = req.user;
+    // res.set
+    req.session = {
+      cookie: user,
+    };
+    res.cookie('user', user).redirect('http://localhost:9000');
+    // req.session.cookie.user = user;
+    // res.json(user).redirect('http://localhost:9000');
   },
 );
 // Route to get user info
