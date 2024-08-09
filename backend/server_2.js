@@ -22,8 +22,8 @@ const MemoryStore = require('memorystore')(session);
 const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
-const {date} = require('quasar');
-const {stringify} = require('querystring');
+const { date } = require('quasar');
+const { stringify } = require('querystring');
 const auth = require('./router/auth');
 const authRouter = require('./router/index');
 const crypto = require('crypto');
@@ -35,8 +35,8 @@ function hashpw(password) {
   return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
 }
 
-const {db} = require('./models/database');
-const {resourceLimits} = require('worker_threads');
+const { db } = require('./models/database');
+const { resourceLimits } = require('worker_threads');
 
 const _dirname = path.resolve();
 const app = express(); // express Server
@@ -49,6 +49,20 @@ app.use(
     keys: ['key1', 'key2'],
   }),
 );
+
+app.use(function (request, response, next) {
+  if (request.session && !request.session.regenerate) {
+    request.session.regenerate = (cb) => {
+      cb()
+    }
+  }
+  if (request.session && !request.session.save) {
+    request.session.save = (cb) => {
+      cb()
+    }
+  }
+  next()
+})
 
 app.set('port', 3000);
 
@@ -67,8 +81,8 @@ const sessionObj = {
   secret: 'my key',
   resave: false,
   saveUninitialized: true,
-  store: new MemoryStore({checkPeriod: maxAge}),
-  cookie: {maxAge},
+  store: new MemoryStore({ checkPeriod: maxAge }),
+  cookie: { maxAge },
 };
 app.use(session(sessionObj));
 
@@ -77,7 +91,7 @@ appServer.listen(app.get('port'), () => {
 });
 
 // 미들웨어를 등록한다
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(serveStatic(path.join(_dirname, 'public')));
 app.use(bodyParser.json());
 app.use(
@@ -94,7 +108,7 @@ app.use(cookieParser());
 
 app.get('/api', (req, res) => {
   console.log('get: ' + req.header.authorization);
-  const {coo} = req.session;
+  const { coo } = req.session;
   if (coo) {
     console.log('이미 로그인 하미' + coo);
   }
@@ -106,7 +120,7 @@ app.use(auth.checkAuth);
 
 app.post('/api/checkpw', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -115,7 +129,7 @@ app.post('/api/checkpw', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         const sqlCommend =
@@ -133,10 +147,10 @@ app.post('/api/checkpw', function (req, res) {
           function (err, results, fields) {
             if (results.length <= 0) {
               console.log('비밀번호 확인:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
               return resolve(1);
             } else {
-              res.status(200).send({msg: 'success'});
+              res.status(200).send({ msg: 'success' });
               return resolve(1);
             }
           },
@@ -148,7 +162,7 @@ app.post('/api/checkpw', function (req, res) {
 
 app.post('/api/changeuserinfo', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -157,7 +171,7 @@ app.post('/api/changeuserinfo', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         const sqlCommend =
@@ -174,10 +188,10 @@ app.post('/api/changeuserinfo', function (req, res) {
           function (err, results, fields) {
             if (results.length <= 0) {
               console.log('비밀번호 확인:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
               return resolve(1);
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
               return resolve(1);
             }
           },
@@ -189,7 +203,7 @@ app.post('/api/changeuserinfo', function (req, res) {
 
 app.post('/api/changepw', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -198,7 +212,7 @@ app.post('/api/changepw', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         const sqlCommend_select =
@@ -215,7 +229,7 @@ app.post('/api/changepw', function (req, res) {
           function (err, results, fields) {
             if (results.length <= 0) {
               console.log('비밀번호 확인:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
               return resolve(1);
             } else {
               const sqlCommend_update =
@@ -231,10 +245,10 @@ app.post('/api/changepw', function (req, res) {
                 function (err, results, fields) {
                   if (results.length <= 0) {
                     console.log('비밀번호 변경 오류:' + err);
-                    res.status(400).send({msg: 'error', content: err});
+                    res.status(400).send({ msg: 'error', content: err });
                     return resolve(1);
                   } else {
-                    res.status(200).send({msg: 'success'});
+                    res.status(200).send({ msg: 'success' });
                     return resolve(1);
                   }
                 },
@@ -249,7 +263,7 @@ app.post('/api/changepw', function (req, res) {
 
 app.post('/api/addressRegister', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -258,7 +272,7 @@ app.post('/api/addressRegister', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -279,7 +293,7 @@ app.post('/api/addressRegister', function (req, res) {
           return db.query(sqlCommend, param, function (err, results, fields) {
             if (err) {
               console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
               return resolve(1);
             } else {
               const new_address_id = results.insertId;
@@ -294,7 +308,7 @@ app.post('/api/addressRegister', function (req, res) {
                   function (err, results, fields) {
                     if (err) {
                       console.log('배송 주소 기본 설정 초기화:' + err);
-                      res.status(400).send({msg: 'error', content: err});
+                      res.status(400).send({ msg: 'error', content: err });
                       return resolve(1);
                     } else {
                       const sqlCommend_default =
@@ -308,10 +322,10 @@ app.post('/api/addressRegister', function (req, res) {
                         [param_2.user_id, param_2.address_id],
                         function (err, results, fields) {
                           if (err) {
-                            res.status(400).send({msg: 'error', content: err});
+                            res.status(400).send({ msg: 'error', content: err });
                             return resolve(1);
                           } else {
-                            res.status(200).send({msg: 'success', results});
+                            res.status(200).send({ msg: 'success', results });
                             return resolve(1);
                           }
                         },
@@ -330,7 +344,7 @@ app.post('/api/addressRegister', function (req, res) {
 
 app.post('/api/addressChangeDefaultAddress', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -339,7 +353,7 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -352,7 +366,7 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
             param,
             function (err, results, fields) {
               if (err) {
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
                 return resolve(1);
               } else {
                 const sqlCommend_default =
@@ -366,7 +380,7 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
                   [param_2.user_id, param_2.address_id],
                   function (err, results, fields) {
                     if (err) {
-                      res.status(400).send({msg: 'error', content: err});
+                      res.status(400).send({ msg: 'error', content: err });
                       return resolve(1);
                     } else {
                       const sqlCommend_select =
@@ -378,11 +392,11 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
                         function (err, results, fields) {
                           if (err) {
                             // console.log('배송 주소 조회 요청:' + err);
-                            res.status(400).send({msg: 'error', content: err});
+                            res.status(400).send({ msg: 'error', content: err });
                             return resolve(1);
                           } else {
                             // console.log('userInfo 로그인 유저 조회 답변:' + results);
-                            res.status(200).send({results});
+                            res.status(200).send({ results });
                             return resolve(1);
                           }
                         },
@@ -401,7 +415,7 @@ app.post('/api/addressChangeDefaultAddress', function (req, res) {
 
 app.post('/api/addressInfoChange', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -410,7 +424,7 @@ app.post('/api/addressInfoChange', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -443,10 +457,10 @@ app.post('/api/addressInfoChange', function (req, res) {
             ],
             function (err, results, fields) {
               if (err) {
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
                 return resolve(1);
               } else {
-                res.status(200).send({results});
+                res.status(200).send({ results });
                 return resolve(1);
               }
             },
@@ -459,7 +473,7 @@ app.post('/api/addressInfoChange', function (req, res) {
 
 app.post('/api/deleteAddress', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -468,7 +482,7 @@ app.post('/api/deleteAddress', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -481,10 +495,10 @@ app.post('/api/deleteAddress', function (req, res) {
             param,
             function (err, results, fields) {
               if (err) {
-                res.status(400).send({msg: 'error', content: err});
+                res.status(400).send({ msg: 'error', content: err });
                 return resolve(1);
               } else {
-                res.status(200).send({msg: 'success'});
+                res.status(200).send({ msg: 'success' });
                 return resolve(1);
               }
             },
@@ -497,7 +511,7 @@ app.post('/api/deleteAddress', function (req, res) {
 
 app.post('/api/giveCoupon', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -506,7 +520,7 @@ app.post('/api/giveCoupon', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -514,16 +528,16 @@ app.post('/api/giveCoupon', function (req, res) {
           if (Number(req.body.food_price) >= 50000) {
             const sqlCommend_gift =
               'INSERT INTO usercoupon SET coupon_id = 2 , available = 1 , user_id = ?';
-            const param_gift = {user_id: req.body.user_id};
+            const param_gift = { user_id: req.body.user_id };
             return db.query(
               sqlCommend_gift,
               param_gift.user_id,
               function (err_gift, results_gift, fields) {
                 if (err_gift) {
-                  res.status(400).send({msg: 'error', content: err});
+                  res.status(400).send({ msg: 'error', content: err });
                   return resolve(1);
                 } else {
-                  res.status(200).send({results_gift});
+                  res.status(200).send({ results_gift });
                   return resolve(1);
                 }
               },
@@ -537,7 +551,7 @@ app.post('/api/giveCoupon', function (req, res) {
 
 app.post('/api/orderRegister', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -546,14 +560,14 @@ app.post('/api/orderRegister', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
 
         if (decoded.USER_ID != req.body.user_id) {
           res
             .status(401)
-            .send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+            .send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
           return resolve(1);
         }
 
@@ -570,7 +584,7 @@ app.post('/api/orderRegister', function (req, res) {
             [param_useCoupon.user_id, param_useCoupon.coupon_id],
             function (err_gift, results_gift, fields) {
               if (err_gift) {
-                res.status(400).send({msg: 'use coupon error', content: err});
+                res.status(400).send({ msg: 'use coupon error', content: err });
                 return resolve(1);
               } else {
                 let sqlCommend =
@@ -596,7 +610,7 @@ app.post('/api/orderRegister', function (req, res) {
                   ],
                   function (err, results, fields) {
                     if (err) {
-                      res.status(500).send({msg: 'error', content: err});
+                      res.status(500).send({ msg: 'error', content: err });
                       return resolve(1);
                     } else {
                       const insert_sql =
@@ -632,10 +646,10 @@ app.post('/api/orderRegister', function (req, res) {
                         sqlCommend_insert,
                         function (err, results, fields) {
                           if (err) {
-                            res.status(500).send({msg: 'error', content: err});
+                            res.status(500).send({ msg: 'error', content: err });
                             return resolve(1);
                           } else {
-                            res.status(200).send({results});
+                            res.status(200).send({ results });
                             return resolve(1);
                           }
                         },
@@ -669,7 +683,7 @@ app.post('/api/orderRegister', function (req, res) {
             ],
             function (err, results, fields) {
               if (err) {
-                res.status(500).send({msg: 'error', content: err});
+                res.status(500).send({ msg: 'error', content: err });
                 return resolve(1);
               } else {
                 const insert_sql =
@@ -705,10 +719,10 @@ app.post('/api/orderRegister', function (req, res) {
                   sqlCommend_insert,
                   function (err, results, fields) {
                     if (err) {
-                      res.status(500).send({msg: 'error', content: err});
+                      res.status(500).send({ msg: 'error', content: err });
                       return resolve(1);
                     } else {
-                      res.status(200).send({results});
+                      res.status(200).send({ results });
                       return resolve(1);
                     }
                   },
@@ -732,14 +746,14 @@ app.post('/api/orderList', (req, res) => {
           const sqlCommend =
             'SELECT * FROM orderinfo JOIN productinfo ON orderinfo.product_id=productinfo.id WHERE order_group = ?';
           const body = req.body;
-          const param = {order_group: body.order_group};
+          const param = { order_group: body.order_group };
 
           db.query(sqlCommend, param.order_group, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -754,7 +768,7 @@ app.post('/api/orderList', (req, res) => {
 
 app.post('/api/addressInfo', function (req, res) {
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    res.status(400).send({ msg: '로그인 정보와 등록 정보가 일치하지 않습니다.' });
     return;
   }
   return new Promise(resolve => {
@@ -763,7 +777,7 @@ app.post('/api/addressInfo', function (req, res) {
       jwtObj.secret,
       function (err, decoded) {
         if (err) {
-          res.status(500).send({msg: 'error', content: err});
+          res.status(500).send({ msg: 'error', content: err });
           return resolve(1);
         }
         if (decoded.USER_ID == req.body.user_id) {
@@ -773,11 +787,11 @@ app.post('/api/addressInfo', function (req, res) {
           return db.query(sqlCommend, param, function (err, results, fields) {
             if (err) {
               // console.log('배송 주소 추가 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
               return resolve(1);
             } else {
               // console.log('userInfo 로그인 유저 조회 답변:' + results);
-              res.status(200).send({results});
+              res.status(200).send({ results });
               return resolve(1);
             }
           });
@@ -799,9 +813,9 @@ app.post('/api/deliveryInfo', (req, res) => {
   // console.log(sqlCommend + param);
   db.query(sqlCommend, param, (err, results, fields) => {
     if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({results});
+      res.status(200).send({ results });
     }
   });
 });
@@ -814,9 +828,9 @@ app.get('/api/orderGroupInfo', (req, res) => {
   // console.log(sqlCommend + param);
   db.query(sqlCommend, param, (err, results, fields) => {
     if (results.length <= 0) {
-      res.status(400).send({msg: 'error', content: err});
+      res.status(400).send({ msg: 'error', content: err });
     } else {
-      res.status(200).send({results});
+      res.status(200).send({ results });
     }
   });
 });
@@ -826,10 +840,10 @@ app.post('/api/mycoupon', (req, res) => {
     'SELECT * FROM usercoupon JOIN coupon ON usercoupon.coupon_id = coupon.id WHERE usercoupon.available = 1 AND usercoupon.user_id = ?';
 
   const body = req.body;
-  const param = {user_id: body.user_id};
+  const param = { user_id: body.user_id };
   console.log(sqlCommend, param.user_id);
   db.query(sqlCommend, param.user_id, (err, results, fields) => {
-    res.status(200).send({results});
+    res.status(200).send({ results });
   });
 });
 
@@ -843,14 +857,14 @@ app.post('/api/orderHistory', (req, res) => {
           const sqlCommend =
             'SELECT DISTINCT product_id FROM ordergroup JOIN  orderinfo ON ordergroup.id = orderinfo.order_group  WHERE ordergroup.user_id = ?';
           const body = req.body;
-          const param = {user_id: body.user_id};
+          const param = { user_id: body.user_id };
 
           db.query(sqlCommend, param.user_id, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -874,9 +888,9 @@ app.post('/api/orderGroup', (req, res) => {
           db.query(sqlCommend, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -899,13 +913,13 @@ app.post('/api/orderDetail', (req, res) => {
           const sqlCommend =
             'SELECT orderinfo.product_id, orderinfo.quantity, orderinfo.bonus_quantity, orderinfo.bulk_buy, orderinfo.flavor, productinfo.product_name, productinfo.tag FROM orderinfo JOIN productinfo ON orderinfo.product_id=productinfo.id WHERE order_group = ?';
           const body = req.body;
-          const param = {order_group_id: body.order_group_id};
+          const param = { order_group_id: body.order_group_id };
           db.query(sqlCommend, param.order_group_id, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {
@@ -927,13 +941,13 @@ app.post('/api/orderAddressInfo', (req, res) => {
         if (decoded.USER_ID == req.body.user_id) {
           const sqlCommend = 'SELECT * FROM addressinfo WHERE address_id = ?';
           const body = req.body;
-          const param = {address_id: body.address_id};
+          const param = { address_id: body.address_id };
           db.query(sqlCommend, param.address_id, (err, results, fields) => {
             if (err) {
               console.log('주문 조회 요청:' + err);
-              res.status(400).send({msg: 'error', content: err});
+              res.status(400).send({ msg: 'error', content: err });
             } else {
-              res.status(200).send({results});
+              res.status(200).send({ results });
             }
           });
         } else {

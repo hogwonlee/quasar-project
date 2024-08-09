@@ -55,9 +55,17 @@ exports BACKEND_SERVER=https://{backend_server}
 
 `
 
+# mysql 설치
+`
+docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=dream001 -d --name mysql mysql:5.7
+
+docker exec -it mysql bash
+`
+
+
 # REDIS 설치
 
-`docker run -p 6379:6379 -it redis/redis-stack-server:latest`
+`docker run -p 6379:6379 -d -it --name redis redis/redis-stack-server:latest`
 
 # 빌드 중 오류 대처
 
@@ -224,8 +232,6 @@ yarn global add @quasar/cli
 cd /server/quasar-web
 git checkout qa
 git pull
-//pm2 start "quasar dev" --daemon --name qaapp
-pm2 start "quasar dev" --daemon --name webapp
 ```
 
 상태확인
