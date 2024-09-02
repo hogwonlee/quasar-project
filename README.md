@@ -56,12 +56,12 @@ exports BACKEND_SERVER=https://{backend_server}
 `
 
 # mysql 설치
+
 `
 docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=dream001 -d --name mysql mysql:5.7
 
 docker exec -it mysql bash
 `
-
 
 # REDIS 설치
 
@@ -256,6 +256,7 @@ cd /server/quasar-project
 git checkout master
 git pull
 pm2 start "quasar dev" --daemon --name webapp
+pm2 start "quasar dev" --daemon --name qa
 ```
 
 # 웹앱 서비스가 443 으로 시작 않될 때

@@ -40,17 +40,17 @@ passport.use(
     {
       clientID: googleOauth_Config.clientID,
       clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store:3000/api/auth/google/callback',
+      callbackURL: 'https://cfomarket.store/api/auth/google/callback',
     },
 
     (token, tokenSecret, profile, done) => {
       console.log(
         'PROFILE: ' +
-        JSON.stringify(profile) +
-        'TOKEN: ' +
-        JSON.stringify(token) +
-        'TOKENSECRET: ' +
-        JSON.stringify(tokenSecret),
+          JSON.stringify(profile) +
+          'TOKEN: ' +
+          JSON.stringify(token) +
+          'TOKENSECRET: ' +
+          JSON.stringify(tokenSecret),
       );
       // }
       authController.google_login(
@@ -76,16 +76,25 @@ passport.deserializeUser((obj, done) => {
 // Google auth routes
 router.get(
   '/api/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  passport.authenticate('google', {scope: ['profile', 'email']}),
 );
 
 router.get(
   '/api/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://cfomarket.store/UserInfo',
+    failureRedirect: '/UserInfo',
   }),
-  (req, res) => {
-    res.redirect('https://cfomarket.store/ProductList');
+  function (req, res) {
+    // // Successful authentication, redirect home.
+    // console.log('cookie:');
+    // console.log(req.headers.cookie);
+    const user = req.user;
+    // console.log(user);
+    if (user) {
+      res.cookie('user', user).redirect('/');
+    } else {
+      res.redirect('/');
+    }
   },
 );
 // Route to get user info

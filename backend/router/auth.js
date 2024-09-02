@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const redisController = require('../utils/redis');
 const crypto = require('crypto');
-const { db } = require('../models/database')
-
+const {db} = require('../models/database');
 
 const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
 
@@ -23,20 +22,22 @@ let jwtObj = {
 };
 
 module.exports = {
+  jwtObj: jwtObj,
+  hashpw: hashpw,
   checkAuth: async (req, res, next) => {
     if (req.headers.authorization == null) {
-      res.status(401).send({ msg: 'error', content: 'no authrozation' });
+      res.status(401).send({msg: 'error', content: 'no authrozation'});
       return;
     }
     let userInfo = await redisController.getToken(req.headers.authorization);
     if (!userInfo) {
-      res.status(401).send({ msg: 'error', content: 'session time out.' });
+      res.status(401).send({msg: 'error', content: 'session time out.'});
       return;
     }
 
     jwt.verify(req.headers.authorization, jwtObj.secret, (err, decoded) => {
       if (err) {
-        res.status(401).send({ msg: 'error', content: err });
+        res.status(401).send({msg: 'error', content: err});
         return;
       }
 
@@ -59,7 +60,7 @@ module.exports = {
     if (req.session.user) {
       // 세션에 유저가 존재한다면
       console.log('이미 로그인 돼있습니다~');
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
+      res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
       res.write('<h1> already Login</h1>');
       res.end();
     } else {
@@ -69,11 +70,11 @@ module.exports = {
         (err, results, fields) => {
           if (err) {
             console.error(err);
-            res.status(500).send({ msg: 'error', content: err });
+            res.status(500).send({msg: 'error', content: err});
           }
           if (results.length <= 0) {
             console.log('로그인요청:' + err);
-            res.status(400).send({ msg: 'error', content: err });
+            res.status(400).send({msg: 'error', content: err});
           } else {
             console.log(JSON.stringify(results));
             req.session.cookie.user = {
@@ -90,7 +91,7 @@ module.exports = {
               jwtObj.option,
             );
             redisController.setToken(token, req.session.cookie.user);
-            res.status(200).send({ token, results });
+            res.status(200).send({token, results});
             // });
           }
         },
@@ -111,7 +112,7 @@ module.exports = {
     db.query(sqlCommend, param, (err, results, fields) => {
       if (err) {
         console.log('회원가입요청:' + err);
-        res.status(400).send({ msg: 'error', content: err });
+        res.status(400).send({msg: 'error', content: err});
       } else {
         // //오픈 이벤트: 특정 날짜 이전에 계정 생성 시, 쿠폰 지급
         // if (Date.now() <= new Date('2023-12-31')) {
@@ -149,13 +150,13 @@ module.exports = {
       'SELECT userinfo.id, userinfo.user_name, userinfo.user_email,userinfo.user_token, userinfo.user_phone FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? ';
     console.log(
       'id: ' +
-      profile.id +
-      '/name: ' +
-      profile.displayName +
-      '/email: ' +
-      profile.emails[0].value +
-      '/token: ' +
-      token,
+        profile.id +
+        '/name: ' +
+        profile.displayName +
+        '/email: ' +
+        profile.emails[0].value +
+        '/token: ' +
+        token,
     );
     const param = {
       user_id: profile.id,
@@ -180,96 +181,94 @@ module.exports = {
     //   res.write('<h1> already Login</h1>');
     //   res.end();
     // } else {
-    db.query(
-      sqlCommend,
-      [param.user_id],
-      (err, results, fields) => {
-        if (err) {
-          console.error(err);
-          return callback(err, null);
-          // res.status(500).send({msg: 'error', content: err});
-        }
-        if (results.length <= 0) {
-          console.log('로그인요청:' + err);
-
-          const insertSqlCommend = 'INSERT INTO userinfo SET ?';
-          const insertParam = {
-            id: param.user_id,
-            user_name: param.user_name,
-            user_email: param.user_email,
-            user_token: token,
-          };
-
-          db.query(insertSqlCommend, insertParam, (err, results, fields) => {
-            if (err) {
-              console.log('회원가입요청:' + err);
-              return callback(err, null);
-              // res.status(400).send({msg: 'error', content: err});
-            } else {
-              user = {
-                id: results[0].id,
-                name: results[0].user_name,
-                user_token: param.user_token,
-                email: results[0].user_email,
-                phone: results[0].user_phone,
-                authorized: true,
-              };
-              // req.session.cookie.user = {
-              //   id: results[0].id,
-              //   name: results[0].user_name,
-              //   user_token: param.user_token,
-              //   authorized: true,
-              // };
-              // const token = jwt.sign(
-              //   {
-              //     USER_ID: results[0].id, //페이로드
-              //   },
-              //   jwtObj.secret,
-              //   jwtObj.option,
-              // );
-              // redisController.setToken(token, req.session.cookie.user);
-              // res.status(200).send({token, results});
-            }
-          });
-        } else {
-          console.log(JSON.stringify(results));
-          user = {
-            id: results[0].id,
-            name: results[0].user_name,
-            user_token: param.user_token,
-            email: results[0].user_email,
-            phone: results[0].user_phone,
-            authorized: true,
-          };
-
-          // redisController.setToken(token, user);
-
-          // req.session.cookie.user = {
-          //   id: results[0].id,
-          //   name: results[0].user_name,
-          //   user_token: param.user_token,
-          //   authorized: true,
-          // };
-          // const token = jwt.sign(
-          //   {
-          //     USER_ID: results[0].id, //페이로드
-          //   },
-          //   jwtObj.secret,
-          //   jwtObj.option,
-          // );
-          // redisController.setToken(token, req.session.cookie.user);
-          // res.status(200).send({token, results});
-          // });
-        }
-        const token = jwt.sign(
-          {
-            USER_ID: user.id, //페이로드
-          },
-          jwtObj.secret,
-          jwtObj.option,
-        );
-        return redisController.setToken(token, user).then(() => { callback(null, user) });
+    db.query(sqlCommend, [param.user_id], (err, results, fields) => {
+      if (err) {
+        console.error(err);
+        return callback(err, null);
+        // res.status(500).send({msg: 'error', content: err});
       }
-    );
+      if (results.length <= 0) {
+        console.log('로그인요청:' + err);
+
+        const insertSqlCommend = 'INSERT INTO userinfo SET ?';
+        const insertParam = {
+          id: param.user_id,
+          user_name: param.user_name,
+          user_email: param.user_email,
+          user_token: param.user_token,
+        };
+
+        db.query(insertSqlCommend, insertParam, (err, results, fields) => {
+          if (err) {
+            console.log('회원가입요청:' + err);
+            return callback(err, null);
+            // res.status(400).send({msg: 'error', content: err});
+          } else {
+            user = {
+              id: results[0].id,
+              name: results[0].user_name,
+              user_token: param.user_token,
+              email: results[0].user_email,
+              phone: results[0].user_phone,
+              authorized: true,
+            };
+            // req.session.cookie.user = {
+            //   id: results[0].id,
+            //   name: results[0].user_name,
+            //   user_token: param.user_token,
+            //   authorized: true,
+            // };
+            // const token = jwt.sign(
+            //   {
+            //     USER_ID: results[0].id, //페이로드
+            //   },
+            //   jwtObj.secret,
+            //   jwtObj.option,
+            // );
+            // redisController.setToken(token, req.session.cookie.user);
+            // res.status(200).send({token, results});
+          }
+        });
+      } else {
+        console.log(JSON.stringify(results));
+        user = {
+          id: results[0].id,
+          name: results[0].user_name,
+          user_token: param.user_token,
+          email: results[0].user_email,
+          phone: results[0].user_phone,
+          authorized: true,
+        };
+
+        // redisController.setToken(token, user);
+
+        // req.session.cookie.user = {
+        //   id: results[0].id,
+        //   name: results[0].user_name,
+        //   user_token: param.user_token,
+        //   authorized: true,
+        // };
+        // const token = jwt.sign(
+        //   {
+        //     USER_ID: results[0].id, //페이로드
+        //   },
+        //   jwtObj.secret,
+        //   jwtObj.option,
+        // );
+        // redisController.setToken(token, req.session.cookie.user);
+        // res.status(200).send({token, results});
+        // });
+      }
+      const token = jwt.sign(
+        {
+          USER_ID: user.id, //페이로드
+        },
+        jwtObj.secret,
+        jwtObj.option,
+      );
+      return redisController.setToken(param.user_token, user).then(() => {
+        callback(null, user);
+      });
+    });
   },
 };
