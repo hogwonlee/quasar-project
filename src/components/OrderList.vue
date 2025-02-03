@@ -1,14 +1,5 @@
 <template>
   <div>
-    <q-dialog v-model="register_popup">
-      <AddressRegister />
-    </q-dialog>
-    <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
-
-    <q-dialog v-model="address_popup">
-      <AddressList />
-    </q-dialog>
-
     <div class="q-pa-md">
       <q-chip outline color="grey-1" class="bg-dark text-body3 text-grey-1">{{
         selected_local.orderlist
@@ -27,7 +18,7 @@
           @sendDeleteItem="
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
-          class="col-xs-4 col-sm-4 col-md-3 q-pa-xs"
+          class="col-xs-3 col-sm-3 col-md-3 q-pa-xs"
           v-for="product in cartList"
           :key="product.product_id"
           v-bind="product"
@@ -113,10 +104,423 @@
         </tbody>
       </q-markup-table>
     </q-card>
-
+    <!--
     <q-dialog v-model="coupon_list" class="q-pa-none q-ma-none">
       <CouponList class="bg-white" v-bind:food_price="total" />
+    </q-dialog> -->
+
+    <div class="text-h6 text-bold">
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '支付方式-1：银行转账'
+          : '결제방식-1:계좌이체'
+      }}
+    </div>
+
+    <div>
+      <!-- <q-btn
+        color="negative"
+        outline
+        :label="selected_local.addrresister"
+        @click="register_popup = true"
+      ></q-btn> -->
+      <div>우리은행 (이호권)</div>
+      <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyBankAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >{{
+          selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
+        }}</q-btn
+      >
+      <!-- <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
+      <div>1. 包含购物车物品和商品价格的画面</div>
+      <div>2. 收件人的地址</div>
+      <div>3. 收件人的电话号码</div>
+      <div>
+        <text-subtitle2>微信ID:l175969775</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyWechatAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div>
+      <div>
+        <text-subtitle2>手机号:010-5790-6006</text-subtitle2>
+        <q-btn
+          @click="copyToClipboard(copyPhoneAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >复制</q-btn
+        >
+      </div> -->
+      <div class="row justify-end">
+        <q-btn
+          color="positive"
+          outline
+          size="22px"
+          class="text-bold q-py-none q-px-xl q-ma-sm"
+          :label="
+            selected_local.chinafood == '洽洽中国食品' ? '发送订单' : '오더전달'
+          "
+          @click="no_id_address_input = true"
+        >
+        </q-btn>
+      </div>
+    </div>
+    <q-dialog v-model="no_id_address_input" class="q-pa-none q-ma-none">
+      <q-card>
+        <q-card-section class="row items-center q-pa-none">
+          <div class="text-h6 text-bold">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '快递信息'
+                : '배송정보'
+            }}
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section class="row items-center q-pa-none">
+          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+            <q-input
+              filled
+              v-model="no_id_recipient_name"
+              :label="selected_local.name"
+              :hint="selected_local.namehint"
+              lazy-rules
+              :rules="[
+                val => (!!val && val.length <= 20) || selected_local.name,
+              ]"
+            />
+            <q-input
+              filled
+              v-model="no_id_recipient_phone"
+              :label="selected_local.tel"
+              :hint="selected_local.telhint"
+              mask="(###)####-####"
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 13 && val.length <= 15) ||
+                  selected_local.recipientphone,
+              ]"
+            />
+            <q-input
+              filled
+              v-model="no_id_recipient_address"
+              :label="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '收件地址'
+                  : '배송주소지'
+              "
+              :hint="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '请输入详细收件地址'
+                  : '배송받을 상세 주소지'
+              "
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 6 && val.length <= 99) ||
+                  selected_local.address,
+              ]"
+            />
+            <!-- 결제관련 정보 -->
+            <q-input
+              filled
+              v-model="no_id_recipient_bankinfo"
+              :label="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '支付信息'
+                  : '지불정보'
+              "
+              :hint="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '支付账号名+支付银行(如：우리은행/이호권)'
+                  : '지불계좌이름+지불은행(如：우리은행/이호권)'
+              "
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 6 && val.length <= 99) ||
+                  selected_local.address,
+              ]"
+            />
+            <div class="row q-ma-sm q-py-sm">
+              <q-radio
+                class="col-6"
+                color="positive"
+                v-model="doorScretKey"
+                val="free"
+                :label="selected_local.gate_free"
+              />
+              <q-radio
+                class="col-6"
+                color="positive"
+                v-model="doorScretKey"
+                val="password"
+                :label="selected_local.gate_password"
+              />
+
+              <q-input
+                standout
+                dense
+                class="col-12"
+                :disable="doorScretKey == 'password' ? false : true"
+                outlined
+                v-model="outdoorpassword"
+                :label="selected_local.gate_password"
+                lazy-rules
+                :rules="[val => !!val || '请输入附加信息']"
+              />
+            </div>
+            <div class="row justify-center q-gutter-sm q-py-sm">
+              <q-btn
+                :label="selected_local.confirm"
+                class="col-5"
+                @click="no_id_registe_address('계좌이체')"
+                color="positive"
+                outline
+                v-close-popup
+                :disable="
+                  no_id_recipient_name == null ||
+                  no_id_recipient_phone == null ||
+                  no_id_recipient_address == null ||
+                  no_id_recipient_bankinfo == null
+                "
+              />
+              <q-btn
+                :label="selected_local.cancel"
+                class="col-5"
+                color="negative"
+                outline
+                v-close-popup
+              />
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
     </q-dialog>
+    <q-separator />
+
+    <div class="text-h6 text-bold">
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '支付方式-2：微信转账'
+          : '결제방식-2:위쳇송금'
+      }}
+    </div>
+    <div>
+      <text-subtitle2>微信ID:l175969775</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyWechatAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >{{
+          selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
+        }}</q-btn
+      >
+    </div>
+    <!-- <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
+    <div>1. 包含购物车物品和商品价格的画面</div>
+    <div>2. 收件人的地址</div>
+    <div>3. 收件人的电话号码</div>
+    <div>
+      <text-subtitle2>手机号:010-5790-6006</text-subtitle2>
+      <q-btn
+        @click="copyToClipboard(copyPhoneAccount)"
+        class="text-bold q-ma-sm"
+        color="positive"
+        outline
+        >复制</q-btn
+      >
+    </div> -->
+    <p>
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '按今日汇率，支付人民币即可'
+          : '오늘의 매매기준환율에 따라 중국돈을 송금해주시면 됩니다.'
+      }}
+    </p>
+    <p class="row justify-end">
+      <a :href="url_currency" target="_blank">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '前去查看汇率'
+            : '환율 조회하러 가기'
+        }}
+      </a>
+    </p>
+    <div class="row justify-end">
+      <q-btn
+        color="positive"
+        outline
+        size="22px"
+        class="text-bold q-py-none q-px-xl q-ma-sm"
+        :label="
+          selected_local.chinafood == '洽洽中国食品' ? '发送订单' : '오더전달'
+        "
+        @click="no_id_address_input_wechat = true"
+      >
+      </q-btn>
+    </div>
+    <q-dialog v-model="no_id_address_input_wechat" class="q-pa-none q-ma-none">
+      <q-card>
+        <q-card-section class="row items-center q-pa-none">
+          <div class="text-h6 text-bold">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '快递信息'
+                : '배송정보'
+            }}
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section class="row items-center q-pa-none">
+          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+            <q-input
+              filled
+              v-model="no_id_recipient_name"
+              :label="selected_local.name"
+              :hint="selected_local.namehint"
+              lazy-rules
+              :rules="[
+                val => (!!val && val.length <= 20) || selected_local.name,
+              ]"
+            />
+            <q-input
+              filled
+              v-model="no_id_recipient_phone"
+              :label="selected_local.tel"
+              :hint="selected_local.telhint"
+              mask="(###)####-####"
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 13 && val.length <= 15) ||
+                  selected_local.phone,
+              ]"
+            />
+            <q-input
+              filled
+              v-model="no_id_recipient_address"
+              :label="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '收件地址'
+                  : '배송주소지'
+              "
+              :hint="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '请输入详细收件地址'
+                  : '배송받을 상세 주소지'
+              "
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 6 && val.length <= 99) ||
+                  selected_local.address,
+              ]"
+            />
+            <!-- 결제관련 정보 -->
+            <q-input
+              filled
+              v-model="no_id_recipient_bankinfo"
+              :label="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '支付信息'
+                  : '지불정보'
+              "
+              :hint="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '付款微信用户名或者微信号（如：l175969775/이호권）'
+                  : '송금한 위쳇닉네임 또는 위쳇아이디(如:l175969775/이호권)'
+              "
+              lazy-rules
+              :rules="[
+                val =>
+                  (!!val && val.length >= 6 && val.length <= 99) ||
+                  selected_local.address,
+              ]"
+            />
+            <div class="row q-ma-sm q-py-sm">
+              <q-radio
+                class="col-6"
+                color="positive"
+                v-model="doorScretKey"
+                val="free"
+                :label="selected_local.gate_free"
+              />
+              <q-radio
+                class="col-6"
+                color="positive"
+                v-model="doorScretKey"
+                val="password"
+                :label="selected_local.gate_password"
+              />
+
+              <q-input
+                standout
+                dense
+                class="col-12"
+                :disable="doorScretKey == 'password' ? false : true"
+                outlined
+                v-model="outdoorpassword"
+                :label="selected_local.gate_password"
+                lazy-rules
+                :rules="[val => !!val || '请输入附加信息']"
+              />
+            </div>
+            <div class="row justify-center q-gutter-sm q-py-sm">
+              <q-btn
+                :label="selected_local.confirm"
+                class="col-5"
+                @click="no_id_registe_address('微信红包')"
+                color="positive"
+                outline
+                v-close-popup
+                :disable="
+                  no_id_recipient_name == null ||
+                  no_id_recipient_phone == null ||
+                  no_id_recipient_address == null ||
+                  no_id_recipient_bankinfo == null
+                "
+              />
+              <q-btn
+                :label="selected_local.cancel"
+                class="col-5"
+                color="negative"
+                outline
+                v-close-popup
+              />
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <q-separator />
+
+    <div class="text-h6 text-bold">
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '支付方式-3：便捷支付'
+          : '결제방식-3:토스간편결제'
+      }}
+    </div>
+    <div>
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '*支付之前需要注册ID并登录收件人地址等信息。'
+          : '*간편결제를 하려면 회원가입 및 주소등록이 필요합니다.'
+      }}
+    </div>
     <q-card>
       <div v-if="user_status">
         <!-- <div>배송 주소 이름: {{ this.address_selected.address_tag }}</div>
@@ -249,73 +653,6 @@
         ></q-btn>
       </div>
     </q-card>
-    <div class="text-h6 text-bold">支付方式-1：银行转账</div>
-    <div>
-      <div>우리은행 (이호권)</div>
-      <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
-      <q-btn
-        @click="copyToClipboard(copyBankAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >复制</q-btn
-      >
-      <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
-      <div>1. 包含购物车物品和商品价格的画面</div>
-      <div>2. 收件人的地址</div>
-      <div>3. 收件人的电话号码</div>
-      <div>
-        <text-subtitle2>微信ID:l175969775</text-subtitle2>
-        <q-btn
-          @click="copyToClipboard(copyWechatAccount)"
-          class="text-bold q-ma-sm"
-          color="positive"
-          outline
-          >复制</q-btn
-        >
-      </div>
-      <div>
-        <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
-        <q-btn
-          @click="copyToClipboard(copyPhoneAccount)"
-          class="text-bold q-ma-sm"
-          color="positive"
-          outline
-          >复制</q-btn
-        >
-      </div>
-    </div>
-    <q-separator />
-
-    <div class="text-h6 text-bold">支付方式-2：微信转账</div>
-    <div>
-      <text-subtitle2>微信ID:l175969775</text-subtitle2>
-      <q-btn
-        @click="copyToClipboard(copyWechatAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >复制</q-btn
-      >
-    </div>
-    <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
-    <div>1. 包含购物车物品和商品价格的画面</div>
-    <div>2. 收件人的地址</div>
-    <div>3. 收件人的电话号码</div>
-    <div>
-      <text-subtitle2>手机号:010-8492-0526</text-subtitle2>
-      <q-btn
-        @click="copyToClipboard(copyPhoneAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >复制</q-btn
-      >
-    </div>
-    <q-separator />
-
-    <div class="text-h6 text-bold">支付方式-3：便捷支付</div>
-    <div>*支付之前需要注册ID并登录收件人地址等信息。</div>
     <div class="row justify-end">
       <div class="text-red text-bold q-pa-sm">
         <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
@@ -457,6 +794,15 @@
         </div>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="register_popup">
+      <AddressRegister />
+    </q-dialog>
+    <!-- 주소가 등록되었는지 여부와 상관없이 배송지 변경할 버튼이 노출되어야 함 -->
+
+    <q-dialog v-model="address_popup">
+      <AddressList />
+    </q-dialog>
+
     <q-dialog
       v-model="persistent"
       persistent
@@ -493,7 +839,7 @@
       LoginPage,
       AddressList,
       AddressRegister,
-      CouponList,
+      // CouponList,
     },
 
     data: function () {
@@ -502,14 +848,25 @@
         persistent: ref(false),
         address_selected: '',
         address_popup: ref(false),
-        register_popup: ref(false),
+        // register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
         finalCheck: ref(false),
         coupon: ref(''),
         copyBankAccount: ref('1002557640050'),
         copyWechatAccount: ref('l175969775'),
-        copyPhoneAccount: ref('01084920526'),
+        copyPhoneAccount: ref('01057906006'),
+        no_id_recipient_name: ref(''),
+        no_id_recipient_phone: ref(''),
+        no_id_recipient_address: ref(''),
+        no_id_recipient_bankinfo: ref(''),
+        no_id_address_input: ref(false),
+        no_id_address_input_wechat: ref(false),
+        url_currency: ref(
+          'https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW',
+        ),
+        outdoorpassword: '',
+        doorScretKey: 'free',
       };
     },
     watch: {
@@ -532,6 +889,7 @@
       }),
       ...mapGetters('cart', {
         cartProducts: 'cartProducts',
+        getCartItems: 'getCartItems',
         total: 'cartTotalPrice',
         shipment: 'shipmentPrice',
         freeze_shipment: 'freeze_shipmentPrice',
@@ -565,11 +923,103 @@
           throw e;
         }
       },
+      get_naver_currency() {
+        Notify.create({
+          position: 'top',
+          message: '환율 조회',
+          color: 'green',
+        });
+        axios
+          .get(this.url_currency)
+          .then(res => {
+            console.log('환율조회 응답: ' + JSON.stringify(res));
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
       buy_event_info() {
         alert.confirm(
           this.selected_local.event_5353_info,
           this.selected_local.event_5353_detail,
         );
+      },
+      no_id_registe_address(paymethed) {
+        Notify.create({
+          position: 'top',
+          message: '주문 등록',
+          color: 'green',
+        });
+        const addressData = {
+          no_id_recipient_name: this.no_id_recipient_name,
+          no_id_recipient_phone: this.no_id_recipient_phone,
+          no_id_recipient_address: this.no_id_recipient_address,
+          no_id_recipient_bankinfo: this.no_id_recipient_bankinfo,
+          no_id_recipient_gate_password:
+            this.doorScretKey == 'free' ? '' : this.outdoorpassword,
+        };
+        // 배송지 등록 요청 보내기
+        axios({
+          url: `${configs.server}/no_id_address`,
+          method: 'POST',
+          // httpsAgent: new https.Agent({
+          //              rejectUnauthorized: false,
+          //            }),
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
+          data: addressData,
+        })
+          .then(res => {
+            if (res.status == 200) {
+              this.set_order_with_address(res.data.insertId, paymethed);
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
+      },
+      set_order_with_address(address_inserted_id) {
+        const query_data = {
+          user_id: null,
+          address_id: address_inserted_id,
+          order_data: this.getCartItems,
+          food_price: this.total,
+          total_price: this.total >= 40000 ? 0 + this.total : 4200 + this.total,
+          used_coupon_id: null,
+        };
+        // console.log(
+        //   '장바구니 정리한 객체: ' + JSON.stringify(this.getCartItems),
+        // );
+        axios({
+          url: `${configs.server}/orderRegister`,
+          method: 'POST',
+          headers: {
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json',
+          },
+          data: query_data,
+        })
+          .then(res => {
+            // console.log(JSON.stringify(res));
+
+            if (res.status == 200) {
+              this.$store.dispatch('cart/checkout');
+              // this.$store.dispatch('coupon/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+              this.$store.dispatch('order/setStatusAction', 'buy complete');
+              // this.read_coupon();
+              console.log('주문 결과: ' + JSON.stringify(res));
+              Notify.create({
+                position: 'top',
+                message: '주문완료',
+                color: 'green',
+              });
+            } else {
+              Notify.create({
+                position: 'top',
+                message: '주문실패',
+                color: 'red',
+              });
+            }
+          })
+          .catch(res => console.log('에러: ' + res));
       },
       selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
         var discount;

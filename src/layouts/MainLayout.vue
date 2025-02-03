@@ -98,7 +98,6 @@
   import {mapState} from 'vuex';
   import axios from 'axios';
   import configs from 'src/configs/';
-  import Cookie from 'js-cookie';
 
   export default defineComponent({
     name: 'MainLayout',
@@ -124,38 +123,10 @@
       if (this.user.USER_PW != '') {
         this.serverLogin();
       }
-      const userj = Cookie.get('user');
-      if (userj) {
-        try {
-          let user = JSON.parse(userj.replace(/^j:/, ''));
-          console.log(user)
-          console.log("방문자: ", user.name);
-          console.log(user.id);
-          this.refresh_googleuser({
-            token: user.user_token,
-            results: [
-              {
-                user_id: user.id,
-                user_name: user.name,
-                user_phone: user.phone || '',
-                user_email: user.email || '',
-              }
-            ]
-          });
-        } catch (error) {
-          console.error(error)
-        }
-      }
       this.change_local(this.ui_local);
       // this.googleLogin();
     },
     methods: {
-      refresh_googleuser(user) {
-        this.$store.dispatch('user/loginAction', {
-          data: user,
-          that: this,
-        });
-      },
       change_local(val) {
         if (val == 'cn') {
           this.$store.dispatch('ui_local/setcnAction');

@@ -1,5 +1,5 @@
 const _ko = {
-  chinafood: '중국식품X한',
+  chinafood: '챠챠중국식품',
   food: '식품',
   couter: '계산대',
   deliver: '배송',
@@ -49,7 +49,7 @@ const _ko = {
   delete_ID: '회원탈퇴',
   idhint:
     '6-12자의 영문으로 추가해주세요. 중복ID가 예상될 경우 숫자를 추가해주세요.',
-  namehint: '사용자의 실제 성함을 적어주세요. 비밀번호 찾는데에 도움됩니다.',
+  namehint: '사용자의 성함을 적어주세요.',
   passwordhint: '8-16자의 영문과 숫자로 설정해주세요.',
   matchpassword: '비밀번호 일치확인',
   matchpasswordhint: '위의 비밀번호와 동일하게 입력하셔야 합니다.',
@@ -195,9 +195,11 @@ const _ko = {
   freeze_deliver_info2:
     '*아래 상품 포함시 배송비가 추가됩니다.(5만원이상 무료)',
   no_buy_history: '아직 구매 기록이 없습니다.',
+  notice_water_delivery:
+    '*본 제품은 부천,광명,서울 구로구 이외의 지역에서 추가로 3,000~10,000원의 택배비가 발생합니다.',
 };
 const _cn = {
-  chinafood: '中国食品X韩',
+  chinafood: '洽洽中国食品',
   food: '食品',
   couter: '收银台',
   deliver: '运送',
@@ -244,7 +246,7 @@ const _cn = {
   signup: '注册',
   delete_ID: '撤销账号',
   idhint: '请输入6-12字节的英文账号',
-  namehint: '请输入真实姓名，以便用于找回密码',
+  namehint: '请输入姓名',
   passwordhint: '请输入8-12字节的英文与数字的组合',
   matchpassword: '再次确认密码',
   matchpasswordhint: '请输入与以上相同的密码',
@@ -306,7 +308,7 @@ const _cn = {
   search_addr: '搜索地址',
   addrandhint: '地址 (自动填充)',
   addrdetailandhint: '详细地址 (自动填充)',
-  addrextra: '楼栋房号',
+  addrextra: '楼栋号房号（如：101洞1101号）',
   addrextraandhint: '如，几栋几号',
   addrtag: '地址名称',
   addrtagandhint: '如，家，公司，儿子家...',
@@ -376,7 +378,7 @@ const _cn = {
   default_info: '基本信息',
   product_desc: '商品信息',
   recipienthint: '请输入收件人姓名',
-  outdoorpasswordhint: '请输入共用大门出入密码',
+  outdoorpasswordhint: '请输入共用大门出入密码（如：公用密码1234*）',
   gate_free: '楼栋大门自由出入',
   gate_password: '楼栋大门出入密码',
   buy_history: '查看经常购买商品',
@@ -386,12 +388,20 @@ const _cn = {
   freeze_deliver_info1: '*订单包含此类商品,商家直接送货到家(时间:18点~22点)',
   freeze_deliver_info2: '*订单包含此类商品,额外收取运费(满5万则免)',
   no_buy_history: '暂无购买记录',
+  notice_water_delivery:
+    '*在富川、光明、首尔九老区以外的地址上，本品将产生3,000至10,000韩元的快递费用',
 };
 
 const state = {
   ko: _ko,
   cn: _cn,
   status: _cn,
+};
+
+const getters = {
+  getStatus: state => state.status,
+  getCn: state => state.cn,
+  getKo: state => state.ko,
 };
 
 const actions = {
@@ -411,6 +421,7 @@ export default {
   namespaced: true,
 
   state,
+  getters,
   actions,
   mutations,
 };

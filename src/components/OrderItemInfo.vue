@@ -7,14 +7,21 @@
             {{ boxcapacity }} {{ selected_local.bundle_count }}
           </q-badge> -->
           <q-badge floating rounded>
-            {{ flavor_refer }}x {{ quantity }}
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? flavor_refer
+                : flavor_refer_ko
+            }}x
+            {{ buyoption == true ? quantity + 'x' + boxcapacity : quantity }}
+            <!-- {{ quantity }} -->
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
-          {{ tag }}
+          <q-icon name="img:icons\currency-krw-white.png" />
+          {{ buyoption == true ? quantity * boxprice : quantity * price }}
           <div class="absolute-top-right transparent">
             <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>
-              {{ bonus_quantity }}
+              +{{ bonus_quantity }}
             </q-badge>
           </div>
         </q-chip>
@@ -45,8 +52,9 @@
           <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -58]">
-          <q-card-section class="row q-mt-none q-py-none q-px-sm">
+          <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
+            <!-- 흰색 텍스트로 보여지지 않음 -->
             <q-btn
               class="absolute-top-right bg-dark z-top q-ma-xs"
               text-color="white"
@@ -55,7 +63,19 @@
             >
             </q-btn>
 
-            <div class="col-12 text-h6 text-bold">
+            <div v-if="buyoption == true" class="col-12 text-h6 text-bold">
+              <q-icon name="img:icons\currency-krw-black.png" />
+              {{ boxprice * this.localQuantity }}
+              {{ selected_local.won }}
+              <q-btn
+                class="bg-red z-top q-ma-xs"
+                padding="sm"
+                round
+                icon="delete"
+                @click="this.deleteConfirm = true"
+              />
+            </div>
+            <div v-else class="col-12 text-h6 text-bold">
               <q-icon name="img:icons\currency-krw-black.png" />
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
@@ -67,24 +87,24 @@
                 @click="this.deleteConfirm = true"
               />
             </div>
-            <q-btn
+            <!-- <q-btn
               :disable="localQuantity <= 9"
               class="col-2"
               label="-10"
               text-color="negative"
               @click="handle(this.product_name, -10)"
               size="xs"
-            ></q-btn>
+            ></q-btn> -->
             <q-btn
               :disable="localQuantity <= 0"
-              class="col-2"
+              class="col-3"
               icon="remove"
               text-color="negative"
               @click="handle(this.product_name, -1)"
               size="xs"
             ></q-btn>
             <q-input
-              class="col-4"
+              class="col-6"
               dense
               style="vertical-align: top"
               readonly
@@ -95,7 +115,7 @@
             >
               <div
                 v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
-                class="q-mt-sm q-ml-lg absolute-right transparent"
+                class="q-mt-sm q-ml-lg transparent"
               >
                 <q-badge color="orange" floating rounded>
                   {{ selected_local.n_plus_one }}
@@ -104,19 +124,19 @@
               </div>
             </q-input>
             <q-btn
-              class="col-2"
+              class="col-3"
               icon="add"
               size="xs"
               text-color="positive"
               @click="handle(this.product_name, 1)"
             ></q-btn>
-            <q-btn
+            <!-- <q-btn
               class="col-2"
               label="+10"
               size="xs"
               text-color="positive"
               @click="handle(this.product_name, 10)"
-            ></q-btn>
+            ></q-btn> -->
           </q-card-section>
         </q-page-sticky>
 
@@ -203,10 +223,6 @@
         type: String,
         default: '',
       },
-      product_desc: {
-        type: String,
-        default: '',
-      },
       tag: {
         type: String,
         default: '',
@@ -251,13 +267,9 @@
         type: Number,
         default: 0,
       },
-      shelf_life: {
+      water_delivery: {
         type: Number,
         default: 0,
-      },
-      production_date: {
-        type: Date,
-        default: '1900-01-01',
       },
     },
     setup() {

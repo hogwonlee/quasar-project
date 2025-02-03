@@ -69,18 +69,16 @@
             outline
           />
         </div>
-        <q-btn
-          label="구글 로그인"
-          @click="googleLogin"
-          color="positive"
-          outline
-        ></q-btn>
-        <q-btn
-          label="구글 로그아웃"
-          @click="logout"
-          color="negative"
-          outline
-        ></q-btn>
+        <!-- <div class="q-gutter-xs q-py-xs">
+          <q-btn
+            flat
+            @click="googleLogin"
+            color="positive"
+            style="width: 200px"
+          >
+            <img src="icons\web_light_sq_SI@1x.png" />
+          </q-btn>
+        </div> -->
       </q-form>
     </q-card>
     <q-dialog
@@ -102,6 +100,7 @@
   // import check from 'src/util/modules/check';
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
+  import {Notify} from 'quasar';
 
   export default defineComponent({
     components: {
@@ -144,8 +143,7 @@
             'Content-Type': 'application/json',
           },
           data: userData,
-        }).catch(response => {
-          console.log(JSON.stringify(response));
+        }).catch(err => {
           alert.confirm(
             this.selected_local.notice,
             this.selected_local.wrongpw +
@@ -157,13 +155,15 @@
               this.selected_local.password +
               ': ' +
               userData.user_pw +
-              ']',
+              ']' +
+              err,
           );
         });
-
         // .then(response => {
         //   console.log(JSON.stringify(response));
         //   if (response.status == 200) {
+        // console.log('토큰: ' + JSON.stringify(response.data.token));
+        // console.log('리졸트: ' + JSON.stringify(response.data.results[0]));
         var json = response.data;
 
         if (this.auto_login) {
@@ -175,6 +175,7 @@
           data: json,
           that: this,
         });
+
         // this.$store.dispatch('address/emptyAddressAction');
         // json.results.forEach(addr => {
         //   if (addr.address_active == 1)
@@ -207,27 +208,25 @@
         accept.value = false;
       },
       googleLogin() {
+        Notify.create({
+          position: 'top',
+          message: 'google login',
+          color: 'green',
+        });
         window.location.href = `${configs.server}/auth/google`;
-        // axios({
-        //   url: `${configs.server}/auth/google`,
-        //   method: 'GET',
-        //   headers: {
-        //     'Access-Control-Allow-Headers': '*',
-        //     'Content-Type': 'application/json',
-        //     authorization: this.user.USER_TOKEN,
-        //   },
-        // })
+        // axios
+        //   .get(`${configs.server}/auth/google`)
         //   .catch(e => console.log('auth/google: ' + e))
         //   .then(res => {
-        //     // this.fetchUser();
-        //     console.log('auth/google: ' + JSON.stringify(res.data));
+        //     this.fetchUser();
+        //     console.log('auth/google: ' + res);
         //   });
-        // window.location.href =
-        //   'https://accounts.google.com/o/oauth2/auth?' +
-        //   'client_id=309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com&' +
-        //   'redirect_uri=https://cfomarket.store/__/auth/handler&' +
-        //   'response_type=token&' +
-        //   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+        window.location.href =
+          'https://accounts.google.com/o/oauth2/auth?' +
+          'client_id=&' +
+          'redirect_uri=http://localhost:9000/__/auth/handler&' +
+          'response_type=code&' +
+          '&scope=email profile';
       },
       fetchUser() {
         axios

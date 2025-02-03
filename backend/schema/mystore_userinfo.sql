@@ -27,10 +27,9 @@ CREATE TABLE `userinfo` (
   `user_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_pw` varchar(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_token` varchar(250) COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_email` varchar(200) COLLATE utf8mb3_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  `user_token` varchar(100) COLLATE utf8mb3_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

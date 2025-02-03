@@ -29,7 +29,7 @@ const getters = {
         bonuscondition: product.bonuscondition,
         boxprice: product.boxprice,
         boxcapacity: product.boxcapacity,
-        shelf_life: product.shelf_life,
+        water_delivery: product.water_delivery,
         production_date: product.production_date,
         buyoption,
         // stored: product.stored,
@@ -38,7 +38,21 @@ const getters = {
     });
   },
 
-  getCartItems: state => state.items,
+  getCartItems: state => {
+    let order_item = state.items.map(item => {
+      if (item.buyoption == 1) {
+        return {
+          product_id: item.product_id,
+          quantity: item.quantity * item.boxcapacity,
+        };
+      } else
+        return {
+          product_id: item.product_id,
+          quantity: item.quantity + item.bonus_quantity,
+        };
+    });
+    return order_item;
+  },
 
   cartTotalPrice: (state, getters) => {
     return getters.cartProducts.reduce((total, product) => {

@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const env = process.env;
+
 let jwtObj = {
-  secret: 'cfomarketHogwon032^secret', // 원하는 시크릿 키
+  secret: env.JWTOBJSECRET, // 원하는 시크릿 키
   option: {
     algorithm: 'HS256', // 해싱 알고리즘
     expiresIn: '300m', // 토큰 유효 기간 (테스트 기간 5시간으로 변경)
@@ -22,13 +24,15 @@ const MemoryStore = require('memorystore')(session);
 const bodyParser = require('body-parser');
 //const registerRouter = require('./routes/router'); //회원가입 처리 router에 맡김
 const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
+const {date} = require('quasar');
+const {stringify} = require('querystring');
 const auth = require('./router/auth');
 const authRouter = require('./router/index');
 const crypto = require('crypto');
 const fs = require('fs');
 // const security = require('./utils/security');
-const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
-
+// const salt = '7a5a0c8ff7de664b68600027a591a7a4641dcf2ba3a79140be1f140fc968d366';
+const salt = env.SALT;
 function hashpw(password) {
   return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
 }
@@ -48,31 +52,18 @@ app.use(
   }),
 );
 
-app.use(function (request, response, next) {
-  if (request.session && !request.session.regenerate) {
-    request.session.regenerate = cb => {
-      cb();
-    };
-  }
-  if (request.session && !request.session.save) {
-    request.session.save = cb => {
-      cb();
-    };
-  }
-  next();
-});
-
 app.set('port', 3000);
+/*
+const prikeyfile = '/etc/ssl/private/cfomarket.store.key';
+const certfile = '/etc/ssl/certs/cfomarket.store.crt';
 
-// const prikeyfile = '/etc/ssl/private/cfomarket.store.key';
-// const certfile = '/etc/ssl/certs/cfomarket.store.crt';
-
-// const httpsoptions = {
-//   key: fs.readFileSync(prikeyfile),
-//   cert: fs.readFileSync(certfile),
-// };
-
+const httpsoptions = {
+  key: fs.readFileSync(prikeyfile),
+  cert: fs.readFileSync(certfile),
+};
+*/
 // const appServer = https.createServer(httpsoptions, app);
+const appServer = http.createServer(app);
 // 세션세팅
 let maxAge = 1000 * 60 * 10;
 const sessionObj = {
@@ -84,9 +75,9 @@ const sessionObj = {
 };
 app.use(session(sessionObj));
 
-// appServer.listen(app.get('port'), () => {
-//   console.log(`${app.get('port')}에서 서버실행중.`);
-// });
+appServer.listen(app.get('port'), () => {
+  console.log(`${app.get('port')}에서 서버실행중.`);
+});
 
 // 미들웨어를 등록한다
 app.use(express.urlencoded({extended: true}));
@@ -112,9 +103,85 @@ app.get('/api', (req, res) => {
   }
 });
 const noAuthRouter = require('./router/noauth');
+const {Json} = require('sequelize/lib/utils');
 app.use(noAuthRouter);
 
 app.use(auth.checkAuth);
+
+var orderResister = function (req, satisfy_coupon_text, res) {
+  let sqlCommend =
+    'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+  const body = req.body;
+  const param = {
+    address_id: body.address_id,
+    user_id: body.user_id,
+    food_price: body.food_price,
+    satisfy_coupon: satisfy_coupon_text,
+    total_price: body.total_price,
+  };
+
+  return db.query(
+    sqlCommend,
+    [
+      param.address_id,
+      param.user_id,
+      param.food_price,
+      param.total_price,
+      param.satisfy_coupon,
+    ],
+    function (err, results, fields) {
+      if (err) {
+        res.status(500).send({msg: 'error', content: err});
+        // return resolve(1);
+      } else {
+        const insert_sql =
+          'INSERT INTO orderinfo (product_id, quantity, order_group) VALUES ';
+        console.log('order object print: ' + JSON.stringify(body.order_data));
+        var order_data = body.order_data;
+        order_data.map(element => {
+          element.order_group = results.insertId;
+        });
+        console.log('order_data print: ' + JSON.stringify(order_data));
+        var order_list = '';
+        for (var i = 0; i < order_data.length; i++) {
+          order_list =
+            order_list +
+            '(' +
+            order_data[i].product_id +
+            ',' +
+            order_data[i].quantity +
+            ',' +
+            order_data[i].order_group +
+            ')';
+          if (i + 1 < order_data.length) {
+            order_list = order_list + ',';
+          }
+        }
+        const sqlCommend_insert = insert_sql + order_list;
+
+        for (var i = 0; i < order_data.length; i++) {
+          db.query(`UPDATE productinfo SET stock = stock - ? WHERE id = ?;`, [
+            order_data[i].quantity,
+            order_data[i].product_id,
+          ]);
+        }
+        db.query(
+          `UPDATE storeversion SET storeversion = storeversion+1 LIMIT 1;`,
+        );
+
+        return db.query(sqlCommend_insert, function (err, results, fields) {
+          if (err) {
+            res.status(500).send({msg: 'error', content: err});
+            // return resolve(1);
+          } else {
+            res.status(200).send({results});
+            // return resolve(1);
+          }
+        });
+      }
+    },
+  );
+};
 
 app.post('/api/checkpw', function (req, res) {
   if (!req.headers.authorization) {
@@ -548,8 +615,13 @@ app.post('/api/giveCoupon', function (req, res) {
 });
 
 app.post('/api/orderRegister', function (req, res) {
+  var satisfy_coupon_text = '';
   if (!req.headers.authorization) {
-    res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
+    new Promise(resolve => {
+      orderResister(req, satisfy_coupon_text, res);
+      return resolve(1);
+    });
+    // res.status(400).send({msg: '로그인 정보와 등록 정보가 일치하지 않습니다.'});
     return;
   }
   return new Promise(resolve => {
@@ -577,6 +649,8 @@ app.post('/api/orderRegister', function (req, res) {
             user_id: req.body.user_id,
             coupon_id: req.body.used_coupon_id,
           };
+          satisfy_coupon_text = 'used coupon ID :' + param_useCoupon.coupon_id;
+
           return db.query(
             sqlCommend_useCoupon,
             [param_useCoupon.user_id, param_useCoupon.coupon_id],
@@ -585,149 +659,162 @@ app.post('/api/orderRegister', function (req, res) {
                 res.status(400).send({msg: 'use coupon error', content: err});
                 return resolve(1);
               } else {
-                let sqlCommend =
-                  'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
-                const body = req.body;
-                const param = {
-                  address_id: body.address_id,
-                  user_id: body.user_id,
-                  food_price: body.food_price,
-                  satisfy_coupon:
-                    'used coupon ID :' + param_useCoupon.coupon_id,
-                  total_price: body.total_price,
-                };
+                orderResister(req, satisfy_coupon_text, res);
+                return resolve(1);
+                // let sqlCommend =
+                //   'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+                // const body = req.body;
+                // const param = {
+                //   address_id: body.address_id,
+                //   user_id: body.user_id,
+                //   food_price: body.food_price,
+                //   satisfy_coupon: satisfy_coupon_text,
+                //   total_price: body.total_price,
+                // };
 
-                return db.query(
-                  sqlCommend,
-                  [
-                    param.address_id,
-                    param.user_id,
-                    param.food_price,
-                    param.total_price,
-                    param.satisfy_coupon,
-                  ],
-                  function (err, results, fields) {
-                    if (err) {
-                      res.status(500).send({msg: 'error', content: err});
-                      return resolve(1);
-                    } else {
-                      const insert_sql =
-                        'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-                      var order_data = body.order_data;
-                      order_data.map(element => {
-                        element.order_group = results.insertId;
-                      });
-                      var order_list = '';
-                      for (var i = 0; i < order_data.length; i++) {
-                        order_list =
-                          order_list +
-                          '(' +
-                          order_data[i].product_id +
-                          ',' +
-                          order_data[i].quantity +
-                          ',' +
-                          order_data[i].order_group +
-                          ',' +
-                          order_data[i].buyoption +
-                          ',' +
-                          order_data[i].bonus_quantity +
-                          ',' +
-                          order_data[i].cut_money +
-                          ')';
-                        if (i + 1 < order_data.length) {
-                          order_list = order_list + ',';
-                        }
-                      }
-                      const sqlCommend_insert = insert_sql + order_list;
+                // return db.query(
+                //   sqlCommend,
+                //   [
+                //     param.address_id,
+                //     param.user_id,
+                //     param.food_price,
+                //     param.total_price,
+                //     param.satisfy_coupon,
+                //   ],
+                //   function (err, results, fields) {
+                //     if (err) {
+                //       res.status(500).send({msg: 'error', content: err});
+                //       return resolve(1);
+                //     } else {
+                //       const insert_sql =
+                //         'INSERT INTO orderinfo (product_id, quantity, order_group) VALUES ';
+                //       var order_data = body.order_data;
+                //       order_data.map(element => {
+                //         element.order_group = results.insertId;
+                //       });
+                //       var order_list = '';
+                //       for (var i = 0; i < order_data.length; i++) {
+                //         order_list =
+                //           order_list +
+                //           '(' +
+                //           order_data[i].product_id +
+                //           ',' +
+                //           order_data[i].quantity +
+                //           ',' +
+                //           order_data[i].order_group +
+                //           ')';
+                //         if (i + 1 < order_data.length) {
+                //           order_list = order_list + ',';
+                //         }
+                //       }
+                //       const sqlCommend_insert = insert_sql + order_list;
 
-                      return db.query(
-                        sqlCommend_insert,
-                        function (err, results, fields) {
-                          if (err) {
-                            res.status(500).send({msg: 'error', content: err});
-                            return resolve(1);
-                          } else {
-                            res.status(200).send({results});
-                            return resolve(1);
-                          }
-                        },
-                      );
-                    }
-                  },
-                );
+                //       return db.query(
+                //         sqlCommend_insert,
+                //         function (err, results, fields) {
+                //           if (err) {
+                //             res.status(500).send({msg: 'error', content: err});
+                //             return resolve(1);
+                //           } else {
+                //             for (var i = 0; i < order_data.length; i++) {
+                //               db.query(
+                //                 `UPDATE productinfo SET stock = stock - ? WHERE id = ?;`,
+                //                 [
+                //                   order_data[i].product_id,
+                //                   order_data[i].quantity,
+                //                 ],
+                //               );
+                //             }
+                //             db.query(
+                //               `UPDATE storeversion SET updatetime = date_format(now(),'%Y%m%d%H%i%s') LIMIT 1;`,
+                //             );
+                //             res.status(200).send({results});
+                //             return resolve(1);
+                //           }
+                //         },
+                //       );
+                //     }
+                //   },
+                // );
               }
             },
           );
         } else {
-          let sqlCommend =
-            'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
-          const body = req.body;
-          const param = {
-            address_id: body.address_id,
-            user_id: body.user_id,
-            food_price: body.food_price,
-            satisfy_coupon: 'no coupon',
-            total_price: body.total_price,
-          };
+          satisfy_coupon_text = 'no coupon';
+          orderResister(req, satisfy_coupon_text, res);
+          return resolve(1);
+          // let sqlCommend =
+          //   'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+          // const body = req.body;
+          // const param = {
+          //   address_id: body.address_id,
+          //   user_id: body.user_id,
+          //   food_price: body.food_price,
+          //   satisfy_coupon: 'no coupon',
+          //   total_price: body.total_price,
+          // };
 
-          return db.query(
-            sqlCommend,
-            [
-              param.address_id,
-              param.user_id,
-              param.food_price,
-              param.total_price,
-              param.satisfy_coupon,
-            ],
-            function (err, results, fields) {
-              if (err) {
-                res.status(500).send({msg: 'error', content: err});
-                return resolve(1);
-              } else {
-                const insert_sql =
-                  'INSERT INTO orderinfo (product_id, quantity, order_group, bulk_buy, bonus_quantity, cut_money) VALUES ';
-                var order_data = body.order_data;
-                order_data.map(element => {
-                  element.order_group = results.insertId;
-                });
-                var order_list = '';
-                for (var i = 0; i < order_data.length; i++) {
-                  order_list =
-                    order_list +
-                    '(' +
-                    order_data[i].product_id +
-                    ',' +
-                    order_data[i].quantity +
-                    ',' +
-                    order_data[i].order_group +
-                    ',' +
-                    order_data[i].buyoption +
-                    ',' +
-                    order_data[i].bonus_quantity +
-                    ',' +
-                    order_data[i].cut_money +
-                    ')';
-                  if (i + 1 < order_data.length) {
-                    order_list = order_list + ',';
-                  }
-                }
-                const sqlCommend_insert = insert_sql + order_list;
+          // return db.query(
+          //   sqlCommend,
+          //   [
+          //     param.address_id,
+          //     param.user_id,
+          //     param.food_price,
+          //     param.total_price,
+          //     param.satisfy_coupon,
+          //   ],
+          //   function (err, results, fields) {
+          //     if (err) {
+          //       res.status(500).send({msg: 'error', content: err});
+          //       return resolve(1);
+          //     } else {
+          //       const insert_sql =
+          //         'INSERT INTO orderinfo (product_id, quantity, order_group) VALUES ';
+          //       var order_data = body.order_data;
+          //       order_data.map(element => {
+          //         element.order_group = results.insertId;
+          //       });
+          //       var order_list = '';
+          //       for (var i = 0; i < order_data.length; i++) {
+          //         order_list =
+          //           order_list +
+          //           '(' +
+          //           order_data[i].product_id +
+          //           ',' +
+          //           order_data[i].quantity +
+          //           ',' +
+          //           order_data[i].order_group +
+          //           ')';
+          //         if (i + 1 < order_data.length) {
+          //           order_list = order_list + ',';
+          //         }
+          //       }
+          //       const sqlCommend_insert = insert_sql + order_list;
 
-                return db.query(
-                  sqlCommend_insert,
-                  function (err, results, fields) {
-                    if (err) {
-                      res.status(500).send({msg: 'error', content: err});
-                      return resolve(1);
-                    } else {
-                      res.status(200).send({results});
-                      return resolve(1);
-                    }
-                  },
-                );
-              }
-            },
-          );
+          //       return db.query(
+          //         sqlCommend_insert,
+          //         function (err, results, fields) {
+          //           if (err) {
+          //             res.status(500).send({msg: 'error', content: err});
+          //             return resolve(1);
+          //           } else {
+          //             for (var i = 0; i < order_data.length; i++) {
+          //               db.query(
+          //                 `UPDATE productinfo SET stock = stock - ? WHERE id = ?;`,
+          //                 [order_data[i].product_id, order_data[i].quantity],
+          //               );
+          //             }
+          //             db.query(
+          //               `UPDATE storeversion SET updatetime = date_format(now(),'%Y%m%d%H%i%s') LIMIT 1;`,
+          //             );
+          //             res.status(200).send({results});
+          //             return resolve(1);
+          //           }
+          //         },
+          //       );
+          //     }
+          //   },
+          // );
         }
       },
     );
@@ -956,8 +1043,4 @@ app.post('/api/orderAddressInfo', (req, res) => {
   } else {
     console.log('요청 헤더에 승인 정보가 없음.');
   }
-});
-
-app.listen(app.get('port'), () => {
-  console.log(`app listening on port ${app.get('port')}`);
 });

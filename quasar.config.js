@@ -79,11 +79,12 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      https: true,
-      http2: false,
+      port: 9000,
+      open: true, // opens browser window automatically
+    },
+    /*
+    devServer: {
       port: 443,
-      // 프론트 엔드서버를 일반 http 로 하고 nginx 로 변경
-      // port: 443,
       server: {
         // port: 443,
         type: 'https', // NECESSARY (alternative is type 'http')
@@ -97,12 +98,17 @@ module.exports = configure(function (/* ctx */) {
         key: '/etc/ssl/private/cfomarket.store.key',
         cert: '/etc/ssl/certs/cfomarket.store.crt',
       },
-      proxy: {
-        // proxy all requests starting with /api to jsonplaceholder
-        '/api': {
-          target: 'http://175.119.224.213:3000/',
-        },
-      },
+      // https: true
+      // proxy: {
+      // proxy all requests starting with /api to jsonplaceholder
+      // '/api': {
+      //   target: 'http://175.119.224.213:3000/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api': '',
+      //   },
+      // },
+      // },
       client: {
         webSocketURL: {
           hostname: 'cfomarket.store',
@@ -122,7 +128,7 @@ module.exports = configure(function (/* ctx */) {
       },
       open: true, // opens browser window automatically
     },
-
+*/
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
       config: {

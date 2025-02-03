@@ -3,8 +3,26 @@
     <div class="col-12 text-h6 text-bold">
       {{ selected_local.deliver_info_title }}
     </div>
+    <p>
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '前往NAVER查看快递详情'
+          : '다음 링크를 통해 네이버에서 배송 상황을 조회할 수 있습니다.'
+      }}
+      <a :href="url_naver" target="_blank">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '前往NAVER查询快递'
+            : '네이버 택배조회'
+        }}
+      </a>
+    </p>
     <span>
-      *以发货日为准，一般情况下需要1~2天到货。若有库存不足情况发生，我们将尽量在3天内补充并联系您。
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '*以发货日为准，一般情况下需要1~2天到货。若有库存不足情况发生，我们将尽量在3天内补充并联系您。'
+          : '*일반적으로 1~2일 사이에 배송됩니다. 만약 재고부족으로 바로 배송이 안될 경우, 3일내에 배송하고 연락드리겠습니다.'
+      }}
     </span>
     <div v-if="order_count > 0">
       <q-card
@@ -140,6 +158,8 @@
         delivery_policy_cn_vue: ref(false),
         exchange_policy_vue: ref(false),
         exchange_policy_cn_vue: ref(false),
+        url_naver:
+          'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%83%9D%EB%B0%B0%EC%A1%B0%ED%9A%8C',
       };
     },
     computed: {
@@ -277,11 +297,11 @@
       set_columns() {
         this.columns = [
           {
-            name: 'product_name',
+            name: 'tag',
             required: true,
             label: this.selected_local.productname,
             align: 'left',
-            field: row => row.product_name,
+            field: row => row.tag,
             format: val => `${val}`,
             sortable: true,
           },

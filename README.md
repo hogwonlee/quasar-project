@@ -55,17 +55,9 @@ exports BACKEND_SERVER=https://{backend_server}
 
 `
 
-# mysql 설치
-
-`
-docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=dream001 -d --name mysql mysql:5.7
-
-docker exec -it mysql bash
-`
-
 # REDIS 설치
 
-`docker run -p 6379:6379 -d -it --name redis redis/redis-stack-server:latest`
+`docker run -p 6379:6379 -it redis/redis-stack-server:latest`
 
 # 빌드 중 오류 대처
 
@@ -232,6 +224,8 @@ yarn global add @quasar/cli
 cd /server/quasar-web
 git checkout qa
 git pull
+//pm2 start "quasar dev" --daemon --name qaapp
+pm2 start "quasar dev" --daemon --name webapp
 ```
 
 상태확인
@@ -256,7 +250,6 @@ cd /server/quasar-project
 git checkout master
 git pull
 pm2 start "quasar dev" --daemon --name webapp
-pm2 start "quasar dev" --daemon --name qa
 ```
 
 # 웹앱 서비스가 443 으로 시작 않될 때
@@ -272,3 +265,25 @@ pm2 start "quasar dev" --daemon --name qa
 ```
 
 실행후 443 포트 셧다운후 재시작
+
+# 리눅스 접속
+
+-cmd로 접속
+ssh root@175.119.224.213
+
+-명령어 -프로젝트 폴더
+cd /server or cd /
+ls
+-env 파일 위치
+/etc/profile
+
+-리눅스 vi 모드
+입력 -> i
+콘솔 -> :
+:q <종료>
+:q! <no저장종료>
+:w <저장>
+:wq <저장&종료>
+
+id, product_name, price, img, tag, category, keyword, cutprice, bonuscondition, boxprice, stock, stored, boxcapacity, list_index, flavor_refer, shelf_life, production_date
+id, product_name, price, img, tag, category, keyword, cutprice, bonuscondition, boxprice, stock, stored, boxcapacity, list_index, flavor_refer, shelf_life, production_date, product_desc, product_name_ko

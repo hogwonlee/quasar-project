@@ -3,8 +3,8 @@
 // initial state
 const state = () => ({
   all: [],
-  staus: 'update',
-  version: 0,
+  status: 'update',
+  version: '0',
 });
 
 // getters
@@ -17,6 +17,7 @@ const actions = {
   //   commit('setProducts', products);
   // },
   getProductAction({commit}, products) {
+    // if (state.status == 'update')
     commit('addToState', products);
   },
   getVersionAction({commit}, version) {
@@ -50,15 +51,16 @@ const mutations = {
       boxprice: products.boxprice,
       boxcapacity: products.boxcapacity,
       stored: products.stored,
-      shelf_life: products.shelf_life,
+      water_delivery: products.water_delivery,
       production_date: products.production_date,
       flavor_refer: products.flavor_refer,
+      flavor_refer_ko: products.flavor_refer_ko,
       product_name_ko: products.product_name_ko,
       product_desc: products.product_desc,
       quantity: 0,
       buyoption: false,
     });
-    state.staus = null;
+    state.status = null;
   },
 };
 

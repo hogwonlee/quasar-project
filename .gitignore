@@ -296,3 +296,4 @@ src/configs/index.js
 backend/sslkey
 src/configs/index.json
 # backend/server_local.js
+backend/configs/db copy.js

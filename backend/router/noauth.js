@@ -4,18 +4,6 @@ const authController = require('../router/auth');
 const productController = require('../controller/product');
 const express = require('express');
 const router = express.Router();
-// const dbConfig = require('../configs/db');
-// const mysql = require('mysql');
-
-// const db = mysql.createConnection({
-//   host: dbConfig.host,
-//   user: dbConfig.username,
-//   password: dbConfig.password,
-//   port: dbConfig.port,
-//   database: dbConfig.database,
-//   allowPublicKeyRetrieval: true,
-//   ssl: false,
-// });
 
 /// ------------ google oauth const start ---------------------///
 const passport = require('passport');
@@ -28,6 +16,8 @@ const googleOauth_Config = require('../configs/db');
 
 router.post('/api/login', authController.login);
 router.post('/api/register', authController.register);
+router.post('/api/orderRegister', authController.orderRegister);
+router.post('/api/no_id_address', authController.no_id_address);
 router.get('/api/productList', productController.getProductList);
 
 // Initialize passport
@@ -40,9 +30,8 @@ passport.use(
     {
       clientID: googleOauth_Config.clientID,
       clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store/api/auth/google/callback',
+      callbackURL: '/auth/google/callback',
     },
-
     (token, tokenSecret, profile, done) => {
       console.log(
         'PROFILE: ' +
@@ -52,15 +41,8 @@ passport.use(
           'TOKENSECRET: ' +
           JSON.stringify(tokenSecret),
       );
-      // }
-      authController.google_login(
-        profile,
-        tokenSecret,
-        token,
-        function (err, user) {
-          done(err, user);
-        },
-      );
+      authController.google_login;
+      return done(err, profile);
     },
   ),
 );
@@ -81,20 +63,9 @@ router.get(
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/UserInfo',
-  }),
-  function (req, res) {
-    // // Successful authentication, redirect home.
-    // console.log('cookie:');
-    // console.log(req.headers.cookie);
-    const user = req.user;
-    // console.log(user);
-    if (user) {
-      res.cookie('user', user).redirect('/');
-    } else {
-      res.redirect('/');
-    }
+  passport.authenticate('google', {failureRedirect: '/'}),
+  (req, res) => {
+    res.redirect('/');
   },
 );
 // Route to get user info

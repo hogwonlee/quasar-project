@@ -13,6 +13,7 @@
     data() {
       return {
         accessToken: 'avc',
+        params: {},
       };
     },
     mounted() {
@@ -21,63 +22,29 @@
     methods: {
       googleLogin() {
         const url = new URLSearchParams(window.location.hash.substring(1));
-        this.accessToken = url.get('access_token');
-        console.log('accessToken: ' + this.accessToken);
-
+        this.accessToken = url.get('code');
+        console.log('code: ' + this.accessToken);
+        /*
+        code : 클라이언트 페이지에서 얻은 인가 코드를 사용 하기 때문에 "code"로 고정.
+        client_id : 구글 개발자센터에서 발급 받은 Client ID
+        client_secret : 구글 개발자센터에서 발급 받은 Client Secret
+        redirect_uri : 구글 개발자센터에서 등록한 redirect_uri
+        grant_type: 'authorization_code' 로 고정 (인가코드를 통한 로그인 방식)
+        */
         axios
           .get(
-            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${this.accessToken}`,
+            'https://oauth2.googleapis.com/',
+            (params = {
+              code: this.accessToken,
+              client_id: '',
+              client_secret: '',
+              redirect_uri: 'http://localhost:9000/',
+              grant_type: 'authorization_code',
+            }),
           )
-          .then(function (response_google) {
-            console.log(
-              'get요청: ' +
-                response_google +
-                JSON.stringify(response_google.data),
-            );
-
-            const googleUserData = {
-              user_id: response_google.data.email,
-              user_pw: this.accessToken,
-              user_name: response_google.data.user_name,
-              user_token: this.accessToken,
-            };
-            // console.log(JSON.stringify(userData));
-            let response = axios({
-              url: `${configs.server}/google_login`,
-              method: 'POST',
-              headers: {
-                'Access-Control-Allow-Headers': '*',
-                'Content-Type': 'application/json',
-              },
-              data: googleUserData,
-            }).catch(response => {
-              // console.log(JSON.stringify(response));
-              console.log('구글에서 토큰을 잘못 받은듯합니다.');
-              // alert.confirm(
-              //   this.selected_local.notice,
-              //   this.selected_local.wrongpw +
-              //     ': [' +
-              //     this.selected_local.identity +
-              //     ': ' +
-              //     googleUserData.user_id +
-              //     '] [' +
-              //     this.selected_local.password +
-              //     ': ' +
-              //     googleUserData.user_pw +
-              //     ']',
-              // );
-            });
-
-            var json = response.data;
-            json.user_pw = '';
-            this.$store.dispatch('user/loginAction', {
-              data: json,
-              that: this,
-            });
-            // window.location.href = 'https://cfomarket.store/UserInfo';
-          })
-          .catch(function (error) {
-            console.log('url: ' + url + '' + 'get요청: ' + error);
+          .then(data => console.log('get요청: ' + JSON.stringify(data)))
+          .catch(err => {
+            console.log('오류 출력: ' + err);
           });
       },
     },

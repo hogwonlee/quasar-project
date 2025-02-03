@@ -53,12 +53,13 @@
           </q-bar>
         </div>
         <ProductInfo
-          class="col-xs-4 col-sm-3 col-md-1 q-pa-xs"
+          class="col-xs-3 col-sm-3 col-md-1 q-pa-xs"
           v-for="p in products.filter(
             p =>
               p.category == c.category &&
               p.stored == 1 &&
-              (p.product_name + p.category + p.keyword)
+              // p.stock > 0 &&
+              (p.tag + p.category + p.keyword)
                 .toLowerCase()
                 .includes(keyword.toLowerCase()),
           )"
@@ -271,6 +272,8 @@
       },
       products_update() {
         const params = {version: this.storeversion};
+        // const params = {version: '1900-00-00 00:00:00'};
+
         axios
           .get(`${configs.server}/productList`, {params: params})
           .then(res => {
@@ -350,7 +353,7 @@
     setup() {
       return {
         list_show: ref(false),
-        childbuyoption: ref(false),
+        childbuyoption: ref('one'),
         keyword: ref(''),
         event_fab: ref(false),
         visible: ref(true),
