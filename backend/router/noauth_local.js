@@ -4,20 +4,9 @@ const authController = require('../router/auth');
 const productController = require('../controller/product');
 const express = require('express');
 const router = express.Router();
-// const dbConfig = require('../configs/db');
-// const mysql = require('mysql');
+const cors = require('cors'); //서버 통신 보안상 추가하지 않을경우 오류 발생할 수 있음.
 
-// const db = mysql.createConnection({
-//   host: dbConfig.host,
-//   user: dbConfig.username,
-//   password: dbConfig.password,
-//   port: dbConfig.port,
-//   database: dbConfig.database,
-//   allowPublicKeyRetrieval: true,
-//   ssl: false,
-// });
-
-/// ------------ google oauth const start ---------------------///
+/// ------------  google oauth const start ---------------------///
 const passport = require('passport');
 // global.PASSPORT = passport;
 
@@ -33,6 +22,7 @@ router.get('/api/productList', productController.getProductList);
 // Initialize passport
 router.use(passport.initialize());
 router.use(passport.session());
+// router.use(cors()); //교차통신 적용
 
 // Configure passport with Google OAuth 2.0 strategy
 passport.use(
@@ -40,19 +30,17 @@ passport.use(
     {
       clientID: googleOauth_Config.clientID,
       clientSecret: googleOauth_Config.clientSecret,
-      callbackURL: 'https://cfomarket.store/api/auth/google/callback',
+      callbackURL: 'http://localhost:8000/api/auth/google/callback',
     },
-
-    (token, tokenSecret, profile, done) => {
+    function (token, tokenSecret, profile, done) {
       console.log(
         'PROFILE: ' +
-          JSON.stringify(profile) +
-          'TOKEN: ' +
-          JSON.stringify(token) +
-          'TOKENSECRET: ' +
-          JSON.stringify(tokenSecret),
+        JSON.stringify(profile) +
+        'TOKEN: ' +
+        JSON.stringify(token) +
+        'TOKENSECRET: ' +
+        JSON.stringify(tokenSecret),
       );
-      // }
       authController.google_login(
         profile,
         tokenSecret,
@@ -76,25 +64,17 @@ passport.deserializeUser((obj, done) => {
 // Google auth routes
 router.get(
   '/api/auth/google',
-  passport.authenticate('google', {scope: ['profile', 'email']}),
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
 );
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/UserInfo',
-  }),
-  function (req, res) {
-    // // Successful authentication, redirect home.
-    // console.log('cookie:');
-    // console.log(req.headers.cookie);
+  passport.authenticate('google', { failureRedirect: 'http://localhost:9000' }),
+  (req, res) => {
     const user = req.user;
-    // console.log(user);
-    if (user) {
-      res.cookie('user', user).redirect('/');
-    } else {
-      res.redirect('/');
-    }
+    res.cookie('user', user).redirect('http://localhost:9000');
+    // req.session.cookie.user = user;
+    // res.json(user).redirect('http://localhost:9000');
   },
 );
 // Route to get user info
