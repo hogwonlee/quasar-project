@@ -285,5 +285,3 @@ ls
 :w <저장>
 :wq <저장&종료>
 
-id, product_name, price, img, tag, category, keyword, cutprice, bonuscondition, boxprice, stock, stored, boxcapacity, list_index, flavor_refer, shelf_life, production_date
-id, product_name, price, img, tag, category, keyword, cutprice, bonuscondition, boxprice, stock, stored, boxcapacity, list_index, flavor_refer, shelf_life, production_date, product_desc, product_name_ko

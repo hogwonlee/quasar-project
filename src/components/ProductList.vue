@@ -271,8 +271,7 @@
         setVerticalScrollPosition(target, offset, duration);
       },
       products_update() {
-        const params = {version: this.storeversion};
-        // const params = {version: '1900-00-00 00:00:00'};
+        const params = this.products.length <= 0 ? {version: 0}: {version: this.storeversion};
 
         axios
           .get(`${configs.server}/productList`, {params: params})
