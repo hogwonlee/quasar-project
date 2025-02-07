@@ -78,11 +78,14 @@ module.exports = configure(function (/* ctx */) {
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
+    /*
+
     devServer: {
       port: 9000,
       open: true, // opens browser window automatically
     },
-    /*
+*/
+
     devServer: {
       port: 443,
       server: {
@@ -90,13 +93,13 @@ module.exports = configure(function (/* ctx */) {
         type: 'https', // NECESSARY (alternative is type 'http')
         options: {
           // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-          key: '/etc/ssl/private/cfomarket.store.key',
-          cert: '/etc/ssl/certs/cfomarket.store.crt',
+          key: '/etc/ssl/private/private.key',
+          cert: '/etc/ssl/certs/certificate.crt',
         },
       },
       https: {
-        key: '/etc/ssl/private/cfomarket.store.key',
-        cert: '/etc/ssl/certs/cfomarket.store.crt',
+        key: '/etc/ssl/private/private.key',
+        cert: '/etc/ssl/certs/certificate.crt',
       },
       // https: true
       // proxy: {
@@ -111,7 +114,7 @@ module.exports = configure(function (/* ctx */) {
       // },
       client: {
         webSocketURL: {
-          hostname: 'cfomarket.store',
+          hostname: 'cfomarket0.cafe24.com',
           pathname: '/ws',
           port: 443,
           protocol: 'wss',
@@ -128,7 +131,6 @@ module.exports = configure(function (/* ctx */) {
       },
       open: true, // opens browser window automatically
     },
-*/
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
       config: {

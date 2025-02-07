@@ -271,6 +271,7 @@
         setVerticalScrollPosition(target, offset, duration);
       },
       products_update() {
+        console.log('상품 길이: ' + this.products.length)
         const params = this.products.length <= 0 ? {version: 0}: {version: this.storeversion};
 
         axios
