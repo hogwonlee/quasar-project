@@ -102,16 +102,16 @@ module.exports = configure(function (/* ctx */) {
         cert: '/etc/ssl/certs/certificate.crt',
       },
       // https: true
-      // proxy: {
-      // proxy all requests starting with /api to jsonplaceholder
-      // '/api': {
-      //   target: 'http://175.119.224.213:3000/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': '',
-      //   },
-      // },
-      // },
+      proxy: {
+        // proxy all requests starting with /api to jsonplaceholder
+        '/api': {
+          target: 'http://localhost:3000/',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': '',
+          },
+        },
+      },
       client: {
         webSocketURL: {
           hostname: 'cfomarket0.cafe24.com',
