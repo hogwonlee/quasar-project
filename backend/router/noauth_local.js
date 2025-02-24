@@ -28,18 +28,18 @@ router.use(passport.session());
 passport.use(
   new GoogleStrategy(
     {
-      clientID: googleOauth_Config.clientID,
-      clientSecret: googleOauth_Config.clientSecret,
+      clientID: 'googleOauth_Config.clientID',
+      clientSecret: 'googleOauth_Config.clientSecret',
       callbackURL: 'http://localhost:8000/api/auth/google/callback',
     },
     function (token, tokenSecret, profile, done) {
       console.log(
         'PROFILE: ' +
-        JSON.stringify(profile) +
-        'TOKEN: ' +
-        JSON.stringify(token) +
-        'TOKENSECRET: ' +
-        JSON.stringify(tokenSecret),
+          JSON.stringify(profile) +
+          'TOKEN: ' +
+          JSON.stringify(token) +
+          'TOKENSECRET: ' +
+          JSON.stringify(tokenSecret),
       );
       authController.google_login(
         profile,
@@ -64,12 +64,12 @@ passport.deserializeUser((obj, done) => {
 // Google auth routes
 router.get(
   '/api/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  passport.authenticate('google', {scope: ['profile', 'email']}),
 );
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: 'http://localhost:9000' }),
+  passport.authenticate('google', {failureRedirect: 'http://localhost:9000'}),
   (req, res) => {
     const user = req.user;
     res.cookie('user', user).redirect('http://localhost:9000');

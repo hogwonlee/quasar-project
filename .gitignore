@@ -297,3 +297,6 @@ backend/sslkey
 src/configs/index.json
 # backend/server_local.js
 backend/configs/db copy.js
+backend/server_local.js
+quasar.config_local.js
+backend/router/noauth_local.js

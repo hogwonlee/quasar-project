@@ -53,18 +53,24 @@
           </q-bar>
         </div>
         <ProductInfo
-          class="col-xs-3 col-sm-3 col-md-1 q-pa-xs"
+          :class="
+            list_col_number == 3
+              ? 'col-xs-3 col-sm-3 col-md-1 q-pa-xs'
+              : list_col_number == 4
+              ? 'col-xs-4 col-sm-4 col-md-1 q-pa-xs'
+              : 'col-xs-12 col-sm-12 col-md-1 q-pa-xs'
+          "
           v-for="p in products.filter(
             p =>
               p.category == c.category &&
               p.stored == 1 &&
-              // p.stock > 0 &&
               (p.tag + p.category + p.keyword)
                 .toLowerCase()
                 .includes(keyword.toLowerCase()),
           )"
           :key="p.id"
           v-bind="p"
+          :colNumber="list_col_number"
           @setbuyoption="p.buyoption = $event"
           @setquantity="p.quantity = $event"
           @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
@@ -141,16 +147,12 @@
         </q-field>
         <q-field label="사업장 주소" stack-label style="max-width: fit-content">
           <template v-slot:control>
-            <div>서울시 구로구 천왕로 56 이펜하우스 3단지 303-1503</div>
+            <div>경기도 부천시 원미구 부천로47번길 9, 중앙자유시장 15호</div>
           </template>
         </q-field>
       </div>
     </q-page-container>
-    <q-page-sticky
-      v-if="products.length > 0"
-      position="bottom-right"
-      :offset="[10, 10]"
-    >
+    <q-page-sticky position="bottom-right" :offset="[10, 10]">
       <q-fab
         v-model="list_show"
         persistent="false"
@@ -170,6 +172,46 @@
           color="dark"
           @click="handleScroll(c.category)"
         />
+      </q-fab>
+    </q-page-sticky>
+    <q-page-sticky position="top-right" :offset="[10, 10]">
+      <q-fab
+        v-model="list_view_col"
+        persistent="false"
+        direction="down"
+        class="q-pa-none q-gutter-none"
+        color="dark"
+        vertical-actions-align="bottom"
+        icon="view_compact_alt"
+      >
+        <q-btn-toggle
+          v-model="list_col_number"
+          rounded
+          toggle-color="primary"
+          :options="[
+            {slot: 'one', value: 3},
+            {slot: 'two', value: 4},
+            {slot: 'three', value: 12},
+          ]"
+        >
+          <template v-slot:one>
+            <div class="row items-center no-wrap">
+              <q-icon name="widget_small" />
+            </div>
+          </template>
+
+          <template v-slot:two>
+            <div class="row items-center no-wrap">
+              <q-icon name="view_comfy_alt" />
+            </div>
+          </template>
+
+          <template v-slot:three>
+            <div class="row items-center no-wrap">
+              <q-icon name="density_medium" />
+            </div>
+          </template>
+        </q-btn-toggle>
       </q-fab>
     </q-page-sticky>
     <q-page-sticky position="bottom-left" :offset="[10, 50]">
@@ -360,6 +402,8 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
+        list_col_number: ref(3),
+        list_view_col: ref(false),
       };
     },
   });

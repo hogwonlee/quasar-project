@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div @click="card = true">
+    <div @click="card = true" :class="colNumber == 12 ? 'row' : 'column'">
       <q-img
         :src="img"
         class="rounded-borders"
+        :class="colNumber == 12 ? 'col-2' : ''"
         loading="lazy"
         :ratio="3 / 4"
         style="max-height: 600px"
@@ -48,50 +49,47 @@
           >
             {{ boxcapacity }}
           </q-badge>
-          <!-- <q-badge
-            v-if="stock > 0"
-            class="absolute-right"
-            color="red"
-            floating
-            rounded
-          >
-            <q-icon name="warning" color="white" />
-          </q-badge> -->
         </div>
       </q-img>
-      <q-chip
-        class="bg-grey"
-        style="width: 95%; height: 33px; align-items: center"
-        dense
-        text-color="white"
-      >
-        <text-body2 class="q-pa-xs absolute-bottom">{{
-          selected_local.chinafood == '洽洽中国食品'
-            ? product_name
-            : product_name_ko
-        }}</text-body2>
+      <div :class="colNumber == 12 ? 'col-5' : ''">
+        <q-chip
+          class="bg-grey"
+          :class="colNumber == 12 ? 'q-my-lg' : ''"
+          style="width: 95%; height: 33px; align-items: center"
+          dense
+          text-color="white"
+        >
+          <text-body2 class="q-pa-xs absolute-bottom">{{
+            selected_local.chinafood == '洽洽中国食品'
+              ? product_name
+              : product_name_ko
+          }}</text-body2>
 
-        <div v-if="flavor_refer != null" class="absolute-right">
-          <q-badge floating rounded>
-            {{
-              selected_local.chinafood == '洽洽中国食品'
-                ? flavor_refer
-                : flavor_refer_ko
-            }}
-          </q-badge>
-        </div>
-      </q-chip>
-      <q-chip
-        class="bg-grey"
-        style="width: 95%; height: 33px"
-        dense
-        text-color="white"
-      >
-        <div class="q-pl-sm" style="text-align: right; align-items: center">
-          <q-icon name="img:icons\currency-krw-white.png"></q-icon>
-          {{ price }}
-        </div>
-      </q-chip>
+          <div v-if="flavor_refer != null" class="absolute-right">
+            <q-badge floating rounded>
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? flavor_refer
+                  : flavor_refer_ko
+              }}
+            </q-badge>
+          </div>
+        </q-chip>
+      </div>
+      <div :class="colNumber == 12 ? 'col-5' : ''">
+        <q-chip
+          class="bg-grey"
+          :class="colNumber == 12 ? 'q-my-lg' : ''"
+          style="width: 95%; height: 33px"
+          dense
+          text-color="white"
+        >
+          <div class="q-pl-sm" style="text-align: right; align-items: center">
+            <q-icon name="img:icons\currency-krw-white.png"></q-icon>
+            {{ price }}
+          </div>
+        </q-chip>
+      </div>
     </div>
     <div>
       <q-dialog
@@ -99,71 +97,7 @@
         position="standard"
         backdrop-filter="contrast(40%)"
       >
-        <!-- <div class="absolute-top-left z-top q-ma-xs">
-
-        </div>
-        <div class="absolute-bottom-right transparent">
-          <q-badge
-            v-if="stock > 0"
-            class="q-mt-md"
-            color="red"
-            floating
-            rounded
-          >
-            <q-icon name="warning" color="white" />
-            {{
-              stock == null || stock == 0 || stock == ''
-                ? selected_local.stock_enough
-                : selected_local.stock_null
-            }}
-          </q-badge>
-        </div>
-
-
-        <q-btn
-          class="absolute-top-right bg-dark z-top q-ma-md"
-          icon="close"
-          text-color="white"
-          v-close-popup
-          size="md"
-        >
-        </q-btn> -->
-        <!-- <q-page-sticky class="bg-white" position="top" :offset="[60, 0]">
-          <q-bar>
-            <text-body2 class="q-pl-sm absolute-bottom">{{
-              product_name_ko
-            }}</text-body2>
-            <q-space />
-            <q-btn
-              class="absolute-top-right bg-dark z-top"
-              icon="close"
-              text-color="white"
-              v-close-popup
-              size="sm"
-            >
-            </q-btn>
-          </q-bar>
-        </q-page-sticky> -->
         <q-card style="height: 60%; width: 80%">
-          <!-- <q-input
-            class="col-12"
-            rdonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname"
-            :model-value="product_name"
-          />
-          <q-input
-            v-if="product_name_ko != null"
-            class="col-12"
-            rdonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname_ko"
-            :model-value="product_name_ko"
-          /> -->
           <img class="q-pa-sm" :src="img" />
           <!-- style="margin-top: 3px; margin-bottom: 3px" -->
           <div style="text-align: center">---底线---</div>
@@ -196,6 +130,13 @@
                 selected_local.chinafood == '洽洽中国食品'
                   ? '***富川以外，此商品暂不支持快递、订单'
                   : '***부천이외 지역은 당분간 본 상품의 배송 및 주문을 지원하지 않습니다.'
+              }}
+            </p>
+            <p v-else-if="water_delivery == 3">
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '***此商品品牌随机配送，品质、容量、价格差异不大'
+                  : '***브랜드 랜덤 배송. 품질, 용량, 가격은 큰 차이 없음.'
               }}
             </p>
             <div
@@ -289,13 +230,6 @@
               text-color="positive"
               @click="handle(1)"
             ></q-btn>
-            <!-- <q-btn
-                class="col-2"
-                label="+10"
-                size="xs"
-                text-color="positive"
-                @click="handle(10)"
-              ></q-btn> -->
             <div v-if="boxprice != null" class="q-gutter-sm">
               <q-radio
                 v-model="bulkbuy"
@@ -360,9 +294,6 @@
             />
           </q-card-section>
         </q-page-sticky>
-        <!-- <q-page-sticky position="bottom" :offset="[0, -50]">
-
-        </q-page-sticky> -->
       </q-dialog>
     </div>
   </div>
@@ -373,7 +304,6 @@
   import {ref} from 'vue';
   import {Notify, QPageSticky} from 'quasar';
   import {mapGetters, mapState} from 'vuex';
-  // import {space} from 'postcss/lib/list';
 
   export default defineComponent({
     name: 'ProductInfo',
@@ -390,7 +320,6 @@
       ...mapGetters('cart', {
         total: 'cartTotalPrice',
       }),
-
       localParam: {
         get: function () {
           return this.buyoption;
@@ -497,6 +426,10 @@
       flavor_refer_ko: {
         type: String,
         default: '',
+      },
+      colNumber: {
+        type: Number,
+        default: 3,
       },
     },
     setup() {
