@@ -135,30 +135,13 @@
           selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
         }}</q-btn
       >
-      <!-- <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
-      <div>1. 包含购物车物品和商品价格的画面</div>
-      <div>2. 收件人的地址</div>
-      <div>3. 收件人的电话号码</div>
-      <div>
-        <text-subtitle2>微信ID:l175969775</text-subtitle2>
-        <q-btn
-          @click="copyToClipboard(copyWechatAccount)"
-          class="text-bold q-ma-sm"
-          color="positive"
-          outline
-          >复制</q-btn
-        >
+      <div class="row justify-end">
+        <text-subtitle2>{{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '*发送订单后，将清空购物车内商品。'
+            : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+        }}</text-subtitle2>
       </div>
-      <div>
-        <text-subtitle2>手机号:010-5790-6006</text-subtitle2>
-        <q-btn
-          @click="copyToClipboard(copyPhoneAccount)"
-          class="text-bold q-ma-sm"
-          color="positive"
-          outline
-          >复制</q-btn
-        >
-      </div> -->
       <div class="row justify-end">
         <q-btn
           color="positive"
@@ -186,125 +169,121 @@
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
-        <q-card-section class="row items-center q-pa-none">
-          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-            <q-input
-              filled
-              v-model="no_id_recipient_name"
-              :label="selected_local.name"
-              :hint="selected_local.namehint"
-              lazy-rules
-              :rules="[
-                val => (!!val && val.length <= 20) || selected_local.name,
-              ]"
+        <q-card-section class="column q-gutter-y-sm q-pa-none">
+          <q-input
+            filled
+            autofocus
+            v-model="no_id_recipient_name"
+            :label="selected_local.name"
+            :hint="selected_local.namehint"
+            lazy-rules
+            :rules="[val => (!!val && val.length <= 20) || selected_local.name]"
+          />
+          <q-input
+            filled
+            v-model="no_id_recipient_phone"
+            :label="selected_local.tel"
+            :hint="selected_local.telhint"
+            mask="(###)####-####"
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 13 && val.length <= 15) ||
+                selected_local.recipientphone,
+            ]"
+          />
+          <q-input
+            filled
+            v-model="no_id_recipient_address"
+            :label="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '收件地址'
+                : '배송주소지'
+            "
+            :hint="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '请输入详细收件地址'
+                : '배송받을 상세 주소지'
+            "
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 6 && val.length <= 99) ||
+                selected_local.address,
+            ]"
+          />
+          <!-- 결제관련 정보 -->
+          <q-input
+            filled
+            v-model="no_id_recipient_bankinfo"
+            :label="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '支付信息'
+                : '지불정보'
+            "
+            :hint="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '支付账号名+支付银行(如：우리은행/이호권)'
+                : '지불계좌이름+지불은행(如：우리은행/이호권)'
+            "
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 6 && val.length <= 99) ||
+                selected_local.address,
+            ]"
+          />
+          <div class="row q-ma-sm q-py-sm">
+            <q-radio
+              class="col-6"
+              color="positive"
+              v-model="doorScretKey"
+              val="free"
+              :label="selected_local.gate_free"
             />
-            <q-input
-              filled
-              v-model="no_id_recipient_phone"
-              :label="selected_local.tel"
-              :hint="selected_local.telhint"
-              mask="(###)####-####"
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 13 && val.length <= 15) ||
-                  selected_local.recipientphone,
-              ]"
+            <q-radio
+              class="col-6"
+              color="positive"
+              v-model="doorScretKey"
+              val="password"
+              :label="selected_local.gate_password"
             />
-            <q-input
-              filled
-              v-model="no_id_recipient_address"
-              :label="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '收件地址'
-                  : '배송주소지'
-              "
-              :hint="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '请输入详细收件地址'
-                  : '배송받을 상세 주소지'
-              "
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 6 && val.length <= 99) ||
-                  selected_local.address,
-              ]"
-            />
-            <!-- 결제관련 정보 -->
-            <q-input
-              filled
-              v-model="no_id_recipient_bankinfo"
-              :label="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '支付信息'
-                  : '지불정보'
-              "
-              :hint="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '支付账号名+支付银行(如：우리은행/이호권)'
-                  : '지불계좌이름+지불은행(如：우리은행/이호권)'
-              "
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 6 && val.length <= 99) ||
-                  selected_local.address,
-              ]"
-            />
-            <div class="row q-ma-sm q-py-sm">
-              <q-radio
-                class="col-6"
-                color="positive"
-                v-model="doorScretKey"
-                val="free"
-                :label="selected_local.gate_free"
-              />
-              <q-radio
-                class="col-6"
-                color="positive"
-                v-model="doorScretKey"
-                val="password"
-                :label="selected_local.gate_password"
-              />
 
-              <q-input
-                standout
-                dense
-                class="col-12"
-                :disable="doorScretKey == 'password' ? false : true"
-                outlined
-                v-model="outdoorpassword"
-                :label="selected_local.gate_password"
-                lazy-rules
-                :rules="[val => !!val || '请输入附加信息']"
-              />
-            </div>
-            <div class="row justify-center q-gutter-sm q-py-sm">
-              <q-btn
-                :label="selected_local.confirm"
-                class="col-5"
-                @click="no_id_registe_address('계좌이체')"
-                color="positive"
-                outline
-                v-close-popup
-                :disable="
-                  no_id_recipient_name == null ||
-                  no_id_recipient_phone == null ||
-                  no_id_recipient_address == null ||
-                  no_id_recipient_bankinfo == null
-                "
-              />
-              <q-btn
-                :label="selected_local.cancel"
-                class="col-5"
-                color="negative"
-                outline
-                v-close-popup
-              />
-            </div>
-          </q-form>
+            <q-input
+              standout
+              dense
+              class="col-12"
+              :disable="doorScretKey == 'password' ? false : true"
+              outlined
+              v-model="outdoorpassword"
+              :label="selected_local.gate_password"
+              lazy-rules
+              :rules="[val => !!val || '请输入附加信息']"
+            />
+          </div>
         </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            :label="selected_local.confirm"
+            class="col-5"
+            @click="confirm_bank = true"
+            color="positive"
+            outline
+            :disable="
+              no_id_recipient_name == null ||
+              no_id_recipient_phone == null ||
+              no_id_recipient_address == null ||
+              no_id_recipient_bankinfo == null
+            "
+          />
+          <q-btn
+            :label="selected_local.cancel"
+            class="col-5"
+            color="negative"
+            outline
+            v-close-popup
+          />
+        </q-card-actions>
       </q-card>
     </q-dialog>
     <q-separator />
@@ -317,6 +296,7 @@
       }}
     </div>
     <div>
+      <div>昵称:YI HOGWON</div>
       <text-subtitle2>微信ID:l175969775</text-subtitle2>
       <q-btn
         @click="copyToClipboard(copyWechatAccount)"
@@ -328,20 +308,16 @@
         }}</q-btn
       >
     </div>
-    <!-- <div>支付完之后，请将以下信息发送给我的微信号或者手机号。</div>
-    <div>1. 包含购物车物品和商品价格的画面</div>
-    <div>2. 收件人的地址</div>
-    <div>3. 收件人的电话号码</div>
-    <div>
-      <text-subtitle2>手机号:010-5790-6006</text-subtitle2>
-      <q-btn
-        @click="copyToClipboard(copyPhoneAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >复制</q-btn
-      >
-    </div> -->
+    <p>
+      <a :href="url_currency" target="_blank">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '前去查看汇率'
+            : '환율 조회하러 가기'
+        }}
+        https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW
+      </a>
+    </p>
     <p>
       {{
         selected_local.chinafood == '洽洽中国食品'
@@ -349,15 +325,13 @@
           : '오늘의 매매기준환율에 따라 중국돈을 송금해주시면 됩니다.'
       }}
     </p>
-    <p class="row justify-end">
-      <a :href="url_currency" target="_blank">
-        {{
-          selected_local.chinafood == '洽洽中国食品'
-            ? '前去查看汇率'
-            : '환율 조회하러 가기'
-        }}
-      </a>
-    </p>
+    <div class="row justify-end">
+      <text-subtitle2>{{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '*发送订单后，将清空购物车内商品。'
+          : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+      }}</text-subtitle2>
+    </div>
     <div class="row justify-end">
       <q-btn
         color="positive"
@@ -367,7 +341,7 @@
         :label="
           selected_local.chinafood == '洽洽中国食品' ? '发送订单' : '오더전달'
         "
-        @click="no_id_address_input_wechat = true"
+        @click="no_id_address_input = true"
       >
       </q-btn>
     </div>
@@ -384,127 +358,123 @@
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
-        <q-card-section class="row items-center q-pa-none">
-          <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-            <q-input
-              filled
-              v-model="no_id_recipient_name"
-              :label="selected_local.name"
-              :hint="selected_local.namehint"
-              lazy-rules
-              :rules="[
-                val => (!!val && val.length <= 20) || selected_local.name,
-              ]"
+        <q-card-section class="column q-gutter-y-sm q-pa-none">
+          <q-input
+            filled
+            autofocus
+            v-model="no_id_recipient_name"
+            :label="selected_local.name"
+            :hint="selected_local.namehint"
+            lazy-rules
+            :rules="[val => (!!val && val.length <= 20) || selected_local.name]"
+          />
+          <q-input
+            filled
+            v-model="no_id_recipient_phone"
+            :label="selected_local.tel"
+            :hint="selected_local.telhint"
+            mask="(###)####-####"
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 13 && val.length <= 15) ||
+                selected_local.phone,
+            ]"
+          />
+          <q-input
+            filled
+            v-model="no_id_recipient_address"
+            :label="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '收件地址'
+                : '배송주소지'
+            "
+            :hint="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '请输入详细收件地址'
+                : '배송받을 상세 주소지'
+            "
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 6 && val.length <= 99) ||
+                selected_local.address,
+            ]"
+          />
+          <q-input
+            filled
+            v-model="no_id_recipient_bankinfo"
+            :label="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '支付信息'
+                : '지불정보'
+            "
+            :hint="
+              selected_local.chinafood == '洽洽中国食品'
+                ? '付款微信用户名或者微信号（如：l175969775 or 이호권）'
+                : '송금한 위쳇닉네임 또는 위쳇아이디(如:l175969775 or 이호권)'
+            "
+            lazy-rules
+            :rules="[
+              val =>
+                (!!val && val.length >= 6 && val.length <= 99) ||
+                selected_local.address,
+            ]"
+          />
+          <div class="row q-ma-sm q-py-sm">
+            <q-radio
+              class="col-6"
+              color="positive"
+              v-model="doorScretKey"
+              val="free"
+              :label="selected_local.gate_free"
             />
-            <q-input
-              filled
-              v-model="no_id_recipient_phone"
-              :label="selected_local.tel"
-              :hint="selected_local.telhint"
-              mask="(###)####-####"
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 13 && val.length <= 15) ||
-                  selected_local.phone,
-              ]"
+            <q-radio
+              class="col-6"
+              color="positive"
+              v-model="doorScretKey"
+              val="password"
+              :label="selected_local.gate_password"
             />
-            <q-input
-              filled
-              v-model="no_id_recipient_address"
-              :label="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '收件地址'
-                  : '배송주소지'
-              "
-              :hint="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '请输入详细收件地址'
-                  : '배송받을 상세 주소지'
-              "
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 6 && val.length <= 99) ||
-                  selected_local.address,
-              ]"
-            />
-            <!-- 결제관련 정보 -->
-            <q-input
-              filled
-              v-model="no_id_recipient_bankinfo"
-              :label="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '支付信息'
-                  : '지불정보'
-              "
-              :hint="
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '付款微信用户名或者微信号（如：l175969775/이호권）'
-                  : '송금한 위쳇닉네임 또는 위쳇아이디(如:l175969775/이호권)'
-              "
-              lazy-rules
-              :rules="[
-                val =>
-                  (!!val && val.length >= 6 && val.length <= 99) ||
-                  selected_local.address,
-              ]"
-            />
-            <div class="row q-ma-sm q-py-sm">
-              <q-radio
-                class="col-6"
-                color="positive"
-                v-model="doorScretKey"
-                val="free"
-                :label="selected_local.gate_free"
-              />
-              <q-radio
-                class="col-6"
-                color="positive"
-                v-model="doorScretKey"
-                val="password"
-                :label="selected_local.gate_password"
-              />
 
-              <q-input
-                standout
-                dense
-                class="col-12"
-                :disable="doorScretKey == 'password' ? false : true"
-                outlined
-                v-model="outdoorpassword"
-                :label="selected_local.gate_password"
-                lazy-rules
-                :rules="[val => !!val || '请输入附加信息']"
-              />
-            </div>
-            <div class="row justify-center q-gutter-sm q-py-sm">
-              <q-btn
-                :label="selected_local.confirm"
-                class="col-5"
-                @click="no_id_registe_address('微信红包')"
-                color="positive"
-                outline
-                v-close-popup
-                :disable="
-                  no_id_recipient_name == null ||
-                  no_id_recipient_phone == null ||
-                  no_id_recipient_address == null ||
-                  no_id_recipient_bankinfo == null
-                "
-              />
-              <q-btn
-                :label="selected_local.cancel"
-                class="col-5"
-                color="negative"
-                outline
-                v-close-popup
-              />
-            </div>
-          </q-form>
+            <q-input
+              standout
+              dense
+              class="col-12"
+              :disable="doorScretKey == 'password' ? false : true"
+              outlined
+              v-model="outdoorpassword"
+              :label="selected_local.gate_password"
+              lazy-rules
+              :rules="[val => !!val || '请输入附加信息']"
+            />
+          </div>
         </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            :label="selected_local.confirm"
+            class="col-5"
+            @click="confirm_wechat = true"
+            color="positive"
+            outline
+            :disable="
+              no_id_recipient_name == null ||
+              no_id_recipient_phone == null ||
+              no_id_recipient_address == null ||
+              no_id_recipient_bankinfo == null
+            "
+          />
+          <q-btn
+            :label="selected_local.cancel"
+            class="col-5"
+            color="negative"
+            outline
+            v-close-popup
+          />
+        </q-card-actions>
       </q-card>
     </q-dialog>
+
     <q-separator />
 
     <div class="text-h6 text-bold">
@@ -653,11 +623,11 @@
         ></q-btn>
       </div>
     </q-card>
+
     <div class="row justify-end">
-      <div class="text-red text-bold q-pa-sm">
-        <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
-        <div v-if="no_login">{{ selected_local.needloginfirst }}</div>
-      </div>
+      <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+    </div>
+    <div class="row justify-end">
       <q-btn
         color="positive"
         outline
@@ -668,7 +638,10 @@
         @click="selectPaymentmethod(total, shipment, freeze_shipment, coupon)"
       >
       </q-btn>
-      <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+      <div class="text-red text-bold q-pa-sm">
+        <div v-if="no_selected_addr">{{ selected_local.needselectedaddr }}</div>
+        <div v-if="no_login">{{ selected_local.needloginfirst }}</div>
+      </div>
     </div>
     <div id="payment-method" class="q-py-none"></div>
 
@@ -738,39 +711,7 @@
             </q-input>
           </div>
         </q-card-section>
-        <!-- <q-card-section>
-          <div class="text-body1 text-bold">
-            {{ selected_local.final_coupon_confirm }}
-          </div>
-          <div class="row">
-            <q-radio
-              color="positive"
-              class="col-12"
-              v-model="coupon"
-              val=""
-              :label="selected_local.donot_use"
-            />
-            <q-radio
-              color="positive"
-              v-model="coupon"
-              v-for="c in couponList.filter(c => c.available == 1)"
-              :Key="c.coupon_id"
-              :bind="c"
-              :val="c"
-              :label="
-                c.coupon_name +
-                ': ' +
-                c.coupon_price +
-                selected_local.won +
-                selected_local.coupon_use_info_1 +
-                `${c.use_condition == null ? 0 : c.use_condition}` +
-                selected_local.won +
-                selected_local.coupon_use_info_2
-              "
-              :disable="c.use_condition > total ? true : false"
-            />
-          </div>
-        </q-card-section> -->
+
         <q-card-section>
           <div class="text-body1 text-bold">
             {{ selected_local.final_payamount_confirm }}
@@ -810,13 +751,93 @@
       transition-hide="scale"
       ><LoginPage
     /></q-dialog>
+    <q-dialog
+      v-model="confirm_bank"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card>
+        <q-card-section class="row items-center">
+          <text-h3 class="q-ml-sm">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '发送订单吗？'
+                : '오더를 전달하시겠습니까?'
+            }}
+          </text-h3>
+          <text-body2 class="q-ml-sm text-red">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '*发送订单后，将清空购物车内商品。'
+                : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+            }}
+          </text-body2>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            :label="selected_local.confirm"
+            color="positive"
+            @click="no_id_registe_address('계좌이체')"
+          />
+          <q-btn
+            flat
+            :label="selected_local.cancel"
+            color="negative"
+            v-close-popup
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog
+      v-model="confirm_wechat"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card>
+        <q-card-section class="row items-center">
+          <text-h3 class="q-ml-sm">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '发送订单吗？'
+                : '오더를 전달하시겠습니까?'
+            }}
+          </text-h3>
+          <text-body2 class="q-ml-sm text-red">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '*发送订单后，将清空购物车内商品。'
+                : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+            }}
+          </text-body2>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            :label="selected_local.confirm"
+            color="positive"
+            @click="no_id_registe_address('WechatPay')"
+          />
+          <q-btn
+            flat
+            :label="selected_local.cancel"
+            color="negative"
+            v-close-popup
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
   import {mapGetters, mapState} from 'vuex';
   import OrderItemInfo from 'components/OrderItemInfo.vue';
-  import CouponList from 'components/CouponList.vue';
+  // import CouponList from 'components/CouponList.vue';
   import LoginPage from 'components/LoginPage.vue';
   import {defineComponent, ref} from 'vue';
   import validation from 'src/util/data/validation';
@@ -856,6 +877,8 @@
         copyBankAccount: ref('1002557640050'),
         copyWechatAccount: ref('l175969775'),
         copyPhoneAccount: ref('01057906006'),
+        confirm_bank: ref(false),
+        confirm_wechat: ref(false),
         no_id_recipient_name: ref(''),
         no_id_recipient_phone: ref(''),
         no_id_recipient_address: ref(''),
@@ -972,6 +995,10 @@
           .then(res => {
             if (res.status == 200) {
               this.set_order_with_address(res.data.insertId, paymethed);
+              this.$store.dispatch('cart/checkout');
+              // this.$store.dispatch('coupon/setStatusAction', 'buy complete'); // 결제 후 나의 보유 쿠폰 상태를 갱신할 수 있도록 스테이터스를 초기화
+              this.$store.dispatch('order/setStatusAction', 'buy complete');
+              // this.read_coupon();
             }
           })
           .catch(res => console.log('에러: ' + res));

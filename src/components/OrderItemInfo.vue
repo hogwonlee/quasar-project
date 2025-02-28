@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="card = true">
-      <q-img :src="img" class="rounded-borders" :ratio="1" position="0 0">
+      <q-img :src="img" class="rounded-borders" :ratio="3 / 4" position="0 0">
         <div class="absolute-top-right q-ma-sm transparent">
           <!-- <q-badge v-if="buyoption == true" color="red" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}
@@ -29,7 +29,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category">
-        <q-card style="height: 60%; width: 80%">
+        <q-card style="height: 80%; width: 70%">
           <!-- <q-input
             class="col-12"
             readonly
@@ -48,8 +48,9 @@
             borderless
             :label="selected_local.productname_ko"
             :model-value="product_name_ko"
+            style="margin-top: 3px; margin-bottom: 3px"
           /> -->
-          <img :src="img" style="margin-top: 3px; margin-bottom: 3px" />
+          <img :src="img" class="q-ma-xs" />
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -58]">
           <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">

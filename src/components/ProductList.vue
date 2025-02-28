@@ -153,66 +153,45 @@
       </div>
     </q-page-container>
     <q-page-sticky position="bottom-right" :offset="[10, 10]">
-      <q-fab
-        v-model="list_show"
-        persistent="false"
-        :label="selected_local.category"
-        direction="up"
-        class="q-pa-none q-gutter-none"
-        color="dark"
-        vertical-actions-align="right"
-        icon="keyboard_arrow_up"
-      >
-        <q-fab-action
-          :label="c.category"
-          padding="3px"
-          v-for="c in category.slice().sort().reverse()"
+      <q-btn-dropdown color="dark" :label="selected_local.category" rounded>
+        <q-list
+          v-for="c in category.slice().sort()"
           :key="c.category"
           v-bind="c"
+          dense
+          padding="xs"
           color="dark"
-          @click="handleScroll(c.category)"
-        />
-      </q-fab>
-    </q-page-sticky>
-    <q-page-sticky position="top-right" :offset="[10, 10]">
-      <q-fab
-        v-model="list_view_col"
-        persistent="false"
-        direction="down"
-        class="q-pa-none q-gutter-none"
-        color="dark"
-        vertical-actions-align="bottom"
-        icon="view_compact_alt"
-      >
-        <q-btn-toggle
-          v-model="list_col_number"
-          rounded
-          toggle-color="primary"
-          :options="[
-            {slot: 'one', value: 3},
-            {slot: 'two', value: 4},
-            {slot: 'three', value: 12},
-          ]"
         >
-          <template v-slot:one>
-            <div class="row items-center no-wrap">
-              <q-icon name="widget_small" />
-            </div>
-          </template>
+          <q-item clickable v-close-popup @click="handleScroll(c.category)">
+            <q-item-section>
+              <q-item-label class="dark">{{ c.category }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+    </q-page-sticky>
+    <q-page-sticky position="bottom" :offset="[0, 10]">
+      <q-btn-dropdown color="dark" icon="view_compact_alt" rounded>
+        <q-list dense padding="xs" color="dark">
+          <q-item clickable v-close-popup @click="list_col_number = 3">
+            <q-item-section avatar>
+              <q-avatar icon="dialpad" />
+            </q-item-section>
+          </q-item>
 
-          <template v-slot:two>
-            <div class="row items-center no-wrap">
-              <q-icon name="view_comfy_alt" />
-            </div>
-          </template>
+          <q-item clickable v-close-popup @click="list_col_number = 4">
+            <q-item-section avatar>
+              <q-avatar icon="view_compact_alt" />
+            </q-item-section>
+          </q-item>
 
-          <template v-slot:three>
-            <div class="row items-center no-wrap">
-              <q-icon name="density_medium" />
-            </div>
-          </template>
-        </q-btn-toggle>
-      </q-fab>
+          <q-item clickable v-close-popup @click="list_col_number = 12">
+            <q-item-section avatar>
+              <q-avatar icon="menu" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
     </q-page-sticky>
     <q-page-sticky position="bottom-left" :offset="[10, 50]">
       <q-btn
@@ -403,7 +382,6 @@
         visible: ref(true),
         showSimulatedReturnData: ref(false),
         list_col_number: ref(3),
-        list_view_col: ref(false),
       };
     },
   });

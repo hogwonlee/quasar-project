@@ -127,7 +127,6 @@ module.exports = configure(function (/* ctx */) {
       server: {
         hmr: {
           clientPort: 443,
-          overlay: false,
         },
       },
       open: true, // opens browser window automatically
