@@ -161,9 +161,11 @@
               </div>
 
               <p v-if="water_delivery == 1">
+                <!-- 물과 같은 무거운 액체 배송 -->
                 {{ selected_local.notice_water_delivery }}
               </p>
               <p v-else-if="water_delivery == 2">
+                <!-- 아이스크림 등 쉽게 녹는 음식 -->
                 {{
                   selected_local.chinafood == '洽洽中国食品'
                     ? '***富川以外，此商品暂不支持快递、订单'
@@ -171,10 +173,19 @@
                 }}
               </p>
               <p v-else-if="water_delivery == 3">
+                <!-- 브랜드 다양 -->
                 {{
                   selected_local.chinafood == '洽洽中国食品'
                     ? '***此商品品牌随机配送，品质、容量、价格差异不大'
                     : '***브랜드 랜덤 배송. 품질, 용량, 가격은 큰 차이 없음.'
+                }}
+              </p>
+              <p v-else-if="water_delivery == 4">
+                <!-- 냉동식품 추가 배송비 발생 -->
+                {{
+                  selected_local.chinafood == '洽洽中国食品'
+                    ? '***速冻产品需要支付的快递费用。5万以上则免。'
+                    : '***냉동제품은 추가 배송비를 지불해야 합니다. 5만원이상이면 무료 배송합니다.'
                 }}
               </p>
               <div :class="this.localQuantity > 0 ? 'bg-white' : 'bg-grey'">

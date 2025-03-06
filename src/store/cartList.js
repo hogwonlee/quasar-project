@@ -70,9 +70,7 @@ const getters = {
   },
   freeze_shipmentPrice: (state, getters) => {
     var freeze_product;
-    freeze_product = state.items.find(
-      product => product.category == '速冻冷藏l냉동냉장',
-    );
+    freeze_product = state.items.find(product => product.water_delivery == 4);
     return freeze_product == undefined
       ? 0
       : getters.cartTotalPrice >= 50000
