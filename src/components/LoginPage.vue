@@ -1,23 +1,5 @@
 <template>
   <div class="q-pa-xs q-gutter-sm">
-    <div
-      id="g_id_onload"
-      data-client_id="309960454694-47es81c2o8919hstmgaog7dngsmogfrh.apps.googleusercontent.com"
-      data-context="signin"
-      data-ux_mode="redirect"
-      data-login_uri="https://cfomarket.store"
-      data-itp_support="true"
-    ></div>
-
-    <div
-      class="g_id_signin"
-      data-type="standard"
-      data-shape="rectangular"
-      data-theme="outline"
-      data-text="signin_with"
-      data-size="large"
-      data-logo_alignment="left"
-    ></div>
     <!-- <q-dialog persistent transition-show="scale" transition-hide="scale"> -->
     <q-card class="bg-white text-black">
       <q-card-section>
@@ -143,25 +125,30 @@
             'Content-Type': 'application/json',
           },
           data: userData,
-        }).catch(err => {
-          alert.confirm(
-            this.selected_local.notice,
-            this.selected_local.wrongpw +
-              ': [' +
-              this.selected_local.identity +
-              ': ' +
-              userData.user_id +
-              '] [' +
-              this.selected_local.password +
-              ': ' +
-              userData.user_pw +
-              ']' +
-              err,
-          );
-        });
-        // .then(response => {
-        //   console.log(JSON.stringify(response));
-        //   if (response.status == 200) {
+        })
+          .catch(err => {
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.wrongpw +
+                ': [' +
+                this.selected_local.identity +
+                ': ' +
+                userData.user_id +
+                '] [' +
+                this.selected_local.password +
+                ': ' +
+                userData.user_pw +
+                ']' +
+                err,
+            );
+          })
+          .then(response => {
+            console.log(JSON.stringify(response));
+            alert.confirm(
+              this.selected_local.notice,
+              response.data.results[0].user_name + ' 님 안녕하세요!',
+            );
+          });
         // console.log('토큰: ' + JSON.stringify(response.data.token));
         // console.log('리졸트: ' + JSON.stringify(response.data.results[0]));
         var json = response.data;
