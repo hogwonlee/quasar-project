@@ -29,9 +29,9 @@ const getProductList = async (req, res) => {
           '클라 요청 시간: ' +
           local_version,
       );
-      let store_version = results[0].storeversion;
+      let store_version = results[0].version;
       console.log(
-        '서버 시간: ' + results[0].storeversion + '서버 시간: ' + store_version,
+        '서버 시간: ' + results[0].version + '서버 시간: ' + store_version,
       );
 
       // console.log(

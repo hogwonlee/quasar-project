@@ -4,7 +4,7 @@
 const state = () => ({
   all: [],
   status: 'update',
-  version: '0',
+  version: 0,
 });
 
 // getters
