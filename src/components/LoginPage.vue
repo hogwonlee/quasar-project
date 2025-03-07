@@ -117,7 +117,7 @@
           user_pw: this.userPw,
         };
         // console.log(JSON.stringify(userData));
-        let response = await axios({
+        await axios({
           url: `${configs.server}/login`,
           method: 'POST',
           headers: {
@@ -143,25 +143,25 @@
             );
           })
           .then(response => {
-            console.log(JSON.stringify(response));
-            alert.confirm(
-              this.selected_local.notice,
-              response.data.results[0].user_name + ' 님 안녕하세요!',
-            );
+            var json = response.data;
+
+            if (this.auto_login) {
+              json.user_pw = userData.user_pw;
+            } else {
+              json.user_pw = '';
+            }
+            this.$store.dispatch('user/loginAction', {
+              data: json,
+              that: this,
+            });
+            Notify.create({
+              position: 'top',
+              message: response.data.results[0].user_name + ' 님 안녕하세요!',
+              color: 'green',
+            });
           });
         // console.log('토큰: ' + JSON.stringify(response.data.token));
         // console.log('리졸트: ' + JSON.stringify(response.data.results[0]));
-        var json = response.data;
-
-        if (this.auto_login) {
-          json.user_pw = userData.user_pw;
-        } else {
-          json.user_pw = '';
-        }
-        this.$store.dispatch('user/loginAction', {
-          data: json,
-          that: this,
-        });
 
         // this.$store.dispatch('address/emptyAddressAction');
         // json.results.forEach(addr => {

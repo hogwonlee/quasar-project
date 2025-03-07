@@ -300,3 +300,4 @@ backend/configs/db copy.js
 backend/server_local.js
 quasar.config_local.js
 backend/router/noauth_local.js
+quasar.config.js

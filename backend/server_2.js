@@ -164,9 +164,7 @@ var orderResister = function (req, satisfy_coupon_text, res) {
             order_data[i].product_id,
           ]);
         }
-        db.query(
-          `UPDATE storeversion SET storeversion = storeversion+1 LIMIT 1;`,
-        );
+        db.query(`UPDATE storeversion SET version = version+1 LIMIT 1;`);
 
         return db.query(sqlCommend_insert, function (err, results, fields) {
           if (err) {
