@@ -144,7 +144,9 @@
           })
           .then(response => {
             var json = response.data;
-
+            console.log(
+              '응답 response: ' + JSON.stringify(response.data.results[0]),
+            );
             if (this.auto_login) {
               json.user_pw = userData.user_pw;
             } else {
@@ -163,6 +165,7 @@
 
         if (this.user.USER_ID == '') {
           var json = res.data;
+          console.log('생성 let res: ' + JSON.stringify(json.results[0]));
           if (this.auto_login) {
             json.user_pw = userData.user_pw;
           } else {
