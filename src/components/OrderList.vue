@@ -869,7 +869,7 @@
         persistent: ref(false),
         address_selected: '',
         address_popup: ref(false),
-        // register_popup: ref(false),
+        register_popup: ref(false),
         coupon_list: ref(false),
         selected_coupon_id: ref(null),
         finalCheck: ref(false),

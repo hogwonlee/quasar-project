@@ -117,7 +117,7 @@
           user_pw: this.userPw,
         };
         // console.log(JSON.stringify(userData));
-        await axios({
+        let res = await axios({
           url: `${configs.server}/login`,
           method: 'POST',
           headers: {
@@ -160,6 +160,20 @@
               color: 'green',
             });
           });
+
+        if (this.user.USER_ID == '') {
+          var json = res.data;
+          if (this.auto_login) {
+            json.user_pw = userData.user_pw;
+          } else {
+            json.user_pw = '';
+          }
+
+          this.$store.dispatch('user/loginAction', {
+            data: json,
+            that: this,
+          });
+        }
         // console.log('토큰: ' + JSON.stringify(response.data.token));
         // console.log('리졸트: ' + JSON.stringify(response.data.results[0]));
 
