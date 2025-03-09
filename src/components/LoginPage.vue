@@ -126,22 +126,6 @@
           },
           data: userData,
         })
-          .catch(err => {
-            alert.confirm(
-              this.selected_local.notice,
-              this.selected_local.wrongpw +
-                ': [' +
-                this.selected_local.identity +
-                ': ' +
-                userData.user_id +
-                '] [' +
-                this.selected_local.password +
-                ': ' +
-                userData.user_pw +
-                ']' +
-                err,
-            );
-          })
           .then(response => {
             var json = response.data;
             console.log(
@@ -161,6 +145,22 @@
               message: response.data.results[0].user_name + ' 님 안녕하세요!',
               color: 'green',
             });
+          })
+          .catch(err => {
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.wrongpw +
+                ': [' +
+                this.selected_local.identity +
+                ': ' +
+                userData.user_id +
+                '] [' +
+                this.selected_local.password +
+                ': ' +
+                userData.user_pw +
+                ']' +
+                err,
+            );
           });
 
         if (this.user.USER_ID == '') {
