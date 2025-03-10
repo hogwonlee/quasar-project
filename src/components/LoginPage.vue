@@ -127,6 +127,12 @@
           data: userData,
         })
           .then(response => {
+            Notify.create({
+              position: 'top',
+              message: response.data.results[0].user_name + ' 님 안녕하세요!',
+              color: 'green',
+            });
+
             var json = response.data;
             console.log(
               '응답 response: ' + JSON.stringify(response.data.results[0]),
@@ -139,11 +145,6 @@
             this.$store.dispatch('user/loginAction', {
               data: json,
               that: this,
-            });
-            Notify.create({
-              position: 'top',
-              message: response.data.results[0].user_name + ' 님 안녕하세요!',
-              color: 'green',
             });
           })
           .catch(err => {
