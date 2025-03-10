@@ -159,7 +159,8 @@ module.exports = {
           if (err) {
             console.error(err);
             res.status(500).send({msg: 'error', content: err});
-          } else if (results.length <= 0) {
+          }
+          if (results.length <= 0) {
             console.log('로그인요청:' + err);
             res.status(400).send({msg: 'error', content: err});
           } else {
