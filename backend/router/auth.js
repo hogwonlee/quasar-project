@@ -163,23 +163,22 @@ module.exports = {
           } else {
             // console.log(JSON.stringify(results));
             // req.session.user = {
-            // req.session.cookie.user = {
-            //   id: results[0].id,
-            //   pw: hashpw(results[0].user_pw),
-            //   name: results[0].user_name,
-            //   authorized: true,
-            // };
-            // const token = jwt.sign(
-            //   {
-            //     USER_ID: results[0].id, //페이로드
-            //   },
-            //   jwtObj.secret,
-            //   jwtObj.option,
-            // );
-            // redisController.setToken(token, req.session.cookie.user);
+            req.session.cookie.user = {
+              id: results[0].id,
+              pw: hashpw(results[0].user_pw),
+              name: results[0].user_name,
+              authorized: true,
+            };
+            const token = jwt.sign(
+              {
+                USER_ID: results[0].id, //페이로드
+              },
+              jwtObj.secret,
+              jwtObj.option,
+            );
+            redisController.setToken(token, req.session.cookie.user);
             // redisController.setToken(token, req.session.user);
-            // res.status(200).send({token, results});
-            res.status(200).send(results);
+            res.status(200).send({token: token, results: results});
             // });
           }
         },
