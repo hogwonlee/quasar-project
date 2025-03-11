@@ -143,7 +143,7 @@ module.exports = {
       user_pw: hashpw(body.user_pw),
       // user_pw: hashpw(security.decryptRsaContent(body.user_pw)),
     };
-    console.log(param.user_pw);
+    // console.log(param.user_pw);
 
     if (req.session.user) {
       // 세션에 유저가 존재한다면
