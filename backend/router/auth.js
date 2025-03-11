@@ -182,7 +182,7 @@ module.exports = {
             // redisController.setToken(token, req.session.cookie.user);
             // redisController.setToken(token, req.session.user);
             // res.status(200).send({token, results});
-            res.status(200).send(token, results);
+            res.status(200).send(results);
             // });
           }
         },
