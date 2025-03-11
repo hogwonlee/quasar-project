@@ -127,25 +127,42 @@
           data: userData,
         })
           .then(response => {
-            Notify.create({
-              position: 'top',
-              message: response.data.results[0].user_name + ' 님 안녕하세요!',
-              color: 'green',
-            });
+            if (response.status == 200) {
+              Notify.create({
+                position: 'top',
+                message: response.data.results[0].user_name + ' 님 안녕하세요!',
+                color: 'green',
+              });
 
-            var json = response.data;
-            console.log(
-              '응답 response: ' + JSON.stringify(response.data.results[0]),
-            );
-            if (this.auto_login) {
-              json.user_pw = userData.user_pw;
-            } else {
-              json.user_pw = '';
+              var json = response.data;
+              console.log(
+                '응답 response: ' + JSON.stringify(response.data.results[0]),
+              );
+              if (this.auto_login) {
+                json.user_pw = userData.user_pw;
+              } else {
+                json.user_pw = '';
+              }
+              this.$store.dispatch('user/loginAction', {
+                data: json,
+                that: this,
+              });
+            } else if (response.status == 400) {
+              alert.confirm(
+                response.data.msg,
+                this.selected_local.wrongpw +
+                  ': [' +
+                  this.selected_local.identity +
+                  ': ' +
+                  userData.user_id +
+                  '] [' +
+                  this.selected_local.password +
+                  ': ' +
+                  userData.user_pw +
+                  ']' +
+                  err,
+              );
             }
-            this.$store.dispatch('user/loginAction', {
-              data: json,
-              that: this,
-            });
           })
           .catch(err => {
             alert.confirm(
