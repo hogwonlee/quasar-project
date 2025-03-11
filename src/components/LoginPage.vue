@@ -127,6 +127,7 @@
           data: userData,
         })
           .then(response => {
+            console.log('응답 status: ' + response.status);
             if (response.status == 200) {
               Notify.create({
                 position: 'top',
@@ -182,8 +183,8 @@
           });
 
         if (this.user.USER_ID == '') {
+          console.log('생성 let res: ' + JSON.stringify(res));
           var json = res.data;
-          console.log('생성 let res: ' + JSON.stringify(json.results[0]));
           if (this.auto_login) {
             json.user_pw = userData.user_pw;
           } else {
