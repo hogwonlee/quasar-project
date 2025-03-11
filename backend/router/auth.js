@@ -93,9 +93,7 @@ var orderResister = function (req, satisfy_coupon_text, res) {
             order_data[i].product_id,
           ]);
         }
-        db.query(
-          `UPDATE storeversion SET storeversion = storeversion+1 LIMIT 1;`,
-        );
+        db.query(`UPDATE storeversion SET version = version+1 LIMIT 1;`);
 
         return db.query(sqlCommend_insert, function (err, results, fields) {
           if (err) {
@@ -134,9 +132,8 @@ module.exports = {
   },
 
   login: async (req, res) => {
-    // console.log('로그인 함수가 실행됩니다.');
-    const sqlCommend =
-      'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
+    // console.log('로그인 함수가 실행됩니다.');    const sqlCommend =
+    'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
     const param = {
       user_id: body.user_id,
