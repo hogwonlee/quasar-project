@@ -1,6 +1,7 @@
 'use strict';
 
-const authController = require('../router/auth');
+// const loginController = require('../router/auth');
+const loginController = require('../controller/user');
 const productController = require('../controller/product');
 const express = require('express');
 const router = express.Router();
@@ -14,7 +15,7 @@ const googleOauth_Config = require('../configs/db');
 
 /// ------------ google oauth const end ---------------------///
 
-router.post('/api/login', authController.login);
+router.post('/api/login', loginController.login);
 router.post('/api/register', authController.register);
 router.post('/api/orderRegister', authController.orderRegister);
 router.post('/api/no_id_address', authController.no_id_address);

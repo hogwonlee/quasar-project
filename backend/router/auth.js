@@ -142,7 +142,7 @@ module.exports = {
     };
     // console.log(param.user_pw);
 
-    if (req.session.user) {
+    if (req.session.cookie.user) {
       // 세션에 유저가 존재한다면
       console.log('이미 로그인 돼있습니다~');
       res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
