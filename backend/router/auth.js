@@ -2,8 +2,8 @@
 
 const jwt = require('jsonwebtoken');
 
-const userController = require('../controller/user');
-const addressController = require('../controller/address');
+// const userController = require('../controller/user');
+// const addressController = require('../controller/address');
 const redisController = require('../utils/redis');
 const crypto = require('crypto');
 const dbConfig = require('../configs/db');
