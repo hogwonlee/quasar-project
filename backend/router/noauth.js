@@ -1,6 +1,6 @@
 'use strict';
 
-// const loginController = require('../router/auth');
+const authController = require('../router/auth');
 const loginController = require('../controller/user');
 const productController = require('../controller/product');
 const express = require('express');
