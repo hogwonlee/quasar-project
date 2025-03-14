@@ -142,7 +142,7 @@ module.exports = {
     };
     // console.log(param.user_pw);
 
-    if (req.session.cookie.user) {
+    if (req.session.user) {
       // 세션에 유저가 존재한다면
       console.log('이미 로그인 돼있습니다~');
       res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
@@ -162,8 +162,7 @@ module.exports = {
             res.status(400).send({msg: '로그인 실패'});
           } else {
             // console.log(JSON.stringify(results));
-            // req.session.user = {
-            req.session.cookie.user = {
+            req.session.user = {
               id: results[0].id,
               pw: hashpw(results[0].user_pw),
               name: results[0].user_name,
@@ -176,8 +175,7 @@ module.exports = {
               jwtObj.secret,
               jwtObj.option,
             );
-            redisController.setToken(token, req.session.cookie.user);
-            // redisController.setToken(token, req.session.user);
+            redisController.setToken(token, req.session.user);
             res.status(200).send({token: token, results: results});
             // });
           }
