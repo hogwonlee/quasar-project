@@ -1,7 +1,7 @@
 'use strict';
 const User = require('../models/index').UserInfo;
 const crypto = require('crypto');
-
+const env = process.env;
 const salt = env.SALT;
 
 function hashpw(password) {
