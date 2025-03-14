@@ -1,5 +1,12 @@
 'use strict';
 const User = require('../models/index').UserInfo;
+const crypto = require('crypto');
+
+const salt = env.SALT;
+
+function hashpw(password) {
+  return crypto.pbkdf2Sync(password, salt, 100, 32, 'sha512').toString('hex');
+}
 
 const getUserByIdAndPw = async userIdPwObj => {
   return await User.findByIdAndPw(userIdPwObj);
