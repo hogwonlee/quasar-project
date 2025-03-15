@@ -132,7 +132,7 @@ module.exports = {
   },
 
   login: async (req, res) => {
-    // console.log('로그인 함수가 실행됩니다.');
+    console.log('로그인 요청: ' + JSON.stringify(req));
     const sqlCommend =
       'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
