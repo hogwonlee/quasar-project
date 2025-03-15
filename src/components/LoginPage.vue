@@ -120,10 +120,10 @@
         let res = await axios({
           url: `${configs.server}/login`,
           method: 'POST',
-          headers: {
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json',
-          },
+          // headers: {
+          //   'Access-Control-Allow-Headers': '*',
+          //   'Content-Type': 'application/json',
+          // },
           data: userData,
         })
           .then(response => {
