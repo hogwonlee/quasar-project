@@ -162,6 +162,8 @@ module.exports = {
         sqlCommend,
         [param.user_id, param.user_pw],
         (err, results, fields) => {
+          console.log('로그인 쿼리 결과:' + JSON.stringify(results));
+          console.log('쿼리 에러:' + JSON.stringify(err));
           if (err) {
             console.error(err);
             res.status(500).send({msg: 'error', content: err});
