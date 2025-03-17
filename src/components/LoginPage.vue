@@ -83,6 +83,7 @@
   import alert from 'src/util/modules/alert';
   import configs from 'src/configs/';
   import {Notify} from 'quasar';
+  import {response} from 'express';
 
   export default defineComponent({
     components: {
@@ -166,6 +167,10 @@
             }
           })
           .catch(err => {
+            console.log(
+              '응답 status: ' + response.status + JSON.stringify(response),
+            );
+
             alert.confirm(
               this.selected_local.notice,
               this.selected_local.wrongpw +
