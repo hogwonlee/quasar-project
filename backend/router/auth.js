@@ -132,9 +132,9 @@ module.exports = {
   },
 
   login: async (req, res) => {
-    console.log('로그인 요청session: ' + req.session);
-    console.log('로그인 요청user: ' + req.session.user);
-    console.log('로그인 요청Json: ' + JSON.stringify(req.session));
+    // console.log('로그인 요청session: ' + req.session);
+    // console.log('로그인 요청user: ' + req.session.user);
+    // console.log('로그인 요청Json: ' + JSON.stringify(req.session));
     const sqlCommend =
       'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
@@ -145,46 +145,46 @@ module.exports = {
     };
     // console.log(param.user_pw);
 
-    if (req.session.user) {
-      // 세션에 유저가 존재한다면
-      console.log('이미 로그인 돼있습니다~');
-      res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
-      res.write('<h1> already Login</h1>');
-      res.end();
-    } else {
-      db.query(
-        sqlCommend,
-        [param.user_id, param.user_pw],
-        (err, results, fields) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send({msg: 'error', content: err});
-          }
-          if (results.length <= 0) {
-            // console.log('로그인요청:' + err);
-            res.status(400).send({msg: '로그인 실패'});
-          } else {
-            // console.log(JSON.stringify(results));
-            req.session.user = {
-              id: results[0].id,
-              pw: hashpw(results[0].user_pw),
-              name: results[0].user_name,
-              authorized: true,
-            };
-            const token = jwt.sign(
-              {
-                USER_ID: results[0].id, //페이로드
-              },
-              jwtObj.secret,
-              jwtObj.option,
-            );
-            redisController.setToken(token, req.session.user);
-            res.status(200).send({token: token, results: results});
-            // });
-          }
-        },
-      );
-    }
+    // if (req.session.user) {
+    //   // 세션에 유저가 존재한다면
+    //   console.log('이미 로그인 돼있습니다~');
+    //   res.writeHead(200, {'Content-Type': 'text/html; charset=utf8'});
+    //   res.write('<h1> already Login</h1>');
+    //   res.end();
+    // } else {
+    db.query(
+      sqlCommend,
+      [param.user_id, param.user_pw],
+      (err, results, fields) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send({msg: 'error', content: err});
+        }
+        if (results.length <= 0) {
+          // console.log('로그인요청:' + err);
+          res.status(400).send({msg: '로그인 실패'});
+        } else {
+          // console.log(JSON.stringify(results));
+          req.session.user = {
+            id: results[0].id,
+            pw: hashpw(results[0].user_pw),
+            name: results[0].user_name,
+            authorized: true,
+          };
+          const token = jwt.sign(
+            {
+              USER_ID: results[0].id, //페이로드
+            },
+            jwtObj.secret,
+            jwtObj.option,
+          );
+          redisController.setToken(token, req.session.user);
+          res.status(200).send({token: token, results: results});
+          // });
+        }
+      },
+    );
+    // }
   },
 
   register: async (req, res) => {
