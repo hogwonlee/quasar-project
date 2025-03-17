@@ -141,7 +141,7 @@ module.exports = {
       '로그인 auth JSON: ' + JSON.stringify(req.headers.authorization),
     );
     console.log('로그인 auth string: ' + req.headers.authorization);
-    const sqlCommend =
+    const loginSqlCommend =
       'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
     const param = {
@@ -159,11 +159,12 @@ module.exports = {
       res.end();
     } else {
       db.query(
-        sqlCommend,
+        loginSqlCommend,
         [param.user_id, param.user_pw],
         (err, results, fields) => {
           console.log('로그인 쿼리 결과:' + JSON.stringify(results));
           console.log('쿼리 에러:' + JSON.stringify(err));
+          console.log('쿼리 fields:' + JSON.stringify(fields));
           if (err) {
             console.error(err);
             res.status(500).send({msg: 'error', content: err});
