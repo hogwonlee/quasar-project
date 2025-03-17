@@ -167,9 +167,7 @@
             }
           })
           .catch(err => {
-            console.log(
-              '응답 status: ' + response.status + JSON.stringify(response),
-            );
+            console.log('응답 status: ' + err + JSON.stringify(err));
 
             alert.confirm(
               this.selected_local.notice,
