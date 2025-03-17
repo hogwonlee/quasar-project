@@ -135,12 +135,6 @@ module.exports = {
 
   login: async (req, res) => {
     // console.log('로그인 요청session: ' + req.session);
-    // console.log('로그인 요청user: ' + req.session.user);
-    console.log('로그인 요청Json: ' + JSON.stringify(req.body));
-    console.log(
-      '로그인 auth JSON: ' + JSON.stringify(req.headers.authorization),
-    );
-    console.log('로그인 auth string: ' + req.headers.authorization);
     const loginSqlCommend =
       'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
@@ -162,9 +156,6 @@ module.exports = {
         loginSqlCommend,
         [param.user_id, param.user_pw],
         (err, results, fields) => {
-          console.log('로그인 쿼리 결과:' + JSON.stringify(results));
-          console.log('쿼리 에러:' + JSON.stringify(err));
-          console.log('쿼리 fields:' + JSON.stringify(fields));
           if (err) {
             console.error(err);
             res.status(500).send({msg: 'error', content: err});
@@ -174,7 +165,7 @@ module.exports = {
             res.status(400).send({msg: '로그인 실패'});
           } else {
             // console.log(JSON.stringify(results));
-            req.session.cookie.user = {
+            req.session.user = {
               id: results[0].id,
               pw: hashpw(results[0].user_pw),
               name: results[0].user_name,
@@ -187,7 +178,7 @@ module.exports = {
               jwtObj.secret,
               jwtObj.option,
             );
-            redisController.setToken(token, req.session.cookie.user);
+            redisController.setToken(token, req.session.user);
             res.status(200).send({token: token, results: results});
             // });
           }
