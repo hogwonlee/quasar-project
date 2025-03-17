@@ -111,6 +111,7 @@ var orderResister = function (req, satisfy_coupon_text, res) {
 
 module.exports = {
   checkAuth: async (req, res, next) => {
+    console.log('auth 체크중 ... ');
     if (req.headers.authorization == null) {
       res.status(401).send({msg: 'error', content: 'no authrozation'});
       return;
