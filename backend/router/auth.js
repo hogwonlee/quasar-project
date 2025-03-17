@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const dbConfig = require('../configs/db');
 
 const mysql = require('mysql');
+const {Json} = require('sequelize/lib/utils');
 
 const db = mysql.createConnection({
   host: dbConfig.host,
@@ -111,7 +112,7 @@ var orderResister = function (req, satisfy_coupon_text, res) {
 
 module.exports = {
   checkAuth: async (req, res, next) => {
-    console.log('auth 체크중 ... ');
+    console.log('auth 체크중 ... ' + JSON.stringify(req.headers.authorization));
     if (req.headers.authorization == null) {
       res.status(401).send({msg: 'error', content: 'no authrozation'});
       return;
@@ -136,6 +137,10 @@ module.exports = {
     // console.log('로그인 요청session: ' + req.session);
     // console.log('로그인 요청user: ' + req.session.user);
     console.log('로그인 요청Json: ' + JSON.stringify(req.body));
+    console.log(
+      '로그인 auth JSON: ' + JSON.stringify(req.headers.authorization),
+    );
+    console.log('로그인 auth string: ' + req.headers.authorization);
     const sqlCommend =
       'SELECT * FROM userinfo LEFT OUTER JOIN addressinfo ON userinfo.id = addressinfo.user_id WHERE userinfo.id = ? AND userinfo.user_pw = ? ';
     const body = req.body;
