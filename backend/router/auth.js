@@ -165,7 +165,7 @@ module.exports = {
             res.status(400).send({msg: '로그인 실패'});
           } else {
             // console.log(JSON.stringify(results));
-            req.session.user = {
+            req.session.cookie.user = {
               id: results[0].id,
               pw: hashpw(results[0].user_pw),
               name: results[0].user_name,
@@ -178,7 +178,7 @@ module.exports = {
               jwtObj.secret,
               jwtObj.option,
             );
-            redisController.setToken(token, req.session.user);
+            redisController.setToken(token, req.session.cookie.user);
             res.status(200).send({token: token, results: results});
             // });
           }
