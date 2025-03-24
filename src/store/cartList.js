@@ -66,7 +66,7 @@ const getters = {
   shipmentPrice: (state, getters) => {
     return getters.cartTotalPrice >= 30000 || getters.cartTotalPrice === 0
       ? 0
-      : 4200;
+      : 3500;
   },
   freeze_shipmentPrice: (state, getters) => {
     var freeze_product;
@@ -75,7 +75,7 @@ const getters = {
       ? 0
       : getters.cartTotalPrice >= 50000
       ? 0
-      : 4200;
+      : 3500;
   },
 };
 
