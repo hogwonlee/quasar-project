@@ -51,6 +51,8 @@
             style="margin-top: 3px; margin-bottom: 3px"
           /> -->
           <img :src="img" class="q-qa-sm" />
+          <div style="text-align: center">---底线---</div>
+          <div style="height: 30px"></div>
         </q-card>
 
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">

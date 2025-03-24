@@ -92,12 +92,8 @@
       </div>
     </div>
     <div>
-      <q-dialog
-        v-model="card"
-        position="standard"
-        backdrop-filter="contrast(40%)"
-      >
-        <q-card style="height: 80%; width: 70%">
+      <q-dialog v-model="card" position="top" backdrop-filter="contrast(40%)">
+        <q-card style="height: 80%; width: 70%; max-width: 70%">
           <img class="q-pa-sm" :src="img" />
           <!-- style="margin-top: 3px; margin-bottom: 3px" -->
           <div style="text-align: center">---底线---</div>
