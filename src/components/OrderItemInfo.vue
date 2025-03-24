@@ -29,7 +29,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category" position="top">
-        <q-card style="height: 70%; width: 80%" class="bg-white">
+        <q-card class="column" style="width: 70%">
           <!-- <q-input
             class="col-12"
             readonly
@@ -50,10 +50,11 @@
             :model-value="product_name_ko"
             style="margin-top: 3px; margin-bottom: 3px"
           /> -->
-          <img :src="img" class="q-ma-xs" />
+          <img :src="img" class="q-qa-sm col-10" />
+          <div style="text-align: center" class="col-2">---底线---</div>
         </q-card>
 
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -50]">
+        <q-page-sticky class="bg-white" position="bottom">
           <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
             <!-- 흰색 텍스트로 보여지지 않음 -->
