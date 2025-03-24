@@ -29,9 +29,7 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category" position="top">
-        <q-card
-          style="max-height: 80%; height: 80%; max-width: 70%; width: 70%"
-        >
+        <q-card style="height: 60%; max-width: 70%; width: 70%">
           <!-- <q-input
             class="col-12"
             readonly
