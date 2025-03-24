@@ -28,8 +28,8 @@
       </q-img>
     </div>
     <div>
-      <q-dialog v-model="card" :id="category" position="top">
-        <q-card class="column" style="width: 70%">
+      <q-dialog v-model="card" :id="category" position="top" class="column">
+        <q-card class="col-8" style="height: 80%; width: 70%">
           <!-- <q-input
             class="col-12"
             readonly
@@ -50,8 +50,7 @@
             :model-value="product_name_ko"
             style="margin-top: 3px; margin-bottom: 3px"
           /> -->
-          <img :src="img" class="q-qa-sm col-10" />
-          <div style="text-align: center" class="col-2">---底线---</div>
+          <img :src="img" class="q-qa-sm" />
         </q-card>
 
         <q-page-sticky class="bg-white" position="bottom">
