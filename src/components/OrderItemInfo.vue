@@ -29,10 +29,9 @@
     </div>
     <div>
       <q-dialog v-model="card" :id="category">
-        <q-page-sticky class="bg-white" position="top">
-          <q-card style="height: 70%; width: 80%">
-            <q-card-section>
-              <!-- <q-input
+        <q-card style="height: 70%; width: 80%" class="bg-white" position="top">
+          <q-card-section>
+            <!-- <q-input
             class="col-12"
             readonly
             disable
@@ -41,7 +40,7 @@
             :label="selected_local.productname"
             :model-value="product_name"
           /> -->
-              <!-- <q-input
+            <!-- <q-input
             v-if="product_name_ko != null"
             class="col-12"
             readonly
@@ -52,12 +51,11 @@
             :model-value="product_name_ko"
             style="margin-top: 3px; margin-bottom: 3px"
           /> -->
-              <img :src="img" class="q-ma-xs" />
-            </q-card-section>
-          </q-card>
-        </q-page-sticky>
+            <img :src="img" class="q-ma-xs" />
+          </q-card-section>
+        </q-card>
 
-        <q-page-sticky class="bg-white" position="bottom">
+        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -100]">
           <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
             <!-- 흰색 텍스트로 보여지지 않음 -->
