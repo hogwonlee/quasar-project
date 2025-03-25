@@ -52,32 +52,34 @@
             <q-space />
           </q-bar>
         </div>
-        <ProductInfo
-          :class="
-            list_col_number == 3
-              ? 'col-xs-3 col-sm-3 col-md-1 q-pa-xs'
-              : list_col_number == 4
-              ? 'col-xs-4 col-sm-4 col-md-1 q-pa-xs'
-              : 'col-xs-12 col-sm-12 col-md-1 q-pa-xs'
-          "
-          v-for="p in products.filter(
-            p =>
-              p.category == c.category &&
-              p.stored == 1 &&
-              (p.tag + p.category + p.keyword)
-                .toLowerCase()
-                .includes(keyword.toLowerCase()),
-          )"
-          :key="p.id"
-          v-bind="p"
-          :colNumber="list_col_number"
-          @setbuyoption="p.buyoption = $event"
-          @setquantity="p.quantity = $event"
-          @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
-          @sendRemoveItem="
-            this.$store.dispatch('cart/removeProductFromCart', p)
-          "
-        />
+        <div>
+          <ProductInfo
+            :class="
+              list_col_number == 3
+                ? 'col-xs-3 col-sm-3 col-md-1 q-pa-xs'
+                : list_col_number == 4
+                ? 'col-xs-4 col-sm-4 col-md-1 q-pa-xs'
+                : 'col-xs-12 col-sm-12 col-md-1 q-pa-xs'
+            "
+            v-for="p in products.filter(
+              p =>
+                p.category == c.category &&
+                p.stored == 1 &&
+                (p.tag + p.category + p.keyword)
+                  .toLowerCase()
+                  .includes(keyword.toLowerCase()),
+            )"
+            :key="p.id"
+            v-bind="p"
+            :colNumber="list_col_number"
+            @setbuyoption="p.buyoption = $event"
+            @setquantity="p.quantity = $event"
+            @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
+            @sendRemoveItem="
+              this.$store.dispatch('cart/removeProductFromCart', p)
+            "
+          />
+        </div>
       </div>
     </div>
     <div v-if="!showSimulatedReturnData || !(products.length > 0)">
