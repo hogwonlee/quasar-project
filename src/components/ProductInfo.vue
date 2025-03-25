@@ -101,15 +101,15 @@
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="q-mt-none q-py-none q-px-sm">
-            <q-btn
-              class="absolute-top-right bg-dark z-top"
-              icon="close"
-              text-color="white"
-              v-close-popup
-              size="sm"
-            >
-            </q-btn>
             <div style="width: 100%" class="justify-center dark">
+              <q-btn
+                class="absolute-top-right bg-dark z-top"
+                icon="close"
+                text-color="white"
+                v-close-popup
+                size="sm"
+              >
+              </q-btn>
               <q-chip style="width: 70%" dense color="dark" text-color="white">
                 {{
                   selected_local.chinafood == '洽洽中国食品'

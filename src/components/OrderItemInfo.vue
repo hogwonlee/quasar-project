@@ -34,7 +34,6 @@
           <div style="text-align: center">---底线---</div>
           <div style="height: 30px"></div>
         </q-card>
-
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">
             <div class="text-white">제품 가격과 수량</div>
