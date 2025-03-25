@@ -52,7 +52,7 @@
             <q-space />
           </q-bar>
         </div>
-        <div>
+        <div class="row q-pa-xs virtual-scroll-horizontal">
           <ProductInfo
             :class="
               list_col_number == 3
