@@ -30,27 +30,7 @@
     <div>
       <q-dialog v-model="card" :id="category" position="top">
         <q-card style="height: 60%; max-width: 70%; width: 70%">
-          <!-- <q-input
-            class="col-12"
-            readonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname"
-            :model-value="product_name"
-          /> -->
-          <!-- <q-input
-            v-if="product_name_ko != null"
-            class="col-12"
-            readonly
-            disable
-            dense
-            borderless
-            :label="selected_local.productname_ko"
-            :model-value="product_name_ko"
-            style="margin-top: 3px; margin-bottom: 3px"
-          /> -->
-          <img :src="img" class="q-qa-sm" />
+          <q-img :src="img" class="q-qa-sm" />
           <div style="text-align: center">---底线---</div>
           <div style="height: 30px"></div>
         </q-card>
