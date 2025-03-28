@@ -125,14 +125,14 @@
               this.$store.dispatch('user/logoutAction');
               alert.confirm(
                 this.selected_local.notice,
-                selected_local.chinafood == '洽洽中国食品'
+                this.selected_local.chinafood == '洽洽中国食品'
                   ? '删除已账号'
                   : '계정 삭제가 완료되었습니다.',
               );
             } else {
               alert.confirm(
                 this.selected_local.err,
-                selected_local.chinafood == '洽洽中国食品'
+                this.selected_local.chinafood == '洽洽中国食品'
                   ? '删除账号失败'
                   : '계정 삭제가 실패되었습니다.',
               );
@@ -141,7 +141,7 @@
           .catch(res => {
             alert.confirm(
               this.selected_local.err,
-              selected_local.chinafood == '洽洽中国食品'
+              this.selected_local.chinafood == '洽洽中国食品'
                 ? '发生系统错误'
                 : '시스템 장애가 발생하였습니다.',
             );
