@@ -10,14 +10,7 @@
       </q-card-section>
 
       <q-form @submit="onSubmit" @reset="onReset">
-        <q-input
-          filled
-          readonly
-          disable
-          v-model="userId"
-          :label="selected_local.identity"
-          :hint="selected_local.auto_input"
-        />
+        <q-input filled v-model="userId" :label="selected_local.identity" />
 
         <q-input
           filled

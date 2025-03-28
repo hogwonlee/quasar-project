@@ -57,7 +57,7 @@
               :label="selected_local.logout"
               @click="confirm_logout()"
             />
-            <!-- <q-fab-action
+            <q-fab-action
               color="white"
               text-color="negative"
               padding="none"
@@ -67,7 +67,7 @@
                   : '계정삭제'
               "
               @click="this.DeleteAccountDialog = true"
-            /> -->
+            />
             <!-- :label="selected_local.changepassword" -->
           </q-fab>
         </div>
