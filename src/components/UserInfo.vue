@@ -57,6 +57,17 @@
               :label="selected_local.logout"
               @click="confirm_logout()"
             />
+            <!-- <q-fab-action
+              color="white"
+              text-color="negative"
+              padding="none"
+              :label="
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '删除账号'
+                  : '계정삭제'
+              "
+              @click="this.DeleteAccountDialog = true"
+            /> -->
             <!-- :label="selected_local.changepassword" -->
           </q-fab>
         </div>
@@ -408,6 +419,13 @@
       transition-hide="scale"
       ><ChangePassword
     /></q-dialog>
+    <q-dialog
+      v-model="DeleteAccountDialog"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+      ><DeleteAccount
+    /></q-dialog>
     <q-dialog v-model="orderHistoryDialog">
       <q-card class="my-card row" style="width: 100%">
         <q-card-section class="col-12 items-center q-pa-none">
@@ -467,6 +485,7 @@
   // import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
+  import DeleteAccount from './components/DeleteAccount.vue';
   import configs from 'src/configs/';
   import {date} from 'quasar';
   import {Dialog} from 'quasar';
@@ -490,6 +509,7 @@
       AddressRegister,
       AddressList,
       ProductInfo,
+      DeleteAccount,
     },
     data: function () {
       return {
@@ -498,6 +518,7 @@
         checkPasswordDialog: ref(false),
         changeInfoDialog: ref(false),
         changePasswordDialog: ref(false),
+        DeleteAccountDialog: ref(false),
         user_option: ref(false),
         addr_option: ref(false),
         register: ref(false),

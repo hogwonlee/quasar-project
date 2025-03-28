@@ -18,6 +18,7 @@ const googleOauth_Config = require('../configs/db');
 router.post('/api/login', authController.login);
 // router.post('/api/login', loginController.login);
 router.post('/api/register', authController.register);
+router.post('/api/deleteAccount', authController.deleteAccount);
 router.post('/api/orderRegister', authController.orderRegister);
 router.post('/api/no_id_address', authController.no_id_address);
 router.get('/api/productList', productController.getProductList);

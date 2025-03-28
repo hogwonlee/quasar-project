@@ -57,6 +57,10 @@ const routes = [
         component: () => import('components/AddressList.vue'),
       },
       {
+        path: 'DeleteAccount',
+        component: () => import('components/DeleteAccount.vue'),
+      },
+      {
         path: 'PrivacyPolicyMax',
         component: () => import('components/policy/PrivacyPolicyFull.vue'),
       },

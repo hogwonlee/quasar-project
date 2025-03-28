@@ -187,6 +187,24 @@ module.exports = {
     }
   },
 
+  deleteAccount: async (req, res) => {
+    const sqlCommend = 'DELETE FROM userinfo WHERE id=?, user_pw=?';
+    const body = req.body;
+    const param = {
+      id: body.user_id,
+      user_pw: hashpw(body.user_pw),
+    };
+
+    db.query(sqlCommend, [param.id, param.user_pw], (err, results, fields) => {
+      if (err) {
+        console.log('회원삭제요청:' + err);
+        res.status(400).send({msg: 'error', content: err});
+      } else {
+        res.status(200).send(results);
+      }
+    });
+  },
+
   register: async (req, res) => {
     const sqlCommend = 'INSERT INTO userinfo SET ?';
     const body = req.body;
@@ -231,7 +249,6 @@ module.exports = {
       }
     });
   },
-
   google_login: async (req, res) => {
     console.log(
       '구글 로그인 인증합니다.' +
