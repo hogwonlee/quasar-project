@@ -115,7 +115,7 @@
           headers: {
             'Access-Control-Allow-Headers': '*',
             'Content-Type': 'application/json',
-            authorization: this.user.USER_TOKEN,
+            // authorization: this.user.USER_TOKEN,
           },
 
           data: userData,
