@@ -57,7 +57,7 @@
               :label="selected_local.logout"
               @click="confirm_logout()"
             />
-            <q-fab-action
+            <!-- <q-fab-action
               color="white"
               text-color="negative"
               padding="none"
@@ -67,7 +67,7 @@
                   : '계정삭제'
               "
               @click="this.DeleteAccountDialog = true"
-            />
+            /> -->
             <!-- :label="selected_local.changepassword" -->
           </q-fab>
         </div>
@@ -485,7 +485,7 @@
   // import ServicePolicy_cn from './policy/ServicePolicy_cn.vue';
   import DeliveryPolicy from './policy/DeliveryPolicy.vue';
   import ExchangePolicy from './policy/ExchangePolicy.vue';
-  import DeleteAccount from './components/DeleteAccount.vue';
+  import DeleteAccount from 'components/DeleteAccount.vue';
   import configs from 'src/configs/';
   import {date} from 'quasar';
   import {Dialog} from 'quasar';
