@@ -188,7 +188,7 @@ module.exports = {
   },
 
   deleteAccount: async (req, res) => {
-    const sqlCommend = 'DELETE FROM userinfo WHERE id=?, user_pw=?';
+    const sqlCommend = 'DELETE FROM userinfo WHERE id=? AND user_pw=?';
     const body = req.body;
     const param = {
       id: body.user_id,
