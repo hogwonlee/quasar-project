@@ -8,7 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const {configure} = require('quasar/wrappers');
+const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -105,7 +105,7 @@ module.exports = configure(function (/* ctx */) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'http://localhost:3000/',
+          target: 'http://175.119.224.213:3000/',
           // changeOrigin: true,
           pathRewrite: {
             '^/api': '',
@@ -206,7 +206,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
-      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+      noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
