@@ -125,7 +125,7 @@
         @click="register_popup = true"
       ></q-btn> -->
       <div>우리은행 (이호권)</div>
-      <text-subtitle2>계좌번호: 1002-557-640050</text-subtitle2>
+      <div class="text-subtitle2">계좌번호: 1002-557-640050</div>
       <q-btn
         @click="copyToClipboard(copyBankAccount)"
         class="text-bold q-ma-sm"
@@ -136,11 +136,13 @@
         }}</q-btn
       >
       <div class="row justify-end">
-        <text-subtitle2>{{
-          selected_local.chinafood == '洽洽中国食品'
-            ? '*发送订单后，将清空购物车内商品。'
-            : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
-        }}</text-subtitle2>
+        <div class="text-subtitle2">
+          {{
+            selected_local.chinafood == '洽洽中国食品'
+              ? '*发送订单后，将清空购物车内商品。'
+              : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+          }}
+        </div>
       </div>
       <div class="row justify-end">
         <q-btn
@@ -297,7 +299,7 @@
     </div>
     <div>
       <div>昵称:YI HOGWON</div>
-      <text-subtitle2>微信ID:l175969775</text-subtitle2>
+      <div class="text-subtitle2">微信ID:l175969775</div>
       <q-btn
         @click="copyToClipboard(copyWechatAccount)"
         class="text-bold q-ma-sm"
@@ -326,11 +328,13 @@
       }}
     </p>
     <div class="row justify-end">
-      <text-subtitle2>{{
-        selected_local.chinafood == '洽洽中国食品'
-          ? '*发送订单后，将清空购物车内商品。'
-          : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
-      }}</text-subtitle2>
+      <div class="text-subtitle2">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '*发送订单后，将清空购物车内商品。'
+            : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
+        }}
+      </div>
     </div>
     <div class="row justify-end">
       <q-btn
@@ -625,7 +629,7 @@
     </q-card>
 
     <div class="row justify-end">
-      <text-body1 class="q-pa-lg">{{ selected_local.payment_info }}</text-body1>
+      <div class="text-body1 q-pa-lg">{{ selected_local.payment_info }}</div>
     </div>
     <div class="row justify-end">
       <q-btn
@@ -646,8 +650,7 @@
     <div id="payment-method" class="q-py-none"></div>
 
     <br />
-    <!-- <text-body1 class="q-pa-lg">{{ selected_local.payment_event }}</text-body1
-    ><br /> -->
+
     <div id="agreement" class="q-py-none"></div>
     <q-dialog v-model="finalCheck" persistent>
       <q-card>
@@ -759,20 +762,20 @@
     >
       <q-card>
         <q-card-section class="row items-center">
-          <text-h3 class="q-ml-sm">
+          <div class="q-ml-sm text-h3">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '发送订单吗？'
                 : '오더를 전달하시겠습니까?'
             }}
-          </text-h3>
-          <text-body2 class="q-ml-sm text-red">
+          </div>
+          <div class="q-ml-sm text-red text-body2">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '*发送订单后，将清空购物车内商品。'
                 : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
             }}
-          </text-body2>
+          </div>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -799,20 +802,20 @@
     >
       <q-card>
         <q-card-section class="row items-center">
-          <text-h3 class="q-ml-sm">
+          <div class="q-ml-sm text-h3">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '发送订单吗？'
                 : '오더를 전달하시겠습니까?'
             }}
-          </text-h3>
-          <text-body2 class="q-ml-sm text-red">
+          </div>
+          <div class="q-ml-sm text-red text-body2">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '*发送订单后，将清空购物车内商品。'
                 : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
             }}
-          </text-body2>
+          </div>
         </q-card-section>
 
         <q-card-actions align="right">

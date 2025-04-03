@@ -246,6 +246,14 @@
         type: String,
         default: '&',
       },
+      flavor_refer: {
+        type: String,
+        default: '',
+      },
+      flavor_refer_ko: {
+        type: String,
+        default: '',
+      },
       stock: {
         type: Number,
         default: 0,

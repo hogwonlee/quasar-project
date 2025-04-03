@@ -59,11 +59,11 @@
           dense
           text-color="white"
         >
-          <text-body2 class="q-pa-xs absolute-bottom">{{
+          {{
             selected_local.chinafood == '洽洽中国食品'
               ? product_name
               : product_name_ko
-          }}</text-body2>
+          }}
 
           <div v-if="flavor_refer != null" class="absolute-right">
             <q-badge floating rounded>
