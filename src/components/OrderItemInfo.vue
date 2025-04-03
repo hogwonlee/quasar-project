@@ -32,7 +32,10 @@
         <q-card style="height: 60%; max-width: 70%; width: 70%">
           <q-img :src="img" class="q-qa-sm" />
           <div style="text-align: center">---底线---</div>
-          <div style="height: 30px"></div>
+          <div style="text-align: center">---底线---</div>
+          <div style="text-align: center">---底线---</div>
+          <div style="text-align: center">---底线---</div>
+          <div style="text-align: center">---底线---</div>
         </q-card>
         <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
           <q-card-section class="row q-mt-none q-mb-sm q-py-none q-px-sm">

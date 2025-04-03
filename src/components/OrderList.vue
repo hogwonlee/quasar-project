@@ -125,16 +125,18 @@
         @click="register_popup = true"
       ></q-btn> -->
       <div>우리은행 (이호권)</div>
-      <div class="text-subtitle2">계좌번호: 1002-557-640050</div>
-      <q-btn
-        @click="copyToClipboard(copyBankAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >{{
-          selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
-        }}</q-btn
-      >
+      <div class="text-subtitle2">
+        계좌번호: 1002-557-640050
+        <q-btn
+          @click="copyToClipboard(copyBankAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >{{
+            selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
+          }}</q-btn
+        >
+      </div>
       <div class="row justify-end">
         <div class="text-subtitle2">
           {{
@@ -299,16 +301,18 @@
     </div>
     <div>
       <div>昵称:YI HOGWON</div>
-      <div class="text-subtitle2">微信ID:l175969775</div>
-      <q-btn
-        @click="copyToClipboard(copyWechatAccount)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >{{
-          selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
-        }}</q-btn
-      >
+      <div class="text-subtitle2">
+        微信ID:l175969775
+        <q-btn
+          @click="copyToClipboard(copyWechatAccount)"
+          class="text-bold q-ma-sm"
+          color="positive"
+          outline
+          >{{
+            selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
+          }}</q-btn
+        >
+      </div>
     </div>
     <p>
       <a :href="url_currency" target="_blank">
