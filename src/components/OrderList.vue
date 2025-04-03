@@ -943,7 +943,7 @@
           navigator.clipboard.writeText(copyText);
           Notify.create({
             position: 'top',
-            message: '复制完成' + ':(' + copyText + ') ',
+            message: (this.selected_local.chinafood=='洽洽中国食品' ? '复制完成':'복사완료') + ':(' + copyText + ') ',
             color: 'green',
           });
           //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
@@ -956,7 +956,7 @@
       get_naver_currency() {
         Notify.create({
           position: 'top',
-          message: '환율 조회',
+          message: this.selected_local.chinafood=='洽洽中国食品' ? '查看汇率':'환율 조회',
           color: 'green',
         });
         axios
@@ -975,7 +975,7 @@
       no_id_registe_address(paymethed) {
         Notify.create({
           position: 'top',
-          message: '주문 등록',
+          message:this.selected_local.chinafood=='洽洽中国食品' ? '下单' : '주문 등록',
           color: 'green',
         });
         const addressData = {
@@ -1042,13 +1042,13 @@
               console.log('주문 결과: ' + JSON.stringify(res));
               Notify.create({
                 position: 'top',
-                message: '주문완료',
+                message: this.selected_local.chinafood=='洽洽中国食品' ?  '下单成功' : '주문완료',
                 color: 'green',
               });
             } else {
               Notify.create({
                 position: 'top',
-                message: '주문실패',
+                message: this.selected_local.chinafood=='洽洽中国食品' ? '下单失败' : '주문실패',
                 color: 'red',
               });
             }
