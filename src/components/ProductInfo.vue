@@ -92,7 +92,7 @@
       </div>
     </div>
     <div>
-      <q-dialog v-model="card" position="top">
+      <q-dialog v-model="card" position="top" class="z-top">
         <!-- backdrop-filter="contrast(40%)" -->
         <q-card style="height: 60%; max-width: 70%; width: 70%">
           <q-img class="q-pa-sm" :src="img" />

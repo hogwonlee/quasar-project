@@ -13,7 +13,7 @@
         <preference name="android-targetSdkVersion" value="34" />
         <preference name="AndroidLaunchMode" value="singleTask" />
         <preference name="Orientation" value="portrait" />
-        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/icon-256.png" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/icon-72.png" />
         <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" />
         <preference name="SplashScreenDelay" value="2000" />
         <preference name="AppendUserAgent" value="mobileapp androidapp" />
@@ -31,7 +31,7 @@
         <preference name="Orientation" value="portrait" />
         <preference name="AutoHideSplashScreen" value="true" />
         <preference name="ShowSplashScreenSpinner" value="true" />
-        <preference name="SplashScreenDelay" value="3000" />
+        <preference name="SplashScreenDelay" value="2000" />
         <icon height="20" src="res/icon/ios/icon-20.png" width="20" />
         <icon height="29" src="res/icon/ios/icon-29.png" width="29" />
         <icon height="40" src="res/icon/ios/icon-40.png" width="40" />
