@@ -38,11 +38,11 @@ passport.use(
     (token, tokenSecret, profile, done) => {
       console.log(
         'PROFILE: ' +
-          JSON.stringify(profile) +
-          'TOKEN: ' +
-          JSON.stringify(token) +
-          'TOKENSECRET: ' +
-          JSON.stringify(tokenSecret),
+        JSON.stringify(profile) +
+        'TOKEN: ' +
+        JSON.stringify(token) +
+        'TOKENSECRET: ' +
+        JSON.stringify(tokenSecret),
       );
       authController.google_login;
       return done(err, profile);
@@ -61,19 +61,21 @@ passport.deserializeUser((obj, done) => {
 // Google auth routes
 router.get(
   '/api/auth/google',
-  passport.authenticate('google', {scope: ['profile', 'email']}),
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
 );
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', {failureRedirect: '/'}),
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
+    res.end();
   },
 );
 // Route to get user info
 router.get('/api/user', (req, res) => {
   res.send(req.user);
+  res.end();
 });
 
 // Logout route
@@ -83,6 +85,7 @@ router.get('/api/logout', (req, res) => {
       return next(err);
     }
     res.redirect('/');
+    res.end();
   });
 });
 
