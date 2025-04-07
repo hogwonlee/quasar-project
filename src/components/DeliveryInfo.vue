@@ -180,7 +180,7 @@
         delivery_policy_cn_vue: ref(false),
         exchange_policy_vue: ref(false),
         exchange_policy_cn_vue: ref(false),
-        naverDeliveryDialog: ref(true),
+        naverDeliveryDialog: ref(false),
         maximizedToggle: ref(true),
         url_text: ref(''),
         url_naver:
