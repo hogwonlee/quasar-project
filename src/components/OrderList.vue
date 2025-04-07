@@ -331,7 +331,8 @@
     </q-btn>
     <q-dialog v-model="exchangeDialog"
       persistent
-      maximized="true"
+      full-width
+      full-height
       transition-show="slide-up"
       transition-hide="slide-down">
       <q-card>
