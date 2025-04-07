@@ -331,6 +331,7 @@
     </q-btn>
     <q-dialog v-model="exchangeDialog"
       persistent
+      :maximized="maximizedToggle"
       transition-show="slide-up"
       transition-hide="slide-down">
       <q-card >
@@ -338,13 +339,12 @@
         <q-bar>
           네이버 환율조회
           <q-space />
-          <q-btn dense flat icon="close" v-close-popup>
+          <q-btn dense flat icon="close" v-close-popup @click="url_text=''">
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section>
-          <div class="text-h6"> {{ url_text }}</div>
-          <iframe :src="url_text" frameborder="0" height="100%" width="100%"></iframe>
+          <iframe :src="url_text" frameborder="0" ></iframe>
         </q-card-section>
 
       </q-card>
@@ -918,6 +918,7 @@
         no_id_address_input: ref(false),
         no_id_address_input_wechat: ref(false),
         exchangeDialog: ref(false),
+        maximizedToggle: ref(true),
         url_text:ref(''),
         url_currency: ref(
           'https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW',
