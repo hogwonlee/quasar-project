@@ -333,7 +333,7 @@
       persistent
       transition-show="slide-up"
       transition-hide="slide-down">
-      <q-card style="width: max-content;">
+      <q-card style="width: max-content; height: 100%;">
 
         <q-bar>
           네이버 환율조회
