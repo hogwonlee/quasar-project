@@ -14,7 +14,7 @@
             outline
             :label="selected_local.chinafood == '洽洽中国食品'
             ? '前往NAVER查询快递'
-            : '네이버 택배조회'" @click="naverDeliveryDialog = true; url_text = url_naver;">
+            : '네이버 택배조회'" @click="naverDeliveryDialog = true; url_text = url_naver+'택배조회';">
 
     </q-btn>
 
@@ -184,7 +184,7 @@
         maximizedToggle: ref(true),
         url_text: ref(''),
         url_naver:
-          'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%83%9D%EB%B0%B0%EC%A1%B0%ED%9A%8C',
+          'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=',
       };
     },
     computed: {
