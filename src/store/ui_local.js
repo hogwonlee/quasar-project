@@ -395,7 +395,7 @@ const _cn = {
 const state = {
   ko: _ko,
   cn: _cn,
-  status: _cn,
+  status: '',
 };
 
 const getters = {
@@ -405,10 +405,10 @@ const getters = {
 };
 
 const actions = {
-  setcnAction({commit, state}) {
+  setcnAction({ commit, state }) {
     commit('setStatus', state.cn);
   },
-  setkoAction({commit, state}) {
+  setkoAction({ commit, state }) {
     commit('setStatus', state.ko);
   },
 };

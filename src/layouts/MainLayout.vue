@@ -123,7 +123,10 @@
       if (this.user.USER_PW != '') {
         this.serverLogin();
       }
-      this.change_local(this.ui_local);
+      if (this.ui_local.status == '') {
+
+        this.change_local('cn');
+      }
       // this.googleLogin();
     },
     methods: {
