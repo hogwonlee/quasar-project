@@ -49,7 +49,7 @@ const getProductList = async (req, res) => {
           }
         });
       } else {
-        res.status(200).send({ msg: 'no update' });
+        res.status(200).send({ msg: 'no update', version: store_version });
         res.end();
       }
     }

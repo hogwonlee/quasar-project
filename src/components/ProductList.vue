@@ -303,7 +303,7 @@
           .get(`${configs.server}/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
-              if (validation.isNull(res.data.results)) {
+              if (res.data.version == this.storeversion) {
                 console.log('no update');
               } else {
                 var inserted_category = '';
