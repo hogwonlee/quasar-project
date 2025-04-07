@@ -344,7 +344,7 @@
           </q-btn>
         </q-bar>
         <q-card-section>
-          <iframe :src="url_text" frameborder="0" height="1200"></iframe>
+          <iframe :src="url_text" frameborder="0" height="100%"></iframe>
         </q-card-section>
 
       </q-card>
