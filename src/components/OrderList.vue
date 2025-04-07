@@ -335,13 +335,14 @@
       transition-show="slide-up"
       transition-hide="slide-down">
       <q-bar>
-
+        <q-space />
         <q-btn dense flat icon="close" v-close-popup>
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
-          <div class="text-h6"> url_text </div>
+          <div class="text-h6"> {{ url_text }}</div>
+        <iframe :src="url_text" frameborder="0"></iframe>
         </q-card-section>
 
     </q-dialog>
