@@ -314,21 +314,8 @@
         >
       </div>
     </div>
-    <p>
-      <a :href="url_currency" target="_blank">
-        {{
-          selected_local.chinafood == '洽洽中国食品'
-            ? '前去查看汇率'
-            : '환율 조회하러 가기'
-        }}
-        https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW
-      </a>
-    </p>
-    <q-btn :label="selected_local.chinafood == '洽洽中国食品'
-            ? '前去查看汇率'
-            : '환율 조회하러 가기'" @click="exchangeDialog = true; url_text = url_currency;">
 
-    </q-btn>
+
     <q-dialog v-model="exchangeDialog"
       persistent
       :maximized="maximizedToggle"
@@ -355,6 +342,13 @@
           ? '按今日汇率，支付人民币即可'
           : '오늘의 매매기준환율에 따라 중국돈을 송금해주시면 됩니다.'
       }}
+      <q-btn color="positive"
+            outline
+            :label="selected_local.chinafood == '洽洽中国食品'
+            ? '前去查看汇率'
+            : '환율 조회하러 가기'" @click="exchangeDialog = true; url_text = url_currency;">
+
+    </q-btn>
     </p>
     <div class="row justify-end">
       <div class="text-subtitle2">

@@ -9,14 +9,36 @@
           ? '前往NAVER查看快递详情'
           : '다음 링크를 통해 네이버에서 배송 상황을 조회할 수 있습니다.'
       }}
-      <a :href="url_naver" target="_blank">
-        {{
-          selected_local.chinafood == '洽洽中国食品'
+
+        <q-btn color="positive"
+            outline
+            :label="selected_local.chinafood == '洽洽中国食品'
             ? '前往NAVER查询快递'
-            : '네이버 택배조회'
-        }}
-      </a>
+            : '네이버 택배조회'" @click="naverDeliveryDialog = true; url_text = url_naver;">
+
+    </q-btn>
+
     </p>
+    <q-dialog v-model="naverDeliveryDialog"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down">
+      <q-card >
+
+        <q-bar>
+          네이버 택배조회
+          <q-space />
+          <q-btn dense flat icon="close" v-close-popup @click="url_text=''">
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-card-section>
+          <iframe :src="url_text" frameborder="0" height="900"></iframe>
+        </q-card-section>
+
+      </q-card>
+    </q-dialog>
     <span>
       {{
         selected_local.chinafood == '洽洽中国食品'
@@ -158,6 +180,9 @@
         delivery_policy_cn_vue: ref(false),
         exchange_policy_vue: ref(false),
         exchange_policy_cn_vue: ref(false),
+        naverDeliveryDialog: ref(true),
+        maximizedToggle: ref(true),
+        url_text: ref(''),
         url_naver:
           'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%83%9D%EB%B0%B0%EC%A1%B0%ED%9A%8C',
       };
