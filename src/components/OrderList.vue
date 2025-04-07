@@ -331,11 +331,9 @@
     </q-btn>
     <q-dialog v-model="exchangeDialog"
       persistent
-      full-width
-      full-height
       transition-show="slide-up"
       transition-hide="slide-down">
-      <q-card>
+      <q-card style="width: max-content;">
 
         <q-bar>
           네이버 환율조회
