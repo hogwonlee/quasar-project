@@ -333,7 +333,7 @@
       persistent
       transition-show="slide-up"
       transition-hide="slide-down">
-      <q-card style="width: max-content; height: 100%;">
+      <q-card >
 
         <q-bar>
           네이버 환율조회
@@ -344,7 +344,7 @@
         </q-bar>
         <q-card-section>
           <div class="text-h6"> {{ url_text }}</div>
-          <iframe :src="url_text" frameborder="0"></iframe>
+          <iframe :src="url_text" frameborder="0" height="100%" width="100%"></iframe>
         </q-card-section>
 
       </q-card>
