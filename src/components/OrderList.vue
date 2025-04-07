@@ -315,7 +315,7 @@
       </div>
     </div>
     <p>
-      <a :href="url_currency" target="_self">
+      <a :href="url_currency" target="_blank">
         {{
           selected_local.chinafood == '洽洽中国食品'
             ? '前去查看汇率'
@@ -324,6 +324,27 @@
         https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW
       </a>
     </p>
+    <q-btn :label="selected_local.chinafood == '洽洽中国食品'
+            ? '前去查看汇率'
+            : '환율 조회하러 가기'" @click="exchangeDialog = true; url_text = url_currency;">
+
+    </q-btn>
+    <q-dialog v-model="exchangeDialog"
+      persistent
+      maximized="true"
+      transition-show="slide-up"
+      transition-hide="slide-down">
+      <q-bar>
+
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <q-card-section>
+          <div class="text-h6"> url_text </div>
+        </q-card-section>
+
+    </q-dialog>
     <p>
       {{
         selected_local.chinafood == '洽洽中国食品'
@@ -892,6 +913,8 @@
         no_id_recipient_bankinfo: ref(''),
         no_id_address_input: ref(false),
         no_id_address_input_wechat: ref(false),
+        exchangeDialog: ref(false),
+        url_text:ref(''),
         url_currency: ref(
           'https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW',
         ),
@@ -952,19 +975,6 @@
           console.log(e);
           throw e;
         }
-      },
-      get_naver_currency() {
-        Notify.create({
-          position: 'top',
-          message: this.selected_local.chinafood=='洽洽中国食品' ? '查看汇率':'환율 조회',
-          color: 'green',
-        });
-        axios
-          .get(this.url_currency)
-          .then(res => {
-            console.log('환율조회 응답: ' + JSON.stringify(res));
-          })
-          .catch(res => console.log('에러: ' + res));
       },
       buy_event_info() {
         alert.confirm(
