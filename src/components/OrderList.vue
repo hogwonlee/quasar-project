@@ -315,7 +315,7 @@
       </div>
     </div>
     <p>
-      <a :href="url_currency" target="_blank">
+      <a :href="url_currency" target="_self">
         {{
           selected_local.chinafood == '洽洽中国食品'
             ? '前去查看汇率'
