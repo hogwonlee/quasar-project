@@ -123,7 +123,7 @@
       if (this.user.USER_PW != '') {
         this.serverLogin();
       }
-      if (this.ui_local.status == '') {
+      if (this.selected_local == '') {
 
         this.change_local('cn');
       }
@@ -132,8 +132,10 @@
     methods: {
       change_local(val) {
         if (val == 'cn') {
+          this.ui_local = 'cn';
           this.$store.dispatch('ui_local/setcnAction');
         } else {
+          this.ui_local = 'ko';
           this.$store.dispatch('ui_local/setkoAction');
         }
       },

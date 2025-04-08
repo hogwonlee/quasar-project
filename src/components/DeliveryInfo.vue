@@ -144,6 +144,7 @@
   import validation from 'src/util/data/validation';
   import alert from 'src/util/modules/alert';
   import configs from '/src/configs';
+  import {Notify} from 'quasar';
 
   export default defineComponent({
     name: 'DeliveryInfo',
