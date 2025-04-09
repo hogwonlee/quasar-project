@@ -190,7 +190,7 @@
               </div>
               <div v-else class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
-                {{ boxprice * this.localQuantity }} {{ selected_local.won }}
+                {{ boxprice * this.localQuantity }} {{ selected_local.won }} + {{ boxdeliveryfee * this.localQuantity }} {{ selected_local.won }}
               </div>
             </div>
             <div class="row">
@@ -428,10 +428,15 @@
         type: String,
         default: '',
       },
+      boxdeliveryfee: {
+        type: Number,
+        default: 0,
+      },
       colNumber: {
         type: Number,
         default: 3,
       },
+
     },
     setup() {
       return {

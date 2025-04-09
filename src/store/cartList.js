@@ -1,4 +1,4 @@
-import {pushScopeId} from 'vue';
+import { pushScopeId } from 'vue';
 import shop from './storage';
 
 // initial state
@@ -6,12 +6,14 @@ import shop from './storage';
 const state = () => ({
   items: [],
   checkoutStatus: null,
+  isLocation_BUCHEON: false,
+  deliveryFee: 3500,
 });
 
 // getters
 const getters = {
   cartProducts: (state, getters, rootState) => {
-    return state.items.map(({product_id, buyoption, quantity}) => {
+    return state.items.map(({ product_id, buyoption, quantity }) => {
       const product = rootState.products.all.find(
         product => product.product_id === product_id,
       );
@@ -31,6 +33,7 @@ const getters = {
         boxcapacity: product.boxcapacity,
         water_delivery: product.water_delivery,
         production_date: product.production_date,
+        boxdeliveryfee: product.boxdeliveryfee,
         buyoption,
         // stored: product.stored,
         quantity,
@@ -59,14 +62,14 @@ const getters = {
       if (product.buyoption == false) {
         return total + (product.price - product.cutprice) * product.quantity;
       } else {
-        return total + product.boxprice * product.quantity;
+        return state.isLocation_BUCHEON == true ? total + product.boxprice * product.quantity : total + (product.boxprice + product.boxdeliveryfee) * product.quantity;
       }
     }, 0);
   },
   shipmentPrice: (state, getters) => {
     return getters.cartTotalPrice >= 30000 || getters.cartTotalPrice === 0
       ? 0
-      : 3500;
+      : state.deliveryFee;
   },
   freeze_shipmentPrice: (state, getters) => {
     var freeze_product;
@@ -74,18 +77,18 @@ const getters = {
     return freeze_product == undefined
       ? 0
       : getters.cartTotalPrice >= 50000
-      ? 0
-      : 3500;
+        ? 0
+        : state.deliveryFee;
   },
 };
 
 // actions
 const actions = {
-  async checkout({commit, state}) {
+  async checkout({ commit, state }) {
     const savedCartItems = [...state.items];
     commit('setCheckoutStatus', null);
     // empty cart
-    commit('setCartItems', {items: []});
+    commit('setCartItems', { items: [] });
     try {
       // await shop.buyProducts();
       // order.dispatch('setOrder', {items: savedCartItems});
@@ -94,11 +97,11 @@ const actions = {
       console.error(e);
       commit('setCheckoutStatus', 'failed');
       // rollback to the cart saved before sending the request
-      commit('setCartItems', {items: savedCartItems});
+      commit('setCartItems', { items: savedCartItems });
     }
   },
 
-  addProductToCart({state, commit}, product) {
+  addProductToCart({ state, commit }, product) {
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
     const cartItem = state.items.find(
@@ -128,6 +131,7 @@ const actions = {
       bonuscondition: product.bonuscondition,
       boxprice: product.boxprice,
       boxcapacity: product.boxcapacity,
+      boxdeliveryfee: product.boxdeliveryfee,
     };
     if (!cartItem) {
       commit('pushProductToCart', pushItem);
@@ -151,22 +155,26 @@ const actions = {
         boxprice: product.boxprice,
         boxcapacity: product.boxcapacity,
         // stored: product.stored,
+        boxdeliveryfee: product.boxdeliveryfee,
       };
       var index = state.items.indexOf(cartItem);
-      commit('incrementItemQuantity', {index, item: newItem});
+      commit('incrementItemQuantity', { index, item: newItem });
     }
     // }
   },
-  deleteProductFromCart({state, commit}, product) {
+  deleteProductFromCart({ state, commit }, product) {
     commit('setCheckoutStatus', null);
     const savedCartItems = state.items.filter(
       item =>
         item.product_id != product.product_id ||
         item.buyoption != product.buyoption,
     );
-    commit('setCartItems', {items: savedCartItems});
+    commit('setCartItems', { items: savedCartItems });
     commit('setCheckoutStatus', 'deleted');
   },
+  setBUCHEONBooleanAction({ commit }, BUCHEON_Boolean) {
+    commit('setBUCHEONBoolean', BUCHEON_Boolean)
+  }
 };
 
 // mutations
@@ -174,11 +182,14 @@ const mutations = {
   pushProductToCart(state, item) {
     state.items.push(item);
   },
-  incrementItemQuantity(state, {index, item}) {
+  incrementItemQuantity(state, { index, item }) {
     state.items.splice(index, 1, item);
   },
+  setBUCHEONBoolean(state, BUCHEON_Boolean) {
+    state.isLocation_BUCHEON = BUCHEON_Boolean
+  },
 
-  setCartItems(state, {items}) {
+  setCartItems(state, { items }) {
     state.items = items;
   },
 

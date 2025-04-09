@@ -27,6 +27,20 @@
       </div>
     </div>
     <q-separator />
+    <div>{{ selected_local.chinafood == '洽洽中国食品'
+          ? '如包括成箱产品,请确认收货地址是否在富川市。因本店直接配送富川地区,富川市免大件物品的运费。'
+          : '박스상품이 포함되어 있으면 주소가 부천인지 체크 바랍니다. 부천시 주민에게는 직접 배달해드리기 때문에 박스배송비는 빼드립니다.' }}</div>
+    <q-toggle
+      :label="switchLocation_Bucheon == true ?  (selected_local.chinafood == '洽洽中国食品'
+          ? '是富川'
+          : '부천입니다.') : (selected_local.chinafood == '洽洽中国食品'
+          ? '不是富川'
+          : '부천이 아닙니다.')"
+      color="blue"
+      :false-value="false"
+      :true-value="true"
+      v-model="switchLocation_Bucheon"
+    />
     <q-card class="q-py-sm">
       <q-markup-table flat bordered class="q-ma-md justify-center">
         <tbody items-center>
@@ -913,6 +927,7 @@
         no_id_address_input_wechat: ref(false),
         exchangeDialog: ref(false),
         maximizedToggle: ref(true),
+        switchLocation_Bucheon: ref(false),
         url_text:ref(''),
         url_currency: ref(
           'https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW',
@@ -926,6 +941,10 @@
         // console.log('기본 배송지 변경: ' + new_default.address2);
         this.address_selected = new_default[0];
       },
+      switchLocation_Bucheon: function (new_default) {
+
+        this.$store.dispatch('cart/setBUCHEONBooleanAction',new_default);
+      },
     },
     computed: {
       ...mapState({
@@ -938,6 +957,7 @@
         selected_local: state => state.ui_local.status,
         couponList: state => state.coupon.items,
         coupon_status: state => state.coupon.status,
+        isLocation_BUCHEON: state => state.isLocation_BUCHEON,
       }),
       ...mapGetters('cart', {
         cartProducts: 'cartProducts',
@@ -1025,7 +1045,7 @@
           address_id: address_inserted_id,
           order_data: this.getCartItems,
           food_price: this.total,
-          total_price: this.total >= 40000 ? 0 + this.total : 4200 + this.total,
+          total_price: this.total >= 30000 ? 0 + this.total : 3500 + this.total,
           used_coupon_id: null,
         };
         // console.log(

@@ -48,6 +48,7 @@
         selected_local: state => state.ui_local.status,
         couponList: state => state.coupon.items,
         coupon_status: state => state.coupon.status,
+        deliveryFee: state => state.cart.deliveryFee,
       }),
     },
     methods: {
@@ -64,7 +65,7 @@
         this.readResData();
         const requestData = this.postJsonData;
         var amountOfPayment =
-          this.cartTotalPrice + this.shipment + this.freeze_shipment - 4200;
+          this.cartTotalPrice + this.shipment + this.freeze_shipment - this.deliveryFee;
         console.log(
           '가격 비교: ' +
             amountOfPayment +
