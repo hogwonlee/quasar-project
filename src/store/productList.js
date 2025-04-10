@@ -16,14 +16,14 @@ const actions = {
   //   const products = await shop.getProducts();
   //   commit('setProducts', products);
   // },
-  getProductAction({ commit }, products) {
+  getProductAction({commit}, products) {
     // if (state.status == 'update')
     commit('addToState', products);
   },
-  getVersionAction({ commit }, version) {
+  getVersionAction({commit}, version) {
     commit('setVersion', version);
   },
-  emptyStoreAction({ commit }) {
+  emptyStoreAction({commit}) {
     commit('setProducts', []);
   },
 };
@@ -57,7 +57,7 @@ const mutations = {
       flavor_refer_ko: products.flavor_refer_ko,
       product_name_ko: products.product_name_ko,
       product_desc: products.product_desc,
-      boxdeliveryfee: product.boxdeliveryfee,
+      boxdeliveryfee: products.boxdeliveryfee,
       quantity: 0,
       buyoption: false,
     });
