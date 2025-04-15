@@ -333,23 +333,23 @@
             field: 'quantity',
             sortable: true,
           },
-          {
-            name: 'bulk_buy',
-            align: 'center',
-            label: this.selected_local.product_bundle,
-            field: 'bulk_buy',
-            format: val =>
-              val == 1
-                ? this.selected_local.product_bundle
-                : this.selected_local.product_unit,
-          },
-          {
-            name: 'boxcapacity',
-            align: 'center',
-            label:
-              this.selected_local.product_bundle + this.selected_local.quantity,
-            field: 'boxcapacity',
-          },
+          // {
+          //   name: 'bulk_buy',
+          //   align: 'center',
+          //   label: this.selected_local.product_bundle,
+          //   field: 'bulk_buy',
+          //   format: val =>
+          //     val == 1
+          //       ? this.selected_local.product_bundle
+          //       : this.selected_local.product_unit,
+          // },
+          // {
+          //   name: 'boxcapacity',
+          //   align: 'center',
+          //   label:
+          //     this.selected_local.product_bundle + this.selected_local.quantity,
+          //   field: 'boxcapacity',
+          // },
         ];
       },
       load_order_all() {
