@@ -283,6 +283,7 @@
         <q-card-actions align="right">
           <q-btn
             :label="selected_local.confirm"
+
             class="col-5"
             @click="confirm_bank = true"
             color="positive"
@@ -291,7 +292,8 @@
               no_id_recipient_name == null ||
               no_id_recipient_phone == null ||
               no_id_recipient_address == null ||
-              no_id_recipient_bankinfo == null
+no_id_recipient_bankinfo == null ||
+              cartList.length <= 0
             "
           />
           <q-btn
@@ -502,7 +504,8 @@
               no_id_recipient_name == null ||
               no_id_recipient_phone == null ||
               no_id_recipient_address == null ||
-              no_id_recipient_bankinfo == null
+no_id_recipient_bankinfo == null ||
+              cartList.length <=0
             "
           />
           <q-btn
@@ -554,6 +557,7 @@
             outline
             :label="selected_local.addrresister"
             @click="register_popup = true"
+
           ></q-btn>
         </div>
         <div v-else-if="no_selected_addr">
@@ -821,6 +825,7 @@
             :label="selected_local.confirm"
             color="positive"
             @click="no_id_registe_address('계좌이체')"
+            v-close-popup
           />
           <q-btn
             flat
@@ -860,7 +865,9 @@
             flat
             :label="selected_local.confirm"
             color="positive"
+
             @click="no_id_registe_address('WechatPay')"
+            v-close-popup
           />
           <q-btn
             flat
@@ -950,6 +957,7 @@
       ...mapState({
         checkoutStatus: state => state.cart.checkoutStatus,
         cartList: state => state.cart.items,
+        deliveryFee: state => state.cart.deliveryFee,
         addressList: state => state.address.items,
         user: state => state.user.USER,
         order: state => state.order.items,
@@ -1039,14 +1047,15 @@
           })
           .catch(res => console.log('에러: ' + res));
       },
-      set_order_with_address(address_inserted_id) {
+      set_order_with_address(address_inserted_id, paytext) {
         const query_data = {
           user_id: null,
           address_id: address_inserted_id,
           order_data: this.getCartItems,
           food_price: this.total,
-          total_price: this.total >= 30000 ? 0 + this.total : 3500 + this.total,
+          total_price: this.total >= 30000 ? 0 + this.total : this.deliveryFee + this.total,
           used_coupon_id: null,
+          payment_method: paytext,
         };
         // console.log(
         //   '장바구니 정리한 객체: ' + JSON.stringify(this.getCartItems),

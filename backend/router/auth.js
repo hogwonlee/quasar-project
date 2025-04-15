@@ -39,14 +39,15 @@ let jwtObj = {
 
 var orderResister = function (req, satisfy_coupon_text, res) {
   let sqlCommend =
-    'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?';
+    'INSERT INTO ordergroup SET address_id = ?, user_id = ?, food_price = ?, total_price = ?, satisfy_coupon = ?, payment_method = ?';
   const body = req.body;
   const param = {
     address_id: body.address_id,
     user_id: body.user_id,
     food_price: body.food_price,
-    satisfy_coupon: satisfy_coupon_text,
     total_price: body.total_price,
+    satisfy_coupon: satisfy_coupon_text,
+    payment_method: body.payment_method,
   };
 
   return db.query(
@@ -57,6 +58,7 @@ var orderResister = function (req, satisfy_coupon_text, res) {
       param.food_price,
       param.total_price,
       param.satisfy_coupon,
+      param.payment_method,
     ],
     function (err, results, fields) {
       if (err) {
