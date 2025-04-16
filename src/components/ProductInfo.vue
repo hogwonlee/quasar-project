@@ -231,7 +231,7 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
-                    unchecked-icon="block"
+
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -241,7 +241,7 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
-                    unchecked-icon="block"
+
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
@@ -253,6 +253,7 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
+                    unchecked-icon="block"
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -263,6 +264,7 @@
                     disable
                     v-model="bulkbuy"
                     keep-color
+                    unchecked-icon="block"
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
