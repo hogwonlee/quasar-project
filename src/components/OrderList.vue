@@ -1057,9 +1057,9 @@ no_id_recipient_bankinfo == null ||
           used_coupon_id: null,
           payment_method: paytext,
         };
-        // console.log(
-        //   '장바구니 정리한 객체: ' + JSON.stringify(this.getCartItems),
-        // );
+        console.log(
+          '장바구니 정리한 객체: ' + JSON.stringify(this.getCartItems),
+        );
         axios({
           url: `${configs.server}/orderRegister`,
           method: 'POST',
