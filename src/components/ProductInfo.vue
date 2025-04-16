@@ -255,7 +255,7 @@
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
                     "
-                    color="grey-9"
+                    color="white"
                   />
                   <q-radio
                     disable
@@ -265,7 +265,7 @@
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
                     "
-                    color="grey-9"
+                    color="white"
                   />
                 </div>
               </div>
