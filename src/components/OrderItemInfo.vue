@@ -285,7 +285,7 @@
         Notify.create({
           position: 'top',
           message:
-            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
+            this.selected_local.shopingcart + ':(' + name + ') ' + 1,
           color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');

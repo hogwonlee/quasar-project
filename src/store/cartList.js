@@ -139,9 +139,9 @@ const actions = {
       let newItem = {
         product_id: cartItem.product_id,
         buyoption: cartItem.buyoption,
-        quantity: product.quantity,
+        quantity: 1,
         bonus_quantity: bonus,
-        cut_money: product.cutprice * product.quantity,
+        cut_money: product.cutprice * 1,
 
         product_name: product.product_name,
         price: product.price,
