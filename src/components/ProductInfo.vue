@@ -230,6 +230,7 @@
                 <div v-if="boxprice != null" class="q-gutter-sm">
                   <q-radio
                     v-model="bulkbuy"
+                    keep-color
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -238,6 +239,7 @@
                   />
                   <q-radio
                     v-model="bulkbuy"
+                    keep-color
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
@@ -248,6 +250,7 @@
                 <div v-else class="q-gutter-sm">
                   <q-radio
                     v-model="bulkbuy"
+                    keep-color
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -257,6 +260,7 @@
                   <q-radio
                     disable
                     v-model="bulkbuy"
+                    keep-color
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
