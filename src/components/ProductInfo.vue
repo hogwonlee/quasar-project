@@ -231,6 +231,7 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
+                    unchecked-icon="block"
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -240,6 +241,7 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
+                    unchecked-icon="block"
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
@@ -255,7 +257,7 @@
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
                     "
-                    color="white"
+                    color="grey-2"
                   />
                   <q-radio
                     disable
@@ -265,7 +267,7 @@
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
                     "
-                    color="white"
+                    color="grey-2"
                   />
                 </div>
               </div>
