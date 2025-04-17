@@ -173,17 +173,17 @@
       </q-btn-dropdown>
     </q-page-sticky>
     <q-page-sticky position="bottom" :offset="[0, 10]">
-      <q-btn-dropdown color="dark" icon="view_compact_alt" rounded>
+      <q-btn-dropdown color="dark" icon="zoom_out_map" rounded>
         <q-list dense padding="xs" color="dark">
           <q-item clickable v-close-popup @click="list_col_number = 3">
             <q-item-section avatar>
-              <q-avatar icon="zoom_out_map" />
+              <q-avatar icon="zoom_in_map" />
             </q-item-section>
           </q-item>
 
           <q-item clickable v-close-popup @click="list_col_number = 4">
             <q-item-section avatar>
-              <q-avatar icon="zoom_in_map" />
+              <q-avatar icon="zoom_out_map" />
             </q-item-section>
           </q-item>
 
