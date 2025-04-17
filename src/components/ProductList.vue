@@ -177,13 +177,13 @@
         <q-list dense padding="xs" color="dark">
           <q-item clickable v-close-popup @click="list_col_number = 3">
             <q-item-section avatar>
-              <q-avatar icon="dialpad" />
+              <q-avatar icon="zoom_out_map" />
             </q-item-section>
           </q-item>
 
           <q-item clickable v-close-popup @click="list_col_number = 4">
             <q-item-section avatar>
-              <q-avatar icon="view_compact_alt" />
+              <q-avatar icon="zoom_in_map" />
             </q-item-section>
           </q-item>
 
