@@ -57,17 +57,18 @@
               :label="selected_local.logout"
               @click="confirm_logout()"
             />
-            <!-- <q-fab-action
+            <q-fab-action
               color="white"
               text-color="negative"
               padding="none"
               :label="
                 selected_local.chinafood == '洽洽中国食品'
                   ? '删除账号'
-                  : '계정삭제'
+                  : '회원탈퇴'
               "
-              @click="this.DeleteAccountDialog = true"
-            /> -->
+              tag="a"
+              to="/DeleteAccount"
+            />
             <!-- :label="selected_local.changepassword" -->
           </q-fab>
         </div>
