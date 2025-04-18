@@ -27,15 +27,24 @@
       </div>
     </div>
     <q-separator />
-    <div>{{ selected_local.chinafood == '洽洽中国食品'
+    <div class="q-pa-sm">
+      {{
+        selected_local.chinafood == '洽洽中国食品'
           ? '如包括成箱产品,请确认收货地址是否在富川市。因本店直接配送富川地区,富川市免大件物品的运费。'
-          : '박스상품이 포함되어 있으면 주소가 부천인지 체크 바랍니다. 부천시 주민에게는 직접 배달해드리기 때문에 박스배송비는 빼드립니다.' }}</div>
+          : '박스상품이 포함되어 있으면 주소가 부천인지 체크 바랍니다. 부천시 주민에게는 직접 배달해드리기 때문에 박스배송비는 빼드립니다.'
+      }}
+    </div>
     <q-toggle
-      :label="switchLocation_Bucheon == true ?  (selected_local.chinafood == '洽洽中国食品'
-          ? '是富川'
-          : '부천입니다.') : (selected_local.chinafood == '洽洽中国食品'
+      class="q-pa-sm"
+      :label="
+        switchLocation_Bucheon == true
+          ? selected_local.chinafood == '洽洽中国食品'
+            ? '是富川'
+            : '부천입니다.'
+          : selected_local.chinafood == '洽洽中国食品'
           ? '不是富川'
-          : '부천이 아닙니다.')"
+          : '부천이 아닙니다.'
+      "
       color="blue"
       :false-value="false"
       :true-value="true"
@@ -123,15 +132,22 @@
       <CouponList class="bg-white" v-bind:food_price="total" />
     </q-dialog> -->
 
-    <div class="text-h6 text-bold">
+    <p class="q-pa-sm text-h6 text-bold">
       {{
         selected_local.chinafood == '洽洽中国食品'
           ? '支付方式-1：银行转账'
           : '결제방식-1:계좌이체'
       }}
-    </div>
+      <span class="text-body2" style="color: red"
+        >{{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '(无需登录)'
+            : '(로그인없이 가능)'
+        }}
+      </span>
+    </p>
 
-    <div>
+    <div class="q-pa-sm">
       <!-- <q-btn
         color="negative"
         outline
@@ -283,7 +299,6 @@
         <q-card-actions align="right">
           <q-btn
             :label="selected_local.confirm"
-
             class="col-5"
             @click="confirm_bank = true"
             color="positive"
@@ -292,7 +307,7 @@
               no_id_recipient_name == null ||
               no_id_recipient_phone == null ||
               no_id_recipient_address == null ||
-no_id_recipient_bankinfo == null ||
+              no_id_recipient_bankinfo == null ||
               cartList.length <= 0
             "
           />
@@ -308,14 +323,21 @@ no_id_recipient_bankinfo == null ||
     </q-dialog>
     <q-separator />
 
-    <div class="text-h6 text-bold">
+    <p class="q-pa-sm text-h6 text-bold">
       {{
         selected_local.chinafood == '洽洽中国食品'
           ? '支付方式-2：微信转账'
           : '결제방식-2:위쳇송금'
       }}
-    </div>
-    <div>
+      <span class="text-body2" style="color: red"
+        >{{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '(无需登录)'
+            : '(로그인없이 가능)'
+        }}
+      </span>
+    </p>
+    <div class="q-pa-sm">
       <div>昵称:YI HOGWON</div>
       <div class="text-subtitle2">
         微信ID:l175969775
@@ -331,25 +353,24 @@ no_id_recipient_bankinfo == null ||
       </div>
     </div>
 
-
-    <q-dialog v-model="exchangeDialog"
+    <q-dialog
+      v-model="exchangeDialog"
       persistent
       :maximized="maximizedToggle"
       transition-show="slide-up"
-      transition-hide="slide-down">
-      <q-card >
-
+      transition-hide="slide-down"
+    >
+      <q-card>
         <q-bar>
           네이버 환율조회
           <q-space />
-          <q-btn dense flat icon="close" v-close-popup @click="url_text=''">
+          <q-btn dense flat icon="close" v-close-popup @click="url_text = ''">
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section>
           <iframe :src="url_text" frameborder="0" height="900"></iframe>
         </q-card-section>
-
       </q-card>
     </q-dialog>
     <p>
@@ -358,13 +379,20 @@ no_id_recipient_bankinfo == null ||
           ? '按今日汇率，支付人民币即可'
           : '오늘의 매매기준환율에 따라 중국돈을 송금해주시면 됩니다.'
       }}
-      <q-btn color="positive"
-            outline
-            :label="selected_local.chinafood == '洽洽中国食品'
+      <q-btn
+        color="positive"
+        outline
+        :label="
+          selected_local.chinafood == '洽洽中国食品'
             ? '前去查看汇率'
-            : '환율 조회하러 가기'" @click="exchangeDialog = true; url_text = url_currency;">
-
-    </q-btn>
+            : '환율 조회하러 가기'
+        "
+        @click="
+          exchangeDialog = true;
+          url_text = url_currency;
+        "
+      >
+      </q-btn>
     </p>
     <div class="row justify-end">
       <div class="text-subtitle2">
@@ -504,8 +532,8 @@ no_id_recipient_bankinfo == null ||
               no_id_recipient_name == null ||
               no_id_recipient_phone == null ||
               no_id_recipient_address == null ||
-no_id_recipient_bankinfo == null ||
-              cartList.length <=0
+              no_id_recipient_bankinfo == null ||
+              cartList.length <= 0
             "
           />
           <q-btn
@@ -521,14 +549,14 @@ no_id_recipient_bankinfo == null ||
 
     <q-separator />
 
-    <div class="text-h6 text-bold">
+    <div class="q-pa-sm text-h6 text-bold">
       {{
         selected_local.chinafood == '洽洽中国食品'
           ? '支付方式-3：便捷支付'
           : '결제방식-3:토스간편결제'
       }}
     </div>
-    <div>
+    <div class="q-pa-sm">
       {{
         selected_local.chinafood == '洽洽中国食品'
           ? '*支付之前需要注册ID并登录收件人地址等信息。'
@@ -557,7 +585,6 @@ no_id_recipient_bankinfo == null ||
             outline
             :label="selected_local.addrresister"
             @click="register_popup = true"
-
           ></q-btn>
         </div>
         <div v-else-if="no_selected_addr">
@@ -865,7 +892,6 @@ no_id_recipient_bankinfo == null ||
             flat
             :label="selected_local.confirm"
             color="positive"
-
             @click="no_id_registe_address('WechatPay')"
             v-close-popup
           />
@@ -935,7 +961,7 @@ no_id_recipient_bankinfo == null ||
         exchangeDialog: ref(false),
         maximizedToggle: ref(true),
         switchLocation_Bucheon: ref(false),
-        url_text:ref(''),
+        url_text: ref(''),
         url_currency: ref(
           'https://m.stock.naver.com/marketindex/exchange/FX_CNYKRW',
         ),
@@ -949,8 +975,7 @@ no_id_recipient_bankinfo == null ||
         this.address_selected = new_default[0];
       },
       switchLocation_Bucheon: function (new_default) {
-
-        this.$store.dispatch('cart/setBUCHEONBooleanAction',new_default);
+        this.$store.dispatch('cart/setBUCHEONBooleanAction', new_default);
       },
     },
     computed: {
@@ -993,7 +1018,13 @@ no_id_recipient_bankinfo == null ||
           navigator.clipboard.writeText(copyText);
           Notify.create({
             position: 'top',
-            message: (this.selected_local.chinafood=='洽洽中国食品' ? '复制完成':'복사완료') + ':(' + copyText + ') ',
+            message:
+              (this.selected_local.chinafood == '洽洽中国食品'
+                ? '复制完成'
+                : '복사완료') +
+              ':(' +
+              copyText +
+              ') ',
             color: 'green',
           });
           //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
@@ -1012,7 +1043,10 @@ no_id_recipient_bankinfo == null ||
       no_id_registe_address(paymethed) {
         Notify.create({
           position: 'top',
-          message:this.selected_local.chinafood=='洽洽中国食品' ? '下单' : '주문 등록',
+          message:
+            this.selected_local.chinafood == '洽洽中国食品'
+              ? '下单'
+              : '주문 등록',
           color: 'green',
         });
         const addressData = {
@@ -1053,7 +1087,10 @@ no_id_recipient_bankinfo == null ||
           address_id: address_inserted_id,
           order_data: this.getCartItems,
           food_price: this.total,
-          total_price: this.total >= 30000 ? 0 + this.total : this.deliveryFee + this.total,
+          total_price:
+            this.total >= 30000
+              ? 0 + this.total
+              : this.deliveryFee + this.total,
           used_coupon_id: null,
           payment_method: paytext,
         };
@@ -1080,13 +1117,19 @@ no_id_recipient_bankinfo == null ||
               console.log('주문 결과: ' + JSON.stringify(res));
               Notify.create({
                 position: 'top',
-                message: this.selected_local.chinafood=='洽洽中国食品' ?  '下单成功' : '주문완료',
+                message:
+                  this.selected_local.chinafood == '洽洽中国食品'
+                    ? '下单成功'
+                    : '주문완료',
                 color: 'green',
               });
             } else {
               Notify.create({
                 position: 'top',
-                message: this.selected_local.chinafood=='洽洽中国食品' ? '下单失败' : '주문실패',
+                message:
+                  this.selected_local.chinafood == '洽洽中国食品'
+                    ? '下单失败'
+                    : '주문실패',
                 color: 'red',
               });
             }
