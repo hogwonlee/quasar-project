@@ -10,18 +10,16 @@
           : '웹 브라우저에서 다음 링크를 접속하시면 네이버에서 배송 상황을 조회할 수 있습니다.'
       }}
     </p>
-    <div class="url-text text-subtitle2">
+    <p class="url-text text-subtitle2">
       {{ url_naver }}
-      <q-btn
-        @click="copyToClipboard(url_naver)"
-        class="text-bold q-ma-sm"
-        color="positive"
-        outline
-        >{{
-          selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사'
-        }}</q-btn
-      >
-    </div>
+    </p>
+    <q-btn
+      @click="copyToClipboard(url_naver)"
+      class="text-bold q-ma-sm"
+      color="positive"
+      outline
+      >{{ selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사' }}</q-btn
+    >
 
     <span>
       {{
