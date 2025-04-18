@@ -18,16 +18,18 @@
       class="text-bold q-ma-sm"
       color="positive"
       outline
-      >{{ selected_local.chinafood == '洽洽中国食品' ? '复制' : '복사' }}</q-btn
+      >{{
+        selected_local.chinafood == '洽洽中国食品' ? '复制链接' : 'URL복사'
+      }}</q-btn
     >
 
-    <span>
+    <div>
       {{
         selected_local.chinafood == '洽洽中国食品'
           ? '*以发货日为准，一般情况下需要1~2天到货。若有库存不足情况发生，我们将尽量在3天内补充并联系您。'
           : '*일반적으로 1~2일 사이에 배송됩니다. 만약 재고부족으로 바로 배송이 안될 경우, 3일내에 배송하고 연락드리겠습니다.'
       }}
-    </span>
+    </div>
     <div v-if="order_count > 0">
       <q-card
         class="my-card"
