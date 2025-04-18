@@ -17,8 +17,12 @@
           {{ selected_local.chinafood == '洽洽中国食品' ? '无库存' : '품절' }}
         </div>
         <template v-slot:error>
-          <div class="absolute-full flex flex-center bg-negative text-white">
-            NO image
+          <div class="absolute-full flex flex-center bg-warning text-white">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '暂无图片'
+                : '이미지추가예정'
+            }}
           </div>
         </template>
         <div class="absolute-top-right transparent">
@@ -190,7 +194,9 @@
               </div>
               <div v-else class="text-h6 text-bold">
                 <q-icon name="img:icons\currency-krw-black.png" />
-                {{ boxprice * this.localQuantity }} {{ selected_local.won }} + {{ boxdeliveryfee * this.localQuantity }} {{ selected_local.won }}
+                {{ boxprice * this.localQuantity }} {{ selected_local.won }} +
+                {{ boxdeliveryfee * this.localQuantity }}
+                {{ selected_local.won }}
               </div>
             </div>
             <div class="row">
@@ -231,7 +237,6 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
-
                     :val="false"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
@@ -241,7 +246,6 @@
                   <q-radio
                     v-model="bulkbuy"
                     keep-color
-
                     :val="true"
                     :label="
                       selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
@@ -444,7 +448,6 @@
         type: Number,
         default: 3,
       },
-
     },
     setup() {
       return {
