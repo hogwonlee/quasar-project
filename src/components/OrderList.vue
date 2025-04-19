@@ -10,11 +10,7 @@
       <div class="row q-pa-xs virtual-scroll-horizontal">
         <OrderItemInfo
           @sendOrderItem="
-            this.$store.dispatch(
-              'cart/addProductToCart',
-              product,
-              product.quantity,
-            )
+            this.$store.dispatch('cart/addProductToCart', product)
           "
           @sendRemoveItem="
             this.$store.dispatch('cart/removeProductFromCart', product)

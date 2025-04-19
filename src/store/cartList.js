@@ -101,7 +101,7 @@ const actions = {
     }
   },
 
-  addProductToCart({state, commit}, product, quantity) {
+  addProductToCart({state, commit}, product) {
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
     const cartItem = state.items.find(
@@ -119,9 +119,9 @@ const actions = {
     let pushItem = {
       product_id: product.product_id,
       buyoption: product.buyoption,
-      quantity: quantity,
+      quantity: product.quantity,
       bonus_quantity: bonus,
-      cut_money: product.cutprice * quantity,
+      cut_money: product.cutprice * product.quantity,
       product_name: product.product_name,
       price: product.price,
       category: product.category,
@@ -139,9 +139,9 @@ const actions = {
       let newItem = {
         product_id: cartItem.product_id,
         buyoption: cartItem.buyoption,
-        quantity: quantity,
+        quantity: product.quantity,
         bonus_quantity: bonus,
-        cut_money: product.cutprice * quantity,
+        cut_money: product.cutprice * product.quantity,
 
         product_name: product.product_name,
         price: product.price,

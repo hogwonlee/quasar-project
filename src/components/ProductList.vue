@@ -74,9 +74,7 @@
             :colNumber="list_col_number"
             @setbuyoption="p.buyoption = $event"
             @setquantity="p.quantity = $event"
-            @sendOrderItem="
-              this.$store.dispatch('cart/addProductToCart', p, p.quantity)
-            "
+            @sendOrderItem="this.$store.dispatch('cart/addProductToCart', p)"
             @sendRemoveItem="
               this.$store.dispatch('cart/removeProductFromCart', p)
             "
