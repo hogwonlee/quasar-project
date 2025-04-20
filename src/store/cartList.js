@@ -48,7 +48,10 @@ const getters = {
       } else
         return {
           product_id: item.product_id,
-          quantity: item.quantity + item.bonus_quantity,
+          quantity:
+            item.bonus_quantity != null
+              ? item.quantity + item.bonus_quantity
+              : item.quantity,
         };
     });
     return order_item;
