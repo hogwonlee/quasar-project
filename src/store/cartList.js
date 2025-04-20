@@ -40,6 +40,9 @@ const getters = {
 
   getCartItems: state => {
     let order_item = state.items.map(item => {
+      console.log(
+        item.quantity + '' + item.boxcapacity + '' + item.bonus_quantity,
+      );
       if (item.buyoption == 1) {
         return {
           product_id: item.product_id,
@@ -49,7 +52,7 @@ const getters = {
         return {
           product_id: item.product_id,
           quantity:
-            item.bonus_quantity != null
+            item.bonus_quantity > 0
               ? item.quantity + item.bonus_quantity
               : item.quantity,
         };
@@ -114,7 +117,7 @@ const actions = {
     );
     console.log(JSON.stringify(cartItem));
     var bonus;
-    if (product.bonuscondition != 0) {
+    if (product.bonuscondition > 0) {
       bonus = parseInt(product.quantity / product.bonuscondition);
     } else {
       bonus = 0;
