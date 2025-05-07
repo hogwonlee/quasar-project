@@ -10,7 +10,7 @@ const state = () => ({
 // getters
 const getters = {
   cartProducts: (state, getters, rootState) => {
-    return state.items.map(({product_id, buyoption, quantity}) => {
+    return state.items.map(({ product_id, buyoption, quantity }) => {
       const product = rootState.products.all.find(
         product => product.product_id === product_id,
       );
@@ -48,14 +48,18 @@ const getters = {
           product_id: item.product_id,
           quantity: item.quantity * item.boxcapacity,
         };
-      } else
+      } else if (item.bonus_quantity > 0) {
         return {
           product_id: item.product_id,
-          quantity:
-            item.bonus_quantity > 0
-              ? item.quantity + item.bonus_quantity
-              : item.quantity,
+          quantity: item.quantity + item.bonus_quantity
         };
+      } else {
+        return {
+          product_id: item.product_id,
+          quantity: item.quantity,
+        };
+      }
+
     });
     return order_item;
   },
@@ -68,7 +72,7 @@ const getters = {
         return state.isLocation_BUCHEON == true
           ? total + product.boxprice * product.quantity
           : total +
-              (product.boxprice + product.boxdeliveryfee) * product.quantity;
+          (product.boxprice + product.boxdeliveryfee) * product.quantity;
       }
     }, 0);
   },
@@ -83,18 +87,18 @@ const getters = {
     return freeze_product == undefined
       ? 0
       : getters.cartTotalPrice >= 50000
-      ? 0
-      : state.deliveryFee;
+        ? 0
+        : state.deliveryFee;
   },
 };
 
 // actions
 const actions = {
-  async checkout({commit, state}) {
+  async checkout({ commit, state }) {
     const savedCartItems = [...state.items];
     commit('setCheckoutStatus', null);
     // empty cart
-    commit('setCartItems', {items: []});
+    commit('setCartItems', { items: [] });
     try {
       // await shop.buyProducts();
       // order.dispatch('setOrder', {items: savedCartItems});
@@ -103,11 +107,11 @@ const actions = {
       console.error(e);
       commit('setCheckoutStatus', 'failed');
       // rollback to the cart saved before sending the request
-      commit('setCartItems', {items: savedCartItems});
+      commit('setCartItems', { items: savedCartItems });
     }
   },
 
-  addProductToCart({state, commit}, product) {
+  addProductToCart({ state, commit }, product) {
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
     const cartItem = state.items.find(
@@ -164,21 +168,21 @@ const actions = {
         boxdeliveryfee: product.boxdeliveryfee,
       };
       var index = state.items.indexOf(cartItem);
-      commit('incrementItemQuantity', {index, item: newItem});
+      commit('incrementItemQuantity', { index, item: newItem });
     }
     // }
   },
-  deleteProductFromCart({state, commit}, product) {
+  deleteProductFromCart({ state, commit }, product) {
     commit('setCheckoutStatus', null);
     const savedCartItems = state.items.filter(
       item =>
         item.product_id != product.product_id ||
         item.buyoption != product.buyoption,
     );
-    commit('setCartItems', {items: savedCartItems});
+    commit('setCartItems', { items: savedCartItems });
     commit('setCheckoutStatus', 'deleted');
   },
-  setBUCHEONBooleanAction({commit}, BUCHEON_Boolean) {
+  setBUCHEONBooleanAction({ commit }, BUCHEON_Boolean) {
     commit('setBUCHEONBoolean', BUCHEON_Boolean);
   },
 };
@@ -189,7 +193,7 @@ const mutations = {
     state.items.push(item);
     console.log(JSON.stringify(state.items));
   },
-  incrementItemQuantity(state, {index, item}) {
+  incrementItemQuantity(state, { index, item }) {
     state.items.splice(index, 1, item);
     console.log(JSON.stringify(state.items));
   },
@@ -197,7 +201,7 @@ const mutations = {
     state.isLocation_BUCHEON = BUCHEON_Boolean;
   },
 
-  setCartItems(state, {items}) {
+  setCartItems(state, { items }) {
     state.items = items;
   },
 
