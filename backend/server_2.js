@@ -55,14 +55,14 @@ app.use(
 app.set('port', 3000);
 // const prikeyfile = '/etc/ssl/private/cfomarket.store.key';
 // const certfile = '/etc/ssl/certs/cfomarket.store.crt';
-// const prikeyfile = '/etc/ssl/private/private.key';
-// const certfile = '/etc/ssl/certs/certificate.crt';
-// const httpsoptions = {
-//   key: fs.readFileSync(prikeyfile),
-//   cert: fs.readFileSync(certfile),
-// };
-// const appServer = https.createServer(httpsoptions, app);
-const appServer = http.createServer(app);
+const prikeyfile = '/etc/ssl/private/private.key';
+const certfile = '/etc/ssl/certs/certificate.crt';
+const httpsoptions = {
+  key: fs.readFileSync(prikeyfile),
+  cert: fs.readFileSync(certfile),
+};
+const appServer = https.createServer(httpsoptions, app);
+// const appServer = http.createServer(app);
 // 세션세팅
 let maxAge = 1000 * 60 * 10;
 const sessionObj = {
