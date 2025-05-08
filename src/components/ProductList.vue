@@ -1,27 +1,36 @@
 <template>
   <div>
-    <q-input
-      class="fixed-top-right z-top q-ma-xs"
-      rounded
-      standout
-      dense
-      outlined
-      input-class=" text-right text-white"
-      style="width: 40%"
-      v-model="keyword"
-      label-color="dark"
-      :label="selected_local.search"
-    >
-      <template v-slot:append>
-        <q-icon
-          v-if="keyword !== ''"
-          name="close"
-          @click="keyword = ''"
-          class="cursor-pointer"
-        />
-        <q-icon name="search" color="dark" />
-      </template>
-    </q-input>
+    <div class="fixed-top-right z-top q-ma-xs row q-gutter-sm">
+      <q-btn
+        icon="search"
+        size="12px"
+        flat
+        outline
+        @click="searchDialog = true"
+      >
+      </q-btn>
+    </div>
+
+    <q-dialog v-model="searchDialog" position="top">
+      <q-card>
+        <q-input
+          input-class=" text-right text-white"
+          v-model="keyword"
+          label-color="dark"
+          :label="selected_local.search"
+        >
+          <template v-slot:append>
+            <q-icon
+              v-if="keyword !== ''"
+              name="close"
+              @click="keyword = ''"
+              class="cursor-pointer"
+            />
+            <q-icon name="search" color="dark" />
+          </template>
+        </q-input>
+      </q-card>
+    </q-dialog>
 
     <div v-if="products.length > 0">
       <div
@@ -154,8 +163,39 @@
         </q-field>
       </div>
     </q-page-container>
-    <q-page-sticky position="bottom-right" :offset="[10, 10]">
-      <q-btn-dropdown color="dark" :label="selected_local.category" rounded>
+    <q-page-sticky
+      class="column q-gutter-md"
+      style="width: 30px"
+      position="bottom-right"
+      :offset="[60, 10]"
+    >
+      <q-btn
+        v-if="list_col_number == 4"
+        class="row"
+        color="dark"
+        size="20px"
+        @click="list_col_number = 3"
+        icon="zoom_in_map"
+        round
+      >
+      </q-btn>
+      <q-btn
+        v-else
+        class="row"
+        color="dark"
+        size="20px"
+        @click="list_col_number = 4"
+        icon="zoom_out_map"
+        round
+      >
+      </q-btn>
+      <q-btn-dropdown
+        class="row"
+        color="dark"
+        size="16px"
+        dropdown-icon="keyboard_arrow_left"
+        rounded
+      >
         <q-list
           v-for="c in category.slice().sort()"
           :key="c.category"
@@ -171,8 +211,22 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
+      <q-btn
+        icon="keyboard_arrow_up"
+        size="20px"
+        class="row bg-dark text-white"
+        round
+        @click="go_prev_category()"
+      ></q-btn>
+      <q-btn
+        icon="keyboard_arrow_down"
+        size="20px"
+        class="row bg-dark text-white"
+        round
+        @click="go_next_category()"
+      ></q-btn>
     </q-page-sticky>
-    <q-page-sticky position="bottom" :offset="[0, 10]">
+    <!-- <q-page-sticky position="bottom" :offset="[0, 10]">
       <q-btn-dropdown color="dark" icon="zoom_out_map" rounded>
         <q-list dense padding="xs" color="dark">
           <q-item clickable v-close-popup @click="list_col_number = 3">
@@ -212,7 +266,7 @@
         rounded
         @click="go_next_category()"
       ></q-btn>
-    </q-page-sticky>
+    </q-page-sticky> -->
   </div>
 </template>
 
@@ -384,6 +438,7 @@
         visible: ref(true),
         showSimulatedReturnData: ref(false),
         list_col_number: ref(3),
+        searchDialog: ref(false),
       };
     },
   });

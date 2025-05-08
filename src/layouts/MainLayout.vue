@@ -3,7 +3,8 @@
     <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
         <q-toolbar-title class="text-black text-bold">
-          {{ selected_local.chinafood }}
+          챠챠
+          <!-- {{ selected_local.chinafood }} -->
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
           <!-- <q-input
             class="col-3 text-h6 text-bold"
@@ -39,7 +40,7 @@
         <q-item class="col-3" clickable tag="a" to="/ProductList">
           <q-item-section>
             <q-btn
-              size="10px"
+              size="16px"
               style="width: 60px"
               icon="home"
               flat
@@ -52,7 +53,7 @@
         <q-item class="col-3" clickable tag="a" to="/OrderList">
           <q-item-section>
             <q-btn
-              size="10px"
+              size="16px"
               style="width: 60px"
               icon="shopping_cart"
               flat
@@ -65,7 +66,7 @@
         <q-item class="col-3" clickable tag="a" to="/DeliveryInfo">
           <q-item-section>
             <q-btn
-              size="10px"
+              size="16px"
               style="width: 60px"
               icon="local_shipping"
               flat
@@ -78,7 +79,7 @@
         <q-item class="col-3" clickable tag="a" to="/UserInfo">
           <q-item-section>
             <q-btn
-              size="10px"
+              size="16px"
               style="width: 60px"
               icon="contacts"
               flat
@@ -124,7 +125,6 @@
         this.serverLogin();
       }
       if (this.selected_local == '') {
-
         this.change_local('cn');
       }
       // this.googleLogin();
