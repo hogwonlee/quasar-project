@@ -113,7 +113,7 @@ module.exports = configure(function (/* ctx */) {
       },
       client: {
         webSocketURL: {
-          hostname: 'cfomarket0.cafe24.com',
+          hostname: 'cfomarket0.kr',
           pathname: '/ws',
           port: 443,
           protocol: 'wss',
