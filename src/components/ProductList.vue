@@ -16,8 +16,8 @@
         <div class="text-h1">
 
           {{ selected_local.chinafood == '洽洽中国食品'
-              ? "搜索"
-              : "검색"
+              ? "商品搜索"
+              : "상품검색"
             }}
             </div>
         <q-space />
@@ -25,8 +25,10 @@
 
         </q-btn>
         <q-input
+        class="q-pa-sm"
           input-class=" text-black"
           outlined
+          rounded
           v-model="keyword"
           label-color="dark"
           :label="selected_local.search"
