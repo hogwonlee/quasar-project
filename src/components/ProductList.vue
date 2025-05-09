@@ -12,9 +12,18 @@
     </div>
 
     <q-dialog v-model="searchDialog" position="top">
-      <q-card>
+      <q-card style="width: 100%;">
+        {{ selected_local.chinafood == '洽洽中国食品'
+              ? "搜索"
+              : "검색"
+           }}
+        <space />
+        <q-btn class="absolute-top-right bg-dark" size="20px" icon="close" v-close-popup>
+
+        </q-btn>
         <q-input
-          input-class=" text-right text-white"
+          input-class=" text-black"
+          outlined
           v-model="keyword"
           label-color="dark"
           :label="selected_local.search"
@@ -26,7 +35,7 @@
               @click="keyword = ''"
               class="cursor-pointer"
             />
-            <q-icon name="search" color="dark" />
+
           </template>
         </q-input>
       </q-card>
