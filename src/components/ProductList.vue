@@ -13,7 +13,7 @@
 
     <q-dialog class="z-max" v-model="searchDialog" position="top">
       <q-card style="width: 100%;">
-        <div class="text-h1">
+        <div class="text-h2">
 
           {{ selected_local.chinafood == '洽洽中国食品'
               ? "商品搜索"
