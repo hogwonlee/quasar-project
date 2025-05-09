@@ -11,7 +11,7 @@
       </q-btn>
     </div>
 
-    <q-dialog v-model="searchDialog" position="top">
+    <q-dialog class="z-max" v-model="searchDialog" position="top">
       <q-card style="width: 100%;">
         <div class="text-h1">
 
@@ -21,7 +21,7 @@
             }}
             </div>
         <q-space />
-        <q-btn class="absolute-top-right z-top" flat size="20px" icon="close" v-close-popup>
+        <q-btn class="absolute-top-right"  flat size="20px" icon="close" @click="searchDialog=false">
 
         </q-btn>
         <q-input
