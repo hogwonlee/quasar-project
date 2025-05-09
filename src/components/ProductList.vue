@@ -13,12 +13,15 @@
 
     <q-dialog v-model="searchDialog" position="top">
       <q-card style="width: 100%;">
-        {{ selected_local.chinafood == '洽洽中国食品'
+        <q-div class="text-h1">
+
+          {{ selected_local.chinafood == '洽洽中国食品'
               ? "搜索"
               : "검색"
-           }}
-        <space />
-        <q-btn class="absolute-top-right bg-dark" size="20px" icon="close" v-close-popup>
+            }}
+            </q-div>
+        <q-space />
+        <q-btn class="absolute-top-right z-top" flat size="20px" icon="close" v-close-popup>
 
         </q-btn>
         <q-input
