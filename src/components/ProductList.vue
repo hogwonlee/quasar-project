@@ -295,7 +295,7 @@
   import {scroll} from 'quasar';
   import alert from 'src/util/modules/alert';
   import validation from 'src/util/data/validation';
-  import configs from 'src/configs/';
+  import configs from 'src/configs';
 
   import {dom} from 'quasar';
   const {offset} = dom;
@@ -370,7 +370,8 @@
             : {version: this.storeversion};
 
         axios
-          .get(`${configs.server}/productList`, {params: params})
+          .get(`https://cfomarket0.kr/api/productList`, {params: params})
+          // .get(`${configs.server}/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
               if (res.data.version == this.storeversion) {
