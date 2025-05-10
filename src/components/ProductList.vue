@@ -370,8 +370,7 @@
             : {version: this.storeversion};
 
         axios
-          .get(`https://cfomarket0.kr:3000/api/productList`, {params: params})
-          // .get(`${configs.server}/productList`, {params: params})
+          .get(`${configs.server}/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
               if (res.data.version == this.storeversion) {

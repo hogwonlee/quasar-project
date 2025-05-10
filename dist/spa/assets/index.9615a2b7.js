@@ -1,1 +1,0 @@
-var _={server:{}.VUE_APP_BACKEND_SERVER,clientKey:{}.VUE_APP_TOSS_CLIENT_KEY,secretKey:{}.VUE_APP_TOSS_SECRET_KEY,brandpayClientKey:{}.VUE_APP_BRANDPAY_CLIENT_KEY,brandpaySecretKey:{}.VUE_APP_BRANDPAY_SECRET_KEY};export{_ as c};
