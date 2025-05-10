@@ -368,7 +368,8 @@
             : {version: this.storeversion};
 
         axios
-          .get(`${configs.server}/productList`, {params: params})
+          // .get(`${configs.server}/productList`, {params: params})
+          .get(`/api/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
               if (res.data.version == this.storeversion) {
