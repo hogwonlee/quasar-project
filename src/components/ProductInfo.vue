@@ -89,7 +89,7 @@
           text-color="white"
         >
           <div class="q-pl-sm" style="text-align: right; align-items: center">
-            <q-icon name="img:icons\currency-krw-white.png"></q-icon>
+            <q-icon name="img:icons/currency-krw-white.png"></q-icon>
             {{ price }}
           </div>
         </q-chip>
@@ -129,7 +129,7 @@
                   dense
                   color="dark"
                   text-color="white"
-                  icon="img:icons\currency-krw-white.png"
+                  icon="img:icons/currency-krw-white.png"
                 >
                   {{ price }}
                   <!-- <q-badge color="positive" floating rounded v-if="cutprice > 0">
@@ -188,12 +188,12 @@
             </div>
             <div :class="this.localQuantity > 0 ? 'bg-white' : 'bg-grey'">
               <div v-if="!bulkbuy" class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
+                <q-icon name="img:icons/currency-krw-black.png" />
                 {{ (price - cutprice) * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
               <div v-else class="text-h6 text-bold">
-                <q-icon name="img:icons\currency-krw-black.png" />
+                <q-icon name="img:icons/currency-krw-black.png" />
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }} +
                 {{ boxdeliveryfee * this.localQuantity }}
                 {{ selected_local.won }}
@@ -290,7 +290,7 @@
               >
                 <q-badge color="positive" floating rounded>
                   <q-icon name="shopping_cart" />
-                  <q-icon name="img:icons\currency-krw-white.png" />
+                  <q-icon name="img:icons/currency-krw-white.png" />
                   {{ total }}
                 </q-badge>
               </q-btn>

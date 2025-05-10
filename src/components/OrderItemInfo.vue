@@ -17,7 +17,7 @@
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
-          <q-icon name="img:icons\currency-krw-white.png" />
+          <q-icon name="img:icons/currency-krw-white.png" />
           {{ buyoption == true ? quantity * boxprice : quantity * price }}
           <div class="absolute-top-right transparent">
             <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>
@@ -50,7 +50,7 @@
             </q-btn>
 
             <div v-if="buyoption == true" class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons\currency-krw-black.png" />
+              <q-icon name="img:icons/currency-krw-black.png" />
               {{ boxprice * this.localQuantity }}
               {{ selected_local.won }}
               <q-btn
@@ -62,7 +62,7 @@
               />
             </div>
             <div v-else class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons\currency-krw-black.png" />
+              <q-icon name="img:icons/currency-krw-black.png" />
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
               <q-btn
@@ -284,8 +284,7 @@
         quantity = quantity + 1;
         Notify.create({
           position: 'top',
-          message:
-            this.selected_local.shopingcart + ':(' + name + ') ' + 1,
+          message: this.selected_local.shopingcart + ':(' + name + ') ' + 1,
           color: 'orange',
         });
         //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
