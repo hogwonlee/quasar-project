@@ -12,20 +12,23 @@
     </div>
 
     <q-dialog class="z-max" v-model="searchDialog" position="top">
-      <q-card style="width: 100%;">
+      <q-card style="width: 100%">
         <div class="text-h2">
-
-          {{ selected_local.chinafood == '洽洽中国食品'
-              ? "商品搜索"
-              : "상품검색"
-            }}
-            </div>
+          {{
+            selected_local.chinafood == '洽洽中国食品' ? '商品搜索' : '상품검색'
+          }}
+        </div>
         <q-space />
-        <q-btn class="absolute-top-right"  flat size="20px" icon="close" @click="searchDialog=false">
-
+        <q-btn
+          class="absolute-top-right"
+          flat
+          size="20px"
+          icon="close"
+          @click="searchDialog = false"
+        >
         </q-btn>
         <q-input
-        class="q-pa-sm"
+          class="q-pa-sm"
           input-class=" text-black"
           outlined
           rounded
@@ -40,7 +43,6 @@
               @click="keyword = ''"
               class="cursor-pointer"
             />
-
           </template>
         </q-input>
       </q-card>
@@ -368,8 +370,7 @@
             : {version: this.storeversion};
 
         axios
-          // .get(`${configs.server}/productList`, {params: params})
-          .get(`/api/productList`, {params: params})
+          .get(`${configs.server}/productList`, {params: params})
           .then(res => {
             if (res.status == 200) {
               if (res.data.version == this.storeversion) {
