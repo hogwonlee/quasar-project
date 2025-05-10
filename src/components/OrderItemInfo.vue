@@ -17,7 +17,6 @@
           </q-badge>
         </div>
         <q-chip class="absolute-bottom" text-right text-color="white">
-          <q-icon name="img:icons/currency-krw-white.png" />
           {{ buyoption == true ? quantity * boxprice : quantity * price }}
           <div class="absolute-top-right transparent">
             <q-badge v-if="bonus_quantity > 0" color="red" floating rounded>

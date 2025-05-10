@@ -18,7 +18,7 @@
           @sendDeleteItem="
             this.$store.dispatch('cart/deleteProductFromCart', product)
           "
-          class="col-xs-3 col-sm-3 col-md-3 q-pa-xs"
+          class="col-3 q-pa-xs"
           v-for="product in cartList"
           :key="product.product_id"
           v-bind="product"

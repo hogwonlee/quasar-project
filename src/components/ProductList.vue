@@ -81,10 +81,10 @@
           <ProductInfo
             :class="
               list_col_number == 3
-                ? 'col-xs-3 col-sm-3 q-pa-xs'
+                ? 'col-3 q-pa-xs'
                 : list_col_number == 4
-                ? 'col-xs-4 col-sm-4 q-pa-xs'
-                : 'col-xs-12 col-sm-12 q-pa-xs'
+                ? 'col-4 q-pa-xs'
+                : 'col-12 q-pa-xs'
             "
             v-for="p in products.filter(
               p =>

@@ -57,11 +57,8 @@
       </q-img>
       <div :class="colNumber == 12 ? 'col-5' : ''">
         <q-chip
-          class="bg-grey"
           :class="colNumber == 12 ? 'q-my-lg' : ''"
           style="width: 95%; height: 33px; align-items: center"
-          dense
-          text-color="white"
         >
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -82,16 +79,10 @@
       </div>
       <div :class="colNumber == 12 ? 'col-5' : ''">
         <q-chip
-          class="bg-grey"
           :class="colNumber == 12 ? 'q-my-lg' : ''"
           style="width: 95%; height: 33px"
-          dense
-          text-color="white"
         >
-          <div class="q-pl-sm" style="text-align: right; align-items: center">
-            <q-icon name="img:icons/currency-krw-white.png"></q-icon>
-            {{ price }}
-          </div>
+          {{ price }}
         </q-chip>
       </div>
     </div>
@@ -117,27 +108,21 @@
                 size="sm"
               >
               </q-btn>
-              <q-chip style="width: 70%" dense color="dark" text-color="white">
+              <q-chip style="width: 70%">
                 {{
                   selected_local.chinafood == '洽洽中国食品'
                     ? product_name
                     : product_name_ko
                 }}
                 <q-space />
-                <q-chip
-                  v-if="bulkbuy == false"
-                  dense
-                  color="dark"
-                  text-color="white"
-                  icon="img:icons/currency-krw-white.png"
-                >
+                <q-chip v-if="bulkbuy == false" dense>
                   {{ price }}
                   <!-- <q-badge color="positive" floating rounded v-if="cutprice > 0">
                   - {{ cutprice }}
                 </q-badge> -->
                 </q-chip>
 
-                <q-chip v-else dense color="dark" text-color="white">
+                <q-chip v-else>
                   {{ boxprice }}
                   <!-- <q-badge color="positive" floating rounded>
                   {{ boxcapacity }} {{ selected_local.bundle_count }}
