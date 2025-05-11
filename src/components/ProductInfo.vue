@@ -59,6 +59,7 @@
         <q-chip
           :class="colNumber == 12 ? 'q-my-lg' : ''"
           style="width: 95%; height: 33px; align-items: center"
+          color="white"
         >
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -81,53 +82,68 @@
         <q-chip
           :class="colNumber == 12 ? 'q-my-lg' : ''"
           style="width: 95%; height: 33px"
+          color="white"
         >
           {{ price }}
         </q-chip>
       </div>
     </div>
     <div>
-      <q-dialog v-model="card" position="top" class="z-top">
-        <!-- backdrop-filter="contrast(40%)" -->
-        <q-card style="height: 60%; max-width: 70%; width: 70%">
-          <q-img class="q-pa-sm" :src="img" />
-          <div style="text-align: center">---底线---</div>
-          <div style="text-align: center">---底线---</div>
-          <div style="text-align: center">---底线---</div>
-          <div style="text-align: center">---底线---</div>
-          <div style="text-align: center">---底线---</div>
+      <q-dialog v-model="card">
+        <q-card
+          bordered
+          class="q-pa-xs"
+          style="height: 80%; max-width: 80%; width: 80%"
+        >
+          <q-toolbar>
+            <q-toolbar-title>{{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '商品详情'
+                : '상품상세'
+            }}</q-toolbar-title>
+          </q-toolbar>
+          <q-separator />
+          <q-card-section>
+            <q-img :src="img" />
+          </q-card-section>
         </q-card>
-        <q-page-sticky class="bg-white" position="bottom" :offset="[0, -60]">
-          <q-card-section class="q-mt-none q-py-none q-px-sm">
-            <div style="width: 100%" class="justify-center dark">
-              <q-btn
-                class="absolute-top-right bg-dark z-top"
-                icon="close"
-                text-color="white"
-                v-close-popup
-                size="sm"
-              >
-              </q-btn>
-              <q-chip style="width: 70%">
+        <q-page-sticky position="bottom-left">
+          <q-btn
+            color="positive"
+            @click="bottomCard = true"
+            class="full-width"
+            glossy
+            size="28px"
+            round
+            >+</q-btn
+          >
+        </q-page-sticky>
+        <!-- backdrop-filter="contrast(40%)" -->
+      </q-dialog>
+      <q-dialog v-model="bottomCard" position="bottom">
+        <q-card>
+          <q-card-section class="q-ma-xs q-gutter-xs">
+            <div style="width: 100%">
+              <div color="black" class="text-left">
                 {{
                   selected_local.chinafood == '洽洽中国食品'
                     ? product_name
                     : product_name_ko
                 }}
-                <q-space />
-                <q-chip v-if="bulkbuy == false" dense>
+                <!-- <q-space /> -->
+                <span v-if="bulkbuy == false">
                   {{ price }}
                   <!-- <q-badge color="positive" floating rounded v-if="cutprice > 0">
                   - {{ cutprice }}
                 </q-badge> -->
-                </q-chip>
+                </span>
 
-                <q-chip v-else>
+                <span v-else color="white">
                   {{ boxprice }}
                   <!-- <q-badge color="positive" floating rounded>
                   {{ boxcapacity }} {{ selected_local.bundle_count }}
                 </q-badge> -->
-                </q-chip>
+                </span>
                 /
                 {{
                   selected_local.chinafood == '洽洽中国食品'
@@ -138,10 +154,18 @@
                     ? '개'
                     : '박스'
                 }}
-              </q-chip>
+              </div>
+              <q-btn
+                class="absolute-top-right bg-dark z-top q-pa-sm"
+                icon="close"
+                text-color="white"
+                v-close-popup
+                size="md"
+              >
+              </q-btn>
               <!-- <q-icon name="img:icons\currency-krw-black.png" /> -->
             </div>
-            <div class="text-red">
+            <div class="q-my-xs text-red">
               <p v-if="water_delivery == 1">
                 <!-- 물과 같은 무거운 액체 배송 -->
                 {{ selected_local.notice_water_delivery }}
@@ -171,101 +195,77 @@
                 }}
               </p>
             </div>
-            <div :class="this.localQuantity > 0 ? 'bg-white' : 'bg-grey'">
-              <div v-if="!bulkbuy" class="text-h6 text-bold">
-                <q-icon name="img:icons/currency-krw-black.png" />
+            <div
+              :class="this.localQuantity > 0 ? 'bg-white' : 'bg-grey'"
+              class="row q-my-xs justify-center q-col-gutter-sm"
+            >
+              <div v-if="!bulkbuy" class="col-8 text-h6 text-bold">
                 {{ (price - cutprice) * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
-              <div v-else class="text-h6 text-bold">
-                <q-icon name="img:icons/currency-krw-black.png" />
+              <div v-else class="col-8 text-h6 text-bold">
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }} +
                 {{ boxdeliveryfee * this.localQuantity }}
                 {{ selected_local.won }}
               </div>
+              <div class="col-4 text-right">
+                (<q-icon name="shopping_cart" /> {{ total }} won)
+              </div>
             </div>
-            <div class="row">
+            <div class="row q-my-xs justify-end q-col-gutter-md">
+              <div v-show="boxprice != null" class="q-gutter-sm">
+                <q-radio
+                  v-model="bulkbuy"
+                  keep-color
+                  :val="false"
+                  :label="
+                    selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
+                  "
+                  color="positive"
+                />
+                <q-radio
+                  v-model="bulkbuy"
+                  keep-color
+                  :val="true"
+                  :label="
+                    selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
+                  "
+                  color="positive"
+                />
+              </div>
+            </div>
+            <div class="row q-my-xs justify-center q-col-gutter-sm">
               <q-btn
                 :disable="localQuantity <= 0"
-                class="col-2"
+                class="col-3"
                 icon="remove"
                 text-color="negative"
                 @click="handle(-1)"
-                size="xs"
+                size="sm"
               ></q-btn>
-              <q-input
-                class="col-4"
-                dense
-                style="vertical-align: top"
-                readonly
-                disable
-                outlined
-                v-model="this.localQuantity"
-                input-class="text-right"
-              >
-                <div v-if="bulkbuy" color="positive">x{{ boxcapacity }}</div>
-                <div
+              <div class="col-5 text-right q-ma-sm">
+                {{ this.localQuantity }}
+                <span v-if="bulkbuy" style="color: blue"
+                  >x{{ boxcapacity }}</span
+                >
+                <span
                   v-if="bonuscondition > 0 && localQuantity >= bonuscondition"
+                  style="color: blue"
                 >
                   +{{ parseInt(localQuantity / bonuscondition) }}
-                </div>
-              </q-input>
+                </span>
+              </div>
               <q-btn
-                class="col-2"
+                class="col-3"
                 icon="add"
-                size="xs"
                 text-color="positive"
+                size="sm"
                 @click="handle(1)"
               ></q-btn>
-              <div class="col-4">
-                <div v-if="boxprice != null" class="q-gutter-sm">
-                  <q-radio
-                    v-model="bulkbuy"
-                    keep-color
-                    :val="false"
-                    :label="
-                      selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
-                    "
-                    color="positive"
-                  />
-                  <q-radio
-                    v-model="bulkbuy"
-                    keep-color
-                    :val="true"
-                    :label="
-                      selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
-                    "
-                    color="positive"
-                  />
-                </div>
-                <div v-else class="q-gutter-sm">
-                  <q-radio
-                    v-model="bulkbuy"
-                    keep-color
-                    unchecked-icon="block"
-                    :val="false"
-                    :label="
-                      selected_local.chinafood == '洽洽中国食品' ? '个' : '개'
-                    "
-                    color="grey-2"
-                  />
-                  <q-radio
-                    disable
-                    v-model="bulkbuy"
-                    keep-color
-                    unchecked-icon="block"
-                    :val="true"
-                    :label="
-                      selected_local.chinafood == '洽洽中国食品' ? '箱' : '박스'
-                    "
-                    color="grey-2"
-                  />
-                </div>
-              </div>
             </div>
-            <div class="row">
+            <div class="row q-py-sm justify-center q-col-gutter-sm">
               <q-btn
-                class="col-4 q-mx-none q-my-xs"
+                class="col-6"
                 stack
                 icon="shopping_cart_checkout"
                 color="dark"
@@ -273,14 +273,9 @@
                 to="/OrderList"
                 :label="selected_local.gocounter"
               >
-                <q-badge color="positive" floating rounded>
-                  <q-icon name="shopping_cart" />
-                  <q-icon name="img:icons/currency-krw-white.png" />
-                  {{ total }}
-                </q-badge>
               </q-btn>
               <q-btn
-                class="col-8 q-mx-none q-my-xs"
+                class="col-6"
                 text-color="positive"
                 stack
                 glossy
@@ -291,7 +286,7 @@
               />
             </div>
           </q-card-section>
-        </q-page-sticky>
+        </q-card>
       </q-dialog>
     </div>
   </div>
@@ -438,6 +433,7 @@
       return {
         card: ref(false),
         bulkbuy: ref(false),
+        bottomCard: ref(false),
       };
     },
     // mounted() {

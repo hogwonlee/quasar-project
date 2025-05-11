@@ -49,7 +49,7 @@
             </q-btn>
 
             <div v-if="buyoption == true" class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons/currency-krw-black.png" />
+              <!-- <q-icon name="img:icons/currency-krw-black.png" /> -->
               {{ boxprice * this.localQuantity }}
               {{ selected_local.won }}
               <q-btn
@@ -61,7 +61,7 @@
               />
             </div>
             <div v-else class="col-12 text-h6 text-bold">
-              <q-icon name="img:icons/currency-krw-black.png" />
+              <!-- <q-icon name="img:icons/currency-krw-black.png" /> -->
               {{ (price - cutprice) * this.localQuantity }}
               {{ selected_local.won }}
               <q-btn

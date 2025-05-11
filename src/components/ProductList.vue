@@ -51,7 +51,6 @@
     <div v-if="products.length > 0">
       <div
         v-show="showSimulatedReturnData"
-        class="row"
         v-for="c in category.sort()"
         :key="c.category"
         v-bind="c"
@@ -77,15 +76,16 @@
             <q-space />
           </q-bar>
         </div>
-        <div class="row q-pa-xs">
+        <div class="row q-pa-xs q-col-gutter-sm">
           <ProductInfo
             :class="
               list_col_number == 3
-                ? 'col-3 q-pa-xs'
+                ? 'col-3'
                 : list_col_number == 4
-                ? 'col-4 q-pa-xs'
-                : 'col-12 q-pa-xs'
+                ? 'col-4'
+                : 'col-12'
             "
+            class="q-pa-xs"
             v-for="p in products.filter(
               p =>
                 p.category == c.category &&
@@ -453,7 +453,7 @@
         event_fab: ref(false),
         visible: ref(true),
         showSimulatedReturnData: ref(false),
-        list_col_number: ref(3),
+        list_col_number: ref(4),
         searchDialog: ref(false),
       };
     },
