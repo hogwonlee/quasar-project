@@ -10,9 +10,8 @@
           : '웹 브라우저에서 다음 링크를 접속하시면 네이버에서 배송 상황을 조회할 수 있습니다.'
       }}
       (
-      <span class="url-text text-subtitle2">
-        {{ url_naver }} </span
-      >)
+      <span class="url-text text-subtitle2"> {{ url_naver.slice(0, 30) }} </span
+      >...)
     </p>
     <q-btn
       @click="copyToClipboard(url_naver)"
@@ -29,6 +28,13 @@
         selected_local.chinafood == '洽洽中国食品'
           ? '*以发货日为准，一般情况下需要1~2天到货。若有库存不足情况发生，我们将尽量在3天内补充并联系您。'
           : '*일반적으로 1~2일 사이에 배송됩니다. 만약 재고부족으로 바로 배송이 안될 경우, 3일내에 배송하고 연락드리겠습니다.'
+      }}
+    </div>
+    <div>
+      {{
+        selected_local.chinafood == '洽洽中国食品'
+          ? '*如果，收件地址在富川地区内，当天下午3点之前的订单，当天送货。'
+          : '*만약 택배수령지가 부천 시내라면, 당일 오후 3시전까지의 주문은 당일 배송해드립니다.'
       }}
     </div>
     <div v-if="order_count > 0">
@@ -88,11 +94,11 @@
         </div>
       </q-card>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <div class="text-subtitle2 q-ml-md">
         {{ selected_local.deliver_info_text }}
       </div>
-    </div>
+    </div> -->
     <q-separator />
 
     <q-dialog v-model="search_order">

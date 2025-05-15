@@ -55,27 +55,12 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-dark text-white q-pb-xs">
+        <q-bar dense class="col-12 bg-dark text-white">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
-        <div
-          v-if="c.category == '速冻冷藏l냉동냉장'"
-          class="col-12 bg-dark text-red"
-        >
-          <!-- <q-bar dense>
-            <div>
-              {{ selected_local.freeze_deliver_info1 }}
-            </div>
-            <q-space />
-          </q-bar> -->
-          <q-bar dense>
-            <div>
-              {{ selected_local.freeze_deliver_info2 }}
-            </div>
-            <q-space />
-          </q-bar>
-        </div>
+
+        <q-separator />
         <div class="row q-pa-xs q-col-gutter-sm">
           <ProductInfo
             :class="

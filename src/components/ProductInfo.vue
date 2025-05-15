@@ -154,14 +154,13 @@
                     ? '개'
                     : '박스'
                 }}
-                <q-space />
                 {{
                   selected_local.chinafood == '洽洽中国食品'
-                    ? '库存：'
-                    : '재고: '
+                    ? '  (库存：'
+                    : '  (재고: '
                 }}
                 {{ stock >= 0 ? stock : 0 }}
-                {{ selected_local.chinafood == '洽洽中国食品' ? '个' : '개' }}
+                {{ selected_local.chinafood == '洽洽中国食品' ? '个)' : '개)' }}
               </div>
               <q-btn
                 class="absolute-top-right bg-dark z-top q-pa-sm"
@@ -458,10 +457,7 @@
         if (this.stock <= 0) {
           Notify.create({
             position: 'top',
-            message:
-              selected_local.chinafood == '洽洽中国食品'
-                ? '库存不足'
-                : '재고부족',
+            message: '库存不足/재고부족',
             color: 'orange',
           });
         } else {
