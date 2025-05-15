@@ -6,12 +6,13 @@
     <p>
       {{
         selected_local.chinafood == '洽洽中国食品'
-          ? '在浏览器上打开链接，可以在NAVER上查询配送情况。'
+          ? '在浏览器上打开以下链接，可以在NAVER上查询配送情况。'
           : '웹 브라우저에서 다음 링크를 접속하시면 네이버에서 배송 상황을 조회할 수 있습니다.'
       }}
-    </p>
-    <p class="url-text text-subtitle2">
-      {{ url_naver }}
+      (
+      <span class="url-text text-subtitle2">
+        {{ url_naver }} </span
+      >)
     </p>
     <q-btn
       @click="copyToClipboard(url_naver)"

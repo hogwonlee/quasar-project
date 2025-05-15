@@ -154,6 +154,14 @@
                     ? '개'
                     : '박스'
                 }}
+                <q-space />
+                {{
+                  selected_local.chinafood == '洽洽中国食品'
+                    ? '库存：'
+                    : '재고: '
+                }}
+                {{ stock >= 0 ? stock : 0 }}
+                {{ selected_local.chinafood == '洽洽中国食品' ? '个' : '개' }}
               </div>
               <q-btn
                 class="absolute-top-right bg-dark z-top q-pa-sm"
@@ -282,7 +290,7 @@
                 icon="add_shopping_cart"
                 :label="selected_local.add_to_cart"
                 @click="sendToCart(this.product_name, quantity)"
-                :disable="this.localQuantity <= 0 || this.stock <= 0"
+                :disable="this.localQuantity <= 0"
               />
             </div>
           </q-card-section>
@@ -447,14 +455,25 @@
         this.localQuantity += value;
       },
       sendToCart(name, quantity) {
-        Notify.create({
-          position: 'top',
-          message:
-            this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
-          color: 'orange',
-        });
-        //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
-        this.$emit('sendOrderItem');
+        if (this.stock <= 0) {
+          Notify.create({
+            position: 'top',
+            message:
+              selected_local.chinafood == '洽洽中国食品'
+                ? '库存不足'
+                : '재고부족',
+            color: 'orange',
+          });
+        } else {
+          Notify.create({
+            position: 'top',
+            message:
+              this.selected_local.shopingcart + ':(' + name + ') ' + quantity,
+            color: 'orange',
+          });
+          //alert('(' + name + ')' + amount + '개를 장바구니에 넣었습니다.');
+          this.$emit('sendOrderItem');
+        }
       },
     },
   });

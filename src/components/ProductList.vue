@@ -55,7 +55,7 @@
         :key="c.category"
         v-bind="c"
       >
-        <q-bar dense class="col-12 bg-dark text-white">
+        <q-bar dense class="col-12 bg-dark text-white q-pb-xs">
           <div :class="c.category">{{ c.category }}</div>
           <q-space />
         </q-bar>
