@@ -1,16 +1,18 @@
 // initial state
+
 // shape: [{ id, quantity }]
 const state = () => ({
   items: [],
   checkoutStatus: null,
   isLocation_BUCHEON: false,
   deliveryFee: 3500,
+  includes_frozen: false,
 });
 
 // getters
 const getters = {
   cartProducts: (state, getters, rootState) => {
-    return state.items.map(({ product_id, buyoption, quantity }) => {
+    return state.items.map(({product_id, buyoption, quantity}) => {
       const product = rootState.products.all.find(
         product => product.product_id === product_id,
       );
@@ -31,6 +33,7 @@ const getters = {
         water_delivery: product.water_delivery,
         production_date: product.production_date,
         boxdeliveryfee: product.boxdeliveryfee,
+        water_delivery: product.water_delivery,
         buyoption,
         // stored: product.stored,
         quantity,
@@ -51,7 +54,7 @@ const getters = {
       } else if (item.bonus_quantity > 0) {
         return {
           product_id: item.product_id,
-          quantity: item.quantity + item.bonus_quantity
+          quantity: item.quantity + item.bonus_quantity,
         };
       } else {
         return {
@@ -59,7 +62,6 @@ const getters = {
           quantity: item.quantity,
         };
       }
-
     });
     return order_item;
   },
@@ -72,7 +74,7 @@ const getters = {
         return state.isLocation_BUCHEON == true
           ? total + product.boxprice * product.quantity
           : total +
-          (product.boxprice + product.boxdeliveryfee) * product.quantity;
+              (product.boxprice + product.boxdeliveryfee) * product.quantity;
       }
     }, 0);
   },
@@ -82,23 +84,24 @@ const getters = {
       : state.deliveryFee;
   },
   freeze_shipmentPrice: (state, getters) => {
-    var freeze_product;
-    freeze_product = state.items.find(product => product.water_delivery == 4);
-    return freeze_product == undefined
-      ? 0
-      : getters.cartTotalPrice >= 50000
-        ? 0
-        : state.deliveryFee;
+    state.includes_frozen = false;
+    state.items.find(item => {
+      if (item.water_delivery == 4) state.includes_frozen = true;
+    });
+
+    return state.includes_frozen == true && getters.cartTotalPrice < 50000
+      ? state.deliveryFee
+      : 0;
   },
 };
 
 // actions
 const actions = {
-  async checkout({ commit, state }) {
+  async checkout({commit, state}) {
     const savedCartItems = [...state.items];
     commit('setCheckoutStatus', null);
     // empty cart
-    commit('setCartItems', { items: [] });
+    commit('setCartItems', {items: []});
     try {
       // await shop.buyProducts();
       // order.dispatch('setOrder', {items: savedCartItems});
@@ -107,11 +110,11 @@ const actions = {
       console.error(e);
       commit('setCheckoutStatus', 'failed');
       // rollback to the cart saved before sending the request
-      commit('setCartItems', { items: savedCartItems });
+      commit('setCartItems', {items: savedCartItems});
     }
   },
 
-  addProductToCart({ state, commit }, product) {
+  addProductToCart({state, commit}, product) {
     commit('setCheckoutStatus', null);
     // if (product.inventory > 0) {
     const cartItem = state.items.find(
@@ -142,6 +145,7 @@ const actions = {
       boxprice: product.boxprice,
       boxcapacity: product.boxcapacity,
       boxdeliveryfee: product.boxdeliveryfee,
+      water_delivery: product.water_delivery,
     };
     if (!cartItem) {
       commit('pushProductToCart', pushItem);
@@ -166,23 +170,24 @@ const actions = {
         boxcapacity: product.boxcapacity,
         // stored: product.stored,
         boxdeliveryfee: product.boxdeliveryfee,
+        water_delivery: product.water_delivery,
       };
       var index = state.items.indexOf(cartItem);
-      commit('incrementItemQuantity', { index, item: newItem });
+      commit('incrementItemQuantity', {index, item: newItem});
     }
     // }
   },
-  deleteProductFromCart({ state, commit }, product) {
+  deleteProductFromCart({state, commit}, product) {
     commit('setCheckoutStatus', null);
     const savedCartItems = state.items.filter(
       item =>
         item.product_id != product.product_id ||
         item.buyoption != product.buyoption,
     );
-    commit('setCartItems', { items: savedCartItems });
+    commit('setCartItems', {items: savedCartItems});
     commit('setCheckoutStatus', 'deleted');
   },
-  setBUCHEONBooleanAction({ commit }, BUCHEON_Boolean) {
+  setBUCHEONBooleanAction({commit}, BUCHEON_Boolean) {
     commit('setBUCHEONBoolean', BUCHEON_Boolean);
   },
 };
@@ -193,7 +198,7 @@ const mutations = {
     state.items.push(item);
     console.log(JSON.stringify(state.items));
   },
-  incrementItemQuantity(state, { index, item }) {
+  incrementItemQuantity(state, {index, item}) {
     state.items.splice(index, 1, item);
     console.log(JSON.stringify(state.items));
   },
@@ -201,7 +206,7 @@ const mutations = {
     state.isLocation_BUCHEON = BUCHEON_Boolean;
   },
 
-  setCartItems(state, { items }) {
+  setCartItems(state, {items}) {
     state.items = items;
   },
 
