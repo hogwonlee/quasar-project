@@ -55,3 +55,4 @@ backend/server_local.js
 backend/configs/db_local.js
 backend/router/auth_local.js
 backend/router/index_local.js
+dist/spa/images

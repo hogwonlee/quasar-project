@@ -1136,7 +1136,7 @@
           })
           .catch(res => console.log('에러: ' + res));
       },
-      selectPaymentmethod(total, shipment, freeze_shipmentPrice, coupon) {
+      selectPaymentmethod(total, shipment, freeze_shipment, coupon) {
         var discount;
         if (coupon == '') {
           discount = 0;
@@ -1144,8 +1144,7 @@
           discount = coupon.coupon_price;
           this.reserve_use_coupon(coupon.coupon_id);
         }
-        var amountOfPayment =
-          total + shipment + freeze_shipmentPrice - discount;
+        var amountOfPayment = total + shipment + freeze_shipment - discount;
         var random_id =
           this.user.USER_ID +
           '_orderid_' +
