@@ -166,20 +166,20 @@
                 this.selected_local.notice,
                 this.selected_local.signupcomplete,
               );
-            } else if (res.status == 400) {
+            } else {
               alert.confirm(
                 this.selected_local.notice,
                 this.selected_local.duplicate_id_warning,
               );
+              console.log('status 200 아님 , 회원가입 실패.' + res);
             }
           })
           .catch(res => {
-            if (res.status == 400) {
-              alert.confirm(
-                this.selected_local.notice,
-                this.selected_local.duplicate_id_warning,
-              );
-            }
+            alert.confirm(
+              this.selected_local.notice,
+              this.selected_local.duplicate_id_warning,
+            );
+            console.log('DB id 중복.회원가입 실패.' + res);
           });
       },
 
