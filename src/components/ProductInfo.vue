@@ -208,12 +208,24 @@
             >
               <div v-if="!bulkbuy" class="col-8 text-h6 text-bold">
                 {{ (price - cutprice) * this.localQuantity }}
+                {{ selected_local.won }} +
+                {{ boxdeliveryfee * this.localQuantity }}
                 {{ selected_local.won }}
+                {{
+                  selected_local.chinafood == '洽洽中国食品'
+                    ? '(快递附加费用(重量/容量):富川免)'
+                    : '(추가배송비용(무게/부피): 부천은 면제)'
+                }}
               </div>
               <div v-else class="col-8 text-h6 text-bold">
                 {{ boxprice * this.localQuantity }} {{ selected_local.won }} +
-                {{ boxdeliveryfee * this.localQuantity }}
-                {{ selected_local.won }}
+                {{ boxdeliveryfee * boxcapacity * this.localQuantity }}
+                {{ selected_local.won
+                }}{{
+                  selected_local.chinafood == '洽洽中国食品'
+                    ? '(快递附加费用(重量/容量):富川免)'
+                    : '(추가배송비용(무게/부피): 부천은 면제)'
+                }}
               </div>
               <div class="col-4 text-right">
                 (<q-icon name="shopping_cart" /> {{ total }} won)

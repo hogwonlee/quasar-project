@@ -2,6 +2,15 @@
   <div>
     <div @click="card = true">
       <q-img :src="img" class="rounded-borders" :ratio="3 / 4" position="0 0">
+        <template v-slot:error>
+          <div class="absolute-full flex flex-center bg-warning text-white">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '需更新商品'
+                : '상품업데이트필요'
+            }}
+          </div>
+        </template>
         <div class="absolute-top-right q-ma-sm transparent">
           <!-- <q-badge v-if="buyoption == true" color="red" floating rounded>
             {{ boxcapacity }} {{ selected_local.bundle_count }}

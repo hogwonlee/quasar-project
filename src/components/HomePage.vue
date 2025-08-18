@@ -38,38 +38,6 @@
         />
       </template>
       <q-carousel-slide name="style" class="row justify-center">
-        <!-- 문제제기 -->
-        <div class="col-lg-5 col-md-12 row column justify-center">
-          <div class="text-h5 text-black text-bold">
-            인천 거주 중국인이 중국 식료품을 사려면?
-          </div>
-          <div class="text-body1 text-black">
-            1. 지하철을 타고 대림역으로 출발.
-          </div>
-          <div class="text-body1 text-black">
-            2. 12번 출구에서 300M걸어 중국식품점에 도착.
-          </div>
-          <div class="text-body1 text-black">
-            3. 간식거리를 골라 결제를 하려는데 현금 거절.
-          </div>
-          <div class="text-body1 text-black">
-            4. 만원 미만이라 카드결제 불가…
-          </div>
-          <div class="text-body1 text-black">
-            5. 몇개 더 골라 양손 가득… (집가기 힘들겠다.)
-          </div>
-          <div class="text-body1 text-black"></div>
-          <div class="text-h5 text-black text-bold">
-            이런 고생을 하는 이유는?
-          </div>
-          <div class="text-body1 text-black">
-            1.중국인 밀집 지역에만 있는 중국식품점.
-          </div>
-          <div class="text-body1 text-black">
-            2.중국어를 지원하는 중국식품 취급 앱이 없어서.
-          </div>
-        </div>
-
         <q-img class="col-lg-5 col-md-12" src="images\a_gotoderim.png"></q-img>
       </q-carousel-slide>
       <q-carousel-slide name="tv" class="row justify-center q-gutter-sm">
@@ -150,38 +118,75 @@
         selected_local: state => state.ui_local.status,
       }),
     },
+    methods: {
+      products_update() {
+        const params =
+          this.products.length <= 0
+            ? {version: 0}
+            : {version: this.storeversion};
+
+        axios
+          .get(`${configs.server}/productList`, {params: params})
+          .then(res => {
+            if (res.status == 200) {
+              if (res.data.version == this.storeversion) {
+                console.log('no update');
+              } else {
+                var inserted_category = '';
+                this.$store.dispatch('category/emptyStoreAction');
+                // res.data.category.map(element => {
+                //   this.$store.dispatch('category/getCategoryAction', element);
+                // });
+                this.$store.dispatch('products/emptyStoreAction');
+                res.data.results.map(element => {
+                  if (element.category != inserted_category) {
+                    this.$store.dispatch(
+                      'category/getCategoryAction',
+                      element.category,
+                    );
+                    inserted_category = element.category;
+                  }
+                  this.$store.dispatch('products/getProductAction', element);
+                });
+                this.$store.dispatch(
+                  'products/getVersionAction',
+                  res.data.version,
+                );
+              }
+            } else {
+              alert.confirm(
+                this.selected_local.err,
+                this.selected_local.err + ': ' + res.data.content,
+              );
+            }
+          })
+          .catch(res => {
+            console.log('에러:' + res); // 회원 가입 후 주소 등록하지 않으면 여기서 요청 오류가 남.
+          });
+        // }
+      },
+      setproductbuyoption(product, buyoption) {
+        product.buyoption = buyoption;
+      },
+      showProductLoading() {
+        if (this.products.length > 0) {
+          this.visible = false;
+          this.showSimulatedReturnData = true;
+
+          setTimeout(() => {
+            this.products_update();
+          }, 1000);
+        } else {
+          this.visible = true;
+          this.showSimulatedReturnData = false;
+
+          setTimeout(() => {
+            this.visible = false;
+            this.showSimulatedReturnData = true;
+            this.products_update();
+          }, 1000);
+        }
+      },
+    },
   };
-  // import {mapGetters, mapState, mapActions} from 'vuex';
-  // import OrderItemInfo from 'components/OrderItemInfo.vue';
-  // import CouponList from 'components/CouponList.vue';
-  // import LoginPage from 'components/LoginPage.vue';
-  // import {defineComponent, ref} from 'vue';
-  // import {loadTossPayments} from '@tosspayments/payment-sdk';
-  // import validation from 'src/util/data/validation';
-  // import AddressList from './AddressList.vue';
-  // import AddressRegister from './AddressRegister.vue';
-  // import {date} from 'quasar';
-  // import axios from 'axios';
-  // import alert from 'src/util/modules/alert';
-  // import configs from 'src/configs/';
-
-  // export default defineComponent({
-  //   name: 'HomePage',
-  //   components: {
-
-  //   },
-
-  //   data: function () {
-  //   },
-
-  //   computed: {
-
-  //   },
-  //   methods: {
-
-  //   },
-  //   mounted() {
-
-  //   },
-  // });
 </script>

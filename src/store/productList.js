@@ -3,6 +3,7 @@
 // initial state
 const state = () => ({
   all: [],
+  showing_products: [],
   status: 'update',
   version: 0,
 });
@@ -33,34 +34,43 @@ const mutations = {
   setProducts(state, products) {
     state.all = products;
   },
+
   setVersion(state, version) {
     state.version = version;
   },
   addToState(state, products) {
-    state.all.push({
-      product_id: products.id,
-      product_name: products.product_name,
-      price: products.price,
-      category: products.category,
-      tag: products.tag,
-      img: 'images/' + products.img + '.jpg',
-      stock: products.stock,
-      keyword: products.keyword,
-      cutprice: products.cutprice,
-      bonuscondition: products.bonuscondition,
-      boxprice: products.boxprice,
-      boxcapacity: products.boxcapacity,
-      stored: products.stored,
-      water_delivery: products.water_delivery,
-      production_date: products.production_date,
-      flavor_refer: products.flavor_refer,
-      flavor_refer_ko: products.flavor_refer_ko,
-      product_name_ko: products.product_name_ko,
-      product_desc: products.product_desc,
-      boxdeliveryfee: products.boxdeliveryfee,
-      quantity: 0,
-      buyoption: false,
-    });
+    var same_product = state.all.find(p => p.product_id == products.id);
+    if (same_product) {
+      console.log(
+        '해당 사품은 이미 추가되어 있습니다.' + same_product.product_name,
+      );
+    } else {
+      state.all.push({
+        product_id: products.id,
+        product_name: products.product_name,
+        price: products.price,
+        category: products.category,
+        tag: products.tag,
+        img: 'images/' + products.img + '.jpg',
+        stock: products.stock,
+        keyword: products.keyword,
+        cutprice: products.cutprice,
+        bonuscondition: products.bonuscondition,
+        boxprice: products.boxprice,
+        boxcapacity: products.boxcapacity,
+        stored: products.stored,
+        water_delivery: products.water_delivery,
+        production_date: products.production_date,
+        flavor_refer: products.flavor_refer,
+        flavor_refer_ko: products.flavor_refer_ko,
+        product_name_ko: products.product_name_ko,
+        product_desc: products.product_desc,
+        boxdeliveryfee: products.boxdeliveryfee,
+        quantity: 0,
+        buyoption: false,
+      });
+    }
+
     state.status = null;
   },
 };

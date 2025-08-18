@@ -1,6 +1,6 @@
 'use strict';
 
-const authController = require('../router/auth');
+const authController = require('../router/auth_local');
 const productController = require('../controller/product');
 const express = require('express');
 const router = express.Router();
@@ -18,6 +18,7 @@ const googleOauth_Config = require('../configs/db');
 router.post('/api/login', authController.login);
 router.post('/api/register', authController.register);
 router.get('/api/productList', productController.getProductList);
+router.get('/api/storeVersion', productController.getStoreVersion);
 
 // Initialize passport
 router.use(passport.initialize());

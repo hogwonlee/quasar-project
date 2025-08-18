@@ -7,7 +7,7 @@ const routes = [
         path: '',
         component: () => import('components/ProductList.vue'),
       },
-      {path: 'HomePage', component: () => import('components/HomePage.vue')},
+      {path: 'HomePage', component: () => import('components/ProductList.vue')},
       {
         path: 'ProductList',
         component: () => import('components/ProductList.vue'),
@@ -27,6 +27,10 @@ const routes = [
       {
         path: 'LoginPage',
         component: () => import('components/LoginPage.vue'),
+      },
+      {
+        path: 'DownloadLink',
+        component: () => import('components/DownloadLink.vue'),
       },
       {
         path: '__/auth/handler',

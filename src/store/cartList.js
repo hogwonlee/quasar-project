@@ -17,27 +17,49 @@ const getters = {
         product => product.product_id === product_id,
       );
       JSON.stringify(product);
-      return {
-        product_id: product.product_id,
-        product_name: product.product_name,
-        price: product.price,
-        category: product.category,
-        tag: product.tag,
-        img: product.img,
-        // stock: product.stock,
-        // keyword: product.keyword,
-        cutprice: product.cutprice,
-        bonuscondition: product.bonuscondition,
-        boxprice: product.boxprice,
-        boxcapacity: product.boxcapacity,
-        water_delivery: product.water_delivery,
-        production_date: product.production_date,
-        boxdeliveryfee: product.boxdeliveryfee,
-        water_delivery: product.water_delivery,
-        buyoption,
-        // stored: product.stored,
-        quantity,
-      };
+      if (product == undefined) {
+        return {
+          product_id: product_id,
+          product_name: '未更新商品',
+          price: product.price,
+          category: '未更新商品',
+          tag: '未更新商品',
+          img: '',
+          // stock: product.stock,
+          // keyword: product.keyword,
+          cutprice: 0,
+          bonuscondition: '',
+          boxprice: 0,
+          boxcapacity: 0,
+          water_delivery: 0,
+          production_date: '未更新商品',
+          boxdeliveryfee: 0,
+          buyoption,
+          // stored: product.stored,
+          quantity,
+        };
+      } else {
+        return {
+          product_id: product.product_id,
+          product_name: product.product_name,
+          price: product.price,
+          category: product.category,
+          tag: product.tag,
+          img: product.img,
+          // stock: product.stock,
+          // keyword: product.keyword,
+          cutprice: product.cutprice,
+          bonuscondition: product.bonuscondition,
+          boxprice: product.boxprice,
+          boxcapacity: product.boxcapacity,
+          water_delivery: product.water_delivery,
+          production_date: product.production_date,
+          boxdeliveryfee: product.boxdeliveryfee,
+          buyoption,
+          // stored: product.stored,
+          quantity,
+        };
+      }
     });
   },
 
@@ -69,12 +91,18 @@ const getters = {
   cartTotalPrice: (state, getters) => {
     return getters.cartProducts.reduce((total, product) => {
       if (product.buyoption == false) {
-        return total + (product.price - product.cutprice) * product.quantity;
+        return state.isLocation_BUCHEON == true
+          ? total + (product.price - product.cutprice) * product.quantity
+          : total +
+              (product.price + product.boxdeliveryfee - product.cutprice) *
+                product.quantity;
       } else {
         return state.isLocation_BUCHEON == true
           ? total + product.boxprice * product.quantity
           : total +
-              (product.boxprice + product.boxdeliveryfee) * product.quantity;
+              (product.boxprice +
+                product.boxdeliveryfee * product.boxcapacity) *
+                product.quantity;
       }
     }, 0);
   },
