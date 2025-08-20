@@ -412,9 +412,15 @@
       //   // }
       // },
       async products_update(index, done) {
+        // // QInfiniteScroll을 초기화하고 다시 로딩을 시작하도록 강제합니다.
+        // if (this.infiniteScrollRef) {
+        //   this.hasMore = true;
+        //   this.infiniteScrollRef.reset(); // 현재 로딩 상태를 초기화
+        //   this.infiniteScrollRef.trigger(); // 즉시 첫 번째 onLoad 호출을 트리거
+        // };
         console.log('스크롤 로딩중: ' + this.page + ' / index: ' + index);
-        const startIndex = (index - 1) * 30;
-        const endIndex = startIndex + 30;
+        const startIndex = (index - 1) * 12;
+        const endIndex = startIndex + 12;
         const newProducts = this.products.slice(startIndex, endIndex);
         // 만약 더 이상 불러올 데이터가 없으면 무한 스크롤을 중지
         if (
@@ -432,12 +438,7 @@
         //   if (res.data.results > this.storeversion) {
         //     this.$store.dispatch('products/getVersionAction', res.data.results);
         //     this.$store.dispatch('products/resetPageAction');
-        //     // QInfiniteScroll을 초기화하고 다시 로딩을 시작하도록 강제합니다.
-        //     if (this.infiniteScrollRef) {
-        //       this.hasMore = true;
-        //       this.infiniteScrollRef.reset(); // 현재 로딩 상태를 초기화
-        //       this.infiniteScrollRef.trigger(); // 즉시 첫 번째 onLoad 호출을 트리거
-        //     }
+
         //     // this.$store.dispatch('category/emptyStoreAction');
         //     // (res).data.category.map(element => {
         //     //   this.$store.dispatch('category/getCategoryAction', element);
@@ -616,8 +617,10 @@
         selected_local: state => state.ui_local.status,
       }),
     },
+
     mounted() {
       // this.resetCategory();
+
       axios
         .get(`${configs.server}/storeVersion`)
         .then(res => {
@@ -657,6 +660,7 @@
                       'products/getVersionAction',
                       dbStoreVersion,
                     );
+                    this.products_update(0, false);
                   } else {
                     // this.hasMore = false;
                     console.log('error: ' + '업데이트 받을 상품이 없습니다.');
