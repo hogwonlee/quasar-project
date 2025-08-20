@@ -4,11 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="text-black text-bold row justify-start">
           <q-item clickable tag="a" to="/ProductList" class="col-2">
-            <q-img
-              src="icons\app-icon.png"
-              class="rounded-borders q-pa-xs"
-              :ratio="1"
-            ></q-img>
+            챠챠
           </q-item>
           <!-- {{ selected_local.chinafood }} -->
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
@@ -58,13 +54,7 @@
     </q-page-container>
     <q-footer>
       <q-toolbar class="row justify-center bg-secondary">
-        <q-item
-          class="col-3"
-          clickable
-          tag="a"
-          to="/ProductList"
-          @click="loadingProducts"
-        >
+        <q-item class="col-3" clickable tag="a" to="/ProductList">
           <q-item-section>
             <q-btn
               size="16px"
@@ -75,19 +65,6 @@
               stack
               :label="selected_local.food"
             ></q-btn>
-            <q-chip
-              removable
-              v-model="tip"
-              @remove="log('tip')"
-              color="white"
-              text-color="black"
-            >
-              {{
-                selected_local.chinafood == '洽洽中国食品'
-                  ? '食品页面商品数量超过500种，因此读取商品过程中会有3至5秒的延迟。敬请谅解。'
-                  : '식품페이지에는 상품이 500가지를 넘습니다. 그래서 상품 로딩 중 3~5초간 지연이 발생할 수 있습니다. 양해부탁드립니다.'
-              }}
-            </q-chip>
           </q-item-section>
         </q-item>
         <q-item class="col-3" clickable tag="a" to="/OrderList">
@@ -254,15 +231,10 @@
           }
         }
       },
-      loadingProducts() {
-        this.loaded = false;
-        setTimeout((this.loaded = true), 3000);
-      },
     },
     setup() {
       return {
         tab: ref('food'),
-        loaded: ref(false),
       };
     },
   });

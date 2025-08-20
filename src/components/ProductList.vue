@@ -54,7 +54,6 @@
         @load="products_update"
         :offset="250"
         ref="infiniteScroll"
-        class="row q-pa-xs q-col-gutter-sm"
       >
         <div
           class="row"
@@ -418,9 +417,12 @@
         const endIndex = startIndex + 30;
         const newProducts = this.products.slice(startIndex, endIndex);
         // 만약 더 이상 불러올 데이터가 없으면 무한 스크롤을 중지
-        if (newProducts.length === 0) {
-          done(true); // 'done'에 true를 전달하여 로딩을 종료
+        if (
+          newProducts.length === 0 ||
+          this.showing_products.length == this.products.length
+        ) {
           this.hasMore = false;
+          done(true); // 'done'에 true를 전달하여 로딩을 종료
           return;
         }
         this.showing_products.push(...newProducts);
