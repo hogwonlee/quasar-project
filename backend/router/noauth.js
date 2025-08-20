@@ -22,6 +22,7 @@ router.post('/api/deleteAccount', authController.deleteAccount);
 router.post('/api/orderRegister', authController.orderRegister);
 router.post('/api/no_id_address', authController.no_id_address);
 router.get('/api/productList', productController.getProductList);
+router.get('/api/storeVersion', productController.getStoreVersion);
 
 // Initialize passport
 router.use(passport.initialize());
@@ -38,11 +39,11 @@ passport.use(
     (token, tokenSecret, profile, done) => {
       console.log(
         'PROFILE: ' +
-        JSON.stringify(profile) +
-        'TOKEN: ' +
-        JSON.stringify(token) +
-        'TOKENSECRET: ' +
-        JSON.stringify(tokenSecret),
+          JSON.stringify(profile) +
+          'TOKEN: ' +
+          JSON.stringify(token) +
+          'TOKENSECRET: ' +
+          JSON.stringify(tokenSecret),
       );
       authController.google_login;
       return done(err, profile);
@@ -61,12 +62,12 @@ passport.deserializeUser((obj, done) => {
 // Google auth routes
 router.get(
   '/api/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  passport.authenticate('google', {scope: ['profile', 'email']}),
 );
 
 router.get(
   '/api/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', {failureRedirect: '/'}),
   (req, res) => {
     res.redirect('/');
     res.end();
