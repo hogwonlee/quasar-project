@@ -171,6 +171,13 @@
         <div class="text-subtitle2">
           {{
             selected_local.chinafood == '洽洽中国食品'
+              ? '*下单之前，请拍下购物车内商品的截图。'
+              : '*주문 보내시기전에 장바구니의 스크린샷을 남겨주세요.'
+          }}
+        </div>
+        <div class="text-subtitle2">
+          {{
+            selected_local.chinafood == '洽洽中国食品'
               ? '*发送订单后，将清空购物车内商品。'
               : '*오더전달 후, 장바구니 상품들은 모두 제거됩니다.'
           }}
@@ -395,6 +402,13 @@
       </q-btn>
     </p>
     <div class="row justify-end">
+      <div class="text-subtitle2">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '*下单之前，请拍下购物车内商品的截图。'
+            : '*주문 보내시기전에 장바구니의 스크린샷을 남겨주세요.'
+        }}
+      </div>
       <div class="text-subtitle2">
         {{
           selected_local.chinafood == '洽洽中国食品'

@@ -173,32 +173,12 @@
               <!-- <q-icon name="img:icons\currency-krw-black.png" /> -->
             </div>
             <div class="q-my-xs text-red">
-              <p v-if="water_delivery == 1">
-                <!-- 물과 같은 무거운 액체 배송 -->
-                {{ selected_local.notice_water_delivery }}
-              </p>
-              <p v-else-if="water_delivery == 2">
-                <!-- 아이스크림 등 쉽게 녹는 음식 -->
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '***富川以外，此商品暂不支持快递、订单'
-                    : '***부천이외 지역은 당분간 본 상품의 배송 및 주문을 지원하지 않습니다.'
-                }}
-              </p>
-              <p v-else-if="water_delivery == 3">
+              <p v-if="water_delivery == 3">
                 <!-- 브랜드 다양 -->
                 {{
                   selected_local.chinafood == '洽洽中国食品'
                     ? '***此商品品牌随机配送，品质、容量、价格差异不大'
                     : '***브랜드 랜덤 배송. 품질, 용량, 가격은 큰 차이 없음.'
-                }}
-              </p>
-              <p v-else-if="water_delivery == 4">
-                <!-- 냉동식품 추가 배송비 발생 -->
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '***速冻产品需要支付额外的快递费用。5万以上则免。'
-                    : '***냉동제품은 추가 배송비를 지불해야 합니다. 5만원이상이면 무료 배송합니다.'
                 }}
               </p>
             </div>
@@ -208,24 +188,21 @@
             >
               <div v-if="!bulkbuy" class="col-8 text-h6 text-bold">
                 {{ (price - cutprice) * this.localQuantity }}
-                {{ selected_local.won }} +
-                {{ boxdeliveryfee * this.localQuantity }}
-                {{ selected_local.won }}
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '(快递附加费用(重量/容量):富川免)'
-                    : '(추가배송비용(무게/부피): 부천은 면제)'
-                }}
+                <q-btn flat @click="addFeeInfo = true">
+                  +
+                  {{ boxdeliveryfee * this.localQuantity }}
+                  {{ selected_local.won }}
+                  <q-badge rounded color="orange" floating>!</q-badge>
+                </q-btn>
               </div>
               <div v-else class="col-8 text-h6 text-bold">
-                {{ boxprice * this.localQuantity }} {{ selected_local.won }} +
-                {{ boxdeliveryfee * boxcapacity * this.localQuantity }}
-                {{ selected_local.won
-                }}{{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '(快递附加费用(重量/容量):富川免)'
-                    : '(추가배송비용(무게/부피): 부천은 면제)'
-                }}
+                {{ boxprice * this.localQuantity }}
+                <q-btn flat @click="addFeeInfo = true">
+                  +
+                  {{ boxdeliveryfee * boxcapacity * this.localQuantity }}
+                  {{ selected_local.won }}
+                  <q-badge rounded color="orange" floating>!</q-badge>
+                </q-btn>
               </div>
               <div class="col-4 text-right">
                 (<q-icon name="shopping_cart" /> {{ total }} won)
@@ -290,7 +267,11 @@
                 color="dark"
                 tag="a"
                 to="/OrderList"
-                :label="selected_local.gocounter"
+                :label="
+                  selected_local.chinafood == '洽洽中国食品'
+                    ? '前往收银台'
+                    : '계산대로 이동'
+                "
               >
               </q-btn>
               <q-btn
@@ -305,6 +286,31 @@
               />
             </div>
           </q-card-section>
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="addFeeInfo">
+        <q-card>
+          <q-card-section class="row items-center">
+            <span class="q-ml-sm"
+              >{{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '**快递附加费用（富川免）：因重量或容量或冰袋等附带物品产生的快递附加费。(富川用户免费，本店直接配送，不收取附加费用。在收银台页面选择“是富川”，即可扣除此费用。)'
+                  : '**택배추가비용(부천무료): 무게나 용량 또는 얼음팩 등 부가용품에 따라 택배 추가 비용이 부가됩니다.(부천에는 저희가 직접 배송하기 때문에 배송추가 비용을 받지 않습니다. 결제페이지에서 "부천"으로 토글하시면 해당 비용이 빠집니다.)'
+              }}
+            </span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              flat
+              :label="
+                selected_local.chinafood == '洽洽中国食品' ? '确认' : '확인'
+              "
+              color="positive"
+              @click="addFeeInfo = false"
+              v-close-popup
+            />
+          </q-card-actions>
         </q-card>
       </q-dialog>
     </div>
@@ -323,6 +329,7 @@
     data: function () {
       return {
         slide: ref(1),
+        addFeeInfo: ref(false),
       };
     },
     computed: {
