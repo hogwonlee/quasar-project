@@ -402,7 +402,7 @@
                       'products/getVersionAction',
                       dbStoreVersion,
                     );
-                    this.products_update(0, done(false));
+                    this.products_update(0, false);
                   } else {
                     // this.hasMore = false;
                     console.log('error: ' + '업데이트 받을 상품이 없습니다.');
