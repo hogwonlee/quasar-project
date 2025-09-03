@@ -47,6 +47,7 @@
 </template>
 <script>
   import {mapState} from 'vuex';
+  import {ref} from 'vue';
   export default {
     name: 'DownloadLink',
     computed: {
