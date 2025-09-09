@@ -3,7 +3,7 @@
     <q-header elevated class="bg-primary" style="height: min-content">
       <q-toolbar>
         <q-toolbar-title class="text-black text-bold row justify-start">
-          <q-item clickable tag="a" to="/ProductList" class="col-2">
+          <q-item clickable tag="a" to="/HomePage" class="col-2">
             <q-avatar>
               <img src="images\app-icon.png" />
             </q-avatar>
