@@ -2,7 +2,7 @@
   <div>
     <div class="column">
       <div class="row">
-        <q-banner class="text-bold text-h6">
+        <q-banner class="text-bold text-h5 bg-red col-12">
           <q-icon name="celebration"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -49,7 +49,7 @@
         </q-expansion-item>
       </div>
       <div class="row">
-        <q-banner class="text-bold text-h6">
+        <q-banner class="text-bold text-h5 bg-red col-12">
           <q-icon name="download"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -99,7 +99,7 @@
           class="column"
         >
           <q-img
-            src="images\app_store_icon.jpg"
+            src="images/app_store_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />

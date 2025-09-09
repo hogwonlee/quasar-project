@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="text-black text-bold row justify-start">
           <q-item clickable tag="a" to="/ProductList" class="col-2">
-            <q-icon name="img:icons\app-icon.png" />
+            <q-icon name="img:icons/app-icon.png" />
           </q-item>
           <!-- {{ selected_local.chinafood }} -->
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->

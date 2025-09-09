@@ -29,7 +29,7 @@ yarn-error.log*
 *.sln
 
 # dist/spa/images
-public/images
+# public/images
 
 src-cordova/app-release-unsigned.apk
 src-cordova/cfomarket-mobileapps.keystore
