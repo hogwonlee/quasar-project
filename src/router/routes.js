@@ -5,9 +5,12 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('components/ProductList.vue'),
+        component: () => import('components/DownloadLink.vue'),
       },
-      {path: 'HomePage', component: () => import('components/ProductList.vue')},
+      {
+        path: 'HomePage',
+        component: () => import('components/DownloadLink.vue'),
+      },
       {
         path: 'ProductList',
         component: () => import('components/ProductList.vue'),

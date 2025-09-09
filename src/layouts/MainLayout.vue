@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="text-black text-bold row justify-start">
           <q-item clickable tag="a" to="/ProductList" class="col-2">
-            챠챠
+            <q-icon name="img:icons\app-icon.png" />
           </q-item>
           <!-- {{ selected_local.chinafood }} -->
           <!-- <q-btn flat size="lg" tag="a" to="/HomePage"> -->
@@ -124,12 +124,14 @@
       ...mapState({
         selected_local: state => state.ui_local.status,
         user: state => state.user.USER,
+        products: state => state.products.all,
+        storeversion: state => state.products.version,
+        products_status: state => state.products.status,
       }),
     },
     data: function () {
       return {
         ui_local: ref('cn'),
-        tip: ref(true),
       };
     },
     watch: {
@@ -145,10 +147,92 @@
       if (this.selected_local == '') {
         this.change_local('cn');
       }
-      // this.googleLogin();
-      setTimeout(() => {
-        this.tip = false;
-      }, 5000);
+      axios
+        .get(`${configs.server}/storeVersion`)
+        .then(res => {
+          const dbStoreVersion = res.data.results;
+          console.log(
+            '상점버전: ' +
+              dbStoreVersion +
+              ' / results' +
+              JSON.stringify(res.data.results),
+          );
+
+          if (dbStoreVersion > this.storeversion) {
+            this.$store.dispatch('category/resetStoreAction');
+            const firstParams = {
+              list_index_min: 0,
+              list_index_max: 20000,
+            };
+            try {
+              axios({
+                url: `${configs.server}/productList`,
+                method: 'GET',
+                params: firstParams,
+              })
+                .then(res => {
+                  if (res.data.results.length > 0) {
+                    // this.$store.dispatch(
+                    //   'category/getCategoryAction',
+                    //   res.data.results[0].category,
+                    // );
+                    res.data.results.map(element => {
+                      this.$store.dispatch(
+                        'products/getProductAction',
+                        element,
+                      );
+                    });
+                    this.$store.dispatch(
+                      'products/getVersionAction',
+                      dbStoreVersion,
+                    );
+                    // this.products_update(0, false);
+                  } else {
+                    // this.hasMore = false;
+                    console.log('error: ' + '업데이트 받을 상품이 없습니다.');
+                  }
+                  // done();
+                })
+                .catch(error => {
+                  if (error.response) {
+                    // 서버가 응답을 했고, 그 응답이 2xx 범위를 벗어난 경우
+                    if (error.response.status === 400) {
+                      console.error(
+                        'Error 400: Bad Request. Check your request parameters (params).',
+                        error.response.data,
+                      );
+                      // 사용자에게 구체적인 오류 메시지를 보여줄 수 있습니다.
+                      // 예: alert('상품 목록을 불러오는 데 실패했습니다: 잘못된 요청입니다.');
+                    } else {
+                      console.error(
+                        `Error ${error.response.status}:`,
+                        error.response.data,
+                      );
+                    }
+                  } else if (error.request) {
+                    // 요청이 전송되었으나 응답을 받지 못한 경우 (네트워크 문제 등)
+                    console.error(
+                      'No response received from the server. Please check your network connection.',
+                    );
+                  } else {
+                    // 요청 설정 중 오류가 발생한 경우
+                    console.error('Error during request setup:', error.message);
+                  }
+                  // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
+                  // done(); // 에러 발생해도 로딩 완료 처리
+                });
+            } catch (error) {
+              console.error('Error fetching products:', error);
+              // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
+              // done(); // 에러 발생해도 로딩 완료 처리
+            }
+          } else {
+            console.log('이미 모든 상품을 가져왔습니다.');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
+        });
     },
     methods: {
       change_local(val) {
