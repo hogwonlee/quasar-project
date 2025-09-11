@@ -2,7 +2,12 @@
   <div>
     <div class="column">
       <div class="row">
-        <q-banner class="text-bold text-h5 bg-red col-12">
+        {{
+          selected_local.chinafood == '洽洽中国食品'
+            ? '欢迎光临！洽洽中国食品'
+            : '안녕하세요!챠챠 중국식품입니다.'
+        }}
+        <q-banner class="text-bold text-h5 bg-negative col-12">
           <q-icon name="celebration"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -11,45 +16,44 @@
           }}
         </q-banner>
         <q-expansion-item
-          v-model="expanded"
+          class="col-12"
           :label="
             selected_local.chinafood == '洽洽中国食品'
-              ? '1. 送福券'
-              : '1. 복권을 선물해드립니다.'
+              ? '1. 赠送福券Lotto'
+              : '1. 로또를 선물해드립니다.'
           "
         >
           <q-card>
             <q-card-section>
               {{
                 selected_local.chinafood == '洽洽中国食品'
-                  ? '买中国食品，送福券。'
-                  : '중국식품을 구매하시면 복권 한장을 선물해드립니다.'
+                  ? '通过本APP购买，我们将赠送您一张韩国的福券（即Lotto）。不限支付方式，不限金额。本活动进行时间为：即日起至今年圣诞节（2025年12月25日）。'
+                  : '저희 앱을 통해 구매해주시면(결제수단，결제금액과 상관없이) 로또 한장을 선물해드립니다. 이벤트 기간은 금일부터 2025년 12월 25일까지(크리스마스) 진행될 예정입니다.'
               }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
         <q-expansion-item
-          v-model="expanded"
+          class="col-12"
           :label="
-            (selected_local.chinafood == selected_local.chinafood) ==
-            '洽洽中国食品'
-              ? '2. 富川最低价'
-              : '2. 부천 최저가'
+            selected_local.chinafood == '洽洽中国食品'
+              ? '2. 全部商品特价提供（全富川最低价）'
+              : '2. 전체 상품 특가(부천 최저가)'
           "
         >
           <q-card>
             <q-card-section>
               {{
                 selected_local.chinafood == '洽洽中国食品'
-                  ? '本店提供富川最低价给富川住民。本人直接送货到家，不收取快递附加费用。'
-                  : '부천 고객님에게는 최저가로 제공해드리겠습니다. 제가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.'
+                  ? '本店提供富川最低价给富川住民。本人直接送货到家，不收取快递附加费用。本活动进行时间为：即日起至今年圣诞节（2025年12月25日）。'
+                  : '부천 고객님에게는 최저가로 제공해드리겠습니다. 제가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.이벤트 기간은 금일부터 2025년 12월 25일까지(크리스마스) 진행될 예정입니다.'
               }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
       </div>
       <div class="row">
-        <q-banner class="text-bold text-h5 bg-red col-12">
+        <q-banner class="text-bold text-h5 bg-negative col-12">
           <q-icon name="download"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -80,7 +84,7 @@
           class="column"
         >
           <q-img
-            src="images\google_play_icon.jpg"
+            src="images/google_play_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
@@ -99,7 +103,7 @@
           class="column"
         >
           <q-img
-            src="images\app_store_icon.jpg"
+            src="images/app_store_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
