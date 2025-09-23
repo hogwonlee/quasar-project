@@ -84,7 +84,7 @@
           class="column"
         >
           <q-img
-            src="images/google_play_icon.jpg"
+            src="/images/google_play_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
@@ -103,7 +103,7 @@
           class="column"
         >
           <q-img
-            src="images/app_store_icon.jpg"
+            src="/images/app_store_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
