@@ -84,7 +84,7 @@
           class="column"
         >
           <q-img
-            :src="googleDownload"
+            src="~assets/images/google_play_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
@@ -103,7 +103,7 @@
           class="column"
         >
           <q-img
-            :src="appleDownload"
+            src="~assets/images/app_store_icon.jpg"
             class="row rounded-borders"
             loading="lazy"
           />
@@ -122,8 +122,8 @@
 <script>
   import {mapState} from 'vuex';
   import {ref} from 'vue';
-  import googleDownload from 'src/assets/images/google_play_icon.jpg';
-  import appleDownload from 'src/assets/images/app_store_icon.jpg';
+  // import googleDownload from '/images/google_play_icon.jpg';
+  // import appleDownload from '/images/app_store_icon.jpg';
 
   export default {
     name: 'DownloadLink',
