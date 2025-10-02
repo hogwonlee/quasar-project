@@ -5,7 +5,7 @@
         <q-toolbar-title class="text-black text-bold row justify-start">
           <q-item clickable tag="a" to="/HomePage" class="col-2">
             <q-avatar>
-              <img src="/images/app-icon.png" />
+              <q-img :src="appIcon" />
             </q-avatar>
           </q-item>
           <!-- {{ selected_local.chinafood }} -->
@@ -118,6 +118,7 @@
   import {mapState} from 'vuex';
   import axios from 'axios';
   import configs from 'src/configs/';
+  import appIcon from 'src/assets/icons/app-icon.png';
 
   export default defineComponent({
     name: 'MainLayout',

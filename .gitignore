@@ -29,6 +29,7 @@ yarn-error.log*
 *.sln
 
 dist/spa/images
+dist/spa/icons
 public/images
 
 src-cordova/app-release-unsigned.apk
