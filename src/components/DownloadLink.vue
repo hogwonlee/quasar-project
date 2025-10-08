@@ -7,7 +7,7 @@
             ? '欢迎光临！洽洽中国食品'
             : '안녕하세요!챠챠 중국식품입니다.'
         }}
-        <q-banner class="text-bold text-h5 bg-negative col-12">
+        <q-banner class="text-bold text-h5 bg-dark col-12 text-red">
           <q-icon name="celebration"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -19,8 +19,8 @@
           class="col-12"
           :label="
             selected_local.chinafood == '洽洽中国食品'
-              ? '1. 赠送福券Lotto'
-              : '1. 로또를 선물해드립니다.'
+              ? '1. 买食品，拿好运===>赠送福券Lotto'
+              : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.'
           "
         >
           <q-card>
@@ -37,8 +37,8 @@
           class="col-12"
           :label="
             selected_local.chinafood == '洽洽中国食品'
-              ? '2. 全部商品特价提供（全富川最低价）'
-              : '2. 전체 상품 특가(부천 최저가)'
+              ? '2. 富川最低价'
+              : '2. 부천 최저가'
           "
         >
           <q-card>
@@ -53,7 +53,7 @@
         </q-expansion-item>
       </div>
       <div class="row">
-        <q-banner class="text-bold text-h5 bg-negative col-12">
+        <q-banner class="text-bold text-h5 bg-dark col-12 text-red">
           <q-icon name="download"></q-icon>
           {{
             selected_local.chinafood == '洽洽中国食品'
@@ -85,10 +85,10 @@
         >
           <q-img
             src="~assets/images/google_play_icon.jpg"
-            class="row rounded-borders"
+            class="q-pa-sm row rounded-borders"
             loading="lazy"
           />
-          <div class="row">
+          <div class="row justify-center">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '安卓下载'
@@ -104,10 +104,10 @@
         >
           <q-img
             src="~assets/images/app_store_icon.jpg"
-            class="row rounded-borders"
+            class="q-pa-sm row rounded-borders"
             loading="lazy"
           />
-          <div class="row">
+          <div class="row justify-center">
             {{
               selected_local.chinafood == '洽洽中国食品'
                 ? '苹果下载'

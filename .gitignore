@@ -28,9 +28,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-#dist/spa/images
-#dist/spa/icons
-#public/images
+dist/spa/images
+dist/spa/icons
+public/images
 
 src-cordova/app-release-unsigned.apk
 src-cordova/cfomarket-mobileapps.keystore
