@@ -52,7 +52,7 @@
       <!-- v-show="showSimulatedReturnData" -->
       <q-infinite-scroll
         @load="products_update"
-        :offset="100"
+        :offset="500"
         ref="infiniteScroll"
       >
         <div class="row" v-for="c in category" :key="c.category" v-bind="c">
