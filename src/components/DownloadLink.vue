@@ -15,42 +15,62 @@
               : '진행중인 이벤트'
           }}
         </q-banner>
-        <q-expansion-item
-          class="col-12"
-          :label="
-            selected_local.chinafood == '洽洽中国食品'
-              ? '1. 买食品，拿好运===>赠送福券Lotto'
-              : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.'
-          "
+        <q-carousel
+          animated
+          v-model="slide"
+          arrows
+          navigation
+          infinite
+          swipeable
+          thumbnails
         >
-          <q-card>
-            <q-card-section>
-              {{
+          <q-carousel-slide
+            :name="1"
+            img-src="~assets/images/event_banner_lotto_1.jpg"
+          >
+            <q-expansion-item
+              class="col-12"
+              :label="
                 selected_local.chinafood == '洽洽中国食品'
-                  ? '通过本APP购买，我们将赠送您一张韩国的福券（即Lotto）。不限支付方式，不限金额。本活动进行时间为：即日起至明年上半年（2026年6月30日）。'
-                  : '저희 앱을 통해 구매해주시면(결제수단，결제금액과 상관없이) 로또 한장을 선물해드립니다. 이벤트 기간은 금일부터 내년 상반기(2026/06/30)까지 진행될 예정입니다.'
-              }}
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <q-expansion-item
-          class="col-12"
-          :label="
-            selected_local.chinafood == '洽洽中国食品'
-              ? '2. 富川最低价'
-              : '2. 부천 최저가'
-          "
-        >
-          <q-card>
-            <q-card-section>
-              {{
+                  ? '1. 买食品，拿好运===>赠送福券Lotto(至2026/3/31)'
+                  : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.(2026/3/31까지)'
+              "
+            >
+              <q-card>
+                <q-card-section>
+                  {{
+                    selected_local.chinafood == '洽洽中国食品'
+                      ? '通过本APP购买，我们将赠送您一张韩国的福券（即Lotto）。不限支付方式，不限金额。本活动进行时间为：即日起至明年3月（2026年3月31日）。'
+                      : '저희 앱을 통해 구매해주시면(결제수단，결제금액과 상관없이) 로또 한장을 선물해드립니다. 이벤트 기간은 금일부터 내년 3월(2026/03/31)까지 진행될 예정입니다.'
+                  }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+          </q-carousel-slide>
+          <q-carousel-slide
+            :name="2"
+            img-src="~assets/images/event_bestprice.jpg"
+          >
+            <q-expansion-item
+              class="col-12"
+              :label="
                 selected_local.chinafood == '洽洽中国食品'
-                  ? '本店提供富川最低价给富川住民。本人直接送货到家，不收取快递附加费用。本活动进行时间为：即日起至明年上半年（2026年6月30日）。'
-                  : '부천 고객님에게는 최저가로 제공해드리겠습니다. 제가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.이벤트 기간은 금일부터 내년 상반기(2026/06/30)까지 진행될 예정입니다.'
-              }}
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
+                  ? '2. 富川最低价'
+                  : '2. 부천 최저가'
+              "
+            >
+              <q-card>
+                <q-card-section>
+                  {{
+                    selected_local.chinafood == '洽洽中国食品'
+                      ? '本店提供富川最低价给富川住民。本人直接送货到家，不收取快递附加费用。本活动进行时间为：即日起至明年上半年（2026年6月30日）。'
+                      : '부천 고객님에게는 최저가로 제공해드리겠습니다. 제가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.이벤트 기간은 금일부터 내년 상반기(2026/06/30)까지 진행될 예정입니다.'
+                  }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+          </q-carousel-slide>
+        </q-carousel>
       </div>
       <div class="row">
         <q-banner class="text-bold text-h5 bg-dark col-12 text-red">
@@ -136,6 +156,7 @@
       return {
         androidDownLink: ref(''),
         iphoneDownLink: ref(''),
+        slide: ref(1),
       };
     },
   };

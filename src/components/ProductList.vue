@@ -346,6 +346,7 @@
 
           if (dbStoreVersion > this.storeversion) {
             this.$store.dispatch('category/resetStoreAction');
+            this.$store.dispatch('products/emptyStoreAction');
             const firstParams = {
               list_index_min: 0,
               list_index_max: 20000,
@@ -372,7 +373,6 @@
                       'products/getVersionAction',
                       dbStoreVersion,
                     );
-                    // this.products_update(0, false);
                   } else {
                     // this.hasMore = false;
                     console.log('error: ' + '업데이트 받을 상품이 없습니다.');
