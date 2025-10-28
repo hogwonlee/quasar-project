@@ -23,6 +23,7 @@
           infinite
           swipeable
           thumbnails
+          width="100%"
         >
           <q-carousel-slide
             :name="1"
