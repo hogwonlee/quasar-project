@@ -15,7 +15,7 @@
               : '진행중인 이벤트'
           }}
         </q-banner>
-        <div class="col-12 q-ma-sm">
+        <div class="col-12 q-my-sm">
           <q-carousel
             swipeable
             animated
@@ -108,14 +108,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col q-ma-sm">
         <a
           href="https://play.google.com/store/apps/details?id=com.cfomarket.mobileapp&pcampaignid=web_share"
           class="column"
         >
           <q-img
             src="~assets/images/google_play_icon.jpg"
-            class="q-ma-sm row rounded-borders"
+            class="row rounded-borders"
             loading="lazy"
           />
           <div class="row justify-center">
@@ -127,14 +127,14 @@
           </div>
         </a>
       </div>
-      <div class="col">
+      <div class="col q-ma-sm">
         <a
           href="https://apps.apple.com/kr/app/%EC%B1%A0%EC%B1%A0/id6744727789"
           class="column"
         >
           <q-img
             src="~assets/images/app_store_icon.jpg"
-            class="q-ma-sm row rounded-borders"
+            class="row rounded-borders"
             loading="lazy"
           />
           <div class="row justify-center">
