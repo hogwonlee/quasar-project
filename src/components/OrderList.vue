@@ -141,8 +141,8 @@
       <span class="text-body2" style="color: red"
         >{{
           selected_local.chinafood == '洽洽中国食品'
-            ? '(无需登录)'
-            : '(로그인없이 가능)'
+            ? '(无需注册、登录)'
+            : '(회원가입/로그인없이 가능)'
         }}
       </span>
     </p>
@@ -339,8 +339,8 @@
       <span class="text-body2" style="color: red"
         >{{
           selected_local.chinafood == '洽洽中国食品'
-            ? '(无需登录)'
-            : '(로그인없이 가능)'
+            ? '(无需注册、登录)'
+            : '(회원가입/로그인없이 가능)'
         }}
       </span>
     </p>

@@ -20,10 +20,10 @@
             swipeable
             animated
             v-model="slide"
-            thumbnails
             infinite
+            arrows
             :autoplay="true"
-            height="200px"
+            height="180px"
           >
             <q-carousel-slide
               :name="1"
