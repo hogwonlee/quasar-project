@@ -16,6 +16,7 @@
           }}
         </q-banner>
         <q-carousel
+          class="col-12"
           animated
           v-model="slide"
           arrows
@@ -36,58 +37,58 @@
             @click="event_2 = true"
           />
         </q-carousel>
-        <q-dialog v-model="event_1">
-          <q-card>
-            <q-img
-              src="~assets/images/event_banner_lotto_1.jpg"
-              width="100%"
-              loading="lazy"
-            />
-            <q-card-section>
-              <p class="text-h6">
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '1. 买食品，拿好运===>赠送福券Lotto(至2026/3/31)'
-                    : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.(2026/3/31까지)'
-                }}
-              </p>
-              <p class="text-body1">
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '通过本APP购买，我们将赠送您一张韩国的福券（即Lotto）。不限支付方式，不限金额。本活动进行时间为：即日起至明年3月（2026年3月31日）。'
-                    : '저희 앱을 통해 구매해주시면(결제수단，결제금액과 상관없이) 로또 한장을 선물해드립니다. 이벤트 기간은 금일부터 내년 3월(2026/03/31)까지 진행될 예정입니다.'
-                }}
-              </p>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
-
-        <q-dialog v-model="event_2">
-          <q-card>
-            <q-img
-              src="~assets/images/event_bestprice.jpg"
-              width="100%"
-              loading="lazy"
-            />
-            <q-card-section>
-              <p class="text-h6">
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '2. 富川最低价'
-                    : '2. 부천 최저가'
-                }}
-              </p>
-              <p class="text-body1">
-                {{
-                  selected_local.chinafood == '洽洽中国食品'
-                    ? '本店提供富川最低价给富川住民。本人直接送货到家，不收取快递附加费用。本活动进行时间为：即日起至明年上半年（2026年6月30日）。'
-                    : '부천 고객님에게는 최저가로 제공해드리겠습니다. 제가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.이벤트 기간은 금일부터 내년 상반기(2026/06/30)까지 진행될 예정입니다.'
-                }}
-              </p>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
       </div>
+      <q-dialog v-model="event_1">
+        <q-card>
+          <q-img
+            src="~assets/images/event_banner_lotto_1.jpg"
+            width="100%"
+            loading="lazy"
+          />
+          <q-card-section>
+            <p class="text-h6">
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '1. 买食品，拿好运===>赠送福券Lotto(至2026/3/31)'
+                  : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.(2026/3/31까지)'
+              }}
+            </p>
+            <p class="text-body1">
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '通过本APP购买，我们将赠送您一张韩国的福券（即Lotto）。不限支付方式，不限金额。本活动进行时间为：即日起至明年3月（2026年3月31日）。'
+                  : '저희 앱을 통해 구매해주시면(결제수단，결제금액과 상관없이) 로또 한장을 선물해드립니다. 이벤트 기간은 금일부터 내년 3월(2026/03/31)까지 진행될 예정입니다.'
+              }}
+            </p>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="event_2">
+        <q-card>
+          <q-img
+            src="~assets/images/event_bestprice.jpg"
+            width="100%"
+            loading="lazy"
+          />
+          <q-card-section>
+            <p class="text-h6">
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '2. 富川最低价'
+                  : '2. 부천 최저가'
+              }}
+            </p>
+            <p class="text-body1">
+              {{
+                selected_local.chinafood == '洽洽中国食品'
+                  ? '本店提供富川最低价给富川住民。本店直接送货到家，不收取快递附加费用。本活动进行时间为：即日起至明年圣诞节（2026年12月25日）。'
+                  : '부천 고객님에게는 최저가로 제공해드리겠습니다. 저희가 직접 배송해드리니 배송부가비용을 받지 않지 않습니다.이벤트 기간은 금일부터 내년 크리스마스(2026/12/25)까지 진행될 예정입니다.'
+              }}
+            </p>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
       <div class="row">
         <q-banner class="text-bold text-h5 bg-dark col-12 text-red">
           <q-icon name="download"></q-icon>
