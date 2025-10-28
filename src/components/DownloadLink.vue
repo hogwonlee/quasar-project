@@ -24,6 +24,8 @@
             infinite
             swipeable
             thumbnails
+            height="300px"
+            width="600px"
           >
             <q-carousel-slide
               :name="1"
