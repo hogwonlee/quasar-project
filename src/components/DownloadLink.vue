@@ -25,13 +25,13 @@
           thumbnails
         >
           <q-carousel-slide :name="1">
-            <q-btn class="col-12" @click="event_1 = true">
+            <div class="col-12" @click="event_1 = true">
               <q-img
                 src="~assets/images/event_banner_lotto_1.jpg"
                 width="100%"
                 loading="lazy"
               />
-            </q-btn>
+            </div>
             <q-dialog v-model="event_1">
               <q-card>
                 <q-img
@@ -59,13 +59,13 @@
             </q-dialog>
           </q-carousel-slide>
           <q-carousel-slide :name="2">
-            <q-btn class="col-12" @click="event_2 = true">
+            <div class="col-12" @click="event_2 = true">
               <q-img
                 src="~assets/images/event_bestprice.jpg"
                 width="100%"
                 loading="lazy"
               />
-            </q-btn>
+            </div>
             <q-dialog v-model="event_2">
               <q-card>
                 <q-img
