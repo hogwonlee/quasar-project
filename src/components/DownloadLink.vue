@@ -25,10 +25,11 @@
           thumbnails
         >
           <q-carousel-slide :name="1">
-            <div>
+            <div class="row">
               <q-img
+                class="col-12"
                 src="~assets/images/event_banner_lotto_1.jpg"
-                height="300px"
+                width="100%"
                 loading="lazy"
               />
               <q-expansion-item
@@ -52,10 +53,11 @@
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2">
-            <div>
+            <div class="row">
               <q-img
+                class="col-12"
                 src="~assets/images/event_bestprice.jpg"
-                height="300px"
+                height="100%"
                 loading="lazy"
               >
               </q-img>
@@ -95,13 +97,6 @@
             selected_local.chinafood == '洽洽中国食品'
               ? '点击下载，安装‘챠챠’中国食品APP，从此轻松在家购买麻辣烫、干豆腐、水饺。'
               : '자신의 폰 환경에 맞춰 아래 버튼을 클릭하여 챠챠 앱을 설치해주세요. 이제부터는 중국식품을 집에서 편하게 주문하고 배달받으세요!'
-          }}
-        </p>
-        <p class="text-body1">
-          {{
-            selected_local.chinafood == '洽洽中国食品'
-              ? '在 GooglePlay 或者 App Store 搜索"챠챠"，也可以下载。'
-              : 'GooglePlay 또는 App Store에서 "챠챠"를 직접 검색해서 설치할 수도 있습니다.'
           }}
         </p>
       </div>
@@ -144,6 +139,15 @@
             }}
           </div>
         </a>
+      </div>
+      <div>
+        <p class="text-body1">
+          {{
+            selected_local.chinafood == '洽洽中国食品'
+              ? '在 GooglePlay 或者 App Store 搜索"챠챠"，也可以下载。'
+              : 'GooglePlay 또는 App Store에서 "챠챠"를 직접 검색해서 설치할 수도 있습니다.'
+          }}
+        </p>
       </div>
     </div>
   </div>
