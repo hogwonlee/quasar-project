@@ -15,7 +15,7 @@
               : '진행중인 이벤트'
           }}
         </q-banner>
-        <div class="col-12 q-pa-sm">
+        <div class="col-12 q-ma-sm">
           <q-carousel
             swipeable
             animated
@@ -23,7 +23,7 @@
             infinite
             arrows
             :autoplay="true"
-            height="180px"
+            height="200px"
           >
             <q-carousel-slide
               :name="1"
@@ -49,7 +49,7 @@
             <p class="text-h6">
               {{
                 selected_local.chinafood == '洽洽中国食品'
-                  ? '1. 买食品，拿好运===>赠送福券Lotto(至2026/3/31)'
+                  ? '1. 买食品，送好运===>赠送福券Lotto(至2026/3/31)'
                   : '1. 식품사고 로또 받자! ===> 로또를 선물해드립니다.(2026/3/31까지)'
               }}
             </p>
