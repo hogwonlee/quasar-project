@@ -17,15 +17,13 @@
         </q-banner>
         <div class="col-12 q-pa-sm">
           <q-carousel
+            swipeable
             animated
             v-model="slide"
-            arrows
-            navigation
-            infinite
-            swipeable
             thumbnails
-            height="300px"
-            width="600px"
+            infinite
+            :autoplay="true"
+            height="200px"
           >
             <q-carousel-slide
               :name="1"
