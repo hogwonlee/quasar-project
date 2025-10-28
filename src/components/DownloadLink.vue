@@ -15,28 +15,28 @@
               : '진행중인 이벤트'
           }}
         </q-banner>
-        <q-carousel
-          class="col-12"
-          animated
-          v-model="slide"
-          arrows
-          navigation
-          infinite
-          swipeable
-          thumbnails
-          width="100%"
-        >
-          <q-carousel-slide
-            :name="1"
-            img-src="~assets/images/event_banner_lotto_1.jpg"
-            @click="event_1 = true"
-          />
-          <q-carousel-slide
-            :name="2"
-            img-src="~assets/images/event_bestprice.jpg"
-            @click="event_2 = true"
-          />
-        </q-carousel>
+        <div class="col-12 q-pa-sm">
+          <q-carousel
+            animated
+            v-model="slide"
+            arrows
+            navigation
+            infinite
+            swipeable
+            thumbnails
+          >
+            <q-carousel-slide
+              :name="1"
+              img-src="~assets/images/event_banner_lotto_1.jpg"
+              @click="event_1 = true"
+            />
+            <q-carousel-slide
+              :name="2"
+              img-src="~assets/images/event_bestprice.jpg"
+              @click="event_2 = true"
+            />
+          </q-carousel>
+        </div>
       </div>
       <q-dialog v-model="event_1">
         <q-card>
