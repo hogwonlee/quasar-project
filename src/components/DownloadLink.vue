@@ -23,7 +23,7 @@
             infinite
             arrows
             :autoplay="true"
-            max-height="300px"
+            height="300px"
           >
             <q-carousel-slide :name="1" @click="event_1 = true">
               <q-img
