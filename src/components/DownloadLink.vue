@@ -23,17 +23,21 @@
             infinite
             arrows
             :autoplay="true"
-            height="200px"
+            width="100%"
           >
             <q-carousel-slide
               :name="1"
               img-src="~assets/images/event_banner_lotto_1.jpg"
               @click="event_1 = true"
+              width="100%"
+              loading="lazy"
             />
             <q-carousel-slide
               :name="2"
               img-src="~assets/images/event_bestprice.jpg"
               @click="event_2 = true"
+              width="100%"
+              loading="lazy"
             />
           </q-carousel>
         </div>
