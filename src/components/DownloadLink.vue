@@ -23,22 +23,21 @@
             infinite
             arrows
             :autoplay="true"
-            width="100%"
           >
-            <q-carousel-slide
-              :name="1"
-              img-src="~assets/images/event_banner_lotto_1.jpg"
-              @click="event_1 = true"
-              width="100%"
-              loading="lazy"
-            />
-            <q-carousel-slide
-              :name="2"
-              img-src="~assets/images/event_bestprice.jpg"
-              @click="event_2 = true"
-              width="100%"
-              loading="lazy"
-            />
+            <q-carousel-slide :name="1" @click="event_1 = true">
+              <q-img
+                src="~assets/images/event_banner_lotto_1.jpg"
+                width="100%"
+                loading="lazy"
+              />
+            </q-carousel-slide>
+            <q-carousel-slide :name="2" @click="event_2 = true">
+              <q-img
+                src="~assets/images/event_bestprice.jpg"
+                width="100%"
+                loading="lazy"
+              />
+            </q-carousel-slide>
           </q-carousel>
         </div>
       </div>
