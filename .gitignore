@@ -28,8 +28,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-dist/spa/images
-dist/spa/icons
+#dist/spa/images
+#dist/spa/icons
 public/images
 
 src-cordova/app-release-unsigned.apk

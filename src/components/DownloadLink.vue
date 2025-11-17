@@ -23,7 +23,8 @@
             infinite
             arrows
             :autoplay="true"
-            height="300px"
+            :height="windowWidth / 2"
+            :width="windowWidth"
           >
             <q-carousel-slide :name="1" @click="event_1 = true">
               <q-img
@@ -175,6 +176,19 @@
         selected_local: state => state.ui_local.status,
       }),
     },
+    mounted() {
+      // 마운트 시 이벤트 리스너 등록
+      window.addEventListener('resize', this.handleResize);
+    },
+    unmounted() {
+      // 언마운트 시 이벤트 리스너 제거
+      window.removeEventListener('resize', this.handleResize);
+    },
+    methods: {
+      handleResize() {
+        this.windowWidth = window.innerWidth; // 리사이즈 시 너비 업데이트
+      },
+    },
     setup() {
       return {
         androidDownLink: ref(''),
@@ -182,6 +196,7 @@
         slide: ref(1),
         event_1: ref(false),
         event_2: ref(false),
+        windowWidth: window.innerWidth, // 초기 너비 설정
       };
     },
   };
