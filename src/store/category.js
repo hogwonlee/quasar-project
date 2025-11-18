@@ -76,7 +76,7 @@ const mutations = {
   },
   resetProducts(state) {
     state.items = [
-      {category: '火锅相关l훠궈재료'},
+      {category: '人气商品l인기상품'},
       {category: '方便面罐头l간편식사류'},
       {category: '冷藏l냉장'},
       {category: '速冻食品l냉동'},
