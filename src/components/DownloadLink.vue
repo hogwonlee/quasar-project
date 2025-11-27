@@ -15,7 +15,11 @@
               : '진행중인 이벤트'
           }}
         </q-banner>
-        <div class="col-12 q-my-sm">
+        <div
+          class="col-12 q-my-sm"
+          :height="windowWidth / 2"
+          :width="windowWidth"
+        >
           <q-carousel
             swipeable
             animated
@@ -23,8 +27,6 @@
             infinite
             arrows
             :autoplay="true"
-            :height="windowWidth / 2"
-            :width="windowWidth"
           >
             <q-carousel-slide :name="1" @click="event_1 = true">
               <q-img
