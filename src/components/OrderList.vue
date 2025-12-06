@@ -305,6 +305,13 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn
+            :label="selected_local.cancel"
+            class="col-5"
+            color="negative"
+            outline
+            v-close-popup
+          />
+          <q-btn
             :label="selected_local.confirm"
             class="col-5"
             @click="confirm_bank = true"
@@ -317,13 +324,6 @@
               no_id_recipient_bankinfo == null ||
               cartList.length <= 0
             "
-          />
-          <q-btn
-            :label="selected_local.cancel"
-            class="col-5"
-            color="negative"
-            outline
-            v-close-popup
           />
         </q-card-actions>
       </q-card>
@@ -537,6 +537,13 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn
+            :label="selected_local.cancel"
+            class="col-5"
+            color="negative"
+            outline
+            v-close-popup
+          />
+          <q-btn
             :label="selected_local.confirm"
             class="col-5"
             @click="confirm_wechat = true"
@@ -549,13 +556,6 @@
               no_id_recipient_bankinfo == null ||
               cartList.length <= 0
             "
-          />
-          <q-btn
-            :label="selected_local.cancel"
-            class="col-5"
-            color="negative"
-            outline
-            v-close-popup
           />
         </q-card-actions>
       </q-card>
@@ -863,15 +863,15 @@
         <q-card-actions align="right">
           <q-btn
             flat
-            :label="selected_local.confirm"
-            color="positive"
-            @click="no_id_registe_address('계좌이체')"
+            :label="selected_local.cancel"
+            color="negative"
             v-close-popup
           />
           <q-btn
             flat
-            :label="selected_local.cancel"
-            color="negative"
+            :label="selected_local.confirm"
+            color="positive"
+            @click="no_id_registe_address('계좌이체')"
             v-close-popup
           />
         </q-card-actions>
@@ -904,15 +904,15 @@
         <q-card-actions align="right">
           <q-btn
             flat
-            :label="selected_local.confirm"
-            color="positive"
-            @click="no_id_registe_address('WechatPay')"
+            :label="selected_local.cancel"
+            color="negative"
             v-close-popup
           />
           <q-btn
             flat
-            :label="selected_local.cancel"
-            color="negative"
+            :label="selected_local.confirm"
+            color="positive"
+            @click="no_id_registe_address('WechatPay')"
             v-close-popup
           />
         </q-card-actions>
