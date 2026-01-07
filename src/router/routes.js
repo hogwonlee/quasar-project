@@ -5,7 +5,7 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('components/DownloadLink.vue'),
+        component: () => import('components/ProductList.vue'),
       },
       {
         path: 'HomePage',
