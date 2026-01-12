@@ -242,6 +242,16 @@
     data: function () {
       return {};
     },
+    watch: {
+      // Vuex의 products 데이터가 변경되는 것을 감지
+      products(newVal) {
+        if (newVal && newVal.length > 0 && this.showing_products.length === 0) {
+          // 데이터가 들어오면 첫 24개를 즉시 화면에 할당
+          this.showing_products = newVal.slice(0, 24);
+          this.page = 1; // 페이지 번호 관리
+        }
+      },
+    },
     methods: {
       go_prev_category() {
         var closest_category = this.category[0].category;
@@ -304,7 +314,10 @@
       },
 
       async products_update(index, done) {
-        console.log('스크롤 로딩중: ' + this.page + ' / index: ' + index);
+        if (this.products.length === 0) {
+          done();
+          return;
+        }
         const startIndex = (index - 1) * 24;
         const endIndex = startIndex + 24;
         const newProducts = this.products.slice(startIndex, endIndex);
@@ -330,9 +343,15 @@
     },
 
     mounted() {
-      if (this.showing_products.length === 0 && this.infiniteScroll) {
-        this.infiniteScroll.trigger();
+      // 이미 데이터가 스토어에 있다면 즉시 표시 (다른 페이지 이동 후 복귀 시)
+      if (
+        this.products &&
+        this.products.length > 0 &&
+        this.showing_products.length === 0
+      ) {
+        this.showing_products = this.products.slice(0, 24);
       }
+      // 서버에서 최신 버전 체크 및 데이터 로드 로직 시작
       axios
         .get(`${configs.server}/storeVersion`)
         .then(res => {
