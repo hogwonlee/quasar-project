@@ -319,7 +319,7 @@
           return;
         }
         index = this.showing_products.length / 24;
-        const startIndex = (index - 1) * 24;
+        const startIndex = index * 24;
         const endIndex = startIndex + 24;
         const newProducts = this.products.slice(startIndex, endIndex);
         // 만약 더 이상 불러올 데이터가 없으면 무한 스크롤을 중지
