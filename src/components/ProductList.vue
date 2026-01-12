@@ -318,6 +318,7 @@
           done();
           return;
         }
+        index = this.showing_products.length / 24;
         const startIndex = (index - 1) * 24;
         const endIndex = startIndex + 24;
         const newProducts = this.products.slice(startIndex, endIndex);
