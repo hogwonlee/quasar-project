@@ -143,27 +143,44 @@
       </div>
     </div>
     <div class="row">
-      <q-btn
-        @click="
-          googlePlayDialog = true;
-          url_text = url_googleplay;
-        "
-      >
-        <q-avatar>
-          <img src="~assets/images/google_play_icon.jpg" alt="1 sec" />
-        </q-avatar>
-      </q-btn>
-
-      <q-btn
-        @click="
-          appstoreDialog = true;
-          url_text = url_appstore;
-        "
-      >
-        <q-avatar>
-          <img src="~assets/images/app_store_icon.jpg" alt="1 sec" />
-        </q-avatar>
-      </q-btn>
+      <div v-if="!$q.platform.is.ios" class="col q-ma-sm">
+        <a
+          href="https://play.google.com/store/apps/details?id=com.cfomarket.mobileapp&pcampaignid=web_share"
+          class="column"
+        >
+          <q-img
+            src="~assets/images/google_play_icon.jpg"
+            class="row rounded-borders"
+            loading="lazy"
+          />
+          <div class="row justify-center">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '安卓下载'
+                : '안드로이드 설치'
+            }}
+          </div>
+        </a>
+      </div>
+      <div v-if="!$q.platform.is.android" class="col q-ma-sm">
+        <a
+          href="https://apps.apple.com/kr/app/%EC%B1%A0%EC%B1%A0/id6744727789"
+          class="column"
+        >
+          <q-img
+            src="~assets/images/app_store_icon.jpg"
+            class="row rounded-borders"
+            loading="lazy"
+          />
+          <div class="row justify-center">
+            {{
+              selected_local.chinafood == '洽洽中国食品'
+                ? '苹果下载'
+                : '아이폰 설치'
+            }}
+          </div>
+        </a>
+      </div>
 
       <div>
         <p class="text-body1">
@@ -175,47 +192,6 @@
         </p>
       </div>
     </div>
-    <q-dialog
-      v-model="googlePlayDialog"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-bar>
-          앱 설치
-          <q-space />
-          <q-btn dense flat icon="close" v-close-popup @click="url_text = ''">
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-        <q-card-section>
-          <iframe :src="url_text" frameborder="0" height="900"></iframe>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog
-      v-model="appstoreDialog"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-bar>
-          앱 설치
-          <q-space />
-          <q-btn dense flat icon="close" v-close-popup @click="url_text = ''">
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-        <q-card-section>
-          <iframe :src="url_text" frameborder="0" height="900"></iframe>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 <script>
@@ -252,54 +228,8 @@
         event_1: ref(false),
         event_2: ref(false),
         windowWidth: window.innerWidth, // 초기 너비 설정
-        googlePlayDialog: ref(false),
-        appstoreDialog: ref(false),
-        url_text: ref(''),
-        url_googleplay: ref(
-          'https://play.google.com/store/apps/details?id=com.cfomarket.mobileapp&pcampaignid=web_share',
-        ),
-        url_appstore: ref(
-          'https://apps.apple.com/kr/app/%EC%B1%A0%EC%B1%A0/id6744727789',
-        ),
       };
     },
   };
-  /*<div class="col q-ma-sm">
-        <a
-          href="https://play.google.com/store/apps/details?id=com.cfomarket.mobileapp&pcampaignid=web_share"
-          class="column"
-        >
-          <q-img
-            src="~assets/images/google_play_icon.jpg"
-            class="row rounded-borders"
-            loading="lazy"
-          />
-          <div class="row justify-center">
-            {{
-              selected_local.chinafood == '洽洽中国食品'
-                ? '安卓下载'
-                : '안드로이드 설치'
-            }}
-          </div>
-        </a>
-      </div>
-      <div class="col q-ma-sm">
-        <a
-          href="https://apps.apple.com/kr/app/%EC%B1%A0%EC%B1%A0/id6744727789"
-          class="column"
-        >
-          <q-img
-            src="~assets/images/app_store_icon.jpg"
-            class="row rounded-borders"
-            loading="lazy"
-          />
-          <div class="row justify-center">
-            {{
-              selected_local.chinafood == '洽洽中国食品'
-                ? '苹果下载'
-                : '아이폰 설치'
-            }}
-          </div>
-        </a>
-      </div>*/
+  /**/
 </script>
