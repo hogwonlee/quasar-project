@@ -249,7 +249,10 @@
       products(newVal) {
         if (newVal && newVal.length > 0 && this.showing_products.length === 0) {
           // 데이터가 들어오면 첫 24개를 즉시 화면에 할당
-          this.showing_products = newVal.slice(0, 24);
+          this.showing_products = newVal.slice(
+            0,
+            Math.max(24, this.showing_products.length),
+          );
           this.page = 1; // 페이지 번호 관리
         }
       },
@@ -369,26 +372,18 @@
         .then(res => {
           const dbStoreVersion = parseInt(res.data.results);
           const currentVersion = parseInt(this.storeversion);
-          console.log(
-            '상점버전: ' +
-              dbStoreVersion +
-              ' / results' +
-              JSON.stringify(res.data.results) +
-              '/ 로컬버전: ' +
-              this.storeversion +
-              '플러스 계산: ' +
-              dbStoreVersion +
-              currentVersion,
-          );
+
           console.log(
             '타입 확인:',
             typeof dbStoreVersion,
             typeof currentVersion,
           );
 
-          if (dbStoreVersion > currentVersion || this.products.length === 0) {
+          console.log(dbStoreVersion > currentVersion);
+
+          if (dbStoreVersion > currentVersion) {
             this.showing_products = [];
-            // this.$store.dispatch('category/resetStoreAction');
+            this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
             this.$store.dispatch('products/getVersionAction', dbStoreVersion);
             const firstParams = {
