@@ -240,7 +240,9 @@
       ProductInfo,
     },
     data: function () {
-      return {};
+      return {
+        showing_products: [],
+      };
     },
     watch: {
       // Vuex의 products 데이터가 변경되는 것을 감지
@@ -366,6 +368,7 @@
           );
 
           if (dbStoreVersion > this.storeversion) {
+            this.showing_products = [];
             this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
             const firstParams = {
@@ -442,7 +445,6 @@
         });
     },
     setup() {
-      const showing_products = ref([]);
       const infiniteScroll = ref(null); // QInfiniteScroll ref 추가
       const hasMore = ref(true);
 
@@ -456,7 +458,6 @@
         list_col_number: ref(4),
         searchDialog: ref(false),
         page: ref(0),
-        showing_products,
         infiniteScroll, // QInfiniteScroll ref 추가
         hasMore,
       };
