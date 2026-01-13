@@ -367,7 +367,7 @@
       axios
         .get(`${configs.server}/storeVersion`)
         .then(res => {
-          const dbStoreVersion = res.data.results;
+          const dbStoreVersion = Number(res.data.results);
           console.log(
             '상점버전: ' +
               dbStoreVersion +
@@ -379,7 +379,7 @@
 
           if (dbStoreVersion > this.storeversion) {
             this.showing_products = [];
-            this.$store.dispatch('category/resetStoreAction');
+            // this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
             this.$store.dispatch('products/getVersionAction', dbStoreVersion);
             const firstParams = {
