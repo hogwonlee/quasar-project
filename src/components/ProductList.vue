@@ -368,19 +368,21 @@
         .get(`${configs.server}/storeVersion`)
         .then(res => {
           const dbStoreVersion = Number(res.data.results);
+          const currentVersion = Number(this.storeversion);
           console.log(
             '상점버전: ' +
               dbStoreVersion +
               ' / results' +
               JSON.stringify(res.data.results) +
               '/ 로컬버전: ' +
+              this.storeversion +
+              '플러스 계산: ' +
+              dbStoreVersion +
               this.storeversion,
           );
+          console.log('타입 확인:', typeof dbVersion, typeof currentVersion);
 
-          if (
-            dbStoreVersion > Number(this.storeversion) ||
-            this.products.length === 0
-          ) {
+          if (dbStoreVersion > currentVersion || this.products.length === 0) {
             this.showing_products = [];
             // this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
