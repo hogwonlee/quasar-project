@@ -367,8 +367,8 @@
       axios
         .get(`${configs.server}/storeVersion`)
         .then(res => {
-          const dbStoreVersion = Number(res.data.results);
-          const currentVersion = Number(this.storeversion);
+          const dbStoreVersion = parseInt(res.data.results);
+          const currentVersion = parseInt(this.storeversion);
           console.log(
             '상점버전: ' +
               dbStoreVersion +
