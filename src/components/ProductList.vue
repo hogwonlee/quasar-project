@@ -378,9 +378,13 @@
               this.storeversion +
               '플러스 계산: ' +
               dbStoreVersion +
-              this.storeversion,
+              currentVersion,
           );
-          console.log('타입 확인:', typeof dbVersion, typeof currentVersion);
+          console.log(
+            '타입 확인:',
+            typeof dbStoreVersion,
+            typeof currentVersion,
+          );
 
           if (dbStoreVersion > currentVersion || this.products.length === 0) {
             this.showing_products = [];
