@@ -372,13 +372,16 @@
             '상점버전: ' +
               dbStoreVersion +
               ' / results' +
-              JSON.stringify(res.data.results),
+              JSON.stringify(res.data.results) +
+              '/ 로컬버전: ' +
+              this.storeversion,
           );
 
           if (dbStoreVersion > this.storeversion) {
             this.showing_products = [];
             this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
+            this.$store.dispatch('products/getVersionAction', dbStoreVersion);
             const firstParams = {
               list_index_min: 0,
               list_index_max: 20000,
@@ -401,10 +404,6 @@
                         element,
                       );
                     });
-                    this.$store.dispatch(
-                      'products/getVersionAction',
-                      dbStoreVersion,
-                    );
                   } else {
                     // this.hasMore = false;
                     console.log('error: ' + '업데이트 받을 상품이 없습니다.');
