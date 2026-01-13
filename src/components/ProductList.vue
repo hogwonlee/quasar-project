@@ -377,7 +377,10 @@
               this.storeversion,
           );
 
-          if (dbStoreVersion > this.storeversion) {
+          if (
+            dbStoreVersion > Number(this.storeversion) ||
+            this.products.length === 0
+          ) {
             this.showing_products = [];
             // this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
