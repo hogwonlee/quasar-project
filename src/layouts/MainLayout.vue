@@ -150,92 +150,97 @@
       if (this.selected_local == '') {
         this.change_local('cn');
       }
-      axios
-        .get(`${configs.server}/storeVersion`)
-        .then(res => {
-          const dbStoreVersion = res.data.results;
-          console.log(
-            '상점버전: ' +
-              dbStoreVersion +
-              ' / results' +
-              JSON.stringify(res.data.results),
-          );
+      // axios
+      //   .get(`${configs.server}/storeVersion`)
+      //   .then(res => {
+      //     const dbStoreVersion = parseInt(res.data.results);
+      //     const currentVersion = parseInt(this.storeversion);
 
-          if (dbStoreVersion > this.storeversion) {
-            this.$store.dispatch('category/resetStoreAction');
-            this.$store.dispatch('products/emptyStoreAction');
-            const firstParams = {
-              list_index_min: 0,
-              list_index_max: 20000,
-            };
-            try {
-              axios({
-                url: `${configs.server}/productList`,
-                method: 'GET',
-                params: firstParams,
-              })
-                .then(res => {
-                  if (res.data.results.length > 0) {
-                    // this.$store.dispatch(
-                    //   'category/getCategoryAction',
-                    //   res.data.results[0].category,
-                    // );
-                    res.data.results.map(element => {
-                      this.$store.dispatch(
-                        'products/getProductAction',
-                        element,
-                      );
-                    });
-                    this.$store.dispatch(
-                      'products/getVersionAction',
-                      dbStoreVersion,
-                    );
-                  } else {
-                    // this.hasMore = false;
-                    console.log('error: ' + '업데이트 받을 상품이 없습니다.');
-                  }
-                  // done();
-                })
-                .catch(error => {
-                  if (error.response) {
-                    // 서버가 응답을 했고, 그 응답이 2xx 범위를 벗어난 경우
-                    if (error.response.status === 400) {
-                      console.error(
-                        'Error 400: Bad Request. Check your request parameters (params).',
-                        error.response.data,
-                      );
-                      // 사용자에게 구체적인 오류 메시지를 보여줄 수 있습니다.
-                      // 예: alert('상품 목록을 불러오는 데 실패했습니다: 잘못된 요청입니다.');
-                    } else {
-                      console.error(
-                        `Error ${error.response.status}:`,
-                        error.response.data,
-                      );
-                    }
-                  } else if (error.request) {
-                    // 요청이 전송되었으나 응답을 받지 못한 경우 (네트워크 문제 등)
-                    console.error(
-                      'No response received from the server. Please check your network connection.',
-                    );
-                  } else {
-                    // 요청 설정 중 오류가 발생한 경우
-                    console.error('Error during request setup:', error.message);
-                  }
-                  // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
-                  // done(); // 에러 발생해도 로딩 완료 처리
-                });
-            } catch (error) {
-              console.error('Error fetching products:', error);
-              // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
-              // done(); // 에러 발생해도 로딩 완료 처리
-            }
-          } else {
-            console.log('이미 모든 상품을 가져왔습니다.');
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching products:', error);
-        });
+      //     console.log(
+      //       '타입 확인:',
+      //       typeof dbStoreVersion,
+      //       typeof currentVersion,
+      //     );
+
+      //     console.log(dbStoreVersion > currentVersion);
+
+      //     if (dbStoreVersion > currentVersion || this.products.length === 0) {
+      //       this.showing_products = [];
+      //       this.$store.dispatch('category/resetStoreAction');
+      //       this.$store.dispatch('products/emptyStoreAction');
+      //       this.$store.dispatch('products/getVersionAction', dbStoreVersion);
+      //       const firstParams = {
+      //         list_index_min: 0,
+      //         list_index_max: 20000,
+      //       };
+      //       try {
+      //         axios({
+      //           url: `${configs.server}/productList`,
+      //           method: 'GET',
+      //           params: firstParams,
+      //         })
+      //           .then(res => {
+      //             if (res.data.results.length > 0) {
+      //               // this.$store.dispatch(
+      //               //   'category/getCategoryAction',
+      //               //   res.data.results[0].category,
+      //               // );
+      //               res.data.results.map(element => {
+      //                 this.$store.dispatch(
+      //                   'products/getProductAction',
+      //                   element,
+      //                 );
+      //               });
+      //               this.$store.dispatch(
+      //                 'products/getVersionAction',
+      //                 dbStoreVersion,
+      //               );
+      //             } else {
+      //               // this.hasMore = false;
+      //               console.log('error: ' + '업데이트 받을 상품이 없습니다.');
+      //             }
+      //             // done();
+      //           })
+      //           .catch(error => {
+      //             if (error.response) {
+      //               // 서버가 응답을 했고, 그 응답이 2xx 범위를 벗어난 경우
+      //               if (error.response.status === 400) {
+      //                 console.error(
+      //                   'Error 400: Bad Request. Check your request parameters (params).',
+      //                   error.response.data,
+      //                 );
+      //                 // 사용자에게 구체적인 오류 메시지를 보여줄 수 있습니다.
+      //                 // 예: alert('상품 목록을 불러오는 데 실패했습니다: 잘못된 요청입니다.');
+      //               } else {
+      //                 console.error(
+      //                   `Error ${error.response.status}:`,
+      //                   error.response.data,
+      //                 );
+      //               }
+      //             } else if (error.request) {
+      //               // 요청이 전송되었으나 응답을 받지 못한 경우 (네트워크 문제 등)
+      //               console.error(
+      //                 'No response received from the server. Please check your network connection.',
+      //               );
+      //             } else {
+      //               // 요청 설정 중 오류가 발생한 경우
+      //               console.error('Error during request setup:', error.message);
+      //             }
+      //             // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
+      //             // done(); // 에러 발생해도 로딩 완료 처리
+      //           });
+      //       } catch (error) {
+      //         console.error('Error fetching products:', error);
+      //         // this.hasMore = false; // 에러 발생 시 더 이상 로딩하지 않음
+      //         // done(); // 에러 발생해도 로딩 완료 처리
+      //       }
+      //     } else {
+      //       console.log('이미 모든 상품을 가져왔습니다.');
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching products:', error);
+      //   });
     },
     methods: {
       change_local(val) {

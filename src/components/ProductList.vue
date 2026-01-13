@@ -381,7 +381,7 @@
 
           console.log(dbStoreVersion > currentVersion);
 
-          if (dbStoreVersion > currentVersion) {
+          if (dbStoreVersion > currentVersion || this.products.length === 0) {
             this.showing_products = [];
             this.$store.dispatch('category/resetStoreAction');
             this.$store.dispatch('products/emptyStoreAction');
