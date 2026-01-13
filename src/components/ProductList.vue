@@ -348,12 +348,20 @@
 
     mounted() {
       // 이미 데이터가 스토어에 있다면 즉시 표시 (다른 페이지 이동 후 복귀 시)
-      if (
-        this.products &&
-        this.products.length > 0 &&
-        this.showing_products.length === 0
-      ) {
-        this.showing_products = this.products.slice(0, 24);
+      // if (
+      //   this.products &&
+      //   this.products.length > 0 &&
+      //   this.showing_products.length === 0
+      // ) {
+      //   this.showing_products = this.products.slice(0, 24);
+      // }
+      if (this.products && this.products.length > 0) {
+        // 기존에 보여주던 개수만큼 유지하고 싶다면 slice 범위를 조정할 수 있지만,
+        // 일단 안전하게 첫 24개 혹은 전체를 할당합니다.
+        this.showing_products = this.products.slice(
+          0,
+          Math.max(24, this.showing_products.length),
+        );
       }
       // 서버에서 최신 버전 체크 및 데이터 로드 로직 시작
       axios
