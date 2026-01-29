@@ -10,8 +10,7 @@
       <q-card-section
         ><div class="text-body1 text-bold">교환 및 반품 주소</div>
         <div>
-          - [08365] 서울특별시 구로구 천왕로 56 천왕이펜하우스 3단지 303동
-          1503호
+          - 경기도 부천시 원미구 부천로47번길 9, 중앙자유시장 15호 (중국식품)
         </div>
         <div></div>
         <div class="text-body1 text-bold">교환 및 반품 택배비 안내</div>

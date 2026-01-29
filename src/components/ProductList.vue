@@ -115,44 +115,6 @@
       </div>
     </div>
 
-    <q-page-container>
-      <!-- <q-inner-loading
-        :showing="visible"
-        :label="selected_local.img_loading"
-        label-style="font-size: 1.1em"
-      /> -->
-      <div class="q-gutter-md row inline">
-        <q-field label="상호명" stack-label style="max-width: fit-content">
-          <template v-slot:control>
-            <div>중국식품온라인</div>
-          </template>
-        </q-field>
-        <q-field label="대표자" stack-label style="max-width: fit-content">
-          <template v-slot:control>
-            <div>이호권</div>
-          </template>
-        </q-field>
-        <q-field label="전화번호" stack-label style="max-width: fit-content">
-          <template v-slot:control>
-            <div>010-8492-0526</div>
-          </template>
-        </q-field>
-        <q-field
-          label="사업자등록번호"
-          stack-label
-          style="max-width: fit-content"
-        >
-          <template v-slot:control>
-            <div>306-37-32411</div>
-          </template>
-        </q-field>
-        <q-field label="사업장 주소" stack-label style="max-width: fit-content">
-          <template v-slot:control>
-            <div>경기도 부천시 원미구 부천로47번길 9, 중앙자유시장 15호</div>
-          </template>
-        </q-field>
-      </div>
-    </q-page-container>
     <q-page-sticky
       class="column q-gutter-md"
       style="width: 30px"

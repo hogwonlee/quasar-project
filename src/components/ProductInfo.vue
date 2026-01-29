@@ -110,13 +110,24 @@
         <q-page-sticky position="bottom-left">
           <q-btn
             color="positive"
+            icon="add_shopping_cart"
             @click="bottomCard = true"
             class="full-width"
             glossy
             size="28px"
             round
-            >+</q-btn
-          >
+          />
+        </q-page-sticky>
+        <q-page-sticky position="bottom-right">
+          <q-btn
+            color="positive"
+            icon="add_shopping_cart"
+            @click="bottomCard = true"
+            class="full-width"
+            glossy
+            size="28px"
+            round
+          />
         </q-page-sticky>
         <!-- backdrop-filter="contrast(40%)" -->
       </q-dialog>
